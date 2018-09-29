@@ -4,6 +4,7 @@ module.exports = {
   compress: true,
   port: 9000,
   // index: 'index.js',
+  historyApiFallback: true,
   before(app) {
     // app.use()
   }

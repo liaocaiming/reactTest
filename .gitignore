@@ -11,9 +11,4 @@
 .DS_Store
 npm-debug.log*
 *.log
-webpack.config.js
-webpack.dev.js
-webpack.test.js
-webpack.prod.js
-gulpfile.js
 **/*.css.d.ts
