@@ -1,7 +1,6 @@
 import * as React from 'react';
-// import { connect } from 'react-redux';
-
-export default class Cart extends React.PureComponent<any, any> {
+import { connect } from 'react-redux';
+class Cart extends React.PureComponent<any, any> {
   constructor(props:any) {
     super(props);
   }
@@ -12,4 +11,4 @@ export default class Cart extends React.PureComponent<any, any> {
     return <span>cart</span>
   }
 }
-// export default connect((state) => state)(Cart)
+export default connect((state) => state)(Cart)
