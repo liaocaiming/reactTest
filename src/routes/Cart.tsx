@@ -1,7 +1,14 @@
 import * as React from 'react';
-
-export default class Cart extends React.PureComponent<any, any> {
+import { connect } from 'react-redux';
+class Cart extends React.PureComponent<any, any> {
+  constructor(props:any) {
+    super(props);
+  }
+  public componentWillMount () {
+    console.log(this.props)
+  }
   render () {
     return <span>cart</span>
   }
 }
+export default connect((state) => state)(Cart)

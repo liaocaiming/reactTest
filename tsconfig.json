@@ -1,13 +1,25 @@
+
 {
     "compilerOptions": {
-        "outDir": "./dist/",
-        "sourceMap": true,
-        "noImplicitAny": true,
-        "module": "commonjs",
-        "target": "es5",
-        "jsx": "react"
+      "outDir": "./dist/",
+      "sourceMap": true,
+      "module": "es6",
+      "target": "es5",
+      "jsx": "react",
+      "allowJs": true,
+      "preserveConstEnums": true,
+      "removeComments": true,
+      "noImplicitAny": false,
+      "moduleResolution": "node",
+      "noUnusedParameters": true,
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "typeRoots" : ["./typings"]
     },
     "include": [
-        "./src/**/*"
-    ]
-}
+      "./src/**/*"
+    ],
+    "exclude": [
+      "node_modules",
+    ],
+  }
