@@ -15,7 +15,7 @@ module.exports = {
       'react',
       'react-dom'
     ],
-    index: resolve('./src/index.tsx'),
+    index: resolve('../src/index.tsx'),
   },
   output: {
     filename: "[chunkhash][name].js",
@@ -86,16 +86,16 @@ module.exports = {
       template: './tpl/index.html',
       filename: 'index.html'
     }),
-    new copyWebpackPlugin([
-        {
-            from: __dirname + '/node_modules/react/cjs/react.production.min.js',//打包的静态资源目录地址
-            to: './lab' //打包到dist下面的public
-        },
-        {
-            from: __dirname + '/node_modules/react-dom/cjs/react-dom.production.min.js',//打包的静态资源目录地址
-            to: './lab' //打包到dist下面的public
-        },
-    ]),
+    // new copyWebpackPlugin([
+    //     {
+    //         from: `${process.pwd()}/node_modules/react/cjs/react.production.min.js`,//打包的静态资源目录地址
+    //         to: './lab' //打包到dist下面的public
+    //     },
+    //     {
+    //         from:   `${process.pwd()}/node_modules/react-dom/cjs/react-dom.production.min.js`,//打包的静态资源目录地址
+    //         to: './lab' //打包到dist下面的public
+    //     },
+    // ]),
     new webpack.ProvidePlugin({
         React: 'reat',
         ReactDom: 'react-dom'

@@ -1,4 +1,4 @@
-import { Cart, Hello } from '../../src/routes/index';
+import { Cart, Hello } from '../../routes/index';
 
 export default [
   {
