@@ -1,4 +1,4 @@
-import { Cart, Hello } from '../../routes/index';
+import { Cart, Hello } from '../../boss/routes/index';
 
 export default [
   {
