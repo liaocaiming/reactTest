@@ -20,12 +20,13 @@ export default class AppRoot extends React.Component<Iprops> {
         <Router>
           <Switch>
             {
-              config.routes.map((route:Iroute) => {
+              config.routes.map((route:Iroute, index:number) => {
                  const RouteComponent = route.component;
                 return (
                   <Route
                     exact={route.exact}
                     path={route.path}
+                    key={index}
                     render = {(routeProps:any) => {
                       return  <RouteComponent {...routeProps} menu={config.menu} routes={route.routes}/>
                     }}
