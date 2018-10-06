@@ -78,6 +78,20 @@ module.exports = {
       {
         test: /\.css?$/,
         use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '/images/[name].[ext]',
+            }
+          },
+          // {
+          //   loader: 'url-loader?limit=8000&name=img/[name]-[hash:5].[ext]'
+          // }
+        ]
       }
     ]
   },
@@ -112,7 +126,7 @@ module.exports = {
     //     //  goes into the vendor chunk)
     //   }),
 
-    // new cleanWebpackPlugin(['dist']),
+    new cleanWebpackPlugin(utils.resolve('../dist')),
     // new uglify()
   ]
 }
