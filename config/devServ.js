@@ -1,11 +1,23 @@
-var path = require('path')
-var api =  require('./api');
+const path = require('path')
+const api =  require('./api');
+const webpackConfig = require('./webpack.config');
 module.exports = {
-  contentBase: path.join(__dirname, "dist"),
+  contentBase: webpackConfig.output.path,
   compress: true,
   port: 9000,
-  // index: 'index.js',
   historyApiFallback: true,
+  hot: true,
+  open: true,
+  publicPath: webpackConfig.output.publicPath,
+  watchContentBase: true,
+  inline: true,
+  overlay: {
+    warnings: true,
+    errors: true
+  },
+  watchOptions: {
+    poll: true
+  },
   before(app) {
     app.use('/api', api())
   }

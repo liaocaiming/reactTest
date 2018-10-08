@@ -6,6 +6,6 @@ export default class Hello extends React.PureComponent<any, any> {
     console.log(props)
   }
   render () {
-    return <span>hello word</span>
+    return <span>hello word 9999 </span>
   }
 }

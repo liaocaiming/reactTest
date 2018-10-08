@@ -1,13 +1,19 @@
-var webpackConfig = require('./webpack.config');
+const webpackConfig = require('./webpack.config');
 
-var devServer = require('./devServ');
+const devServer = require('./devServ');
 
-var  webpackDevServer = require('webpack-dev-server');
+const  webpackDevServer = require('webpack-dev-server');
 
-var webpack = require('webpack');
+const webpack = require('webpack');
 
-var compiler = webpack(webpackConfig)
+webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
 
-var server = new webpackDevServer(compiler, devServer);
+const compiler = webpack(webpackConfig)
 
-server.listen(9000)
+const server = new webpackDevServer(compiler, devServer);
+
+const opn = require('opn');
+
+server.listen(9000, '127.0.0.1', () => {
+  opn('http://localhost:9000')
+})
