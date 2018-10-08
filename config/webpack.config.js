@@ -54,8 +54,8 @@ module.exports = {
         test: /\.tsx?$/,
         use: [
           {
-            loader: "awesome-typescript-loader"
-            // loader: "ts-loader"
+            // loader: "awesome-typescript-loader"
+            loader: "ts-loader"
           },
           {
             loader: 'string-replace-loader',
