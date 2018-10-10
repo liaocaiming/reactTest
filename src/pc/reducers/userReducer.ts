@@ -1,4 +1,5 @@
-const initialState = {
+import { fromJS } from 'immutable';
+const initialState = fromJS({
   userName: 'liaocaiming', 
   list: [
     {
@@ -6,15 +7,17 @@ const initialState = {
       title: 8888
     }
   ]
-}
+})
 
-export default function userReducer (state:any = initialState, action:any) {
+export default function userReducer ($$state:any = initialState, action:any) {
   switch(action.type) {
     case 'liaocaiming':
-      return (Object as any).assign({}, state, {
-        name: 'liaocaiming'
-      })
+      // const app = state.mergeIn(['name'], action.payload);
+      // console.log(app, 12434);
+      return $$state
     default: 
-      return state;
+    //  const app =  $$state.mergeIn(['name'], action.payload);
+    //  console.log(app)
+      return $$state;
   }
 }
