@@ -4,6 +4,8 @@ const webpack = require('webpack');
 // const uglify = require('uglifyjs-webpack-plugin');
 const yargs = require('yargs').argv;
 
+const tsImportPluginFactory = require('ts-import-plugin');
+
 let name = 'boss';
 if (yargs.name) {
   name = yargs.name;
@@ -57,7 +59,16 @@ module.exports = {
         use: [
           {
             // loader: "awesome-typescript-loader"
-            loader: "ts-loader"
+            loader: "ts-loader",
+            options: {
+              getCustomTransformers: () => ({
+                before: [ tsImportPluginFactory({
+                  libraryDirectory: 'es',
+                  libraryName: 'antd',
+                  style: 'css',
+                })]
+              })
+            }
           },
           {
             loader: 'string-replace-loader',
