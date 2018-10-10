@@ -1,4 +1,4 @@
-import { Cart, Hello } from '../../boss/routes/index';
+import { Cart, Hello, Login } from '../../boss/routes/index';
 
 export default [
   {
@@ -14,6 +14,12 @@ export default [
     path: '/cart',
     component: Cart,
     title: '购物车',
+    exact: true
+  },
+  {
+    path: '/login',
+    component: Login,
+    title: '登录',
     exact: true
   }
 ]
