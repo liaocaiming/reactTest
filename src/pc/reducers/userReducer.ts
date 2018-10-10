@@ -1,4 +1,9 @@
 import { fromJS } from 'immutable';
+
+import { createReducer } from '@utils/index';
+
+console.log(createReducer);
+
 const initialState = fromJS({
   userName: 'liaocaiming', 
   list: [
