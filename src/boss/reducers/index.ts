@@ -1,6 +1,5 @@
-import { combineReducers } from 'redux';
 import cart from './cartReducer';
-const reducers = combineReducers({
+const reducers = {
   cart
-})
+}
 export default reducers

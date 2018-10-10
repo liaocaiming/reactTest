@@ -1,4 +1,4 @@
-import reducers from './userReducer';
-export {
-  reducers
+import user from './userReducer';
+export default {
+  user
 }
