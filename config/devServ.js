@@ -8,9 +8,10 @@ module.exports = {
   historyApiFallback: true,
   hot: true,
   open: true,
-  publicPath: webpackConfig.output.publicPath,
+  // publicPath: webpackConfig.output.publicPath,
   watchContentBase: true,
   inline: true,
+  // stats: "errors-only", // 只打印错误
   overlay: {
     warnings: true,
     errors: true

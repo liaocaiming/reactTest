@@ -19,12 +19,12 @@ module.exports = {
       'react',
       'react-dom'
     ],
-    index: utils.resolve('src/index.tsx'),
+    index: [utils.resolve('src/index.tsx')],
   },
   output: {
     filename: "[name][hash].js",
     path: utils.resolve('dist'),
-    publicPath: publicPath
+    // publicPath: publicPath
   },
 
   optimization: {
@@ -86,13 +86,36 @@ module.exports = {
               name: '/images/[name].[ext]',
             }
           },
-          {
-            loader: 'url-loader?limit=8000&name=img/[name]-[hash:5].[ext]'
-          }
+          // {
+          //   loader: 'url-loader?limit=8000&name=img/[name]-[hash:5].[ext]'
+          // }
         ]
       }
     ]
   },
+
+  // devServer: {
+  //   contentBase: utils.resolve('dist'),
+  //   compress: true,
+  //   port: 8080,
+  //   historyApiFallback: true,
+  //   hot: true,
+  //   open: true,
+  //   publicPath: '/',
+  //   watchContentBase: true,
+  //   inline: true,
+  //   // stats: "errors-only", // 只打印错误
+  //   overlay: {
+  //     warnings: true,
+  //     errors: true
+  //   },
+  //   watchOptions: {
+  //     poll: true
+  //   },
+  //   before(app) {
+  //     // app.use('/api', api())
+  //   }
+  // },
 
   plugins: [
     new HtmlWebpackPlugin({
