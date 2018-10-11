@@ -5,6 +5,7 @@ interface Iprops {
   dispatch: any;
   match: any;
   history: any;
+  $$user?:any;
 }
 class Cart extends React.PureComponent<Iprops, any> {
   constructor(props:Iprops) {
@@ -16,13 +17,13 @@ class Cart extends React.PureComponent<Iprops, any> {
   public updateName = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'liaocaiming',
+      type: 'USER/CAIMINGLIAO',
       payload: 'CaimingLiao'
     })
   }
 
   public render () {
-    console.log(this.props)
+    console.log(this.props.$$user.getIn(['userName']))
     return <span onClick={this.updateName}>userList</span>
   }
 }
