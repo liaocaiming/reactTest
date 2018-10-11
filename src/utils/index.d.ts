@@ -1,1 +1,1 @@
-export function createReducer<T>(options: T, handler:Object): T;
+declare function createReducer<T>(options: T, handler:Object): T;

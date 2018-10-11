@@ -51,3 +51,6 @@ ReactDOM.render(
   </Provider>,
   mountNode
 );
+
+
+import './test/index';
