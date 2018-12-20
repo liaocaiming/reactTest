@@ -1,4 +1,7 @@
 import user from './userReducer';
+import order from './orderReducer';
+
 export default {
-  $$user: user
+  $$user: user,
+  $$order: order
 }
