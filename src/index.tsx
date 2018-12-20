@@ -20,11 +20,13 @@ import { Provider } from "react-redux";
 
 import { createStore, applyMiddleware, combineReducers } from "redux";
 
+import reduxThunk from "redux-thunk";
+
 export const history = createBrowserHistory();
 
 const middleware = routerMiddleware(history);
 
-const remoteActionMiddleware = applyMiddleware(middleware)(createStore);
+const remoteActionMiddleware = applyMiddleware(middleware, reduxThunk)(createStore);
 
 const mountNode: HTMLElement = document.getElementById("app") as HTMLElement;
 
@@ -51,6 +53,5 @@ ReactDOM.render(
   </Provider>,
   mountNode
 );
-
 
 import './test/index';
