@@ -51,7 +51,7 @@ module.exports = {
     extensions: [".ts", ".tsx", ".js", ".json", ".css"],
     alias: {
       "@utils": utils.resolve('src/utils'),
-      "@shared": utils.resolve('src/shared')
+      "@shared": utils.resolve('src/@shared')
     }
   },
 

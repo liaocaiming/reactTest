@@ -6,7 +6,7 @@ import { LocaleProvider } from "antd";
 
 import zhCN from "antd/lib/locale-provider/zh_CN";
 
-import App from "./shared/components/AppRoot/index";
+import App from "./@shared/components/AppRoot/index";
 
 import { ConnectedRouter, connectRouter, routerMiddleware } from "connected-react-router";
 
