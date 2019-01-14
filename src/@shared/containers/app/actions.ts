@@ -230,11 +230,6 @@ export function validateAll(formId: string, func: (arg0: any) => void) {
   };
 }
 
-export function resetVaildateMsg() {
-  return {
-    type: ACTION_TYPES.RESET_VALIDATE_MSG
-  };
-}
 
 export function reportValidError(payload: any) {
   return {
