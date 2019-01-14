@@ -1,5 +1,5 @@
 import cart from './cartReducer';
 const reducers = {
-  cart
+  $$cart: cart
 }
 export default reducers

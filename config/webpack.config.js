@@ -52,7 +52,8 @@ module.exports = {
     alias: {
       "@utils": utils.resolve('src/@shared/utils'),
       "@shared": utils.resolve('src/@shared'),
-      "@screens": utils.resolve('src/@screens')
+      "@screens": utils.resolve('src/@screens'),
+      "@containers": utils.resolve('src/@shared/containers')
     }
   },
 

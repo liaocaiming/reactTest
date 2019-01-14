@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import { connect } from "@shared/containers/appScreen";
+
 interface Iprops {
   [random: string]: any;
 }
@@ -12,25 +14,28 @@ import { Form, Icon, Input, Button, Checkbox } from "antd";
 
 const FormItem = Form.Item;
 
+@connect()
 @(Form.create() as any)
 export default class App extends React.PureComponent<Iprops, Istate> {
   constructor(props: Iprops) {
     super(props);
   }
 
-  handleSubmit = e => {
+  public handleSubmit = e => {
     e.preventDefault();
+    window.console.log(this.props);
     this.props.form.validateFields((err, values) => {
+      window.console.log(values);
       if (!err) {
         console.log("Received values of form: ", values);
       }
     });
   };
 
-  render() {
+  public render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <div style={{ width: 290, margin: '200px auto'}}>
+      <div style={{ width: 290, margin: "200px auto" }}>
         <Form onSubmit={this.handleSubmit} className="login-form">
           <FormItem>
             {getFieldDecorator("userName", {
@@ -73,6 +78,7 @@ export default class App extends React.PureComponent<Iprops, Istate> {
               type="primary"
               htmlType="submit"
               className="login-form-button"
+              onClick={this.handleSubmit}
             >
               Log in
             </Button>

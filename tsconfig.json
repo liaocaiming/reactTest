@@ -19,7 +19,8 @@
     "paths": {
       "@utils/*": ["src/@shared/utils/*"],
       "@shared/*": ["src/@shared/*"],
-      "@screens/*": ["src/@screens/*"]
+      "@screens/*": ["src/@screens/*"],
+      "@containers": ["src/@shared/containers/*"]
     },
     "baseUrl": "."
   },
