@@ -50,8 +50,9 @@ module.exports = {
     // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: [".ts", ".tsx", ".js", ".json", ".css"],
     alias: {
-      "@utils": utils.resolve('src/utils'),
-      "@shared": utils.resolve('src/@shared')
+      "@utils": utils.resolve('src/@shared/utils'),
+      "@shared": utils.resolve('src/@shared'),
+      "@screens": utils.resolve('src/@screens')
     }
   },
 

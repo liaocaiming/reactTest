@@ -1,5 +1,6 @@
 import routes from './routes';
-import reducers from '../../boss/reducers';
+import reducers from '@screens/boss/reducers';
+
 export {
   routes,
   reducers

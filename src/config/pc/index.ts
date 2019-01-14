@@ -1,5 +1,6 @@
 import routes from './routes';
-import  reducers from '../../pc/reducers/index';
+import  reducers from '@screens/pc/reducers';
+
 export {
   routes,
   reducers

@@ -1,4 +1,4 @@
-import { UserList } from '../../pc/routes/index';
+import { UserList } from '@screens/pc/routes';
 
 export default [
   {
