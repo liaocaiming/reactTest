@@ -20,7 +20,7 @@
       "@utils/*": ["src/@shared/utils/*"],
       "@shared/*": ["src/@shared/*"],
       "@screens/*": ["src/@screens/*"],
-      "@containers": ["src/@shared/containers/*"]
+      "@containers/*": ["src/@shared/containers/*"]
     },
     "baseUrl": "."
   },
