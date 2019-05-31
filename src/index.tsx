@@ -55,3 +55,4 @@ ReactDOM.render(
 );
 
 import './test/index';
+

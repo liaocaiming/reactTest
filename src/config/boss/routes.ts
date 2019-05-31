@@ -1,4 +1,4 @@
-import { Cart, Hello, Login } from '@screens/boss/routes';
+import { Cart, Hello, Login, Dragable } from '@screens/boss/routes';
 
 export default [
   {
@@ -20,6 +20,12 @@ export default [
     path: '/login',
     component: Login,
     title: '登录',
+    exact: true
+  },
+  {
+    path: '/dragable',
+    component: Dragable,
+    title: '拖拽',
     exact: true
   }
 ]
