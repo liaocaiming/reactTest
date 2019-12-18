@@ -21,5 +21,12 @@ module.exports = {
   // },
   before(app) {
     app.use('/api', api())
-  }
+  },
+  stats: {
+      assets: true,
+      builtAt: true,
+      colors: true,
+      entrypoints: true,
+      timings: true
+    }
 }

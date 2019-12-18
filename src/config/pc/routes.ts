@@ -1,9 +1,12 @@
-import { UserList } from '@screens/pc/routes';
+
+import loadFile from '@containers/loadFile';
 
 export default [
   {
     path: '/',
-    component: UserList,
+    component: loadFile({
+      load: () => import('@screens/pc/routes/userManage/UserList/index')
+    }),
     title: 'hello word',
     exact: true,
     state: {

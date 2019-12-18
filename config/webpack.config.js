@@ -154,11 +154,4 @@ module.exports = {
     //     //  goes into the vendor chunk)
     //   }),
   ],
-  stats: {
-    assets: true,
-    builtAt: true,
-    colors: true,
-    entrypoints: true,
-    timings: true
-  }
 }
