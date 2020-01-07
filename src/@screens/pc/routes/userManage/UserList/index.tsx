@@ -1,6 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import * as immutable from "immutable";
+import styleCss from './index.css';
+
 console.log(immutable);
 interface Iprops {
   dispatch: any;
@@ -29,7 +31,7 @@ export default class Cart extends React.PureComponent<Iprops, any> {
 
   public render() {
     console.log(this.props);
-    return <span onClick={this.updateName}>userList</span>;
+    return <span className={styleCss.btn} onClick={this.updateName}>userList</span>;
   }
 }
 // export default connect((state) => state)(Cart)

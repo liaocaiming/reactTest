@@ -1,31 +1,28 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
 // const copyWebpackPlugin = require('copy-webpack-plugin');
 // const uglify = require('uglifyjs-webpack-plugin');
-const yargs = require('yargs').argv;
+const yargs = require("yargs").argv;
 
-const tsImportPluginFactory = require('ts-import-plugin');
+const tsImportPluginFactory = require("ts-import-plugin");
 
-let name = 'boss';
+let name = "boss";
 if (yargs.name) {
   name = yargs.name;
 }
 
-const utils = require('./utils');
+const utils = require("./utils");
 
-const publicPath = '/';
+const publicPath = "/";
 
 module.exports = {
   entry: {
-    vendor: [
-      'react',
-      'react-dom'
-    ],
-    index: [utils.resolve('src/index.tsx')],
+    vendor: ["react", "react-dom"],
+    index: [utils.resolve("src/index.tsx")]
   },
   output: {
     filename: "[name][hash].js",
-    path: utils.resolve('dist'),
+    path: utils.resolve(`dist/${name}`)
     // publicPath: publicPath
   },
 
@@ -41,19 +38,18 @@ module.exports = {
     }
   },
 
-
   devtool: "eval-source-map",
 
-  mode: 'development',
+  mode: "development",
 
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: [".ts", ".tsx", ".js", ".json", ".css"],
     alias: {
-      "@utils": utils.resolve('src/@shared/utils'),
-      "@shared": utils.resolve('src/@shared'),
-      "@screens": utils.resolve('src/@screens'),
-      "@containers": utils.resolve('src/@shared/containers')
+      "@utils": utils.resolve("src/@shared/utils"),
+      "@shared": utils.resolve("src/@shared"),
+      "@screens": utils.resolve("src/@screens"),
+      "@containers": utils.resolve("src/@shared/containers")
     }
   },
 
@@ -68,19 +64,21 @@ module.exports = {
             loader: "ts-loader",
             options: {
               getCustomTransformers: () => ({
-                before: [ tsImportPluginFactory({
-                  libraryDirectory: 'es',
-                  libraryName: 'antd',
-                  style: 'css',
-                })]
+                before: [
+                  tsImportPluginFactory({
+                    libraryDirectory: "es",
+                    libraryName: "antd",
+                    style: "css"
+                  })
+                ]
               })
             }
           },
           {
-            loader: 'string-replace-loader',
+            loader: "string-replace-loader",
             options: {
-              search: './config/boss/index',
-              replace: `./config/${name}/index`,
+              search: "./config/boss/index",
+              replace: `./config/${name}/index`
             }
           }
         ]
@@ -88,21 +86,30 @@ module.exports = {
       {
         enforce: "pre",
         test: /\.js$/,
-        loader: "source-map-loader",
+        loader: "source-map-loader"
       },
       {
         test: /\.css?$/,
-        use: ['style-loader', 'css-loader']
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              modules: true,
+              localIdentName: "[name]__[local]--[hash:base64:5]"
+            }
+          }
+        ]
       },
       {
         test: /\.(png|jpg|gif)$/,
         use: [
           {
-            loader: 'file-loader',
+            loader: "file-loader",
             options: {
-              name: '/images/[name].[ext]',
+              name: "/images/[name].[ext]"
             }
-          },
+          }
           // {
           //   loader: 'url-loader?limit=8000&name=img/[name]-[hash:5].[ext]'
           // }
@@ -136,13 +143,13 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: './tpl/index.html',
-      filename: 'index.html'
+      template: "./tpl/index.html",
+      filename: "index.html"
     }),
     new webpack.ProvidePlugin({
-        React: 'reat',
-        ReactDom: 'react-dom'
-    }),
+      React: "reat",
+      ReactDom: "react-dom"
+    })
     // new webpack.config.optimization.splitChunks({
     //     name: "vendor",
 
@@ -153,5 +160,5 @@ module.exports = {
     //     // (with more entries, this ensures that no other module
     //     //  goes into the vendor chunk)
     //   }),
-  ],
-}
+  ]
+};
