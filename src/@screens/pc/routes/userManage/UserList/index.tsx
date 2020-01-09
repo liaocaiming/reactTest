@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import * as immutable from "immutable";
-import styleCss from './index.css';
+import * as styleCss from './index.css';
 
 console.log(immutable);
 interface Iprops {

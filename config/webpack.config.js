@@ -98,9 +98,17 @@ module.exports = {
               modules: true,
               localIdentName: "[name]__[local]--[hash:base64:5]"
             }
-          }
+          },
         ]
       },
+
+      {
+        test: /\.css?$/,
+        loader: 'typed-css-modules-loader',
+        enforce: 'pre',
+        exclude: /node_modules/,
+      },
+
       {
         test: /\.(png|jpg|gif)$/,
         use: [

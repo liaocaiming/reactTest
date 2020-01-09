@@ -7,3 +7,12 @@
 declare interface ObjectConstructor {
   assign(target: any, ...sources: any[]): any;
 }
+
+declare module '*.css' {
+  var style: any;
+  export = style;
+}
+
+
+declare module '*.css';
+
