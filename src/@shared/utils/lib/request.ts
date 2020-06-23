@@ -199,8 +199,7 @@ const sync = {
       baseOption.headers = {
         Accept: "application/json",
         "Cache-Control": "no-cache",
-        "If-Modified-Since": "1",
-        "Feng1-Head": setHeader(url)
+        'Access-Control-Allow-Origin': '*',
       };
     }
 

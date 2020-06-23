@@ -5,3 +5,5 @@
 // declare module '*.png'
 // declare module '*.jpg'
 // declare module '*.json'
+
+declare const Highcharts: any;

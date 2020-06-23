@@ -18,6 +18,6 @@ const server = new webpackDevServer(compiler, devServer);
 
 const opn = require('opn');
 
-server.listen(9000, '127.0.0.1', () => {
-  opn('http://localhost:9000')
+server.listen(3000, '127.0.0.1', () => {
+  opn('http://localhost:3000')
 })

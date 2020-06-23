@@ -1,4 +1,5 @@
-import { Cart, Hello, Login, Dragable } from '@screens/boss/routes';
+import { Cart, Hello, Login, Dragable, Chart } from '@screens/boss/routes';
+
 
 export default [
   {
@@ -27,5 +28,12 @@ export default [
     component: Dragable,
     title: '拖拽',
     exact: true
-  }
+  },
+  // chart
+  {
+    path: '/chart',
+    component: Chart,
+    title: '拖拽',
+    exact: true
+  },
 ]

@@ -49,7 +49,7 @@ function receiveServerError(payload: any) {
   if (errorMsg) {
     message.error(`${errorMsg}`);
   } else {
-    message.error('网络错误');
+    // message.error('网络错误');
   }
 
 

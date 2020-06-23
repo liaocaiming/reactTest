@@ -1,11 +1,19 @@
 const path = require('path')
 const api =  require('./api');
 const webpackConfig = require('./webpack.config');
+const { createProxyMiddleware } = require('http-proxy-middleware');
+
 module.exports = {
   contentBase: webpackConfig.output.path,
   compress: true,
-  port: 9000,
+  port: 3000,
   historyApiFallback: true,
+  // proxy: {
+  //   '/api': {
+  //     target: 'http://47.74.177.128:3000',
+  //     changeOrigin: true
+  //   }
+  // },
   // hot: true,
   // open: true,
   // publicPath: webpackConfig.output.publicPath,
@@ -20,7 +28,8 @@ module.exports = {
   //   poll: true
   // },
   before(app) {
-    app.use('/api', api())
+    // app.use('/api', api())
+    app.use('/results', createProxyMiddleware({ target: 'http://47.74.177.128:3000', changeOrigin: true }));
   },
   stats: {
       assets: true,
