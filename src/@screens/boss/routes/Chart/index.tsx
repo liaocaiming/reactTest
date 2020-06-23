@@ -14,7 +14,7 @@ import {
   Tooltip,
 } from "recharts";
 
-import 'antd/dist/antd.css'
+import "antd/dist/antd.css";
 
 import { Select } from "antd";
 
@@ -35,6 +35,7 @@ interface IList {
 interface IState {
   data: IList[];
   rateData: IList[];
+  selected: string;
 }
 
 @connect()
@@ -44,11 +45,13 @@ export default class App extends React.PureComponent<IProps, IState> {
     this.state = {
       data: [],
       rateData: [],
+      selected: 'BTCUSDT'
     };
   }
 
   public componentDidMount() {
-    this.getData("BTCUSDT");
+    const { selected } = this.state;
+    this.getData(selected);
   }
 
   public getData = (symbol: string) => {
@@ -67,7 +70,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     YDataKey: "rate" | "close" = "rate"
   ) => {
     if (!Array.isArray(data)) {
-      return <span>没有数据</span>
+      return <span>没有数据</span>;
     }
     const res = data.map((item: any) => {
       if (YDataKey === "rate") {
@@ -95,16 +98,38 @@ export default class App extends React.PureComponent<IProps, IState> {
   };
 
   public onSelectChange = (value: string) => {
-    this.getData(value);
+    return () => {
+      this.getData(value);
+      this.setState({
+        selected: value
+      })
+    }
   };
 
   public render() {
-    const { data = [], rateData = [] } = this.state;
+    const { data = [], rateData = [], selected } = this.state;
     return (
-      <div style={{ width: "100%", overflowX: "auto" }}>
-        <div style={{ marginBottom: 50, display: 'flex', paddingLeft: 50, paddingTop: 50 }}>
+      <div
+        style={{
+          width: "100%",
+          overflowX: "auto",
+          position: "relative",
+          paddingTop: 200,
+        }}
+      >
+        <div
+          style={{
+            marginBottom: 50,
+            display: "flex",
+            paddingLeft: 50,
+            paddingTop: 50,
+            position: "fixed",
+            top: 20,
+            left: 20,
+          }}
+        >
           <span style={{ marginRight: 20 }}>交易对</span>
-          <Select defaultValue="BTCUSDT" onChange={this.onSelectChange} style={{ width: 300 }}>
+          {/* <Select defaultValue="BTCUSDT" onChange={this.onSelectChange} style={{ width: 300 }}>
             {arr.map((item: string) => {
               return (
                 <Option key={item} value={item}>
@@ -112,7 +137,28 @@ export default class App extends React.PureComponent<IProps, IState> {
                 </Option>
               );
             })}
-          </Select>
+          </Select> */}
+          <div>
+            {arr.map((it: string) => {
+              return (
+                <span
+                  style={{
+                    display: "inline-block",
+                    border: "1px solid #ccc",
+                    padding: "5px 8px",
+                    textAlign: "center",
+                    marginRight: '10px',
+                    marginBottom: '10px',
+                    background: selected === it ? '#a3d8b5' : '#fff',
+                    cursor: 'point'
+                  }}
+                  onClick={this.onSelectChange(it)}
+                >
+                  {it}
+                </span>
+              );
+            })}
+          </div>
         </div>
         <div>{this.renderLineChart(rateData, "rate")}</div>
         <div>{this.renderLineChart(data, "close")}</div>
