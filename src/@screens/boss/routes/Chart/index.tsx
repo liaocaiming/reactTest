@@ -86,7 +86,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       };
     });
     return (
-      <LineChart width={8000} height={400} data={res}>
+      <LineChart width={80000} height={400} data={res}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="date_time" interval="preserveStart" />
         <YAxis dataKey={YDataKey} interval="preserveStart" />
@@ -114,7 +114,6 @@ export default class App extends React.PureComponent<IProps, IState> {
           width: "100%",
           overflowX: "auto",
           position: "relative",
-          paddingTop: 200,
         }}
       >
         <div
@@ -160,8 +159,9 @@ export default class App extends React.PureComponent<IProps, IState> {
             })}
           </div>
         </div>
-        <div>{this.renderLineChart(rateData, "rate")}</div>
-        <div>{this.renderLineChart(data, "close")}</div>
+        <div style={{ padding: '200px 50px 50px 50px', overflow: 'auto' }}>
+          {this.renderLineChart(rateData, "rate")}{this.renderLineChart(data, "close")}
+        </div>
       </div>
     );
   }
