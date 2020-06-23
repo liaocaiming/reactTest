@@ -16,7 +16,7 @@ import {
 
 import 'antd/dist/antd.css'
 
-import { Select, Button } from "antd";
+import { Select } from "antd";
 
 import arr from "./data";
 
@@ -66,6 +66,9 @@ export default class App extends React.PureComponent<IProps, IState> {
     data: any[],
     YDataKey: "rate" | "close" = "rate"
   ) => {
+    if (!Array.isArray(data)) {
+      return <span>没有数据</span>
+    }
     const res = data.map((item: any) => {
       if (YDataKey === "rate") {
         return {
@@ -96,7 +99,7 @@ export default class App extends React.PureComponent<IProps, IState> {
   };
 
   public render() {
-    const { data, rateData } = this.state;
+    const { data = [], rateData = [] } = this.state;
     return (
       <div style={{ width: "100%", overflowX: "auto" }}>
         <div style={{ marginBottom: 50, display: 'flex', paddingLeft: 50, paddingTop: 50 }}>
