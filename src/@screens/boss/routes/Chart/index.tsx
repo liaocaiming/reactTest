@@ -56,7 +56,7 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   public getData = (symbol: string) => {
     const { actions } = this.props;
-    actions.get(`/results`, { symbol }).then((res: any) => {
+    actions.get(`/api/results`, { symbol }).then((res: any) => {
       const { funding_rate = [], k_data } = res || {};
       this.setState({
         data: k_data,
@@ -86,7 +86,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       };
     });
     return (
-      <LineChart width={80000} height={400} data={res}>
+      <LineChart width={1800} height={400} data={res}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="date_time" interval="preserveStart" />
         <YAxis dataKey={YDataKey} interval="preserveStart" />

@@ -1,10 +1,9 @@
-import { Cart, Hello, Login, Dragable, Chart } from '@screens/boss/routes';
-
+import { Cart, Login, Dragable, Chart, Rate, Home } from '@screens/boss/routes';
 
 export default [
   {
     path: '/',
-    component: Hello,
+    component: Home,
     title: 'hello word',
     exact: true,
     state: {
@@ -33,6 +32,13 @@ export default [
   {
     path: '/chart',
     component: Chart,
+    title: '拖拽',
+    exact: true
+  },
+
+  {
+    path: '/rate',
+    component: Rate,
     title: '拖拽',
     exact: true
   },

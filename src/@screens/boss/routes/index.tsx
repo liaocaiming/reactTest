@@ -8,10 +8,16 @@ import Dragable from './order/Dragable';
 
 import Chart from './Chart';
 
+import Rate from './Rate';
+
+import Home from './Home';
+
 export {
   Cart,
   Hello,
   Login,
   Dragable,
-  Chart
+  Chart,
+  Rate,
+  Home
 }
