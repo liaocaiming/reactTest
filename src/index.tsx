@@ -2,7 +2,7 @@ import * as React from "react";
 
 import * as ReactDOM from "react-dom";
 
-import { LocaleProvider } from "antd";
+import { ConfigProvider } from 'antd';
 
 import zhCN from "antd/lib/locale-provider/zh_CN";
 
@@ -46,13 +46,10 @@ const store = remoteActionMiddleware(
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <LocaleProvider locale={zhCN}>
+      <ConfigProvider locale={zhCN}>
         <App config={{ routes }} />
-      </LocaleProvider>
+      </ConfigProvider>
     </ConnectedRouter>
   </Provider>,
   mountNode
 );
-
-import './test/index';
-

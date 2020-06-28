@@ -60,7 +60,7 @@ module.exports = {
         test: /\.tsx?$/,
         use: [
           {
-            // loader: "awesome-typescript-loader"
+            // loader: "awesome-typescript-loader",
             loader: "ts-loader",
             options: {
               getCustomTransformers: () => ({
@@ -73,6 +73,7 @@ module.exports = {
                 ]
               })
             }
+            
           },
           {
             loader: "string-replace-loader",
