@@ -97,6 +97,38 @@ export default class App extends React.PureComponent<IProps, IState> {
     );
   };
 
+
+  public renderAllChart = (
+    data: any[],
+  ) => {
+    if (!Array.isArray(data)) {
+      return <span>没有数据</span>;
+    }
+    const res = data.map((item: any) => {
+      return {
+        ...item,
+        date_time: dateFormat("YY-MM-DD hh", item.date_time),
+        rate: item.rate * 100,
+      };
+    });
+
+
+    return (
+      <LineChart width={1800} height={400} data={res}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis  dataKey="date_time" interval="preserveStart" />
+        <YAxis yAxisId="left"  dataKey='close' />
+        <YAxis  yAxisId="right"  dataKey='rate' orientation="right"  />
+
+        <Tooltip />
+        <Legend />
+        <Line yAxisId="left" type="monotone" dataKey='close' stroke="#0ff" />
+        <Line yAxisId="right" type="monotone" dataKey='rate' stroke="#82ca9d" />
+      </LineChart>
+    );
+  };
+
+
   public onSelectChange = (value: string) => {
     return () => {
       this.getData(value);
@@ -108,6 +140,10 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   public render() {
     const { data = [], rateData = [], selected } = this.state;
+    const res = data.map((item: any, index: number) => {
+      return { ...item, ...rateData[index]}
+    })
+
     return (
       <div
         style={{
@@ -128,15 +164,6 @@ export default class App extends React.PureComponent<IProps, IState> {
           }}
         >
           <span style={{ marginRight: 20 }}>交易对</span>
-          {/* <Select defaultValue="BTCUSDT" onChange={this.onSelectChange} style={{ width: 300 }}>
-            {arr.map((item: string) => {
-              return (
-                <Option key={item} value={item}>
-                  {item}
-                </Option>
-              );
-            })}
-          </Select> */}
           <div>
             {arr.map((it: string) => {
               return (
@@ -159,8 +186,11 @@ export default class App extends React.PureComponent<IProps, IState> {
             })}
           </div>
         </div>
+
         <div style={{ padding: '200px 50px 50px 50px', overflow: 'auto' }}>
-          {this.renderLineChart(rateData, "rate")}{this.renderLineChart(data, "close")}
+          {this.renderLineChart(rateData, "rate")}
+          {this.renderLineChart(data, "close")}
+          {this.renderAllChart(res)}
         </div>
       </div>
     );

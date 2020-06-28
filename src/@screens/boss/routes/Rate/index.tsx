@@ -82,7 +82,7 @@ export default class App extends React.PureComponent<IProps, IState> {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="symbol" />
+        {/* <XAxis dataKey="symbol" /> */}
         <YAxis />
         <Tooltip />
         <Legend />
