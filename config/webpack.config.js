@@ -18,11 +18,11 @@ const publicPath = "/";
 module.exports = {
   entry: {
     vendor: ["react", "react-dom"],
-    index: [utils.resolve("src/index.tsx")]
+    index: [utils.resolve("src/index.tsx")],
   },
   output: {
     filename: "[name][hash].js",
-    path: utils.resolve(`dist/${name}`)
+    path: utils.resolve(`dist/${name}`),
     // publicPath: publicPath
   },
 
@@ -32,10 +32,10 @@ module.exports = {
         commons: {
           name: "commons",
           chunks: "initial",
-          minChunks: 2
-        }
-      }
-    }
+          minChunks: 2,
+        },
+      },
+    },
   },
 
   devtool: "eval-source-map",
@@ -44,50 +44,69 @@ module.exports = {
 
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
-    extensions: [".ts", ".tsx", ".js", ".json", ".css"],
+    extensions: [".ts", ".tsx", ".js", ".json", ".css", ".less"],
     alias: {
       "@utils": utils.resolve("src/@shared/utils"),
       "@shared": utils.resolve("src/@shared"),
       "@screens": utils.resolve("src/@screens"),
-      "@containers": utils.resolve("src/@shared/containers")
-    }
+      "@containers": utils.resolve("src/@shared/containers"),
+    },
   },
 
   module: {
     rules: [
       // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
       {
-        test: /\.tsx?$/,
+        test: /\.(js|jsx|ts|tsx)$/,
+        // exclude: [/(node_modules|bower_components)/],
         use: [
           {
             // loader: "awesome-typescript-loader",
-            loader: "ts-loader",
+            // loader: "ts-loader",
+            // options: {
+            //   transpileOnly: true,
+            //   getCustomTransformers: () => ({
+            //     before: [ tsImportPluginFactory( /** options */) ]
+            //   }),
+            //   compilerOptions: {
+            //     module: 'es2015'
+            //   }
+            // },
+
+            loader: "babel-loader",
             options: {
-              getCustomTransformers: () => ({
-                before: [
-                  tsImportPluginFactory({
-                    libraryDirectory: "es",
+              presets: [
+                ["@babel/preset-env", { modules: false }],
+                "@babel/preset-typescript",
+                "@babel/preset-react",
+              ],
+              plugins: [
+                [
+                  "import",
+                  {
                     libraryName: "antd",
-                    style: "css"
-                  })
-                ]
-              })
-            }
-            
+                    libraryDirectory: "es",
+                    style: "css",
+                  },
+                  "antDesign",
+                ],
+              ],
+              cacheDirectory: true,
+            },
           },
           {
             loader: "string-replace-loader",
             options: {
               search: "./config/boss/index",
-              replace: `./config/${name}/index`
-            }
-          }
-        ]
+              replace: `./config/${name}/index`,
+            },
+          },
+        ],
       },
       {
         enforce: "pre",
         test: /\.js$/,
-        loader: "source-map-loader"
+        loader: "source-map-loader",
       },
       {
         test: /\.css?$/,
@@ -95,19 +114,37 @@ module.exports = {
           "style-loader",
           {
             loader: "css-loader",
-            options: {
-              modules: true,
-              localIdentName: "[name]__[local]--[hash:base64:5]"
-            }
+            // options: {
+            //   modules: true,
+            //   localIdentName: "[name]__[local]--[hash:base64:5]",
+            // },
           },
-        ]
+          // {
+          //   loader: "postcss-loader",
+          // },
+        ],
       },
 
+      // {
+      //   test: /\.css?$/,
+      //   loader: "typed-css-modules-loader",
+      //   enforce: "pre",
+      //   exclude: /node_modules/,
+      // },
+
       {
-        test: /\.css?$/,
-        loader: 'typed-css-modules-loader',
-        enforce: 'pre',
-        exclude: /node_modules/,
+        test: /\.(less)$/,
+        exclude: [/(node_modules|bower_components)/],
+        use: [
+          "style-loader",
+          "css-loader",
+          {
+            loader: "less-loader",
+            options: {
+              javascriptEnabled: true,
+            },
+          },
+        ],
       },
 
       {
@@ -116,49 +153,26 @@ module.exports = {
           {
             loader: "file-loader",
             options: {
-              name: "/images/[name].[ext]"
-            }
-          }
+              name: "/images/[name].[ext]",
+            },
+          },
           // {
           //   loader: 'url-loader?limit=8000&name=img/[name]-[hash:5].[ext]'
           // }
-        ]
-      }
-    ]
+        ],
+      },
+    ],
   },
-
-  // devServer: {
-  //   contentBase: utils.resolve('dist'),
-  //   compress: true,
-  //   port: 8080,
-  //   historyApiFallback: true,
-  //   hot: true,
-  //   open: true,
-  //   publicPath: '/',
-  //   watchContentBase: true,
-  //   inline: true,
-  //   // stats: "errors-only", // 只打印错误
-  //   overlay: {
-  //     warnings: true,
-  //     errors: true
-  //   },
-  //   watchOptions: {
-  //     poll: true
-  //   },
-  //   before(app) {
-  //     // app.use('/api', api())
-  //   }
-  // },
 
   plugins: [
     new HtmlWebpackPlugin({
       template: "./tpl/index.html",
-      filename: "index.html"
+      filename: "index.html",
     }),
     new webpack.ProvidePlugin({
       React: "reat",
-      ReactDom: "react-dom"
-    })
+      ReactDom: "react-dom",
+    }),
     // new webpack.config.optimization.splitChunks({
     //     name: "vendor",
 
@@ -169,5 +183,5 @@ module.exports = {
     //     // (with more entries, this ensures that no other module
     //     //  goes into the vendor chunk)
     //   }),
-  ]
+  ],
 };

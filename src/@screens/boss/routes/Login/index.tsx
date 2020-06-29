@@ -4,6 +4,8 @@ import { connect } from "@shared/containers/appScreen";
 
 import { Button} from 'antd';
 
+// import './index.css';
+
 interface Iprops {
   [random: string]: any;
 }

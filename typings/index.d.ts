@@ -14,6 +14,5 @@ declare module '*.css' {
   export = style;
 }
 
-
-declare module '*.css';
+declare module '*.less';
 
