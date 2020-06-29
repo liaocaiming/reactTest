@@ -122,8 +122,8 @@ export default class App extends React.PureComponent<IProps, IState> {
 
         <Tooltip />
         <Legend />
-        <Line yAxisId="left" type="monotone" dataKey='close' stroke="#0ff" />
-        <Line yAxisId="right" type="monotone" dataKey='rate' stroke="#82ca9d" />
+        <Line yAxisId="left" type="monotone" dataKey='close' stroke="orange"  dot=''/>
+        <Line yAxisId="right" type="monotone" dataKey='rate' stroke="#82ca9d" dot='' />
       </LineChart>
     );
   };
@@ -156,11 +156,11 @@ export default class App extends React.PureComponent<IProps, IState> {
           style={{
             marginBottom: 50,
             display: "flex",
-            paddingLeft: 50,
-            paddingTop: 50,
+            paddingLeft: 20,
+            paddingTop: 80,
             position: "fixed",
             top: 20,
-            left: 20,
+            left: 230,
           }}
         >
           <span style={{ marginRight: 20 }}>交易对</span>
@@ -188,8 +188,8 @@ export default class App extends React.PureComponent<IProps, IState> {
         </div>
 
         <div style={{ padding: '200px 50px 50px 50px', overflow: 'auto' }}>
-          {this.renderLineChart(rateData, "rate")}
-          {this.renderLineChart(data, "close")}
+          {/* {this.renderLineChart(rateData, "rate")} */}
+          {/* {this.renderLineChart(data, "close")} */}
           {this.renderAllChart(res)}
         </div>
       </div>

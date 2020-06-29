@@ -1,45 +1,53 @@
-import { Cart, Login, Dragable, Chart, Rate, Home } from '@screens/boss/routes';
+import {  Login, Chart, Rate } from '@screens/boss/routes';
 
-export default [
+import Layout from '@shared/components/Layout';
+
+const router =  [
   {
     path: '/',
-    component: Home,
-    title: 'hello word',
-    exact: true,
-    state: {
-      title: 'hello word'
-    }
-  },
-  {
-    path: '/cart',
-    component: Cart,
-    title: '购物车',
-    exact: true
-  },
-  {
-    path: '/login',
     component: Login,
-    title: '登录',
-    exact: true
   },
   {
-    path: '/dragable',
-    component: Dragable,
-    title: '拖拽',
-    exact: true
+    path: 'boss',
+    component: Layout,
+    routes: [
+      {
+        path: 'chart',
+        component: Chart,
+        title: '汇率-价格统计图',
+        exact: true
+      },
+    
+      {
+        path: 'rate',
+        component: Rate,
+        title: '汇率柱形统计图',
+        exact: true
+      },
+    ],
   },
-  // chart
-  {
-    path: '/chart',
-    component: Chart,
-    title: '拖拽',
-    exact: true
-  },
-
-  {
-    path: '/rate',
-    component: Rate,
-    title: '拖拽',
-    exact: true
-  },
+  
 ]
+
+
+function formatter(data: any, parentPath = '/') {
+  return data.map((item: { path: string; routes?: any }) => {
+    let { path } = item;
+
+    if (path !== undefined) {
+      path = parentPath + item.path;
+    }
+    const result = {
+      ...item,
+      path,
+    };
+    if (item.routes) {
+      result.routes = formatter(item.routes, `${parentPath}${item.path}/`);
+    }
+    return result;
+  });
+}
+
+const formatterRouter = formatter(router);
+
+export default formatterRouter;

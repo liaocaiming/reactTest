@@ -14,5 +14,8 @@ declare module '*.css' {
   export = style;
 }
 
-declare module '*.less';
+declare module '*.less' {
+  var style: any;
+  export = style;
+}
 
