@@ -58,21 +58,9 @@ module.exports = {
       // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
       {
         test: /\.(js|jsx|ts|tsx)$/,
-        // exclude: [/(node_modules|bower_components)/],
+        exclude: [/(node_modules|bower_components)/],
         use: [
           {
-            // loader: "awesome-typescript-loader",
-            // loader: "ts-loader",
-            // options: {
-            //   transpileOnly: true,
-            //   getCustomTransformers: () => ({
-            //     before: [ tsImportPluginFactory( /** options */) ]
-            //   }),
-            //   compilerOptions: {
-            //     module: 'es2015'
-            //   }
-            // },
-
             loader: "babel-loader",
             options: {
               presets: [
@@ -103,6 +91,35 @@ module.exports = {
           },
         ],
       },
+
+      // {
+      //   test: /\.(js|jsx|ts|tsx)$/,
+      //   exclude: [/(node_modules|bower_components)/],
+      //   use: [
+      //     {
+      //       loader: "ts-loader",
+      //       options: {
+      //         getCustomTransformers: () => ({
+      //           before: [
+      //             tsImportPluginFactory({
+      //               libraryDirectory: "es",
+      //               libraryName: "antd",
+      //               style: "css"
+      //             })
+      //           ]
+      //         })
+      //       }
+      //     },
+      //     {
+      //       loader: "string-replace-loader",
+      //       options: {
+      //         search: "./config/boss/index",
+      //         replace: `./config/${name}/index`,
+      //       },
+      //     },
+      //   ],
+      // },
+
       {
         enforce: "pre",
         test: /\.js$/,

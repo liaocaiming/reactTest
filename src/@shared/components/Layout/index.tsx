@@ -99,6 +99,7 @@ export default class App extends React.Component<IProps, IState> {
 
   // 退出登陆
   public handleLogout = (item: any) => {
+    console.log(item)
   };
 
   // 数组转成对象

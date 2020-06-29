@@ -10,7 +10,6 @@ import Chart from './Chart';
 
 import Rate from './Rate';
 
-import Home from './Home';
 
 export {
   Cart,
@@ -19,5 +18,4 @@ export {
   Dragable,
   Chart,
   Rate,
-  Home
 }
