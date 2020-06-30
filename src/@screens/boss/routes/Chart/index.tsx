@@ -16,12 +16,6 @@ import {
 
 import "antd/dist/antd.css";
 
-import { Select } from "antd";
-
-import arr from "./data";
-
-const { Option } = Select;
-
 interface IProps {
   [random: string]: any;
 }
@@ -34,6 +28,7 @@ interface IList {
 
 interface IState {
   data: IList[];
+  listData: any[];
   rateData: IList[];
   selected: string;
 }
@@ -45,13 +40,15 @@ export default class App extends React.PureComponent<IProps, IState> {
     this.state = {
       data: [],
       rateData: [],
-      selected: 'BTCUSDT'
+      selected: 'BTCUSDT',
+      listData: []
     };
   }
 
   public componentDidMount() {
     const { selected } = this.state;
     this.getData(selected);
+    this.getRoitaData();
   }
 
   public getData = (symbol: string) => {
@@ -64,6 +61,16 @@ export default class App extends React.PureComponent<IProps, IState> {
       });
     });
   };
+
+  public getRoitaData = () => {
+    const { actions } = this.props;
+    actions.get(`/api/realtime`).then((res: any) => {
+      this.setState({
+        listData: res || [],
+      });
+    });
+  };
+
 
   public renderLineChart = (
     data: any[],
@@ -139,7 +146,7 @@ export default class App extends React.PureComponent<IProps, IState> {
   };
 
   public render() {
-    const { data = [], rateData = [], selected } = this.state;
+    const { data = [], rateData = [], selected,listData } = this.state;
     const res = data.map((item: any, index: number) => {
       return { ...item, ...rateData[index]}
     })
@@ -165,7 +172,7 @@ export default class App extends React.PureComponent<IProps, IState> {
         >
           <span style={{ marginRight: 20 }}>交易对</span>
           <div>
-            {arr.map((it: string) => {
+            {listData.map((it: any) => {
               return (
                 <span
                   style={{
@@ -175,12 +182,12 @@ export default class App extends React.PureComponent<IProps, IState> {
                     textAlign: "center",
                     marginRight: '10px',
                     marginBottom: '10px',
-                    background: selected === it ? '#a3d8b5' : '#fff',
+                    background: selected === it.symbol ? '#a3d8b5' : '#fff',
                     cursor: 'point'
                   }}
-                  onClick={this.onSelectChange(it)}
+                  onClick={this.onSelectChange(it.symbol)}
                 >
-                  {it}
+                  {it.symbol}
                 </span>
               );
             })}
