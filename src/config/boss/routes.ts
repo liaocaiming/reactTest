@@ -1,4 +1,6 @@
-import {  Login, Chart, Rate } from '@screens/boss/routes';
+import loadFile from '@containers/loadFile';
+
+import Login from '@screens/boss/routes/Login';
 
 import Layout from '@shared/components/Layout';
 
@@ -13,14 +15,18 @@ const router =  [
     routes: [
       {
         path: 'chart',
-        component: Chart,
+        component: loadFile({
+          load: () => import('@screens/boss/routes/Chart')
+        }),
         title: '汇率-价格统计图',
         exact: true
       },
     
       {
         path: 'rate',
-        component: Rate,
+        component: loadFile({
+          load: () => import('@screens/boss/routes/Rate')
+        }),
         title: '汇率柱形统计图',
         exact: true
       },
