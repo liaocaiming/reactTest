@@ -14,6 +14,8 @@ import SubMenu from 'antd/lib/menu/SubMenu';
 
 import { Link } from 'react-router-dom';
 
+import User from '@utils/lib/User';
+
 import './index.css';
 
 import menuData from './menuData';
@@ -96,10 +98,19 @@ export default class App extends React.Component<IProps, IState> {
   }
 
 
+  public componentDidMount () {
+    if (!User.isLogin()) {
+      const { history } = this.props;
+      history.push('/');
+    }
+  }
+
 
   // 退出登陆
-  public handleLogout = (item: any) => {
-    console.log(item)
+  public handleLogout = () => {
+    User.removeUserInfo();
+    const { history } = this.props;
+    history.push('/');
   };
 
   // 数组转成对象

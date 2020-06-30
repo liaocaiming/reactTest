@@ -1,42 +1,8 @@
-// import * as React from 'react';
-
-// import { Link } from 'react-router-dom';
-
-// import './index.css';
-
-// const routes = [
-//   {
-//     title: '汇率统计柱形图',
-//     href: '/boss/rate',
-//   },
-//   {
-//     title: '汇率--价格对比图',
-//     href: '/boss/chart',
-//   }
-// ]
-
-// interface IRoute {
-//   title: string;
-//   href: string;
-// }
-
-// export default class App extends React.PureComponent {
-//   public render() {
-//     return (
-//       <div className='login'>
-//         {
-//           routes.map((item: IRoute) => {
-//           return <span style={{ marginRight: 50}}><Link to={{ pathname: item.href }} >{item.title}</Link></span>
-//           })
-//         }
-//       </div>
-//     )
-//   }
-// }
-
 import * as React from "react";
 
 import { Form, Input, Button, Checkbox, message } from "antd";
+
+import User from '@utils/lib/User';
 
 import "./index.css";
 
@@ -61,6 +27,7 @@ const Login = (props: any) => {
       message.error('请输入正确的密码或用户名')
       return;
     }
+    User.saveUserInfo(values);
     const { history } = props;
     history.push('/boss/chart')
   };
