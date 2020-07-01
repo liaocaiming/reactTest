@@ -2,6 +2,10 @@ import * as React from "react";
 
 import { connect } from "@shared/containers/appScreen";
 
+import dateFormat from "@utils/lib/dateFormat";
+
+import { bianceUrl } from '@utils/lib/url';
+
 import {
   BarChart,
   Bar,
@@ -11,7 +15,9 @@ import {
   Tooltip,
   Legend,
   Label,
-  LabelList
+  LabelList,
+  LineChart,
+  Line
 } from "recharts";
 
 interface IProps {
@@ -19,39 +25,76 @@ interface IProps {
 }
 
 interface IList {
-  date_time: number;
-  close?: number;
-  rate?: number;
+  time?: number;
+  markPrice?: number;
+  lastFundingRate?: number;
+  symbol?: string;
 }
 
 interface IState {
   rateData: IList[];
+  selectedData: IList[];
+  selectedUsdt: string;
 }
 
+const map = {}; // 记录页面打开后的数据
 @connect()
 export default class App extends React.PureComponent<IProps, IState> {
+
   constructor(props: IProps) {
     super(props);
     this.state = {
       rateData: [],
+      selectedData: [],
+      selectedUsdt: ''
     };
   }
 
   public componentDidMount() {
-    this.getData();
-    setTimeout(() => {
-      this.getData();
+    const { actions } = this.props;
+    actions.get(`/api/v3/time`).then((res: any) => {
+      console.log(res)
+    })
+
+    // this.getData();
+    setInterval(() => {
+      // this.getData();
     }, 10000);
   }
 
   public getData = () => {
     const { actions } = this.props;
     actions.get(`/api/realtime`).then((res: any) => {
+      Array.isArray(res) && res.forEach((item:any) => {
+        const { symbol } = item;
+        if (map[symbol]) {
+          if (map[symbol].length > 500) {
+            map[symbol].shift();
+          }
+          map[symbol].push(item)
+        } else {
+          map[symbol] = [item]
+        }
+      })
+
+      const { selectedUsdt } = this.state;
+
       this.setState({
         rateData: res || [],
+        selectedData: map[selectedUsdt] || []
       });
     });
   };
+
+  public BarChartOnClick = (e: any) => {
+    const { activePayload  = []} = e;
+    const [{ payload }] = activePayload;
+    const { symbol = "KNCUSDT" }  = payload;
+    this.setState({
+      selectedData: map[symbol],
+      selectedUsdt: symbol
+    })
+  }
 
   public renderBarChart = (
     data: any[],
@@ -72,7 +115,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     return (
       <BarChart
         width={2800}
-        height={600}
+        height={400}
         data={res}
         margin={{
           top: 5,
@@ -80,6 +123,7 @@ export default class App extends React.PureComponent<IProps, IState> {
           left: 20,
           bottom: 5,
         }}
+        onClick={this.BarChartOnClick}
       >
         <CartesianGrid strokeDasharray="3 3" />
         {/* <XAxis dataKey="symbol" /> */}
@@ -91,8 +135,41 @@ export default class App extends React.PureComponent<IProps, IState> {
     );
   };
 
+
+  public renderLineChart = (
+    data: any[],
+  ) => {
+    if (!Array.isArray(data) || data.length == 0) {
+      return null;
+    }
+    const res = data.map((item: any) => {
+      return {
+        ...item,
+        time: dateFormat("YY-MM-DD hh:mm:ss", item.time),
+        lastFundingRate: item.lastFundingRate * 100,
+      };
+    });
+
+
+    return (
+      <LineChart width={1000} height={400} data={res}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis  dataKey="time" interval="preserveStart" />
+        <YAxis yAxisId="left"  dataKey='lastFundingRate' />
+        <YAxis  yAxisId="right"  dataKey='markPrice' orientation="right"  />
+
+        <Tooltip />
+        <Legend />
+        <Line yAxisId="left" type="monotone" dataKey='lastFundingRate' stroke="orange"  dot=''/>
+        <Line yAxisId="right" type="monotone" dataKey='markPrice' stroke="#82ca9d" dot='' />
+      </LineChart>
+    );
+  };
+
+
+  
   public render() {
-    const { rateData = [] } = this.state;
+    const { rateData = [], selectedData, selectedUsdt } = this.state;
     return (
       <div
         style={{
@@ -102,8 +179,10 @@ export default class App extends React.PureComponent<IProps, IState> {
         }}
       >
         <div style={{ padding: "200px 50px 50px 50px", overflow: "auto" }}>
-          <div style={{ marginBottom: 20 }}>币安汇率</div>
+          <h3 style={{ marginBottom: 20 }}>币安汇率</h3>
           {this.renderBarChart(rateData, "lastFundingRate")}
+          <h3 style={{ marginTop: 50 }}>选中汇率--价格变化图 <h2 >{selectedUsdt}</h2></h3>
+          {this.renderLineChart(selectedData)}
         </div>
       </div>
     );
