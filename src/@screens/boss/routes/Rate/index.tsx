@@ -54,7 +54,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     this.getData();
     setInterval(() => {
       this.getData();
-    }, 10000);
+    }, 60 * 1000);
   }
 
   public getData = () => {
