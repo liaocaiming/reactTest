@@ -51,14 +51,9 @@ export default class App extends React.PureComponent<IProps, IState> {
   }
 
   public componentDidMount() {
-    const { actions } = this.props;
-    actions.get(`/api/v3/time`).then((res: any) => {
-      console.log(res)
-    })
-
-    // this.getData();
+    this.getData();
     setInterval(() => {
-      // this.getData();
+      this.getData();
     }, 10000);
   }
 
