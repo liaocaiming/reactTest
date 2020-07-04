@@ -35,6 +35,7 @@ interface IState {
   rateData: IList[];
   selectedData: IList[];
   selectedUsdt: string;
+  selectedMap: { [k: string]: IList[] }
 }
 
 const map = {}; // 记录页面打开后的数据
@@ -46,7 +47,8 @@ export default class App extends React.PureComponent<IProps, IState> {
     this.state = {
       rateData: [],
       selectedData: [],
-      selectedUsdt: ''
+      selectedUsdt: '',
+      selectedMap: {}
     };
   }
 
@@ -83,11 +85,17 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   public BarChartOnClick = (e: any) => {
     const { activePayload  = []} = e;
+    const { selectedMap } = this.state;
     const [{ payload }] = activePayload;
     const { symbol = "KNCUSDT" }  = payload;
+
     this.setState({
       selectedData: map[symbol],
-      selectedUsdt: symbol
+      selectedUsdt: symbol,
+      selectedMap: {
+        ...selectedMap,
+        [symbol]: map[symbol]
+      }
     })
   }
 
@@ -104,7 +112,7 @@ export default class App extends React.PureComponent<IProps, IState> {
         ...item,
         lastFundingRate: item.lastFundingRate * 100,
       };
-    });
+    }).sort((a, b) => a.lastFundingRate - b.lastFundingRate);
 
  
     return (
@@ -176,7 +184,9 @@ export default class App extends React.PureComponent<IProps, IState> {
         <div style={{ padding: "200px 50px 50px 50px", overflow: "auto" }}>
           <h3 style={{ marginBottom: 20 }}>币安汇率</h3>
           {this.renderBarChart(rateData, "lastFundingRate")}
-          <h3 style={{ marginTop: 50 }}>选中汇率--价格变化图 <h2 >{selectedUsdt}</h2></h3>
+        </div>
+        <div style={{ padding: "200px 50px 50px 50px", overflow: "auto" }}>
+           <h3 style={{ marginTop: 50 }}>选中汇率--价格变化图 <h2 >{selectedUsdt}</h2></h3>
           {this.renderLineChart(selectedData)}
         </div>
       </div>

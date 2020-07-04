@@ -8,7 +8,9 @@
 }
 
 .ant-layout-header {
-  background: #ffffff;
+  background: #ffffff!important;
+  position: relative;
+  z-index: 1;
 }
 
 .layout-header {

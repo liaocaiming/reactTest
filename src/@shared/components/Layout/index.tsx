@@ -158,7 +158,7 @@ export default class App extends React.Component<IProps, IState> {
         <Menu.Divider />
         <Menu.Item key="logout">
           <LogoutOutlined />
-          退出
+          <Button>退出</Button>
         </Menu.Item>
       </Menu>
     );
@@ -252,11 +252,10 @@ export default class App extends React.Component<IProps, IState> {
 
 
   public render() {
-    const {  marginLeft } = this.state;
     const { history } = this.props;
     console.log(this.props.routes);
     console.log(menuData, 'menuData');
-
+    const { marginLeft } = this.state;
     return (
       <Layout className="layout">
         <Sider
@@ -284,7 +283,7 @@ export default class App extends React.Component<IProps, IState> {
         <Layout style={{ marginLeft }}>
           <Header className='layout-header'>
             <div className='layout-title'>最牛逼网站, 不接受反驳</div>
-            <Button className='sign-out-btn'>退出</Button>
+            <Button className='sign-out-btn' type='primary'>退出</Button>
           </Header>
           <Content style={{ padding: '10px 20px' }} className='layout-content'>
             {renderRoutes(this.props.routes)}
