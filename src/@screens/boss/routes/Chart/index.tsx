@@ -4,6 +4,8 @@ import { connect } from "@shared/containers/appScreen";
 
 import dateFormat from "@utils/lib/dateFormat";
 
+import { Select } from 'antd'
+
 import {
   LineChart,
   CartesianGrid,
@@ -14,7 +16,8 @@ import {
   Tooltip,
 } from "recharts";
 
-import "antd/dist/antd.css";
+
+const { Option } = Select;
 
 interface IProps {
   [random: string]: any;
@@ -28,9 +31,16 @@ interface IList {
 
 interface IState {
   data: IList[];
-  listData: any[];
+  listData: IRateList[];
   rateData: IList[];
   selected: string;
+}
+
+interface IRateList {
+  time?: number;
+  markPrice?: number;
+  lastFundingRate?: number;
+  symbol: string;
 }
 
 @connect()
@@ -136,17 +146,32 @@ export default class App extends React.PureComponent<IProps, IState> {
   };
 
 
-  public onSelectChange = (value: string) => {
-    return () => {
-      this.getData(value);
-      this.setState({
-        selected: value
-      })
-    }
+  public onSelectChange = (value: any) => {
+    console.log(value, 'value')
+    this.getData(value);
+    this.setState({
+      selected: value
+    })
   };
 
+  public renderSelect = (data: IRateList[]) => {
+    const  { selected } = this.state
+    return (
+      <div>
+        <span style={{ marginRight: 10}} >交易对</span>
+        <Select style={{ width: '300px' }} defaultValue={selected} onChange={this.onSelectChange} >
+          {
+            data.map((it) => {
+            return <Option value={it.symbol} key={it.symbol}>{it.symbol}</Option>
+            })
+          }
+        </Select>
+      </div>
+    )
+  }
+
   public render() {
-    const { data = [], rateData = [], selected,listData } = this.state;
+    const { data = [], rateData = [], listData } = this.state;
     const res = data.map((item: any, index: number) => {
       return { ...item, ...rateData[index]}
     })
@@ -159,44 +184,9 @@ export default class App extends React.PureComponent<IProps, IState> {
           position: "relative",
         }}
       >
-        <div
-          style={{
-            marginBottom: 50,
-            display: "flex",
-            paddingLeft: 20,
-            paddingTop: 80,
-            position: "fixed",
-            top: 20,
-            left: 230,
-          }}
-        >
-          <span style={{ marginRight: 20 }}>交易对</span>
-          <div>
-            {listData.map((it: any) => {
-              return (
-                <span
-                  style={{
-                    display: "inline-block",
-                    border: "1px solid #ccc",
-                    padding: "5px 8px",
-                    textAlign: "center",
-                    marginRight: '10px',
-                    marginBottom: '10px',
-                    background: selected === it.symbol ? '#a3d8b5' : '#fff',
-                    cursor: 'point'
-                  }}
-                  onClick={this.onSelectChange(it.symbol)}
-                >
-                  {it.symbol}
-                </span>
-              );
-            })}
-          </div>
-        </div>
+        {this.renderSelect(listData)}
 
-        <div style={{ padding: '200px 50px 50px 50px', overflow: 'auto' }}>
-          {/* {this.renderLineChart(rateData, "rate")} */}
-          {/* {this.renderLineChart(data, "close")} */}
+        <div style={{ padding: '50px 50px 50px 0', overflow: 'auto' }}>
           {this.renderAllChart(res)}
         </div>
       </div>

@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 
 import User from '@utils/lib/User';
 
-import './index.css';
+import'./index.css';
 
 import menuData from './menuData';
 
@@ -280,7 +280,8 @@ export default class App extends React.Component<IProps, IState> {
           </Menu>
         </Sider>
 
-        <Layout style={{ marginLeft }}>
+        {/* <Layout style={{ marginLeft }}> */}
+        <Layout>
           <Header className='layout-header'>
             <div className='layout-title'>最牛逼网站, 不接受反驳</div>
             <Button className='sign-out-btn' type='primary'>退出</Button>

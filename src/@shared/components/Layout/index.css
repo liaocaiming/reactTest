@@ -9,7 +9,6 @@
 
 .ant-layout-header {
   background: #ffffff!important;
-  position: relative;
   z-index: 1;
 }
 
@@ -26,11 +25,9 @@
 .layout-content {
   padding: 10px 20px;
   min-height: 80vh;
+  background: #ffffff;
 }
 
 .layout-side {
-  position: fixed;
-  top: 0;
-  left: 0;
   min-height: 100vh;
 }

@@ -107,7 +107,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       return <span>没有数据</span>;
     }
 
-    const res = data.map((item: any) => {
+    const res = data.filter((item: any) => Math.abs(item.lastFundingRate) > 0.0001).map((item: any) => {
       return {
         ...item,
         lastFundingRate: item.lastFundingRate * 100,
@@ -117,8 +117,8 @@ export default class App extends React.PureComponent<IProps, IState> {
  
     return (
       <BarChart
-        width={2800}
-        height={400}
+        width={80 * res.length}
+        height={200}
         data={res}
         margin={{
           top: 5,
@@ -155,7 +155,7 @@ export default class App extends React.PureComponent<IProps, IState> {
 
 
     return (
-      <LineChart width={1000} height={400} data={res}>
+      <LineChart width={500} height={200} data={res}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis  dataKey="time" interval="preserveStart" />
         <YAxis yAxisId="left"  dataKey='lastFundingRate' />
@@ -181,11 +181,11 @@ export default class App extends React.PureComponent<IProps, IState> {
           position: "relative",
         }}
       >
-        <div style={{ padding: "200px 50px 50px 50px", overflow: "auto" }}>
+        <div style={{ padding: "0 50px 50px 50px", overflow: "auto" }}>
           <h3 style={{ marginBottom: 20 }}>币安汇率</h3>
           {this.renderBarChart(rateData, "lastFundingRate")}
         </div>
-        <div style={{ padding: "200px 50px 50px 50px", overflow: "auto" }}>
+        <div style={{ padding: "0 50px 50px 50px", overflow: "auto" }}>
            <h3 style={{ marginTop: 50 }}>选中汇率--价格变化图 <h2 >{selectedUsdt}</h2></h3>
           {this.renderLineChart(selectedData)}
         </div>
