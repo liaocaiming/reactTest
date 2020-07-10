@@ -22,7 +22,8 @@
       "@screens/*": ["src/@screens/*"],
       "@containers/*": ["src/@shared/containers/*"]
     },
-    "baseUrl": "."
+    "baseUrl": ".",
+    "allowSyntheticDefaultImports": true
   },
   "include": ["./src/**/*", "typings"],
   "exclude": ["node_modules/*"]

@@ -150,15 +150,21 @@ module.exports = {
       // },
 
       {
-        test: /\.(less)$/,
+        test: /\.less$/,
         exclude: [/(node_modules|bower_components)/],
         use: [
-          "style-loader",
-          "css-loader",
           {
-            loader: "less-loader",
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+          },
+          {
+            loader: 'less-loader',
             options: {
-              javascriptEnabled: true,
+              lessOptions: {
+                strictMath: true,
+              },
             },
           },
         ],

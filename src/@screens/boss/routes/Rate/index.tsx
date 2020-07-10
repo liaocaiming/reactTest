@@ -6,6 +6,8 @@ import dateFormat from "@utils/lib/dateFormat";
 
 import { bianceUrl } from '@utils/lib/url';
 
+import './index.less'
+
 import {
   BarChart,
   Bar,
