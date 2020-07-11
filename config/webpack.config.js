@@ -50,6 +50,8 @@ module.exports = {
       "@shared": utils.resolve("src/@shared"),
       "@screens": utils.resolve("src/@screens"),
       "@containers": utils.resolve("src/@shared/containers"),
+      "@typings": utils.resolve("src/typings"),
+      "@src": utils.resolve("src"),
     },
   },
 

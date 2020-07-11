@@ -30,6 +30,16 @@ const router =  [
         title: '汇率柱形统计图',
         exact: true
       },
+
+
+      {
+        path: 'bestCoinList',
+        component: loadFile({
+          load: () => import('@screens/boss/routes/BestCoinList')
+        }),
+        title: '汇率柱形统计图',
+        exact: true
+      },
     ],
   },
   

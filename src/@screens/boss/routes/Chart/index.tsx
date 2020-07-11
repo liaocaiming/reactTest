@@ -4,7 +4,9 @@ import { connect } from "@shared/containers/appScreen";
 
 import dateFormat from "@utils/lib/dateFormat";
 
-import { Select } from 'antd'
+import { Select } from 'antd';
+
+import {api}  from '@src/config/boss'
 
 import {
   LineChart,
@@ -63,7 +65,7 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   public getData = (symbol: string) => {
     const { actions } = this.props;
-    actions.get(`/api/results`, { symbol }).then((res: any) => {
+    actions.get(api.results, { symbol }).then((res: any) => {
       const { funding_rate = [], k_data } = res || {};
       this.setState({
         data: k_data,
@@ -74,7 +76,7 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   public getRoitaData = () => {
     const { actions } = this.props;
-    actions.get(`/api/realtime`).then((res: any) => {
+    actions.get(api.realtime).then((res: any) => {
       this.setState({
         listData: res || [],
       });

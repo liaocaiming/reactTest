@@ -8,7 +8,7 @@ const webpack = require('webpack');
 
 webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
 
-webpackConfig.entry.index.unshift('webpack-dev-server/client?http://localhost:9000/');
+webpackConfig.entry.index.unshift('webpack-dev-server/client?http://localhost:3030/');
 
 const compiler = webpack(webpackConfig)
 

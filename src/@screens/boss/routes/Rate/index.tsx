@@ -4,9 +4,9 @@ import { connect } from "@shared/containers/appScreen";
 
 import dateFormat from "@utils/lib/dateFormat";
 
-import { bianceUrl } from '@utils/lib/url';
+import './index.less';
 
-import './index.less'
+import { api } from '@src/config/boss';
 
 import {
   BarChart,
@@ -63,7 +63,7 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   public getData = () => {
     const { actions } = this.props;
-    actions.get(`/api/realtime`).then((res: any) => {
+    actions.get(api.realtime).then((res: any) => {
       Array.isArray(res) && res.forEach((item:any) => {
         const { symbol } = item;
         if (map[symbol]) {
