@@ -17,7 +17,7 @@ export default class App extends React.PureComponent<IProps> {
 
   private getList () {
     const { actions } = this.props;
-    actions.get(`${api.get_indicators}?indicators[]=ema_25&indicators[]=ema_7&interval=1w`)
+    actions.get(`${api.get_indicators}`, { indicators: JSON.stringify(['ema_7', 'ema_25']), interval: '1w'})
   }
 
   public render () {
