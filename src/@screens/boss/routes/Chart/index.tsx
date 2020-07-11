@@ -146,6 +146,10 @@ export default class App extends React.PureComponent<IProps, IState> {
   };
 
 
+  public renderAntLineChart = (data: any[], YDataKey: "rate" | "close" = "rate") => {
+
+  }
+
   public onSelectChange = (value: any) => {
     console.log(value, 'value')
     this.getData(value);
