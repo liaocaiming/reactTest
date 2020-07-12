@@ -88,4 +88,4 @@ export const searchRows = [
   },
 ];
 
-export const coinTypes = [ 'usdt', 'btc']
+export const coinTypes = [ 'USDT', 'BTC']

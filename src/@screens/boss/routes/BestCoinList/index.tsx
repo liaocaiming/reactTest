@@ -8,6 +8,8 @@ import "./index.less";
 
 import { GroupSearch, TableComponent, Toggle } from "@components/index";
 
+import ChartModal from './ChartModal';
+
 import {
   intervals,
   types,
@@ -34,17 +36,34 @@ interface IRow {
 interface IState {
   rows: IRow[];
   list: any[];
+  isShow: boolean;
+  [key: string]: any;
 }
 
 @connect()
 export default class App extends React.PureComponent<IProps, IState> {
   private indicators = [];
+  private chartOptions: any = {
+    symbol: 'BTCUSDT',
+    interval: '1h'
+  };
+
+  private options = [
+    {
+      title: '操作',
+      dataIndex: 'operate',
+      render: (value: string, record: any) => {
+        return <a onClick={this.toggleModal('isShow', true, record)}>查看图标</a>
+      }
+    }
+  ]
 
   constructor(props: IProps) {
     super(props);
     this.state = {
       rows: defaultTableRows,
       list: [],
+      isShow: false,
     };
   }
 
@@ -138,16 +157,12 @@ export default class App extends React.PureComponent<IProps, IState> {
           },
         };
       });
-      rows = rows.concat(indicators);
+      rows = rows.concat(indicators).concat(this.options);
 
       this.setState(
         () => {
           return { rows };
-        },
-        () => {
-          this.getList(options);
-        }
-      );
+        });
     }
 
     this.getList(options);
@@ -160,7 +175,10 @@ export default class App extends React.PureComponent<IProps, IState> {
         handleSearch={this.handleSearch}
         selectKeys={["indicators"]}
         defaultValues={{
-          coinType: 'usdt'
+          coinType: 'USDT'
+        }}
+        map={{
+          coinType: 'coin_type'
         }}
         selectMap={{
           filterType: filterTypes,
@@ -178,11 +196,34 @@ export default class App extends React.PureComponent<IProps, IState> {
     return <TableComponent dataSource={list} columns={rows} />;
   }
 
+  private toggleModal = (key: string, value: boolean, item?: any) => {
+    return () => {
+      if (item) {
+        Object.assign(this.chartOptions, { symbol: item.symbol})
+      }
+      this.setState({
+        [key]: value
+      })
+    }
+  }
+
+  private renderChartModal () {
+    const { isShow } = this.state;
+    const { interval, symbol } = this.chartOptions;
+    if (!isShow) {
+      return null;
+    }
+    return (
+      <ChartModal isShow={isShow}  interval={interval} symbol={symbol} onClose={this.toggleModal('isShow', false)}/>
+    )
+  }
+
   public render() {
     return (
       <Card className="bestCoinList">
         {this.renderSearch()}
         {this.renderTable()}
+        {this.renderChartModal()}
       </Card>
     );
   }

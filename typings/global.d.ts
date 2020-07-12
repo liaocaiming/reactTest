@@ -7,3 +7,5 @@
 // declare module '*.json'
 
 declare const Highcharts: any;
+
+declare const TradingView: any;
