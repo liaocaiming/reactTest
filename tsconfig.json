@@ -22,7 +22,8 @@
       "@screens/*": ["src/@screens/*"],
       "@containers/*": ["src/@shared/containers/*"],
       "@typings/*": ["typings/*"],
-      "@src/*": ["src/*"]
+      "@src/*": ["src/*"],
+      "@components/*": ["src/@shared/components/*"]
     },
     "baseUrl": "./",
     "allowSyntheticDefaultImports": true

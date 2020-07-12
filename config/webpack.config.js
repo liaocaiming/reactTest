@@ -52,6 +52,7 @@ module.exports = {
       "@containers": utils.resolve("src/@shared/containers"),
       "@typings": utils.resolve("src/typings"),
       "@src": utils.resolve("src"),
+      "@components": utils.resolve("src/@shared/components")
     },
   },
 

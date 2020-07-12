@@ -6,7 +6,7 @@ import moment from 'moment';
 
 import locale from 'antd/lib/date-picker/locale/zh_CN';
 
-import './index.scss';
+import './index.less';
 
 import  * as  helpers from '@utils/lib/helpers';
 
@@ -500,8 +500,8 @@ export default class App extends React.Component<IProps, IState> {
           >
             {selectList &&
               selectList.map((it: any) => {
-                const value = it.value || it[fieldNames.value];
-                const label = it.label || it[fieldNames.label];
+                const value = it.value || it[fieldNames.value] || it;
+                const label = it.label || it[fieldNames.label] || it;
                 return (
                   <Option value={value} key={value} title={longLabel ? label : ''}>
                     {label}
