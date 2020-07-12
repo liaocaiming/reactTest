@@ -53,7 +53,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       title: '操作',
       dataIndex: 'operate',
       render: (value: string, record: any) => {
-        return <a onClick={this.toggleModal('isShow', true, record)}>查看图标</a>
+        return <a onClick={this.toggleModal('isShow', true, record)}>打开看图表</a>
       }
     }
   ]
