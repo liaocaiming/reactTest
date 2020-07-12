@@ -165,6 +165,7 @@ export default class App extends React.PureComponent<IProps, IState> {
         });
     }
 
+    Object.assign(this.chartOptions, { interval: options.interval });
     this.getList(options);
   };
 

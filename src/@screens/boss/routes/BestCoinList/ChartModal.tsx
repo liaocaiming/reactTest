@@ -12,16 +12,36 @@ interface IProps  {
   onClose: () => void;
 }
 
+
+const handleDate = (date: string) => {
+  let res = date && date.toUpperCase();
+  if (res.indexOf("M") > 0) {
+    return parseInt(date)
+  }
+
+  if (res.indexOf('H') > 0) {
+    return parseInt(date) * 60
+  }
+
+  if (res.indexOf('D') > 0) {
+    return 'D'
+  }
+
+  if (res.indexOf('W') > 0) {
+    return 'W'
+  }
+}
 export default class App extends React.PureComponent<IProps> {
 
   public componentDidMount () {
     const {  interval, symbol } = this.props;
+    console.log(handleDate(interval), '438999')
     loadScript('https://s3.tradingview.com/tv.js').then(() => {
       new TradingView.widget({
         width: 1200,
         height: 710,
         symbol: `BINANCE:${symbol.toUpperCase()}`,
-        interval: 'D',
+        interval: handleDate(interval),
         timezone: "Etc/UTC",
         theme: "light",
         style: "1",
