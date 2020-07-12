@@ -22,5 +22,5 @@ webpackConfig.output.publicPath = configJson.proConfig;
 webpackConfig.plugins = webpackConfig.plugins.concat(plugin);
  const compiler = webpack(webpackConfig);
  compiler.run(() => {
-   console.log(32323)
+   console.log('成功')
  }) 
