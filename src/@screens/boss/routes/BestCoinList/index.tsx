@@ -20,7 +20,7 @@ import {
   coinTypes
 } from "./constants";
 
-import { add, sub } from "@utils/lib/calculate";
+import { add, sub, mul, div } from "@utils/lib/calculate";
 
 import { reactClassNameJoin } from '@utils/lib/helpers'
 
@@ -49,6 +49,15 @@ export default class App extends React.PureComponent<IProps, IState> {
   };
 
   private options = [
+    {
+      title: '涨幅',
+      dataIndex: 'diffRate',
+      defaultSortOrder: 'descend',
+      sorter: (a, b) => a.diffRate - b.diffRate,
+      render: (value: number) => {
+        return <span className={value > 0 ? 'green' : 'red'}>{value}</span>
+      }
+    },
     {
       title: '操作',
       dataIndex: 'operate',
@@ -86,7 +95,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       data.forEach((item: any) => {
         const { price = [] } = item || {};
         const [first = {}] = price || [];
-        const { close } = first;
+        const { close, open } = first;
         const maxValue = item[maxKey];
         let obj = {};
         let is = true;
@@ -110,7 +119,8 @@ export default class App extends React.PureComponent<IProps, IState> {
           }
           Object.assign(obj, {
             [`${key}_price`]: sub(close, item[key]),
-            close
+            close,
+            diffRate: mul(div(sub(close, open), close), 100)
           });
         });
 
