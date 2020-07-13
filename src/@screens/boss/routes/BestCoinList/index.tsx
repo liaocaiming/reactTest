@@ -172,9 +172,9 @@ export default class App extends React.PureComponent<IProps, IState> {
           title: `${it} / close`,
           dataIndex: `${it}_rate`,
           defaultSortOrder: 'descend',
-          sorter: (a, b) => a.diffRate - b.diffRate,
+          sorter: (a, b) => a[`${it}_rate`] - b[`${it}_rate`],
           render: (val: number, item: any) => {
-            const value = parseFloat(val.toFixed(2));
+            const value = parseFloat(val.toFixed(3));
 
             return (
               <div>
