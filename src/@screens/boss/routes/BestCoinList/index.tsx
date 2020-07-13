@@ -162,7 +162,7 @@ export default class App extends React.PureComponent<IProps, IState> {
               <div>
                 <span>{value}</span>
                 <Toggle isShow={diff}>
-                  <span className={reactClassNameJoin([diff > 0 ? 'green' : 'red', 'diff']) }>({diff > 0 ? `+${diff} %` : `${diff} %` })</span>
+                  <span className={reactClassNameJoin([diff > 0 ? 'green' : 'red', 'diff']) }>({diff > 0 ? `+${diff} ` : `${diff} ` })</span>
                 </Toggle>
               </div>
             );
