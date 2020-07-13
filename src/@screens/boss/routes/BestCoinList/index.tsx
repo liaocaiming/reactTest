@@ -50,12 +50,13 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   private options = [
     {
-      title: '涨幅',
+      title: '涨幅(close-open)/close',
       dataIndex: 'diffRate',
       defaultSortOrder: 'descend',
       sorter: (a, b) => a.diffRate - b.diffRate,
-      render: (value: number) => {
-        return <span className={value > 0 ? 'green' : 'red'}>{value}</span>
+      render: (val: number) => {
+        const value = parseFloat(val.toFixed(3))
+        return <span className={reactClassNameJoin([value > 0 ? 'green' : 'red', 'diff']) }>{value > 0 ? `+${value} %` : `${value} %` }</span>
       }
     },
     {
