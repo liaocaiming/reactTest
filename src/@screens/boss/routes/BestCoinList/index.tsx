@@ -224,7 +224,7 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   private renderTable() {
     const { rows, list } = this.state;
-    return <TableComponent dataSource={list} columns={rows} />;
+    return <TableComponent dataSource={list} columns={rows} pagination={false}/>;
   }
 
   private toggleModal = (key: string, value: boolean, item?: any) => {
