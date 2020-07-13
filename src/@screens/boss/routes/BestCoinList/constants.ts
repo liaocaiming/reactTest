@@ -1,7 +1,7 @@
 export const intervals = [
   '1m',
   '5m',
-  '10m',
+  // '10m',
   '15m',
   '30m',
   '1h',

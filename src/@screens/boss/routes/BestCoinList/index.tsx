@@ -119,6 +119,7 @@ export default class App extends React.PureComponent<IProps, IState> {
           }
           Object.assign(obj, {
             [`${key}_price`]: sub(close, item[key]),
+            [`${key}_rate`]: mul(div(sub(close, item[key]), close), 100),
             close,
             diffRate: mul(div(sub(close, open), close), 100)
           });
@@ -150,8 +151,9 @@ export default class App extends React.PureComponent<IProps, IState> {
       JSON.stringify(options.indicators) !== JSON.stringify(this.indicators)
     ) {
       this.indicators = options.indicators;
-      const indicators = this.indicators.map((it: string) => {
-        return {
+      const indicators: any[] = []
+       this.indicators.forEach((it: string) => {
+        indicators.push({
           title: it,
           dataIndex: it,
           render: (value: number, item: any) => {
@@ -160,12 +162,29 @@ export default class App extends React.PureComponent<IProps, IState> {
               <div>
                 <span>{value}</span>
                 <Toggle isShow={diff}>
-                  <span className={reactClassNameJoin([diff > 0 ? 'green' : 'red', 'diff']) }>({diff > 0 ? `+${diff}` : diff })</span>
+                  <span className={reactClassNameJoin([diff > 0 ? 'green' : 'red', 'diff']) }>({diff > 0 ? `+${diff} %` : `${diff} %` })</span>
                 </Toggle>
               </div>
             );
           },
-        };
+        },
+        {
+          title: `${it} / close`,
+          dataIndex: `${it}_rate`,
+          defaultSortOrder: 'descend',
+          sorter: (a, b) => a.diffRate - b.diffRate,
+          render: (val: number, item: any) => {
+            const value = parseFloat(val.toFixed(2));
+
+            return (
+              <div>
+                <Toggle isShow={!!value}>
+                  <span className={reactClassNameJoin([value > 0 ? 'green' : 'red', 'diff']) }>{value > 0 ? `+${value} %` : `${value} %` }</span>
+                </Toggle>
+              </div>
+            );
+          },
+        })
       });
       rows = rows.concat(indicators).concat(this.options);
 
