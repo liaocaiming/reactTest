@@ -16,5 +16,11 @@ export default [
     "title": "牛币塞选列表",
     "hasChild": 0,
     "menuType": 1,
+  },
+  {
+    "key": "statistics",
+    "title": "合约数据统计",
+    "hasChild": 0,
+    "menuType": 1,
   }
 ]
