@@ -63,7 +63,7 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   public getData = () => {
     const { actions } = this.props;
-    actions.get(api.realtime).then((res: any) => {
+    actions.get(api.realtime, {}, { showLoading: false }).then((res: any) => {
       Array.isArray(res) && res.forEach((item:any) => {
         const { symbol } = item;
         if (map[symbol]) {

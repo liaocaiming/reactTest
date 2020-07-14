@@ -54,8 +54,8 @@ export default class App extends React.PureComponent<IProps, IState> {
       dataIndex: 'diffRate',
       defaultSortOrder: 'descend',
       sorter: (a, b) => a.diffRate - b.diffRate,
-      render: (val: number) => {
-        const value = parseFloat(val.toFixed(3))
+      render: (val: any) => {
+        const value = parseFloat(val && val.toFixed(3))
         return <span className={reactClassNameJoin([value > 0 ? 'green' : 'red', 'diff']) }>{value > 0 ? `+${value} %` : `${value} %` }</span>
       }
     },
@@ -174,8 +174,8 @@ export default class App extends React.PureComponent<IProps, IState> {
           dataIndex: `${it}_rate`,
           defaultSortOrder: 'descend',
           sorter: (a, b) => a[`${it}_rate`] - b[`${it}_rate`],
-          render: (val: number, item: any) => {
-            const value = parseFloat(val.toFixed(3));
+          render: (val: any, item: any) => {
+            const value = parseFloat(val && val.toFixed(3));
 
             return (
               <div>
@@ -224,7 +224,7 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   private renderTable() {
     const { rows, list } = this.state;
-    return <TableComponent dataSource={list} columns={rows} pagination={false}/>;
+    return <TableComponent dataSource={list} columns={rows} pagination={false} scroll={{ y: '70vh' }}/>;
   }
 
   private toggleModal = (key: string, value: boolean, item?: any) => {

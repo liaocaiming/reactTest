@@ -38,10 +38,7 @@ function receiveServerError(payload: any) {
       errorMsg = ERROR_MSG_MAP[payload.code];
     }
   } else if (payload.code === '4000') {
-    // toastr.error(__('Data Sync Error'), __('Data Sync Error'));
   } else if (payload.code === '10003' || payload.code === '10005') {
-    // helpers.fezsLocalStorage.removeItem('userInfo')
-    window.location.hash = '#/'  // 10003 表示用户为登陆   10005 表示token过期了
   }
 
   const url:string = payload.url;

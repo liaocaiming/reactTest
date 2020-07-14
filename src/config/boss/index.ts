@@ -5,8 +5,8 @@ import appReducer from '@shared/containers/app/reducer';
 import api from './api';
 
 const  reducers = {
-  $$app: appReducer,
-  $$appScreen:appScreenReducer,
+  app: appReducer,
+  appScreen:appScreenReducer,
   ...bossReducers
 }
 
