@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { DownOutlined, LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 
-import { Avatar, Button, Dropdown, Layout, Menu, Spin, Tooltip } from 'antd';
+import { Avatar, Button, Dropdown, Layout, Menu, Spin } from 'antd';
 
 import { connect } from '@containers/app';
 
@@ -39,14 +39,13 @@ interface IMenu {
 }
 
 export interface IProps {
-  enthusiasmLevel?: number;
-  name?: string;
   $$app?: any;
   actions?: any;
   menu?: any;
   router?: any;
   routes?: any;
   history?: any;
+  $$screen: any;
 }
 
 // tslint:disable-next-line:interface-name
@@ -253,9 +252,9 @@ export default class App extends React.Component<IProps, IState> {
 
   public render() {
     const { history } = this.props;
-    console.log(this.props.routes);
-    console.log(menuData, 'menuData');
-    const { marginLeft } = this.state;
+    const saving = this.props.$$app && this.props.$$app.getIn(['saving']);
+    const fetching = this.props.$$app && this.props.$$app.getIn(['fetching']);
+    
     return (
       <Layout className="layout">
         <Sider
@@ -287,7 +286,9 @@ export default class App extends React.Component<IProps, IState> {
             <Button className='sign-out-btn' type='primary'>退出</Button>
           </Header>
           <Content style={{ padding: '10px 20px' }} className='layout-content'>
-            {renderRoutes(this.props.routes)}
+            < Spin size="large" spinning={saving || fetching}> 
+              {renderRoutes(this.props.routes)}
+            </ Spin>
           </Content>
           <Footer style={{ textAlign: 'center' }}>最牛逼网站</Footer>
         </Layout>
