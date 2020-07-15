@@ -29,6 +29,7 @@ interface IRoute {
 
 export default interface IProps {
   $$app: any;
+  $$boss: any;
   $$screen: any;
   $$detailScreen: any;
   actions: IActions;

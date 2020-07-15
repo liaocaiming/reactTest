@@ -1,3 +1,5 @@
+import  { IBossActions } from '@src/@screens/boss/reducers/index.d'
+
 export interface IAjax {
   url: string;
   query?: any;
@@ -34,7 +36,8 @@ export interface IAppScreenAction {
   [random: string]: any;
 }
 
-export interface IActions extends IAppActions, IAppScreenAction {}
+
+export interface IActions extends IAppActions, IAppScreenAction, IBossActions {}
 
 export interface IDictionaryItem {
   value: string;

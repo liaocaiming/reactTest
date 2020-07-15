@@ -1,5 +1,8 @@
 import boss from './bossReducer';
-const reducers = {
-  boss
+
+import connect from './connect';
+
+export {
+  boss,
+  connect
 }
-export default reducers

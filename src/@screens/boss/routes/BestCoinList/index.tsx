@@ -11,7 +11,6 @@ import { GroupSearch, TableComponent, Toggle } from "@components/index";
 import ChartModal from './ChartModal';
 
 import {
-  intervals,
   types,
   indicators,
   defaultTableRows,
@@ -19,6 +18,8 @@ import {
   filterTypes,
   coinTypes
 } from "./constants";
+
+import { intervals } from '@utils/lib/constants'
 
 import { add, sub, mul, div } from "@utils/lib/calculate";
 

@@ -1,13 +1,13 @@
 import routes from './routes';
-import bossReducers from '@screens/boss/reducers';
+import bossReducers from '@screens/boss/reducers/bossReducer';
 import appScreenReducer from '@shared/containers/appScreen/reducer';
 import appReducer from '@shared/containers/app/reducer';
 import api from './api';
 
 const  reducers = {
   app: appReducer,
-  appScreen:appScreenReducer,
-  ...bossReducers
+  screen:appScreenReducer,
+  boss:bossReducers
 }
 
 export {
