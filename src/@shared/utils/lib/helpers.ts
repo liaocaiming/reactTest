@@ -55,3 +55,9 @@ export function dyadicArray(data: any[], num: number): any[][] {
   }
   return arr;
 }
+
+export function getSearchData (rowData: any[], keys: string[]) {
+   return rowData.filter((item:any) => {
+     return keys.indexOf(item.dataIndex) >= 0
+   })
+}
