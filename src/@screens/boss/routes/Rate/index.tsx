@@ -4,9 +4,11 @@ import { connect } from "@shared/containers/appScreen";
 
 import dateFormat from "@utils/lib/dateFormat";
 
-import './index.less';
+import "./index.less";
 
-import { api } from '@src/config/boss';
+import { api } from "@src/config/boss";
+
+import { Chart } from "@antv/g2";
 
 import {
   BarChart,
@@ -19,7 +21,7 @@ import {
   Label,
   LabelList,
   LineChart,
-  Line
+  Line,
 } from "recharts";
 
 interface IProps {
@@ -31,26 +33,28 @@ interface IList {
   markPrice?: number;
   lastFundingRate?: number;
   symbol?: string;
+  [k: string]: any;
 }
 
 interface IState {
   rateData: IList[];
   selectedData: IList[];
   selectedUsdt: string;
-  selectedMap: { [k: string]: IList[] }
+  selectedMap: { [k: string]: IList[] };
 }
 
 const map = {}; // 记录页面打开后的数据
 @connect()
 export default class App extends React.PureComponent<IProps, IState> {
+  private chart: any = null;
 
   constructor(props: IProps) {
     super(props);
     this.state = {
       rateData: [],
       selectedData: [],
-      selectedUsdt: '',
-      selectedMap: {}
+      selectedUsdt: "",
+      selectedMap: {},
     };
   }
 
@@ -59,47 +63,61 @@ export default class App extends React.PureComponent<IProps, IState> {
     setInterval(() => {
       this.getData();
     }, 60 * 1000);
+
+    this.chart = new Chart({
+      container: "container",
+      autoFit: true,
+      height: 500,
+      limitInPlot: false,
+      localRefresh: true,
+      padding: [50, 20, 50, 20],
+    }).on('click', this.BarChartOnClick)
+
   }
 
   public getData = () => {
     const { actions } = this.props;
     actions.get(api.realtime, {}, { showLoading: false }).then((res: any) => {
-      Array.isArray(res) && res.forEach((item:any) => {
-        const { symbol } = item;
-        if (map[symbol]) {
-          if (map[symbol].length > 500) {
-            map[symbol].shift();
+      Array.isArray(res) &&
+        res.forEach((item: any) => {
+          const { symbol } = item;
+          if (map[symbol]) {
+            if (map[symbol].length > 500) {
+              map[symbol].shift();
+            }
+            map[symbol].push(item);
+          } else {
+            map[symbol] = [item];
           }
-          map[symbol].push(item)
-        } else {
-          map[symbol] = [item]
-        }
-      })
+        });
 
       const { selectedUsdt } = this.state;
 
       this.setState({
         rateData: res || [],
-        selectedData: map[selectedUsdt] || []
-      });
+        selectedData: map[selectedUsdt] || [],
+      }, this.renderAntLineChart);
     });
   };
 
   public BarChartOnClick = (e: any) => {
-    const { activePayload  = []} = e;
+    // const { activePayload = [] } = e;
+    // const { selectedMap } = this.state;
+    // const [{ payload }] = activePayload;
+    // const { symbol = "KNCUSDT" } = payload;
     const { selectedMap } = this.state;
-    const [{ payload }] = activePayload;
-    const { symbol = "KNCUSDT" }  = payload;
 
+    const { data: { data } } = e;
+    const { symbol } = data|| {}
     this.setState({
       selectedData: map[symbol],
       selectedUsdt: symbol,
       selectedMap: {
         ...selectedMap,
-        [symbol]: map[symbol]
-      }
-    })
-  }
+        [symbol]: map[symbol],
+      },
+    });
+  };
 
   public renderBarChart = (
     data: any[],
@@ -109,14 +127,16 @@ export default class App extends React.PureComponent<IProps, IState> {
       return <span>没有数据</span>;
     }
 
-    const res = data.filter((item: any) => Math.abs(item.lastFundingRate) > 0.0001).map((item: any) => {
-      return {
-        ...item,
-        lastFundingRate: item.lastFundingRate * 100,
-      };
-    }).sort((a, b) => a.lastFundingRate - b.lastFundingRate);
+    const res = data
+      .filter((item: any) => Math.abs(item.lastFundingRate) > 0.0001)
+      .map((item: any) => {
+        return {
+          ...item,
+          lastFundingRate: item.lastFundingRate * 100,
+        };
+      })
+      .sort((a, b) => a.lastFundingRate - b.lastFundingRate);
 
- 
     return (
       <BarChart
         width={80 * res.length}
@@ -135,15 +155,14 @@ export default class App extends React.PureComponent<IProps, IState> {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey={YDataKey} fill="#8884d8" ><LabelList dataKey="symbol" position="top" /></Bar>
+        <Bar dataKey={YDataKey} fill="#8884d8">
+          <LabelList dataKey="symbol" position="top" />
+        </Bar>
       </BarChart>
     );
   };
 
-
-  public renderLineChart = (
-    data: any[],
-  ) => {
+  public renderLineChart = (data: any[]) => {
     if (!Array.isArray(data) || data.length == 0) {
       return null;
     }
@@ -155,24 +174,105 @@ export default class App extends React.PureComponent<IProps, IState> {
       };
     });
 
-
     return (
       <LineChart width={500} height={200} data={res}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis  dataKey="time" interval="preserveStart" />
-        <YAxis yAxisId="left"  dataKey='lastFundingRate' />
-        <YAxis  yAxisId="right"  dataKey='markPrice' orientation="right"  />
+        <XAxis dataKey="time" interval="preserveStart" />
+        <YAxis yAxisId="left" dataKey="lastFundingRate" />
+        <YAxis yAxisId="right" dataKey="markPrice" orientation="right" />
 
         <Tooltip />
         <Legend />
-        <Line yAxisId="left" type="monotone" dataKey='lastFundingRate' stroke="orange"  dot=''/>
-        <Line yAxisId="right" type="monotone" dataKey='markPrice' stroke="#82ca9d" dot='' />
+        <Line
+          yAxisId="left"
+          type="monotone"
+          dataKey="lastFundingRate"
+          stroke="orange"
+          dot=""
+        />
+        <Line
+          yAxisId="right"
+          type="monotone"
+          dataKey="markPrice"
+          stroke="#82ca9d"
+          dot=""
+        />
       </LineChart>
     );
   };
 
+  public renderAntLineChart = () => {
+    const { rateData: data } = this.state;
 
-  
+
+    if (!Array.isArray(data) || data.length == 0) {
+      return null;
+    }
+
+    const res = data
+    .filter((item: any) => Math.abs(item.lastFundingRate) > 0.0001)
+    .map((item: any) => {
+      return {
+        ...item,
+        lastFundingRate: item.lastFundingRate * 100,
+      };
+    })
+    .sort((a, b) => a.lastFundingRate - b.lastFundingRate);
+
+    this.chart.clear();
+    this.chart.data(res);
+    this.chart.scale("lastFundingRate", {
+      alias: "费率",
+    });
+
+    this.chart.axis("symbol", {
+      tickLine: {
+        alignTick: true,
+      },
+    });
+
+    this.chart.axis("lastFundingRate", false);
+
+    this.chart.tooltip({
+      showMarkers: false,
+    });
+    this.chart
+    .interval()
+    .position("symbol*lastFundingRate")
+    .color('lastFundingRate', (val) => {
+      if (val < 0 ) {
+        return '#F00';
+      }
+      return '#6dc609';
+    })
+    this.chart.interaction("element-active");
+
+    // 添加文本标注
+    res.forEach((item) => {
+      this.chart
+        .annotation()
+        .text({
+          position: [item.symbol, item.lastFundingRate],
+          content: item.symbol,
+          style: {
+            textAlign: 'center',
+          },
+          offsetY: -30,
+        })
+        .text({
+          position: [item.symbol, item.lastFundingRate],
+          content: item.lastFundingRate.toFixed(2) + "%",
+          style: {
+            textAlign: "center",
+          },
+          offsetY: -12,
+        })
+    });
+    this.chart.render();
+   
+
+  };
+
   public render() {
     const { rateData = [], selectedData, selectedUsdt } = this.state;
     return (
@@ -185,10 +285,15 @@ export default class App extends React.PureComponent<IProps, IState> {
       >
         <div style={{ padding: "0 50px 50px 50px", overflow: "auto" }}>
           <h3 style={{ marginBottom: 20 }}>币安汇率</h3>
-          {this.renderBarChart(rateData, "lastFundingRate")}
+          {/* {this.renderBarChart(rateData, "lastFundingRate")} */}
+
+          <div id="container"></div>
         </div>
+
         <div style={{ padding: "0 50px 50px 50px", overflow: "auto" }}>
-           <h3 style={{ marginTop: 50 }}>选中汇率--价格变化图 <h2 >{selectedUsdt}</h2></h3>
+          <h3 style={{ marginTop: 50 }}>
+            选中汇率--价格变化图 {selectedUsdt}
+          </h3>
           {this.renderLineChart(selectedData)}
         </div>
       </div>
