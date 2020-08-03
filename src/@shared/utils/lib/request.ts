@@ -42,11 +42,11 @@ function parseJSON(response: any) {
  */
 function handleServerError(json: { success: boolean }) {
   /* eslint-disable no-console */
-  if (!json) {
-    warning(false, "Not return json = %s", json);
-  } else if (!json.success) {
-    warning(false, "Return Json is not ok = %s", json);
-  }
+  // if (!json) {
+  //   warning(false, "Not return json = %s", json);
+  // } else if (!json.success) {
+  //   warning(false, "Return Json is not ok = %s", json);
+  // }
   return json;
 }
 

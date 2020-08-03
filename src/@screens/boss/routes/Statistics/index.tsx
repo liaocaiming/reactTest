@@ -121,10 +121,19 @@ export default class App extends React.PureComponent<IProps, IState> {
         url: api.long_short_taker_ratio,
         key: 'longShortTakerRatio',
         params
+      },
+      {
+        url: api.depth,
+        key: 'longShortTakerRatio',
+        params: {
+          ...params,
+          limit: 10
+        }
       }
     ]
 
     this.getData(list);
+    this.handleSearch1(params)
   }
 
 
