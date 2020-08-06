@@ -66,6 +66,7 @@ export interface IProps {
   selectMap?: ISelectMap; // 单选下拉数据;
   multipleSelectMap?: ISelectMap; // 多选下拉数据;
   isShowResetBtn?: boolean; // 是否显示重置按钮;
+  showSearchBtn?: boolean; // 是否显示搜索按钮;
   cascaderKeys?: string[]; // 省市区
   validateSearchParams?: (searchParams: any, isReset?: boolean) => boolean | object; // 校验搜索参数;
   map?: {
@@ -729,6 +730,10 @@ export default class App extends React.Component<IProps, IState> {
   }
 
   public renderBtn = () => {
+    const { showSearchBtn = true } = this.props;
+    if (!showSearchBtn) {
+      return <span></span>;
+    }
     return (
       <div className="fl">
         <Button type="primary" onClick={this.search()} size={this.size} className="groupSearch-btn">

@@ -1,4 +1,7 @@
 export default function dateFormat(fmt: string, time: any) {
+  if (!fmt || !time) {
+    return
+  }
   let date = time;
   if (typeof date === 'number' || typeof date === 'string') {
     date = new Date(date)

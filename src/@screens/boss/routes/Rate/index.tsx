@@ -1,7 +1,5 @@
 import * as React from "react";
 
-import { connect } from "@shared/containers/appScreen";
-
 import dateFormat from "@utils/lib/dateFormat";
 
 import "./index.less";
@@ -9,6 +7,12 @@ import "./index.less";
 import { api } from "@src/config/boss";
 
 import { Chart } from "@antv/g2";
+
+import { searchRowData, coinType } from "./constants";
+
+import { connect } from "@src/@screens/boss/reducers/index";
+
+import formatNumber from "@utils/lib/formatNumber";
 
 import {
   BarChart,
@@ -24,6 +28,23 @@ import {
   Line,
 } from "recharts";
 
+import { GroupSearch, Toggle } from "@components/index";
+
+import { intervals } from "@utils/lib/constants";
+
+interface IPort {
+  url: string;
+  key:
+    | "forceOrders"
+    | "openInterest"
+    | "openInterestHist"
+    | "longShortAccountRatio"
+    | "longShortPositionRatio"
+    | "longShortUserRatio"
+    | "longShortTakerRatio";
+  params: any;
+}
+
 interface IProps {
   [random: string]: any;
 }
@@ -33,6 +54,7 @@ interface IList {
   markPrice?: number;
   lastFundingRate?: number;
   symbol?: string;
+
   [k: string]: any;
 }
 
@@ -41,12 +63,23 @@ interface IState {
   selectedData: IList[];
   selectedUsdt: string;
   selectedMap: { [k: string]: IList[] };
+  forceOrders: any[]; // 市场强平订单
+  openInterest: any; // 未平仓合约数
+  openInterestHist: any; // 合约持仓量
+  longShortAccountRatio: any; // 大户账号数多空比；
+  longShortPositionRatio: any; // 大户持仓量多空币
+  longShortUserRatio: any; // 多空持仓人数比
+  longShortTakerRatio: any; // 合约主动买卖量
+  [k: string]: any;
 }
 
 const map = {}; // 记录页面打开后的数据
 @connect()
 export default class App extends React.PureComponent<IProps, IState> {
-  private chart: any = null;
+  private singleFirst: boolean = false;
+
+  private chart: any = {};
+  private singleChart: Chart = {};
 
   constructor(props: IProps) {
     super(props);
@@ -55,11 +88,18 @@ export default class App extends React.PureComponent<IProps, IState> {
       selectedData: [],
       selectedUsdt: "",
       selectedMap: {},
+      forceOrders: [],
+      openInterest: {},
+      openInterestHist: {},
+      longShortAccountRatio: {},
+      longShortPositionRatio: {},
+      longShortUserRatio: {},
+      longShortTakerRatio: {},
     };
   }
 
   public componentDidMount() {
-    this.getData();
+    this.getData(true);
     setInterval(() => {
       this.getData();
     }, 60 * 1000);
@@ -70,45 +110,56 @@ export default class App extends React.PureComponent<IProps, IState> {
       height: 500,
       limitInPlot: false,
       localRefresh: true,
-      padding: [50, 20, 50, 20],
-    }).on('click', this.BarChartOnClick)
+      padding: [100, 100, 100, 100],
+    }).on("click", this.BarChartOnClick);
 
+    this.singleChart = new Chart({
+      container: "single-container",
+      autoFit: true,
+      height: 500,
+      limitInPlot: false,
+      localRefresh: true,
+      padding: [100, 100, 100, 100],
+    });
   }
 
-  public getData = () => {
+  public getData = (isFirst?: boolean) => {
     const { actions } = this.props;
     actions.get(api.realtime, {}, { showLoading: false }).then((res: any) => {
-      Array.isArray(res) &&
-        res.forEach((item: any) => {
-          const { symbol } = item;
+      const data =
+        Array.isArray(res) &&
+        res.map((item: any) => {
+          const it = { ...item, symbol: item.symbol.split("USDT")[0] };
+          const { symbol } = it;
           if (map[symbol]) {
             if (map[symbol].length > 500) {
               map[symbol].shift();
             }
-            map[symbol].push(item);
+            map[symbol].push(it);
           } else {
-            map[symbol] = [item];
+            map[symbol] = [it];
           }
+          return it;
         });
 
       const { selectedUsdt } = this.state;
 
-      this.setState({
-        rateData: res || [],
-        selectedData: map[selectedUsdt] || [],
-      }, this.renderAntLineChart);
+      this.setState(
+        {
+          rateData: data || [],
+          selectedData: map[selectedUsdt] || [],
+        },
+        () => {
+          this.renderAntLineChart(isFirst);
+        }
+      );
     });
   };
 
   public BarChartOnClick = (e: any) => {
-    // const { activePayload = [] } = e;
-    // const { selectedMap } = this.state;
-    // const [{ payload }] = activePayload;
-    // const { symbol = "KNCUSDT" } = payload;
     const { selectedMap } = this.state;
-
-    const { data: { data } } = e;
-    const { symbol } = data|| {}
+    const { data = { data: {} } } = e || {};
+    const { symbol } = data.data || {};
     this.setState({
       selectedData: map[symbol],
       selectedUsdt: symbol,
@@ -201,63 +252,68 @@ export default class App extends React.PureComponent<IProps, IState> {
     );
   };
 
-  public renderAntLineChart = () => {
+  public renderAntLineChart = (isFirst?: boolean) => {
     const { rateData: data } = this.state;
 
-
     if (!Array.isArray(data) || data.length == 0) {
-      return null;
+      return;
     }
 
     const res = data
-    .filter((item: any) => Math.abs(item.lastFundingRate) > 0.0001)
-    .map((item: any) => {
-      return {
-        ...item,
-        lastFundingRate: item.lastFundingRate * 100,
-      };
-    })
-    .sort((a, b) => a.lastFundingRate - b.lastFundingRate);
+      .map((item: any) => {
+        return {
+          ...item,
+          lastFundingRate: item.lastFundingRate * 100,
+        };
+      })
+      .sort((a, b) => a.lastFundingRate - b.lastFundingRate);
 
+    if (!isFirst) {
+      this.chart.changeData(res);
+      return;
+    }
     this.chart.clear();
     this.chart.data(res);
     this.chart.scale("lastFundingRate", {
       alias: "费率",
+      nice: true,
+    });
+    this.chart.option("slider", {
+      end: 1,
     });
 
-    this.chart.axis("symbol", {
-      tickLine: {
-        alignTick: true,
-      },
-    });
-
-    this.chart.axis("lastFundingRate", false);
-
-    this.chart.tooltip({
-      showMarkers: false,
-    });
     this.chart
-    .interval()
-    .position("symbol*lastFundingRate")
-    .color('lastFundingRate', (val) => {
-      if (val < 0 ) {
-        return '#F00';
-      }
-      return '#6dc609';
-    })
+      .interval()
+      .position("symbol*lastFundingRate")
+      .color("lastFundingRate", (val) => {
+        if (Math.abs(val) >= 0.15) {
+          return "#ff4d4f";
+        }
+        if (val < 0) {
+          return "#1890ff";
+        }
+        return "#6dc609";
+      })
+      
     this.chart.interaction("element-active");
 
     // 添加文本标注
     res.forEach((item) => {
+      let offsetY1 = -30;
+      let offsetY2 = -12;
+      if (item.lastFundingRate < 0) {
+        offsetY1 = 12;
+        offsetY2 = 30;
+      }
       this.chart
         .annotation()
         .text({
           position: [item.symbol, item.lastFundingRate],
           content: item.symbol,
           style: {
-            textAlign: 'center',
+            textAlign: "center",
           },
-          offsetY: -30,
+          offsetY: offsetY1,
         })
         .text({
           position: [item.symbol, item.lastFundingRate],
@@ -265,16 +321,200 @@ export default class App extends React.PureComponent<IProps, IState> {
           style: {
             textAlign: "center",
           },
-          offsetY: -12,
-        })
+          offsetY: offsetY2,
+        });
     });
     this.chart.render();
-   
-
+    return;
   };
 
+  private renderSearch(options: {
+    rowData: any;
+    handleSearch: (params) => void;
+  }) {
+    const symbolList = this.props.$$boss.getIn(["symBolList"]).toJS() || [];
+    const { rowData, handleSearch } = options;
+
+    return (
+      <div>
+        <GroupSearch
+          rowData={rowData}
+          onValuesChange={handleSearch}
+          handleSearch={handleSearch}
+          showSearchBtn={false}
+          selectMap={{
+            symbol: symbolList,
+            period: intervals,
+          }}
+        />
+      </div>
+    );
+  }
+
+  private renderSingleChart = (options: {
+    longShortAccountRatio?: any[];
+    openInterestHist?: any[];
+    [k: string]: any;
+  }) => {
+
+    const { longShortAccountRatio = [], openInterestHist = [] } = options;
+
+    const view1 = this.singleChart.createView({
+      region: {
+        start: { x: 0, y: 0 }, // 指定该视图绘制的起始位置，x y 为 [0 - 1] 范围的数据
+        end: { x: 0.2, y: 1 }, // 指定该视图绘制的结束位置，x y 为 [0 - 1] 范围的数据
+      },
+      padding: [20, 40], // 指定视图的留白
+    });
+
+    view1.clear();
+    
+    view1.data(openInterestHist.slice(0, 10));
+    // if (this.singleFirst) {
+    //   view1.changeData(openInterestHist.slice(0, 10));
+    //   return;
+    // }
+
+    // this.singleFirst = true;
+
+    view1.scale({
+      sumOpenInterest: {
+        alias: "合约持仓量",
+        nice: true,
+      },
+      sumOpenInterestValue: {
+        alias: "合约持仓总价值",
+        nice: true,
+      },
+    });
+
+    view1.axis("sumOpenInterest", {
+      title: {
+        style: {
+          fill: '#e7d505',
+          fontSize: 20
+        }
+      },
+      label: {
+        formatter: (text: string, item: any, index: number) => {
+          return formatNumber(text);
+        },
+      },
+    });
+
+    view1.axis("sumOpenInterestValue", {
+      title: {
+        style: {
+          fill: '#4FAAEB',
+          fontSize: 20
+        }
+      },
+
+      label: {
+        formatter: (text: string, item: any, index: number) => {
+          return formatNumber(text);
+        },
+      },
+    });
+
+    view1.line().position("timestamp*sumOpenInterestValue").color("#4FAAEB");
+
+    view1.interval().position("timestamp*sumOpenInterest").color("#e7d505");
+
+    this.singleChart.interaction("element-active");
+    this.singleChart.render();
+  };
+
+  private getListData = (data: IPort[]) => {
+    const { actions } = this.props;
+    data.forEach((item) => {
+      actions.get(item.url, item.params).then((res: any) => {
+        if (res) {
+          const { period = "1h" } = item.params;
+          let arr = res;
+          if (Array.isArray(arr)) {
+            arr = arr.map((item) => {
+              let format = "hh:mm";
+              if (period.indexOf("d") >= 0 || period.indexOf("w") >= 0) {
+                format = "MM-DD";
+              }
+              return { ...item, timestamp: dateFormat(format, item.timestamp) };
+            });
+          }
+
+          this.setState(
+            {
+              [item.key]: arr,
+            },
+            () => {
+              this.renderSingleChart({
+                [item.key]: arr,
+              });
+            }
+          );
+        }
+      });
+    });
+  };
+
+  private handleSearch2 = (params: any) => {
+    const { selectedUsdt } = this.state;
+    const list: IPort[] = [
+      {
+        url: api.open_interest_hist,
+        key: "openInterestHist",
+        params: { ...params, symbol: `${selectedUsdt}${coinType[1]}` },
+      },
+      // {
+      //   url: api.long_short_account_ratio,
+      //   key: "longShortAccountRatio",
+      //   params: { ...params, symbol: `${selectedUsdt}${coinType[1]}`},
+      // },
+      // {
+      //   url: api.long_short_position_ratio,
+      //   key: "longShortPositionRatio",
+      //   params,
+      // },
+      // {
+      //   url: api.long_short_user_ratio,
+      //   key: "longShortUserRatio",
+      //   params,
+      // },
+      // {
+      //   url: api.long_short_taker_ratio,
+      //   key: "longShortTakerRatio",
+      //   params,
+      // },
+      // {
+      //   url: api.depth,
+      //   key: "longShortTakerRatio",
+      //   params: {
+      //     ...params,
+      //     limit: 10,
+      //   },
+      // },
+    ];
+
+    this.getListData(list);
+  };
+
+  public renderSingleChartContent() {
+    const { selectedUsdt } = this.state;
+    return (
+      <div>
+        <Toggle isShow={!!selectedUsdt}>
+          {this.renderSearch({
+            rowData: searchRowData,
+            handleSearch: this.handleSearch2,
+          })}
+        </Toggle>
+        <div id="single-container"></div>
+      </div>
+    );
+  }
+
   public render() {
-    const { rateData = [], selectedData, selectedUsdt } = this.state;
+    const { selectedData, selectedUsdt } = this.state;
     return (
       <div
         style={{
@@ -282,19 +522,22 @@ export default class App extends React.PureComponent<IProps, IState> {
           overflowX: "auto",
           position: "relative",
         }}
+        className="rate"
       >
-        <div style={{ padding: "0 50px 50px 50px", overflow: "auto" }}>
+        <div>
           <h3 style={{ marginBottom: 20 }}>币安汇率</h3>
-          {/* {this.renderBarChart(rateData, "lastFundingRate")} */}
-
-          <div id="container"></div>
+          <div id="container" className="rate-container"></div>
         </div>
 
         <div style={{ padding: "0 50px 50px 50px", overflow: "auto" }}>
-          <h3 style={{ marginTop: 50 }}>
-            选中汇率--价格变化图 {selectedUsdt}
-          </h3>
-          {this.renderLineChart(selectedData)}
+          <div>
+            <h3 style={{ marginTop: 50 }}>
+              选中汇率--价格变化图 {selectedUsdt}
+            </h3>
+            {this.renderLineChart(selectedData)}
+          </div>
+
+          {this.renderSingleChartContent()}
         </div>
       </div>
     );
