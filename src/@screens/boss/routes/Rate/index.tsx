@@ -358,7 +358,9 @@ export default class App extends React.PureComponent<IProps, IState> {
   }) => {
 
     const { longShortAccountRatio = [], openInterestHist = [] } = options;
+    this.singleChart.clear()
 
+    // 合约持仓量和合约持仓价值 
     const view1 = this.singleChart.createView({
       region: {
         start: { x: 0, y: 0 }, // 指定该视图绘制的起始位置，x y 为 [0 - 1] 范围的数据
@@ -366,17 +368,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       },
       padding: [20, 40], // 指定视图的留白
     });
-
-    view1.clear();
-    
-    view1.data(openInterestHist.slice(0, 10));
-    // if (this.singleFirst) {
-    //   view1.changeData(openInterestHist.slice(0, 10));
-    //   return;
-    // }
-
-    // this.singleFirst = true;
-
+    view1.data(openInterestHist.slice(openInterestHist.length - 10, openInterestHist.length));
     view1.scale({
       sumOpenInterest: {
         alias: "合约持仓量",
@@ -387,12 +379,11 @@ export default class App extends React.PureComponent<IProps, IState> {
         nice: true,
       },
     });
-
     view1.axis("sumOpenInterest", {
       title: {
         style: {
           fill: '#e7d505',
-          fontSize: 20
+          fontSize: 12
         }
       },
       label: {
@@ -401,12 +392,11 @@ export default class App extends React.PureComponent<IProps, IState> {
         },
       },
     });
-
     view1.axis("sumOpenInterestValue", {
       title: {
         style: {
           fill: '#4FAAEB',
-          fontSize: 20
+          fontSize: 12
         }
       },
 
@@ -416,10 +406,26 @@ export default class App extends React.PureComponent<IProps, IState> {
         },
       },
     });
-
+    // view1.legend({
+    //   custom: true,
+    //   items: [
+    //     { name: '合约持仓量', value: 'sumOpenInterest', marker: { symbol: 'circle', style: { stroke: '#e7d505', lineWidth: 4 } } },
+    //     { name: '合约持仓总价值', value: 'sumOpenInterestValue', marker: { symbol: 'circle', style: { stroke: '#4FAAEB', lineWidth: 4 } } },
+    //   ],
+    // });
     view1.line().position("timestamp*sumOpenInterestValue").color("#4FAAEB");
-
     view1.interval().position("timestamp*sumOpenInterest").color("#e7d505");
+
+
+
+
+
+
+
+
+
+
+
 
     this.singleChart.interaction("element-active");
     this.singleChart.render();
@@ -442,16 +448,20 @@ export default class App extends React.PureComponent<IProps, IState> {
             });
           }
 
-          this.setState(
-            {
-              [item.key]: arr,
-            },
-            () => {
-              this.renderSingleChart({
-                [item.key]: arr,
-              });
-            }
-          );
+          // this.setState(
+          //   {
+          //     [item.key]: arr,
+          //   },
+          //   () => {
+          //     this.renderSingleChart({
+          //       [item.key]: arr,
+          //     });
+          //   }
+          // );
+
+          this.renderSingleChart({
+            [item.key]: arr,
+          });
         }
       });
     });
