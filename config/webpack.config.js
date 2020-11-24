@@ -21,7 +21,7 @@ module.exports = {
     index: [utils.resolve("src/index.tsx")],
   },
   output: {
-    filename: "[name][hash].js",
+    filename: "[hash].js",
     path: utils.resolve(`dist/${name}`),
     publicPath: publicPath
   },
@@ -29,6 +29,7 @@ module.exports = {
   optimization: {
     splitChunks: {
       cacheGroups: {
+        
         commons: {
           name: "commons",
           chunks: "initial",

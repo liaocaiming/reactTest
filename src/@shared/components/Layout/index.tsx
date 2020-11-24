@@ -1,29 +1,36 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { DownOutlined, LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  DownOutlined,
+  LogoutOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
-import { Avatar, Button, Dropdown, Layout, Menu, Spin } from 'antd';
+import { Avatar, Button, Dropdown, Layout, Menu, Spin } from "antd";
 
-import { connect } from '@containers/app';
+import { connect } from "@containers/app";
 
-import { renderRoutes } from 'react-router-config';
+import { renderRoutes } from "react-router-config";
 
 const { Header, Content, Footer, Sider } = Layout;
 
-import SubMenu from 'antd/lib/menu/SubMenu';
+import SubMenu from "antd/lib/menu/SubMenu";
 
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-import User from '@utils/lib/User';
+import User from "@utils/lib/User";
 
-import'./index.css';
+import "./index.css";
 
-import menuData from './menuData';
+import menuData from "./menuData";
+
+import ErrorBoundary from "@shared/components/ErrorBoundary";
 
 function isFirstTime() {
-  const isNotFirstTime = window.localStorage.getItem('isNotFirstTime');
+  const isNotFirstTime = window.localStorage.getItem("isNotFirstTime");
 
-  return isNotFirstTime !== 'true';
+  return isNotFirstTime !== "true";
 }
 
 interface IMenu {
@@ -63,8 +70,8 @@ export interface IState {
 }
 
 // 拆分url
-export function splitUrl(pathName: any, defaultPath = '/') {
-  const splitArray = pathName.split('/');
+export function splitUrl(pathName: any, defaultPath = "/") {
+  const splitArray = pathName.split("/");
   const tempArray: any = [];
 
   splitArray.map((item: any) => {
@@ -87,60 +94,56 @@ export default class App extends React.Component<IProps, IState> {
       routes: [],
       menuArray: [],
       marginLeft: 200,
-      platformList: []
+      platformList: [],
     };
     this.isFirstTime = isFirstTime();
   }
 
-  public UNSAFE_componentWillMount() {
-   
-  }
+  public UNSAFE_componentWillMount() {}
 
-
-  public componentDidMount () {
+  public componentDidMount() {
     if (!User.isLogin()) {
       const { history } = this.props;
-      history.push('/');
+      history.push("/");
     }
   }
-
 
   // 退出登陆
   public handleLogout = () => {
     User.removeUserInfo();
     const { history } = this.props;
-    history.push('/');
+    history.push("/");
   };
 
   // 数组转成对象
-  public arrChangeToObj = (arr:any[], key:string) => {
-    const res = {}
+  public arrChangeToObj = (arr: any[], key: string) => {
+    const res = {};
     if (!arr || !key) {
-      return
+      return;
     }
 
-    const fn = (array:any[], keyStr:string) => {
-      array.forEach((item:any) => {
+    const fn = (array: any[], keyStr: string) => {
+      array.forEach((item: any) => {
         const concatKey = `${keyStr}_${item[key]}`;
         if (item.children && item.children.length) {
           res[concatKey] = item;
-          fn(item.children, concatKey)
+          fn(item.children, concatKey);
         } else {
           res[concatKey] = item;
         }
-      })
-    }
+      });
+    };
 
-    arr.forEach((item:any) => {
-      const concatKey = item[key]
-      res[concatKey] = item
+    arr.forEach((item: any) => {
+      const concatKey = item[key];
+      res[concatKey] = item;
       if (item.children && item.children.length) {
-        fn(item.children, concatKey)
+        fn(item.children, concatKey);
       }
-    })
+    });
 
     return res;
-  }
+  };
 
   // 右边用户退出入口
   public renderDropdown = (userInfo: any) => {
@@ -164,7 +167,11 @@ export default class App extends React.Component<IProps, IState> {
     return (
       <Dropdown overlay={menu}>
         <a className="ant-dropdown-link">
-          <Avatar icon={<UserOutlined />} size={'small'} className="margin_right_10 fe-header-avatar" />
+          <Avatar
+            icon={<UserOutlined />}
+            size={"small"}
+            className="margin_right_10 fe-header-avatar"
+          />
           <span>{userInfo && userInfo.realName}</span> <DownOutlined />
         </a>
       </Dropdown>
@@ -173,8 +180,8 @@ export default class App extends React.Component<IProps, IState> {
 
   public renderItemOrSub(item: IMenu, key: any) {
     let concatKey = `${key}/${item.key}`;
-    if (concatKey.substring(0, 1) !== '/') {
-      concatKey = '/' + concatKey;
+    if (concatKey.substring(0, 1) !== "/") {
+      concatKey = "/" + concatKey;
     }
     if (item.children && item.children.length && item.hasChild) {
       return this.renderSubMenu(item, concatKey);
@@ -185,20 +192,18 @@ export default class App extends React.Component<IProps, IState> {
     }
   }
 
- 
-
   public renderMenuItem(item: any, key: any) {
     return (
-      <Menu.Item key={item.key} >
+      <Menu.Item key={item.key}>
         <Link
-          className={'margin_right_5'}
+          className={"margin_right_5"}
           to={{
             pathname: key,
-            state: item
+            state: item,
           }}
         >
           {/* {item.iconType && <Icon type={item.iconType} />} */}
-          <span style={{ fontSize: '14px' }}>{item.title}</span>
+          <span style={{ fontSize: "14px" }}>{item.title}</span>
         </Link>
       </Menu.Item>
     );
@@ -225,18 +230,18 @@ export default class App extends React.Component<IProps, IState> {
   public toggleCollapsed = () => {
     this.setState({
       collapsed: !this.state.collapsed,
-      marginLeft: this.state.collapsed ? 200 : 80
+      marginLeft: this.state.collapsed ? 200 : 80,
     });
 
-    window.localStorage.setItem('isNotFirstTime', 'true');
+    window.localStorage.setItem("isNotFirstTime", "true");
     this.isFirstTime = isFirstTime();
   };
 
   public getToggleMenuButtonTip() {
-    let ret = '';
+    let ret = "";
 
     if (this.isFirstTime) {
-      ret = '点击切换菜单伸缩状态';
+      ret = "点击切换菜单伸缩状态";
     }
 
     return ret;
@@ -249,19 +254,15 @@ export default class App extends React.Component<IProps, IState> {
     });
   };
 
-
   public render() {
     const { history } = this.props;
-    const saving = this.props.$$app && this.props.$$app.getIn(['saving']);
-    const fetching = this.props.$$app && this.props.$$app.getIn(['fetching']);
-    
+    const saving = this.props.$$app && this.props.$$app.getIn(["saving"]);
+    const fetching = this.props.$$app && this.props.$$app.getIn(["fetching"]);
+
     return (
       <Layout className="layout">
-        <Sider
-          collapsed={this.state.collapsed}
-          className='layout-side'
-        >
-          <div className='layout-system-name'>
+        <Sider collapsed={this.state.collapsed} className="layout-side">
+          <div className="layout-system-name">
             <span>boss</span>
           </div>
 
@@ -271,26 +272,28 @@ export default class App extends React.Component<IProps, IState> {
             defaultOpenKeys={splitUrl(history.location.pathname)}
             mode="inline"
             inlineIndent={16}
-            style={{ backgroundColor: 'rgba(34,51,77,1)' }}
+            style={{ backgroundColor: "rgba(34,51,77,1)" }}
           >
             {menuData.map((item: any) => {
-              return this.renderItemOrSub(item, '/boss');
+              return this.renderItemOrSub(item, "/boss");
             })}
           </Menu>
         </Sider>
 
         {/* <Layout style={{ marginLeft }}> */}
         <Layout>
-          <Header className='layout-header'>
-            <div className='layout-title'>最牛逼网站, 不接受反驳</div>
-            <Button className='sign-out-btn' type='primary'>退出</Button>
+          <Header className="layout-header">
+            <div className="layout-title">最牛逼网站, 不接受反驳</div>
+            <Button className="sign-out-btn" type="primary">
+              退出
+            </Button>
           </Header>
-          <Content style={{ padding: '10px 20px' }} className='layout-content'>
-            < Spin size="large" spinning={saving || fetching}> 
-              {renderRoutes(this.props.routes)}
-            </ Spin>
+          <Content style={{ padding: "10px 20px" }} className="layout-content">
+            <Spin size="large" spinning={saving || fetching}>
+              <ErrorBoundary>{renderRoutes(this.props.routes)}</ErrorBoundary>
+            </Spin>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>最牛逼网站</Footer>
+          <Footer style={{ textAlign: "center" }}>最牛逼网站</Footer>
         </Layout>
       </Layout>
     );
