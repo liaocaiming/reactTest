@@ -28,6 +28,7 @@ export default class AppRoot extends React.Component<Iprops> {
                     path={route.path}
                     key={index}
                     render = {(routeProps:any) => {
+                      console.log(routeProps)
                       return  <RouteComponent {...routeProps} menu={config.menu} routes={route.routes}/>
                     }}
                   />
