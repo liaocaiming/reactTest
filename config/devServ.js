@@ -8,6 +8,7 @@ module.exports = {
   compress: true,
   port: 3000,
   historyApiFallback: true,
+  stats: 'errors-only',
   // proxy: {
   //   '/api': {
   //     target: 'http://47.74.177.128:3000',
@@ -31,11 +32,11 @@ module.exports = {
     // app.use('/api', api())
     app.use('/api', createProxyMiddleware({ target: 'http://47.74.177.128:9090', changeOrigin: true }));
   },
-  stats: {
-      assets: true,
-      builtAt: true,
-      colors: true,
-      entrypoints: true,
-      timings: true
-    }
+  // stats: {
+  //     assets: true,
+  //     builtAt: true,
+  //     colors: true,
+  //     entrypoints: true,
+  //     timings: true
+  //   }
 }
