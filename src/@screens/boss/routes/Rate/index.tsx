@@ -293,8 +293,8 @@ export default class App extends React.PureComponent<IProps, IState> {
           return "#1890ff";
         }
         return "#6dc609";
-      })
-      
+      });
+
     this.chart.interaction("element-active");
 
     // 添加文本标注
@@ -356,11 +356,10 @@ export default class App extends React.PureComponent<IProps, IState> {
     openInterestHist?: any[];
     [k: string]: any;
   }) => {
-
     const { longShortAccountRatio = [], openInterestHist = [] } = options;
-    this.singleChart.clear()
+    this.singleChart.clear();
 
-    // 合约持仓量和合约持仓价值 
+    // 合约持仓量和合约持仓价值
     const view1 = this.singleChart.createView({
       region: {
         start: { x: 0, y: 0 }, // 指定该视图绘制的起始位置，x y 为 [0 - 1] 范围的数据
@@ -368,7 +367,12 @@ export default class App extends React.PureComponent<IProps, IState> {
       },
       padding: [20, 40], // 指定视图的留白
     });
-    view1.data(openInterestHist.slice(openInterestHist.length - 10, openInterestHist.length));
+    view1.data(
+      openInterestHist.slice(
+        openInterestHist.length - 10,
+        openInterestHist.length
+      )
+    );
     view1.scale({
       sumOpenInterest: {
         alias: "合约持仓量",
@@ -382,9 +386,9 @@ export default class App extends React.PureComponent<IProps, IState> {
     view1.axis("sumOpenInterest", {
       title: {
         style: {
-          fill: '#e7d505',
-          fontSize: 12
-        }
+          fill: "#e7d505",
+          fontSize: 12,
+        },
       },
       label: {
         formatter: (text: string, item: any, index: number) => {
@@ -395,9 +399,9 @@ export default class App extends React.PureComponent<IProps, IState> {
     view1.axis("sumOpenInterestValue", {
       title: {
         style: {
-          fill: '#4FAAEB',
-          fontSize: 12
-        }
+          fill: "#4FAAEB",
+          fontSize: 12,
+        },
       },
 
       label: {
@@ -415,17 +419,6 @@ export default class App extends React.PureComponent<IProps, IState> {
     // });
     view1.line().position("timestamp*sumOpenInterestValue").color("#4FAAEB");
     view1.interval().position("timestamp*sumOpenInterest").color("#e7d505");
-
-
-
-
-
-
-
-
-
-
-
 
     this.singleChart.interaction("element-active");
     this.singleChart.render();
@@ -525,20 +518,20 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   public render() {
     const { selectedData, selectedUsdt } = this.state;
+
     return (
-      <div
-        style={{
-          width: "100%",
-          overflowX: "auto",
-          position: "relative",
-        }}
-        className="rate"
-      >
+      <div className="rate">
         <div>
           <h3 style={{ marginBottom: 20 }}>币安汇率</h3>
-          <div id="container" className="rate-container"></div>
+          <div style={{ overflowX: "auto", width: "100%" }}>
+            <div
+              id="container"
+              style={{ width: 3000 }}
+              className="rate-container"
+            ></div>
+          </div>
         </div>
-
+        
         <div style={{ padding: "0 50px 50px 50px", overflow: "auto" }}>
           <div>
             <h3 style={{ marginTop: 50 }}>
