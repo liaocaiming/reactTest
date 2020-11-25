@@ -6,6 +6,18 @@ export default [
     "menuType": 1,
   },
   {
+    "key": "orderSet",
+    "title": "下单设置",
+    "hasChild": 0,
+    "menuType": 1,
+  },
+  {
+    "key": "BindUser",
+    "title": "账户绑定",
+    "hasChild": 0,
+    "menuType": 1,
+  },
+  {
     "key": "chart",
     "title": "汇率-价格统计图",
     "hasChild": 0,

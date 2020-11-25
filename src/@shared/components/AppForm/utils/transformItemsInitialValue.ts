@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { getIn } from 'fezs-js';
+import { getIn } from '@utils/index';
 import { AppFormItemOptions, Store } from '../interface.d';
 import traversalFormItems from './traversalFormItems';
 

@@ -1,6 +1,6 @@
 import isObject from './isObject';
 
-import { ITrim } from '../index.d';
+import { ITrim } from '../interface';
 
 const trim: ITrim = (arg: any) => {
   if (!isObject(arg)) {

@@ -1,4 +1,4 @@
-import {IStorage} from '../index.d';
+import {IStorage} from '../interface';
 
 const fezsSessionStorage: IStorage = {
   setItem: (name: string, item: any) => {

@@ -1,5 +1,7 @@
 import  createReducer from './lib/createReducer';
+import getIn from './lib/getIn';
 
 export {
-  createReducer
+  createReducer,
+  getIn
 }

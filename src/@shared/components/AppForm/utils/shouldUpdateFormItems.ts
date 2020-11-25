@@ -1,5 +1,5 @@
 import { FormInstance } from 'antd/lib/form';
-import { getIn } from 'fezs-js';
+import { getIn } from '@utils/index';
 
 import { FormIsShowData, FormItemsUpdateResult, AppFormItemOptions, Store,  } from '../interface.d';
 import createNamePathKey from './createNamePathKey'

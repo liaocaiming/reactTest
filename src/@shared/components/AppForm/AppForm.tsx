@@ -190,7 +190,7 @@ export default class AppForm extends React.PureComponent<AppFormProps, AppFormSt
     const { showItemsUpdateTime, formName, formUpdateTime } = this.state;
     const { showItems } = this.shouldUpdateFormItems(formItems, curForm, formName, showItemsUpdateTime);
 
-    let newAfterFormDOM = null;
+    let newAfterFormDOM:any = null;
 
     const formItemProps = {
       form: curForm,

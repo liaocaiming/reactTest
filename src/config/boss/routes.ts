@@ -21,6 +21,24 @@ const router =  [
         title: '汇率-价格统计图',
         exact: true
       },
+
+      {
+        path: 'bindUser',
+        component: loadFile({
+          load: () => import('@screens/boss/routes/BindUser')
+        }),
+        title: '账户绑定',
+        exact: true
+      },
+
+      {
+        path: 'orderSet',
+        component: loadFile({
+          load: () => import('@screens/boss/routes/OrderSet')
+        }),
+        title: '下单设置',
+        exact: true
+      },
     
       {
         path: 'rate',

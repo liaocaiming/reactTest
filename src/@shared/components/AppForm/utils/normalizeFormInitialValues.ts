@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { setIn } from 'fezs-js';
+// import { setIn } from 'fezs-js';
 
 import { AppFormItemOptions, Store } from '../interface.d';
 import traversalFormItems from './traversalFormItems';
@@ -40,8 +40,8 @@ export default function normalizeFormInitialValues(
       const newValue = getInitialValue(initialValue, numberToString);
 
       // item.initialValue = newValue;
-
-      setIn(initValues, name, newValue);
+      Object.assign(initValues, { [name as any]: newValue })
+      // setIn(initValues, name, newValue);
 
       // 避免冲突
       delete item.initialValue;

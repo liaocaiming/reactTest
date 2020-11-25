@@ -1,6 +1,6 @@
 // import { FormInstance } from 'antd/lib/form/index.d';
 
-import './style.scss';
+import './style.less';
 
 export { default as AppForm } from './AppForm';
 
