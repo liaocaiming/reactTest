@@ -18,7 +18,7 @@
     "@types/react-router-dom": "^4.3.1",
     "@types/redux": "^3.6.0",
     "ant-design": "^1.0.0",
-    "antd": "4.3.5",
+    "antd": "^4.8.5",
     "awesome-typescript-loader": "^5.2.0",
     "clean-webpack-plugin": "^0.1.19",
     "connected-react-router": "^4.5.0",

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { memo } from 'react';
+import { getIn } from 'fezs-js';
 import { Input, Form, Select, Radio, Checkbox, DatePicker, TimePicker, InputNumber, AutoComplete } from 'antd';
 import { FormInstance, Rule } from 'antd/lib/form';
-import getIn from '@utils/lib/getIn';
 
 import {
   AppFormItemElementProps,
