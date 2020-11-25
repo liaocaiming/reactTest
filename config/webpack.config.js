@@ -21,7 +21,7 @@ module.exports = {
     index: [utils.resolve("src/index.tsx")],
   },
   output: {
-    filename: "[hash].js",
+    filename: "[name].[hash].js",
     path: utils.resolve(`dist/${name}`),
     publicPath: publicPath
   },
