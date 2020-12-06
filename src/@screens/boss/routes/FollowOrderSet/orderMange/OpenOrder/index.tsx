@@ -12,7 +12,15 @@ import { openOrderType } from "./constants";
 
 import { PlusOutlined } from '@ant-design/icons';
 
+import creatArrayByLen from "@utils/lib/creatArrayByLen";
+
 const width = 200;
+
+const multiple = (num) => {
+  return creatArrayByLen(num).map((item) =>{
+    return  { value: item, label: `${item} 倍` }
+  })
+}
 
 interface IState {
   symbolList: any[];
@@ -79,6 +87,19 @@ export default class App extends React.PureComponent<any, IState> {
 
     const formData: AppFormItemOptions[] = [
       {
+        name: "multiple",
+        label: '开单倍数',
+        type: "select",
+        list: multiple(50),
+        initialValue: 10,
+        eleAttr: {
+          style: {
+            width,
+          },
+        },
+      },
+
+      {
         name: "orderType",
         label: "开单方式",
         type: "select",
@@ -103,7 +124,8 @@ export default class App extends React.PureComponent<any, IState> {
         render: () => {
           return <PlusOutlined />
         }
-      }
+      },
+
 
     ];
 
