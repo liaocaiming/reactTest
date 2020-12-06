@@ -6,159 +6,43 @@ import { AppFormItemOptions } from "@components/AppForm/interface";
 
 import { connect } from "@containers/appScreen";
 
-import { orderType } from "../constants";
 
 import { api } from "@src/config/boss";
 
-import { pattern } from "@utils/lib/constants";
-
-import { Button } from "antd";
-import { constants } from "os";
+import { isOrNot, pattern } from "@utils/lib/constants";
 
 const width = 200;
-
-interface IState {
-  symbolList: any[];
-}
-
 @connect()
-export default class App extends React.PureComponent<any, IState> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      symbolList: [],
-    };
-  }
+export default class App extends React.PureComponent<any> {
 
   public componentDidMount() {
     this.getData();
   }
 
   public renderForm = () => {
-    const { symbolList } = this.state;
-
+    
     const formData: AppFormItemOptions[] = [
       {
-        name: "coin",
-        type: "select",
-        list: symbolList,
-        initialValue: "BTCUSDT",
-        fieldNames: { value: "symbol", label: "symbol" },
-        eleAttr: {
-          onChange: () => {
-            return {
-              price: undefined,
-            };
-          },
-          style: {
-            width,
-          },
-        },
-      },
-
-      {
-        name: "orderType",
-        type: "select",
-        list: orderType,
-        initialValue: "1",
-        eleAttr: {
-          style: {
-            width,
-          },
-        },
-      },
-
-      {
-        name: "price",
+        name: "loss",
+        label: '跟随系统',
+        type: 'radio',
+        list: isOrNot,
         rules: [
           {
             required: true,
-            message: "请输入",
-          },
-          {
-            pattern: pattern.number,
-            message: "请数字",
-          },
-        ],
-        isShow: (formData) => {
-          return formData.orderType === "1";
-        },
-        eleAttr: {
-          placeholder: "价格(USDT)",
-          style: {
-            width,
-          },
-        },
-      },
-
-      {
-        name: "triggerPrice",
-        isShow: (formData) => {
-          const arr = ["3", "4"];
-          return arr.includes(formData.orderType);
-        },
-        eleAttr: {
-          placeholder: "触发价(USDT)",
-          style: {
-            width,
-          },
-        },
-      },
-
-      {
-        name: "currentPrice",
-        initialValue: "市价",
-        isShow: (formData) => {
-          const arr = ["2", "4"];
-          return arr.includes(formData.orderType);
-        },
-        eleAttr: {
-          disabled: true,
-          style: {
-            width,
-          },
-        },
-      },
-
-      {
-        name: "commissionPrice",
-        isShow: (formData) => {
-          const arr = ["3"];
-          return arr.includes(formData.orderType);
-        },
-        eleAttr: {
-          placeholder: "委托(USDT)",
-          style: {
-            width,
-          },
-        },
-      },
-
-      {
-        name: "number",
-        rules: [
-          {
-            required: true,
-            message: "请输入",
-          },
-        ],
-        eleAttr: {
-          placeholder: "数量",
-          style: {
-            width,
-          },
-        },
+            message: '请选择'
+          }
+        ]
       },
 
       {
         name: "isDelayed",
-        type: 'checkbox',
-        list: [
-          {
-            value: '1',
-            label: '延时止损'
-          }
-        ],
+        label: '延时止损',
+        isShow: (data) => {
+          return data.loss === '1'
+        },
+        type: 'radio',
+        list: isOrNot,
         eleAttr: {
           style: {
             width,
@@ -168,6 +52,7 @@ export default class App extends React.PureComponent<any, IState> {
 
       {
         name: "delayedTime",
+        label: '延时时间',
         rules: [
           {
             required: true,
@@ -178,9 +63,9 @@ export default class App extends React.PureComponent<any, IState> {
             message: '请输入正整数'
           }
         ],
-        isShow: (formData) => {
-          console.log(formData);
-          return formData.isDelayed && formData.isDelayed.length > 0;
+
+        isShow: (data) => {
+          return data.isDelayed === '1'
         },
 
         eleAttr: {
@@ -200,15 +85,12 @@ export default class App extends React.PureComponent<any, IState> {
         formItems={formData}
         labelCol={{ span: 3 }}
         submitButton={{
-          text: "平多",
+          text: "确定",
           type: "primary",
           style: { marginRight: 20 },
         }}
         onFinish={this.onFinish}
       >
-        <Button danger htmlType="submit">
-          平空
-        </Button>
       </AppForm>
     );
   };

@@ -6,147 +6,80 @@ import { AppFormItemOptions } from "@components/AppForm/interface";
 
 import { connect } from "@containers/appScreen";
 
-import { orderType } from "../constants";
+// import { api } from "@src/config/boss";
 
-import { api } from "@src/config/boss";
+import { isOrNot, pattern } from "@utils/lib/constants";
 
-import { pattern } from "@utils/lib/constants";
-import { Button } from "antd";
+import { Button, Tooltip } from "antd";
 
-const width = 200;
+import { QuestionCircleOutlined } from '@ant-design/icons';
 
-interface IState {
-  symbolList: any[];
+interface ITarget {
+  name: string;
+  label: string;
 }
 
-@connect()
-export default class App extends React.PureComponent<any, IState> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      symbolList: [],
-    };
-  }
 
-  public componentDidMount() {
-    this.getData();
+const targeData: ITarget[] = [
+  {
+    name: 'target1',
+    label: '目标一'
+  },
+  {
+    name: 'target2',
+    label: '目标二'
+  },
+  {
+    name: 'target3',
+    label: '目标三'
+  },
+  {
+    name: 'target4',
+    label: '目标四'
+  }
+]
+@connect()
+export default class App extends React.PureComponent {
+
+  public getTargetFormData = (targeData: ITarget[]): AppFormItemOptions[] => {
+    const formData: AppFormItemOptions[] = targeData.map((item) => {
+      return {
+        ...item,
+        eleAttr: {
+          placeholder: '0~100, 总数不超过100',
+          style: {
+            width: 200
+          }
+        },
+        rules: [
+          {
+            pattern: pattern.positiveNum,
+            message: '请输入正整数'
+          }
+        ],
+        afterDOM: <span className='margin_left_10'>%</span>
+      }
+    })
+
+    return formData;
   }
 
   public renderForm = () => {
-    const { symbolList } = this.state;
-
     const formData: AppFormItemOptions[] = [
+      ... this.getTargetFormData(targeData),
       {
-        name: "coin",
-        type: "select",
-        list: symbolList,
-        initialValue: "BTCUSDT",
-        fieldNames: { value: "symbol", label: "symbol" },
-        eleAttr: {
-          onChange: () => {
-            return {
-              price: undefined,
-            };
-          },
-          style: {
-            width,
-          },
-        },
-      },
-
-      {
-        name: "orderType",
-        type: "select",
-        list: orderType,
-        initialValue: "1",
-        eleAttr: {
-          style: {
-            width,
-          },
-        },
-      },
-
-      {
-        name: "price",
+        name: 'upProfit',
+        label: '移动止盈',
+        type: 'radio',
+        list: isOrNot,
+        afterDOM: <span className='margin_left_20'> <Tooltip placement="topRight" title='第一目标到后, 会把止损设置在开单价, 第二目标到了后, 会把止盈设置在第一目标, 以此类推...'><QuestionCircleOutlined /></Tooltip></span>,
         rules: [
           {
             required: true,
-            message: "请输入",
-          },
-          {
-            pattern: pattern.number,
-            message: "请数字",
-          },
-        ],
-        isShow: (formData) => {
-          return formData.orderType === "1";
-        },
-        eleAttr: {
-          placeholder: "价格(USDT)",
-          style: {
-            width,
-          },
-        },
-      },
-
-      {
-        name: "triggerPrice",
-        isShow: (formData) => {
-          const arr = ["3", "4"];
-          return arr.includes(formData.orderType);
-        },
-        eleAttr: {
-          placeholder: "触发价(USDT)",
-          style: {
-            width,
-          },
-        },
-      },
-
-      {
-        name: "currentPrice",
-        initialValue: "市价",
-        isShow: (formData) => {
-          const arr = ["2", "4"];
-          return arr.includes(formData.orderType);
-        },
-        eleAttr: {
-          disabled: true,
-          style: {
-            width,
-          },
-        },
-      },
-
-      {
-        name: "commissionPrice",
-        isShow: (formData) => {
-          const arr = ["3"];
-          return arr.includes(formData.orderType);
-        },
-        eleAttr: {
-          placeholder: "委托(USDT)",
-          style: {
-            width,
-          },
-        },
-      },
-
-      {
-        name: "number",
-        rules: [
-          {
-            required: true,
-            message: "请输入",
-          },
-        ],
-        eleAttr: {
-          placeholder: "数量",
-          style: {
-            width,
-          },
-        },
-      },
+            message: '请选择'
+          }
+        ]
+      }
     ];
 
     return (
@@ -154,29 +87,16 @@ export default class App extends React.PureComponent<any, IState> {
         formItems={formData}
         labelCol={{ span: 3 }}
         submitButton={{
-          text: "平多",
+          text: "确定",
           type: "primary",
           style: { marginRight: 20 },
         }}
         onFinish={this.onFinish}
       >
-        <Button danger htmlType="submit">
-          平空
-        </Button>
       </AppForm>
     );
   };
 
-  public getData = () => {
-    const { actions } = this.props;
-    actions.get(api.realtime, {}, { showLoading: false }).then((res: any) => {
-      if (res) {
-        this.setState({
-          symbolList: res,
-        });
-      }
-    });
-  };
 
   public onFinish = (params: any) => {
     console.log(params);

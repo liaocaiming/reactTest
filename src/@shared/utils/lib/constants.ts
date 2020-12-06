@@ -39,3 +39,15 @@ export const pattern = {
    //0.00
    twoDecimalsNumberOther: /^(([1-9]{1}\d*)|([0]{1}))(\.(\d){1,2})?$/,
 } 
+
+
+export const isOrNot = [
+  {
+    value: '1',
+    label: '是',
+  },
+  {
+    value: '2',
+    label: '否',
+  }
+]

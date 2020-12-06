@@ -10,7 +10,7 @@ import { api } from "@src/config/boss";
 
 import { openOrderType } from "./constants";
 
-import { Button } from "antd";
+import { PlusOutlined } from '@ant-design/icons';
 
 const width = 200;
 
@@ -95,11 +95,21 @@ export default class App extends React.PureComponent<any, IState> {
           },
         },
       },
+
+      ...data,
+
+      {
+        name: 'add',
+        render: () => {
+          return <PlusOutlined />
+        }
+      }
+
     ];
 
     return (
       <AppForm
-        formItems={[...formData, ...data ]}
+        formItems={formData}
         labelCol={{ span: 3 }}
         submitButton={{
           text: "确定",
