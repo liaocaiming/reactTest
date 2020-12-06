@@ -12,7 +12,7 @@ export default [
     component: (props: any) =>  <Order {...props}/>
   },
   {
-    tab: '下单列表',
+    tab: '历史数据',
     key: 'orderList',
     component: (props: any) =>  <OrderList {...props}/>
   }
