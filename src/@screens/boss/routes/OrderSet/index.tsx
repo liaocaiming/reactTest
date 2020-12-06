@@ -1,68 +1,26 @@
-import { Card } from 'antd';
+import React from "react";
 
-import React from 'react';
+import { Tabs } from "antd";
 
-import { AppForm } from '@components/index';
+const { TabPane } = Tabs;
 
-import { AppFormItemOptions} from '@components/AppForm/interface'
-
-const width = 300;
+import data from "./config";
 
 export default class App extends React.PureComponent {
-
-  public renderForm = () => {
-    const formData: AppFormItemOptions[] = [
-      {
-        name: 'API',
-        label: 'API Key',
-        rules: [
-          {
-            required: true,
-            message: '请输入'
-          }
-        ],
-        eleAttr: {
-          placeholder:'请输入API Key',
-          style: {
-            width
-          }
-        }
-      },
-      {
-        name: 'Secret',
-        label: 'Secret Key',
-        rules: [
-          {
-            required: true,
-            message: '请输入'
-          }
-        ],
-        eleAttr: {
-          placeholder:'请输入API Key',
-          style: {
-            width
-          }
-        }
-      }
-    ]
-
-    return (
-      <AppForm formItems={formData} labelCol={{ span: 3}} submitButton={{ text: '保存', type: 'primary'}} onFinish={this.onFinish}/>
-    )
-  }
-
-
-  public onFinish = (params: any) => {
-    console.log(params);
-  }
-
   public render() {
     return (
-      <Card title="账户绑定" bordered={false}>
-       <div style={{ width: 800 }}>
-         {this.renderForm()}
-       </div>
-      </Card>
-    )
+      <div>
+        <Tabs>
+          {data.map((item) => {
+            const { tab, component, key } = item;
+            return (
+              <TabPane tab={tab} key={key}>
+                {component({})}
+              </TabPane>
+            );
+          })}
+        </Tabs>
+      </div>
+    );
   }
 }
