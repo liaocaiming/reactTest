@@ -18,9 +18,9 @@ import { Provider } from "react-redux";
 
 import { createStore, applyMiddleware, combineReducers } from "redux";
 
-
 import reduxThunk from "redux-thunk";
 
+import './index.css';
 
 const remoteActionMiddleware = applyMiddleware(
   reduxThunk

@@ -14,15 +14,6 @@ const router =  [
     component: Layout,
     routes: [
       {
-        path: 'chart',
-        component: loadFile({
-          load: () => import('@screens/boss/routes/Chart')
-        }),
-        title: '汇率-价格统计图',
-        exact: true
-      },
-
-      {
         path: 'bindUser',
         component: loadFile({
           load: () => import('@screens/boss/routes/BindUser')
@@ -39,6 +30,27 @@ const router =  [
         title: '下单设置',
         exact: true
       },
+
+      {
+        path: 'FollowOrderSet',
+        component: loadFile({
+          load: () => import('@screens/boss/routes/FollowOrderSet')
+        }),
+        title: '下单设置',
+        exact: true
+      },
+
+
+      {
+        path: 'chart',
+        component: loadFile({
+          load: () => import('@screens/boss/routes/Chart')
+        }),
+        title: '汇率-价格统计图',
+        exact: true
+      },
+
+      
     
       {
         path: 'rate',
