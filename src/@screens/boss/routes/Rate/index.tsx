@@ -107,10 +107,10 @@ export default class App extends React.PureComponent<IProps, IState> {
     this.chart = new Chart({
       container: "container",
       autoFit: true,
-      height: 500,
+      height: 300,
       limitInPlot: false,
       localRefresh: true,
-      padding: [100, 100, 100, 100],
+      padding: [30, 20, 20, 100],
     }).on("click", this.BarChartOnClick);
 
     this.singleChart = new Chart({
@@ -522,7 +522,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     return (
       <div className="rate">
         <div>
-          <h3 style={{ marginBottom: 20 }}>币安汇率</h3>
+          <h3>币安汇率</h3>
           <div style={{ overflowX: "auto", width: "100%" }}>
             <div
               id="container"

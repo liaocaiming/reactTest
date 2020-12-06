@@ -42,7 +42,7 @@ const store = remoteActionMiddleware(
 ReactDOM.render(
     <Provider store={store}>
       <Router>
-        <ConfigProvider locale={zhCN}>
+        <ConfigProvider locale={zhCN} componentSize='small'>
           <App config={{ routes }} />
         </ConfigProvider>
       </Router>
