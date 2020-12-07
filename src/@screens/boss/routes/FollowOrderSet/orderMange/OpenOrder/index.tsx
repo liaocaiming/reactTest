@@ -13,6 +13,7 @@ import { openOrderType } from "./constants";
 import { PlusOutlined } from '@ant-design/icons';
 
 import creatArrayByLen from "@utils/lib/creatArrayByLen";
+import { Button, Modal } from "antd";
 
 const width = 200;
 
@@ -27,6 +28,7 @@ interface IState {
   batchArr: number[]; // 批次开单
   EMAArr: number[]; // 均线开单, ema和ma;
   type: "batch" | "EMA" | "MA";
+  [key: string]: any;
 }
 
 const defaultEMAArr = [100, 120, 144, 169, 200];
@@ -122,11 +124,9 @@ export default class App extends React.PureComponent<any, IState> {
       {
         name: 'add',
         render: () => {
-          return <PlusOutlined />
+          return <Button style={{ marginLeft: 50 }} ><PlusOutlined /></Button>
         }
-      },
-
-
+      }
     ];
 
     return (
@@ -136,12 +136,20 @@ export default class App extends React.PureComponent<any, IState> {
         submitButton={{
           text: "确定",
           type: "primary",
-          style: { marginRight: 20 },
+          style: { marginLeft: 50 },
         }}
         onFinish={this.onFinish}
       ></AppForm>
     );
   };
+
+  private toggleModal = (key: string, value: boolean) => {
+    return () => {
+      this.setState({
+        [key]: value
+      })
+    }
+  }
 
   public getData = () => {
     const { actions } = this.props;
