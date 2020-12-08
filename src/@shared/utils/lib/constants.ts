@@ -51,3 +51,14 @@ export const isOrNot = [
     label: '否',
   }
 ]
+
+export const bondType = [
+  {
+    value: '1',
+    label: '全仓'
+  },
+  {
+    value: '2',
+    label: '逐仓'
+  }
+]

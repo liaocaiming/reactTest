@@ -10,7 +10,8 @@ import React from "react";
 export default class App extends React.PureComponent {
   public render() {
     return (
-      <Row gutter={24}>
+      <div>
+        <Row gutter={24}>
         <Col span={8}>
           <OpenOrder></OpenOrder>
         </Col>
@@ -20,7 +21,8 @@ export default class App extends React.PureComponent {
         <Col span={8}>
           <StopLoss></StopLoss>
         </Col>
-      </Row>
+        </Row>
+      </div>
     );
   }
 }

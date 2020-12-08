@@ -13,13 +13,16 @@ import { openOrderType } from "./constants";
 import { PlusOutlined } from '@ant-design/icons';
 
 import creatArrayByLen from "@utils/lib/creatArrayByLen";
+
+import { pattern, bondType } from '@utils/lib/constants'
+
 import { Button, Modal } from "antd";
 
 const width = 200;
 
 const multiple = (num) => {
-  return creatArrayByLen(num).map((item) =>{
-    return  { value: item, label: `${item} 倍` }
+  return creatArrayByLen(num).map((item) => {
+    return { value: item, label: `${item} 倍` }
   })
 }
 
@@ -28,6 +31,7 @@ interface IState {
   batchArr: number[]; // 批次开单
   EMAArr: number[]; // 均线开单, ema和ma;
   type: "batch" | "EMA" | "MA";
+  isShow: boolean;
   [key: string]: any;
 }
 
@@ -43,6 +47,7 @@ export default class App extends React.PureComponent<any, IState> {
       batchArr: defaultBatchArr,
       EMAArr: defaultEMAArr,
       type: "batch",
+      isShow: false
     };
   }
 
@@ -75,6 +80,22 @@ export default class App extends React.PureComponent<any, IState> {
     return list;
   };
 
+  private onAdd = () => {
+    const { type, batchArr } = this.state;
+    if (type === 'batch') {
+      const max = batchArr[batchArr.length - 1] + 1
+      batchArr.push(max)
+      this.setState({
+        batchArr: batchArr.slice()
+      })
+
+      return
+    }
+
+    this.setState({
+      isShow: true
+    })
+  }
 
   public renderForm = () => {
     const { batchArr, EMAArr, type } = this.state;
@@ -94,6 +115,18 @@ export default class App extends React.PureComponent<any, IState> {
         type: "select",
         list: multiple(50),
         initialValue: 10,
+        eleAttr: {
+          style: {
+            width,
+          },
+        },
+      },
+      {
+        name: "bondType",
+        label: '保证金模式',
+        type: "select",
+        list: bondType,
+        initialValue: 1,
         eleAttr: {
           style: {
             width,
@@ -124,7 +157,7 @@ export default class App extends React.PureComponent<any, IState> {
       {
         name: 'add',
         render: () => {
-          return <Button style={{ marginLeft: 50 }} ><PlusOutlined /></Button>
+          return <Button onClick={this.onAdd} style={{ marginLeft: 50 }} ><PlusOutlined /></Button>
         }
       }
     ];
@@ -142,6 +175,61 @@ export default class App extends React.PureComponent<any, IState> {
       ></AppForm>
     );
   };
+
+
+  public onModalFinish = (values) => {
+    const { EMAArr } = this.state;
+    this.setState({
+      EMAArr: EMAArr.concat(values.value),
+      isShow: false
+    })
+  }
+
+  public renderAddModal = () => {
+    const { isShow, type } = this.state
+    const formData: AppFormItemOptions[] = [
+      {
+        name: 'value',
+        rules: [
+          {
+            required: true,
+            message: '请输入'
+          },
+          {
+            pattern: pattern.positiveNum,
+            message: '请输入数字'
+          }
+
+        ],
+        eleAttr: {
+          placeholder: `请输入${type}`,
+          style: {
+            width: 200
+          }
+        }
+      }
+    ]
+    return (
+      <Modal
+        footer={null}
+        visible={isShow}
+        title={type}
+        width={300}
+        onCancel={this.toggleModal('isShow', false)}
+      >
+        <AppForm
+          formItems={formData}
+          labelCol={{ span: 3 }}
+          submitButton={{
+            text: "确定",
+            type: "primary",
+            style: { marginLeft: 50 },
+          }}
+          onFinish={this.onModalFinish}
+        ></AppForm>
+      </Modal>
+    )
+  }
 
   private toggleModal = (key: string, value: boolean) => {
     return () => {
@@ -171,6 +259,7 @@ export default class App extends React.PureComponent<any, IState> {
       <div style={{ width: 800 }}>
         <h4>开单</h4>
         {this.renderForm()}
+        {this.renderAddModal()}
       </div>
     );
   }

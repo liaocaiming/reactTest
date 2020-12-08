@@ -11,9 +11,9 @@ export default [
     key: 'order',
     component: (props: any) =>  <Order {...props}/>
   },
-  {
-    tab: '已开的单',
-    key: 'orderList',
-    component: (props: any) =>  <OrderList {...props}/>
-  }
+  // {
+  //   tab: '已开的单',
+  //   key: 'orderList',
+  //   component: (props: any) =>  <OrderList {...props}/>
+  // }
 ]

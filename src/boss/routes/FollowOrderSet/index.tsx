@@ -1,16 +1,18 @@
 import React from "react";
 
-import { Button, Tabs } from "antd";
+import { Button } from "antd";
 
-const { TabPane } = Tabs;
+import OrderSet from './orderMange';
 
-import data from "./config";
+import OrderList from './OrderList';
+
+import './index.less'
 
 export default class App extends React.PureComponent {
 
   public renderTabBarExtraContent = () => {
     return (
-      <div>
+      <div className='btn-content boundary'>
         <Button className='margin_left_10' style={{ marginRight: 20 }}>开启跟单</Button>
         <Button danger>取消跟单</Button>
       </div>
@@ -19,17 +21,14 @@ export default class App extends React.PureComponent {
 
   public render() {
     return (
-      <div>
-        <Tabs tabBarExtraContent={this.renderTabBarExtraContent()} >
-          {data.map((item) => {
-            const { tab, component, key } = item;
-            return (
-              <TabPane tab={tab} key={key}>
-                {component({})}
-              </TabPane>
-            );
-          })}
-        </Tabs>
+      <div className='follow-order-set'>
+        {this.renderTabBarExtraContent()}
+        <div className='order-set boundary'>
+          <OrderSet />
+        </div>
+        <div>
+          <OrderList />
+        </div>
       </div>
     );
   }
