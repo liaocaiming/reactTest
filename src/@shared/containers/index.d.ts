@@ -1,4 +1,4 @@
-import  { IBossActions } from '@src/@screens/boss/reducers/index.d'
+import  { IBossActions } from '@src/boss/reducers'
 
 export interface IAjax {
   url: string;

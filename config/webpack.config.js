@@ -18,7 +18,7 @@ const publicPath = "/";
 module.exports = {
   entry: {
     vendor: ["react", "react-dom"],
-    index: [utils.resolve("src/index.tsx")],
+    index: [utils.resolve(`src/${name}/index.tsx`)],
   },
   output: {
     filename: "[name].[hash].js",
@@ -81,6 +81,15 @@ module.exports = {
                     style: "css",
                   },
                   "antDesign",
+                ],
+                [
+                  "import",
+                  {
+                    libraryName: "antd-mobile",
+                    libraryDirectory: "es",
+                    style: "css",
+                  },
+                  "antMobile",
                 ],
               ],
               cacheDirectory: true,
