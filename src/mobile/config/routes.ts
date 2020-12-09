@@ -1,6 +1,6 @@
 import loadFile from '@containers/loadFile';
 
-import Login from '@src/boss/routes/Login';
+import Login from '@src/mobile/routes/Login';
 
 import Layout from '@shared/components/Layout';
 
@@ -37,46 +37,6 @@ const router =  [
           load: () => import('@src/boss/routes/FollowOrderSet')
         }),
         title: '下单设置',
-        exact: true
-      },
-
-
-      {
-        path: 'chart',
-        component: loadFile({
-          load: () => import('@src/boss/routes/Chart')
-        }),
-        title: '汇率-价格统计图',
-        exact: true
-      },
-
-      
-    
-      {
-        path: 'rate',
-        component: loadFile({
-          load: () => import('@src/boss/routes/Rate')
-        }),
-        title: '汇率柱形统计图',
-        exact: true
-      },
-
-
-      {
-        path: 'bestCoinList',
-        component: loadFile({
-          load: () => import('@src/boss/routes/BestCoinList')
-        }),
-        title: '牛逼赛选列表',
-        exact: true
-      },
-
-      {
-        path: 'statistics',
-        component: loadFile({
-          load: () => import('@src/boss/routes/Statistics')
-        }),
-        title: '合约数据统计',
         exact: true
       },
     ],
