@@ -1,7 +1,14 @@
-import React from 'react';
+import { Menu, ActivityIndicator, NavBar } from "antd-mobile";
 
-import './index.less';
+import React from "react";
 
 export default () => {
-  return <div className='login'>222</div>
-}
+  return (
+    <div>
+      <div className='content'>注册返佣</div>
+      <div className="btn-container">
+        
+      </div>
+    </div>
+  );
+};

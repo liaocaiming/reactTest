@@ -2,7 +2,7 @@ import loadFile from '@containers/loadFile';
 
 import Login from '@src/mobile/routes/Login';
 
-import Layout from '@shared/components/Layout';
+import Layout from '@src/mobile/components/Layout';
 
 const router =  [
   {
@@ -10,27 +10,9 @@ const router =  [
     component: Login,
   },
   {
-    path: 'boss',
+    path: 'mobile',
     component: Layout,
     routes: [
-      {
-        path: 'bindUser',
-        component: loadFile({
-          load: () => import('@src/boss/routes/BindUser')
-        }),
-        title: '账户绑定',
-        exact: true
-      },
-
-      {
-        path: 'orderSet',
-        component: loadFile({
-          load: () => import('@src/boss/routes/OrderSet')
-        }),
-        title: '下单设置',
-        exact: true
-      },
-
       {
         path: 'FollowOrderSet',
         component: loadFile({
