@@ -1,11 +1,13 @@
 const webpack = require('webpack');
 const uglify = require('uglifyjs-webpack-plugin');
-const webpackConfig = require('./webpack.config');
+const configFn = require('./webpack.config');
 const cleanWebpackPlugin = require('clean-webpack-plugin');
 const yargs = require('yargs').argv;
-const utils = require('./utils.js');
+const utils = require('./utils/utils.js');
 const name = yargs.name || 'boss';
-const configJson = require(`../src/config/${name}/app.json`);
+
+const configJson = require(`../src/${name}/config/app.json`);
+
 const proConfig = {
   mode: 'production',
   devtool: 'none'
@@ -17,9 +19,15 @@ const plugin = [
     verbose: true
   }),
 ]
+
+const webpackConfig = configFn({ name });
+
 Object.assign(webpackConfig, proConfig);
+
 webpackConfig.output.publicPath = configJson.proConfig;
+
 webpackConfig.plugins = webpackConfig.plugins.concat(plugin);
+
  const compiler = webpack(webpackConfig);
  compiler.run(() => {
    console.log('成功')

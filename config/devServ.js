@@ -4,7 +4,7 @@ const webpackConfig = require('./webpack.config');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 module.exports = {
-  contentBase: webpackConfig.output.path,
+  // contentBase: webpackConfig.output.path,
   compress: true,
   port: 3000,
   historyApiFallback: true,
