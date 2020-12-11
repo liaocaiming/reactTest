@@ -121,6 +121,7 @@ module.exports = (options) => {
                     },
                     "antMobile",
                   ],
+
                 ],
                 cacheDirectory: true,
               },

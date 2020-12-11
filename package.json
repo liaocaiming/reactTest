@@ -48,6 +48,7 @@
     "typed-css-modules-loader": "^0.0.18",
     "typescript": "^3.1.1",
     "uglifyjs-webpack-plugin": "^1.2.7",
+    "vant-react": "^0.2.7",
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.5"
   },
