@@ -5,8 +5,11 @@ const utils = require("./utils/utils");
 
 const publicPath = "/";
 
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+
 const cssLoader = [
   "style-loader",
+  'vue-style-loader',
   {
     loader: "css-loader",
   },
@@ -176,6 +179,12 @@ module.exports = (options) => {
             // }
           ],
         },
+
+        {
+          test: /\.vue$/,
+          loader: 'vue-loader'
+        }
+
       ],
     },
 
@@ -188,6 +197,8 @@ module.exports = (options) => {
         React: "reat",
         ReactDom: "react-dom",
       }),
+
+      new VueLoaderPlugin()
     ],
   };
 
