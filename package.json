@@ -33,6 +33,7 @@
     "memoize-one": "^5.1.1",
     "moment": "^2.27.0",
     "node-sass": "^4.13.0",
+    "rc-form": "^2.4.11",
     "react": "^16.4.1",
     "react-beautiful-dnd": "^11.0.0",
     "react-dom": "^16.4.1",

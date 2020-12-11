@@ -8,19 +8,46 @@ const router =  [
   {
     path: '/',
     component: Login,
+    title: '登录'
   },
   {
     path: 'mobile',
     component: Layout,
     routes: [
       {
-        path: 'FollowOrderSet',
+        path: 'pay',
         component: loadFile({
-          load: () => import('@src/boss/routes/FollowOrderSet')
+          load: () => import('@src/mobile/routes/Pay')
+        }),
+        title: '支付',
+        exact: true
+      },
+      {
+        path: 'home',
+        component: loadFile({
+          load: () => import('@src/mobile/routes/Home')
+        }),
+        title: '首页',
+        exact: true
+      },
+      {
+        path: 'bindAccount',
+        component: loadFile({
+          load: () => import('@src/mobile/routes/BindAccount')
+        }),
+        title: '账户绑定',
+        exact: true
+      },
+
+      {
+        path: 'order',
+        component: loadFile({
+          load: () => import('@src/mobile/routes/Order')
         }),
         title: '下单设置',
         exact: true
       },
+
     ],
   },
   

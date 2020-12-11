@@ -30,6 +30,13 @@
 		"prefix": "IP",
 		"body": [
 			"import IProps from '@typings/react.d'"
-		]
+		],
+		"description": "引入 react.d"
+	},
+	"utils": {
+		"scope": "javascript,typescript,typescriptreact",
+		"prefix": "IU",
+		"body": "import {} from '@utils/index'",
+		"description": "引入 @utils/index"
 	}
 }
