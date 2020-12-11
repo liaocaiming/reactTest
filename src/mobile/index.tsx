@@ -10,7 +10,7 @@ import { reducers, routes } from "./config/";
 
 import { Provider } from "react-redux";
 
-import '@utils/lib/rem';
+// import '@utils/lib/rem';
 
 import { createStore, applyMiddleware, combineReducers } from "redux";
 
