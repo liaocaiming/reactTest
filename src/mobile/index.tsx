@@ -10,6 +10,8 @@ import { reducers, routes } from "./config/";
 
 import { Provider } from "react-redux";
 
+import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
+
 import '@utils/lib/rem';
 
 import { createStore, applyMiddleware, combineReducers } from "redux";
@@ -33,11 +35,28 @@ const store = remoteActionMiddleware(
   window["devToolsExtension"] ? window["devToolsExtension"]() : (f: any) => f
 );
 
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     color: theme.status.danger,
+//     '&$checked': {
+//       color: theme.status.danger,
+//     },
+//   },
+//   checked: {},
+// }));
+
+const theme = createMuiTheme({
+  bg: '#111622'
+});
+
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
-      <App config={{ routes }} />
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <App config={{ routes }} />
+      </Router>
+    </ThemeProvider>
+
   </Provider>,
   mountNode
 );

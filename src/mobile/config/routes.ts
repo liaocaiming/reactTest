@@ -31,9 +31,9 @@ const router =  [
         exact: true
       },
       {
-        path: 'bindAccount',
+        path: 'bindUser',
         component: loadFile({
-          load: () => import('@src/mobile/routes/BindAccount')
+          load: () => import('@src/mobile/routes/BindUser')
         }),
         title: '账户绑定',
         exact: true
@@ -72,6 +72,32 @@ function formatter(data: any, parentPath = '/') {
   });
 }
 
+
+const pageUrls = {}
+
+function formatPageUrl(data: any, parentPath?:string) {
+  return data.forEach((item: { path: string; title: string; routes?: any }) => {
+    let { path, title } = item;
+
+    if (path !== undefined && parentPath) {
+      path = parentPath + item.path;
+    }
+   
+    if (item.routes) {
+      formatPageUrl(item.routes, `/${item.path}/`);
+    } else {
+      Object.assign(pageUrls, { [path]: title })
+    }
+  });
+}
+
 const formatterRouter = formatter(router);
+
+formatPageUrl(router);
+
+
+export  {
+  pageUrls
+}
 
 export default formatterRouter;

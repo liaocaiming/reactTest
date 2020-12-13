@@ -11,6 +11,10 @@ export default class App extends React.PureComponent<IProps> {
     history.push("/mobile/pay");
   };
 
+  public componentDidMount () {
+    document.title = '登录'
+  }
+
   public render() {
     return (
       <div>

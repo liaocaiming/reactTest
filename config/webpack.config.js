@@ -33,6 +33,7 @@ module.exports = (options) => {
                 replace: true,
                 mediaQuery: false,
                 minPixelValue: 2.2,
+                // exclude: '/node_modules/*'
               },
             ],
             "autoprefixer",

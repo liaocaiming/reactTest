@@ -38,5 +38,12 @@
 		"prefix": "IU",
 		"body": "import {} from '@utils/index'",
 		"description": "引入 @utils/index"
+	},
+	"mobileComponent" : {
+		"scope": "javascript,typescript,typescriptreact",
+		"prefix": "MBC",
+		"body": "import { } from '@src/mobile/components/index';",
+		"description": "引入 @src/mobile/components/index"
+		
 	}
 }
