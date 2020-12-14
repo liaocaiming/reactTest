@@ -8,7 +8,7 @@ const init = () => {
 
 interface IState {
   uid?: string;
-  userName:string;
+  userName: string;
   password: string;
 }
 
@@ -24,5 +24,9 @@ export {
 
 export default (state: IState, action: IAction) => {
   const { payload = {} } = action;
-  return {...state, ...payload }
+  if (action.type === 'init') {
+    return init()
+  }
+
+  return { ...state, ...payload }
 }

@@ -38,6 +38,9 @@ export default (props: IProps) => {
   const changeType = (type: 'register' | 'login') => {
     return () => {
       setType(type);
+      dispatch({
+        type: 'init'
+      })
     }
   }
 
