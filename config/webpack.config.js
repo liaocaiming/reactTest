@@ -59,7 +59,7 @@ module.exports = (options) => {
     output: {
       filename: "[name].[hash].js",
       path: utils.resolve(`dist/${name}`),
-      publicPath: publicPath,
+      // publicPath: publicPath,
     },
 
     optimization: {
@@ -171,9 +171,9 @@ module.exports = (options) => {
           use: [
             {
               loader: "file-loader",
-              options: {
-                name: "/images/[name].[ext]",
-              },
+              // options: {
+              //   name: "/images/[name].[ext]",
+              // },
             },
             // {
             //   loader: 'url-loader?limit=8000&name=img/[name]-[hash:5].[ext]'

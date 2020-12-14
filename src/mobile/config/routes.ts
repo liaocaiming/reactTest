@@ -19,7 +19,7 @@ const router =  [
         component: loadFile({
           load: () => import('@src/mobile/routes/Pay')
         }),
-        title: '支付',
+        title: 'USDT收款码',
         exact: true
       },
       {
