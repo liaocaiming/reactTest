@@ -17,22 +17,21 @@ export default (props: IProps) => {
   };
 
   return (
-    <div>
-      <div>
-        <img src="" alt="usdt收款码" />
-      </div>
-      <div>
-        <input type="text" style={{ display: "none" }} id="input" />
-        <span>
-          收款地址: <span id="account">4343434</span>
-        </span>
-        <Button onClick={copyFn}>复制</Button>
+    <div className='mb-pay'>
+
+      <div className='skip-btn-container'><span className='skip-btn' onClick={goTo("/mobile/home")}>跳过</span></div>
+
+      <div className='receive-code'>
+        <img className='qrcode' src="" alt="usdt收款码" />
       </div>
 
       <div>
-        <Button>下一步</Button>{" "}
-        <Button onClick={goTo("/mobile/home")}>跳过</Button>
+        <input type="text" style={{ display: "none" }} id="input" />
+        <div className='address' id="account">4343434</div>
+        <div className='copy-btn-container'> <span className='copy-btn' onClick={copyFn}>复制</span></div>
       </div>
+
+      <div className='submit-btn' onClick={goTo("/mobile/home")}>下一步</div>
     </div>
   );
 };
