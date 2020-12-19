@@ -4,9 +4,18 @@ import Login from '@src/mobile/routes/Login';
 
 import Layout from '@src/mobile/components/Layout';
 
-const router =  [
+interface IUrls {
+  login: string;
+  pay: string;
+  home: string;
+  bindUser: string;
+  order: string
+}
+
+const router = [
   {
     path: '/',
+    name: 'login',
     component: Login,
     title: '登录'
   },
@@ -16,6 +25,7 @@ const router =  [
     routes: [
       {
         path: 'pay',
+        name: 'pay',
         component: loadFile({
           load: () => import('@src/mobile/routes/Pay')
         }),
@@ -24,6 +34,7 @@ const router =  [
       },
       {
         path: 'home',
+        name: 'home',
         component: loadFile({
           load: () => import('@src/mobile/routes/Home')
         }),
@@ -32,6 +43,7 @@ const router =  [
       },
       {
         path: 'bindUser',
+        name: 'bindUser',
         component: loadFile({
           load: () => import('@src/mobile/routes/BindUser')
         }),
@@ -41,6 +53,7 @@ const router =  [
 
       {
         path: 'order',
+        name: 'order',
         component: loadFile({
           load: () => import('@src/mobile/routes/Order')
         }),
@@ -50,7 +63,7 @@ const router =  [
 
     ],
   },
-  
+
 ]
 
 
@@ -74,19 +87,21 @@ function formatter(data: any, parentPath = '/') {
 
 
 const pageUrls = {}
+const pageUrlsMap = {};
 
-function formatPageUrl(data: any, parentPath?:string) {
-  return data.forEach((item: { path: string; title: string; routes?: any }) => {
-    let { path, title } = item;
+function formatPageUrl(data: any, parentPath?: string) {
+  return data.forEach((item: { path: string; title: string; name: string; routes?: any }) => {
+    let { path, title, name } = item;
 
     if (path !== undefined && parentPath) {
       path = parentPath + item.path;
     }
-   
+
     if (item.routes) {
       formatPageUrl(item.routes, `/${item.path}/`);
     } else {
       Object.assign(pageUrls, { [path]: title })
+      Object.assign(pageUrlsMap, { [name]: path })
     }
   });
 }
@@ -96,8 +111,13 @@ const formatterRouter = formatter(router);
 formatPageUrl(router);
 
 
-export  {
-  pageUrls
+export {
+  pageUrls,
+  pageUrlsMap,
+  IUrls
 }
+
+(window as any).pageUrlsMap = pageUrlsMap;
+
 
 export default formatterRouter;
