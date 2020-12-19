@@ -1,9 +1,17 @@
-.hold-list {
-  .hold-item {
+.record-list {
+  .record-item {
     margin-top: 10px;
     background: #1a202e;
-    padding: 16px;
+    padding: 10px 16px;
   }
+
+  .time {
+    font-size: 12px;
+    font-family: PingFang SC;
+    font-weight: bold;
+    color: #6d778b;
+  }
+
   .row {
     display: flex;
     justify-content: space-between;
@@ -46,21 +54,11 @@
     line-height: 1;
   }
 
-  .buy {
-    .left {
-      color: #00c873;
-    }
-    .direction {
-      background: #00c873;
-    }
+  .profit {
+    color: #00c873;
   }
 
-  .sale {
-    .left {
-      color: #ff3750;
-    }
-    .direction {
-      background: #ff3750;
-    }
+  .loss {
+    color: #ff3750;
   }
 }

@@ -15,7 +15,6 @@
 	// 	],
 	// 	"description": "Log output to console"
 	// }
-
 	"connect": {
 		"scope": "javascript,typescript,typescriptreact",
 		"prefix": "ACN",
@@ -24,7 +23,6 @@
 		],
 		"description": "引入appScreen 的connect "
 	},
-
 	"IProps": {
 		"scope": "javascript,typescript,typescriptreact",
 		"prefix": "IP",
@@ -39,11 +37,10 @@
 		"body": "import {} from '@utils/index'",
 		"description": "引入 @utils/index"
 	},
-	"mobileComponent" : {
+	"mobileComponent": {
 		"scope": "javascript,typescript,typescriptreact",
-		"prefix": "MBC",
+		"prefix": "IMC",
 		"body": "import { } from '@src/mobile/components/index';",
 		"description": "引入 @src/mobile/components/index"
-		
 	}
 }
