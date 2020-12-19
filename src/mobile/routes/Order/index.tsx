@@ -10,7 +10,7 @@ import StopProfit from "./StopProfit";
 
 import Steps from "./Steps";
 
-import { Select } from "@src/mobile/components/index";
+import { Select, AppForm } from "@src/mobile/components/index";
 
 import "./index.less";
 
@@ -34,11 +34,35 @@ export default () => {
     );
   };
 
+  const onFinish = (params) => {
+    console.log(params);
+
+  }
+
   return (
     <div className="mb-order">
       {renderSteps()}
       <div className="form-container">
         <Select data={colors} value={2} label="开仓模式"></Select>
+        <AppForm
+          formItems={[
+            {
+              name: 'moshi',
+              label: '开仓模式',
+              type: 'select',
+              data: [{
+                value: '1',
+                label: '全仓'
+              },
+              {
+                value: '2',
+                label: '半仓'
+              }]
+            }
+          ]}
+          onFinish={onFinish}
+          initialValues={{ moshi: '1' }}
+        />
       </div>
     </div>
   );

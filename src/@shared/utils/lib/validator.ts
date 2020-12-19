@@ -12,8 +12,9 @@ export interface IRule {
 }
 
 export interface IValue {
-  rules: IRule[];
+  rules?: IRule[];
   name: string;
+  [key: string]: any;
 }
 
 export default (parmas: object, arr: IValue[]): Promise<IRule> => {

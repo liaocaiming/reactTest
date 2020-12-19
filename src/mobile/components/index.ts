@@ -4,9 +4,11 @@ import Select from './Select';
 
 import Layout from './Layout';
 
+import AppForm from './Form';
 
 export {
   Input,
   Select,
-  Layout
+  Layout,
+  AppForm
 }
