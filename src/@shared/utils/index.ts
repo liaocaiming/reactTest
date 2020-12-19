@@ -4,6 +4,7 @@ import copy from './lib/copy';
 import request from './lib/request';
 import filterObjAttr from './lib/filterObjAttr';
 import validator from './lib/validator';
+import findItem from './lib/findItem';
 
 export {
   createReducer,
@@ -11,5 +12,6 @@ export {
   copy,
   request,
   filterObjAttr,
-  validator
+  validator,
+  findItem
 }
