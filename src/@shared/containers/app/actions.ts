@@ -41,7 +41,7 @@ function receiveServerError(payload: any) {
   } else if (payload.code === '10003' || payload.code === '10005') {
   }
 
-  const url:string = payload.url;
+  const url: string = payload.url;
 
   if (errorMsg) {
     message.error(`${errorMsg}`);
@@ -90,11 +90,11 @@ function ajaxErrorCallback(dispatch: any, type: string, url: string) {
 export function get(url: string, query?: any, option?: any) {
   return async (dispatch: any) => {
     const errorFunc = ajaxErrorCallback(dispatch, 'get', url);
-      const showLoading = option && option.showLoading === false;
+    const showLoading = option && option.showLoading === false;
     // const timerOut = window.setTimeout(() => {
-      if (!showLoading) {
-        dispatch(rqFetch());
-      }
+    if (!showLoading) {
+      dispatch(rqFetch());
+    }
     // }, 500)
 
     let json: any;
@@ -134,7 +134,7 @@ export function post(url: string, query: any, option?: any) {
 
     // dispatch(requestSave());
     // const timerOut = window.setTimeout(() => {
-      dispatch(requestSave());
+    dispatch(requestSave());
     // }, 500)
 
 
@@ -142,6 +142,7 @@ export function post(url: string, query: any, option?: any) {
       .post(url, query, option)
       .then((json: any) => {
         // window.clearTimeout(timerOut)
+        console.log(json, 'json')
         dispatch(receiveSave());
 
         if (json === undefined) {
@@ -211,7 +212,7 @@ export function startValidateAll(formId: any) {
  */
 export function validateAll(formId: string, func: (arg0: any) => void) {
   return (dispatch: any, getState: () => any) => {
-    let validatePromise:any = null;
+    let validatePromise: any = null;
 
     dispatch(startValidateAll(formId));
     validatePromise = new Promise(resolve => {
@@ -245,8 +246,8 @@ export function receiveDictionary(payload: any) {
 }
 
 // 获取全局的数据字典
-export function getDictionary(url: string, query:object) {
-  return (dispatch: any):any => {
+export function getDictionary(url: string, query: object) {
+  return (dispatch: any): any => {
     return dispatch(get(url, query)).then((json: any) => {
       if (json.success) {
         // 如果请求的页码大于返回数据的总页数，请求最后页
