@@ -18,7 +18,7 @@ export default (props: IProps) => {
 
   const renderItem = (detail: any) => {
     return (
-      <div className="hold-item" key={detail.id}>
+      <div className="trust-item">
         <div className="first-line row buy">
           <div className="left">
             <span className="margin_right_5 direction">买</span>
@@ -31,36 +31,14 @@ export default (props: IProps) => {
           </div>
         </div>
 
-        <div className="second-line row">
-          <div className="col">
-            <div className="title">待达到目标</div>
-            <div className="value">2</div>
-          </div>
-
-          <div className="col">
-            <div className="title">买入仓位</div>
-            <div className="value">20u</div>
-          </div>
-
-          <div className="col">
-            <div className="title">剩余仓位</div>
-            <div className="value">200u</div>
-          </div>
-
-          <div className="col">
-            <div className="title">止盈/止损</div>
-            <div className="value">23/456</div>
-          </div>
-        </div>
-
         <div className="third-line row">
           <div className="col">
-            <div className="title">买入价钱</div>
+            <div className="title">买入仓位</div>
             <div className="value">2666</div>
           </div>
 
           <div className="col">
-            <div className="title">强平价钱</div>
+            <div className="title">买入价钱</div>
             <div className="value">666</div>
           </div>
 
@@ -75,7 +53,7 @@ export default (props: IProps) => {
   };
 
   return (
-    <div className="hold-list">
+    <div className="trust-list">
       {Array.isArray(data) &&
         data.map((item) => {
           return renderItem(item);
