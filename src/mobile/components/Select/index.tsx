@@ -55,7 +55,7 @@ export default (props: IProps) => {
   };
 
   return (
-    <div className={`mb-select ${containerClassName || ""}`}>
+    <span className={`mb-select ${containerClassName || ""}`}>
       <Toggle isShow={!!label}>
         <div className="label">{label}</div>
       </Toggle>
@@ -66,6 +66,6 @@ export default (props: IProps) => {
         </span>
       </Picker>
       {children}
-    </div>
+    </span>
   );
 };
