@@ -86,8 +86,8 @@ function formatter(data: any, parentPath = '/') {
 }
 
 
-const pageUrls = {}
-const pageUrlsMap = {};
+const pageUrlsTitle = {}
+const pageUrlsMap: IUrls = {} as IUrls;
 
 function formatPageUrl(data: any, parentPath?: string) {
   return data.forEach((item: { path: string; title: string; name: string; routes?: any }) => {
@@ -100,7 +100,7 @@ function formatPageUrl(data: any, parentPath?: string) {
     if (item.routes) {
       formatPageUrl(item.routes, `/${item.path}/`);
     } else {
-      Object.assign(pageUrls, { [path]: title })
+      Object.assign(pageUrlsTitle, { [path]: title })
       Object.assign(pageUrlsMap, { [name]: path })
     }
   });
@@ -112,7 +112,7 @@ formatPageUrl(router);
 
 
 export {
-  pageUrls,
+  pageUrlsTitle,
   pageUrlsMap,
   IUrls
 }

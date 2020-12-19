@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import IProps from "@typings/react.d";
 import { Tabs, HoldList, TrustList, RecordList } from "./components/index";
-import { tabList } from "./constants";
 import "./index.less";
 import logoIcon from "./images/home-logo-icon.png";
 import UIcon from "./images/home-u-icon.png";
 import SetICon from "./images/home-set-icon.png";
-import { Toggle } from "@shared/components";
+import { pageUrlsMap } from "@src/mobile/config/routes";
 
 interface IComponent {
   data: any[];
@@ -48,6 +47,13 @@ export default (props: IProps) => {
 
   const unbind = (params: any) => {};
 
+  const goTo = (url: string) => {
+    return () => {
+      const { history } = props;
+      history.push(url);
+    };
+  };
+
   const renderListContent = () => {
     const item = data.find((it) => it.name === type) as IData;
     const { component } = item;
@@ -66,7 +72,11 @@ export default (props: IProps) => {
       <div className="header">
         <div className="clearfix icon-container">
           <img className="fl logo-icon" src={logoIcon} />
-          <img className="fr set-icon" src={SetICon} />
+          <img
+            className="fr set-icon"
+            src={SetICon}
+            onClick={goTo(pageUrlsMap.order)}
+          />
           <img className="fr u-icon" src={UIcon} />
         </div>
         <Tabs list={data} activeKey={type} onChange={onTabChange} />
