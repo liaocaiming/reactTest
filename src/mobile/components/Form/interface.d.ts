@@ -1,8 +1,11 @@
 import { IRule } from '@utils/lib/validator'
 
+type IDomFun = ((data: Store) => JSX.Element | string) | JSX.Element | string;
+
 export enum FormType {
   input = 'input',
-  select = 'select'
+  select = 'select',
+  switch = 'switch'
 }
 
 
@@ -19,12 +22,13 @@ export type Store = {
 
 interface FormItemOptions {
   name: string;
-  label?: string;
+  label?: IDomFun;
   type?: Type;
   data?: IList[]; // 下来框数据
   rules?: IRule[];
   isShow?: ((data: Store) => boolean) | boolean;
   eleAttr?: Store;
+  afterDom?: IDomFun,
 }
 
 

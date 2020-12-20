@@ -8,6 +8,7 @@ import "./index.less";
 
 interface IProps {
   current: number;
+  onChange?: (step: number) => void;
 }
 
 const data = [
@@ -26,12 +27,23 @@ const data = [
 ];
 
 export default (props: IProps) => {
-  const { current } = props;
+  const { current, onChange } = props;
+  const onStepChange = (index: number) => {
+    return () => {
+      onChange && onChange(index);
+    };
+  };
   return (
     <div className="mb-steps">
       <Steps direction="horizontal" size="small" current={current}>
-        {data.map((item) => {
-          return <Step description={item.title} key={item.key} />;
+        {data.map((item, index: number) => {
+          return (
+            <Step
+              description={item.title}
+              key={item.key}
+              onClick={onStepChange(index)}
+            />
+          );
         })}
       </Steps>
     </div>
