@@ -58,12 +58,12 @@ const Form = (props: FormOptions) => {
             const { type = 'input', eleAttr = {}, name = '' } = formItem;
             const ItemElement = ItemComponents[type];
             const options: any = filterObjAttr(formItem, ['type', 'isShow', 'eleAttr', 'rules'])
-            return <ItemElement value={state[name]} onChange={onItemChange(formItem)} {...options} {...eleAttr} />
+            return <ItemElement value={state[name]} onChange={onItemChange(formItem)} {...options} {...eleAttr} key={formItem.name} />
           })
         }
       </div>
       <Toggle isShow={!!submitOptions}>
-        <div className={`${submitOptions.containerClassName}`}><button onClick={onSubmit} {...btnAttr}>{submitOptions.text}</button></div>
+        <div className={`${submitOptions.containerClassName}`}><span onClick={onSubmit} {...btnAttr}>{submitOptions.text}</span></div>
       </Toggle>
     </div>
   )
