@@ -10,20 +10,13 @@ import StopProfit from "./StopProfit";
 
 import Steps from "./Steps";
 
-import { Select, AppForm } from "@src/mobile/components/index";
+import { Select, AppForm, Input } from "@src/mobile/components/index";
+
+import { FormItemOptions } from '@src/mobile/components/Form/interface';
 
 import "./index.less";
 
-const colors = [
-  {
-    value: "1",
-    label: "全仓",
-  },
-  {
-    value: "2",
-    label: "半仓",
-  },
-];
+import { marginType } from './constants';
 
 export default () => {
   const renderSteps = () => {
@@ -36,32 +29,43 @@ export default () => {
 
   const onFinish = (params) => {
     console.log(params);
-
   }
+
+  const formData: FormItemOptions[] = [
+    {
+      label: '开仓模式',
+      name: 'margin_type',
+      type: 'select',
+      data: marginType,
+      rules: [
+        {
+          required: true,
+          message: '请选择开仓模式'
+        }
+      ]
+    },
+    {
+      label: '开仓倍数',
+      name: 'leverage',
+      type: 'select',
+      data: marginType,
+      rules: [
+        {
+          required: true,
+          message: '请选择开仓倍数'
+        }
+      ]
+    }
+  ]
 
   return (
     <div className="mb-order">
       {renderSteps()}
       <div className="form-container">
-        <Select data={colors} value={2} label="开仓模式"></Select>
         <AppForm
-          formItems={[
-            {
-              name: 'moshi',
-              label: '开仓模式',
-              type: 'select',
-              data: [{
-                value: '1',
-                label: '全仓'
-              },
-              {
-                value: '2',
-                label: '半仓'
-              }]
-            }
-          ]}
+          formItems={formData}
           onFinish={onFinish}
-          initialValues={{ moshi: '1' }}
+          initialValues={{ margin_type: '1' }}
         />
       </div>
     </div>

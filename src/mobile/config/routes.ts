@@ -57,7 +57,7 @@ const router = [
         component: loadFile({
           load: () => import('@src/mobile/routes/Order')
         }),
-        title: '下单设置',
+        title: '机器人设置',
         exact: true
       },
 
