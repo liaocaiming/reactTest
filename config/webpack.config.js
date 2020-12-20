@@ -5,11 +5,11 @@ const utils = require("./utils/utils");
 
 const publicPath = "/";
 
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
 const cssLoader = [
   "style-loader",
-  'vue-style-loader',
+  "vue-style-loader",
   {
     loader: "css-loader",
   },
@@ -125,7 +125,6 @@ module.exports = (options) => {
                     },
                     "antMobile",
                   ],
-
                 ],
                 cacheDirectory: true,
               },
@@ -183,15 +182,14 @@ module.exports = (options) => {
 
         {
           test: /\.vue$/,
-          loader: 'vue-loader'
-        }
-
+          loader: "vue-loader",
+        },
       ],
     },
 
     plugins: [
       new HtmlWebpackPlugin({
-        template: "./tpl/index.html",
+        template: utils.resolve(`src/${name}/index.html`),
         filename: "index.html",
       }),
       new webpack.ProvidePlugin({
@@ -199,7 +197,7 @@ module.exports = (options) => {
         ReactDom: "react-dom",
       }),
 
-      new VueLoaderPlugin()
+      new VueLoaderPlugin(),
     ],
   };
 
