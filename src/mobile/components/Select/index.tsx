@@ -26,7 +26,7 @@ interface IProps {
 }
 
 export default (props: IProps) => {
-  const [val, setVal] = useState();
+  const [val, setVal] = useState([]);
   const [txt, setTxt] = useState();
 
   const {
@@ -39,18 +39,23 @@ export default (props: IProps) => {
   } = props;
 
   useEffect(() => {
-    const v: any = value;
-    if (v && data && data.length > 0) {
-      const item = findItem(data, v);
+    if (value && data && data.length > 0) {
+      const item = findItem(data, value);
       setTxt(item.label);
     }
-    setVal(v);
+    if (value) {
+      const arr: any = [value]
+      setVal(arr);
+    } else {
+      setVal([])
+    }
   }, [value, data]);
 
-  const onPickerChange = (value: string[]) => {
+  const onPickerChange = (value: any) => {
     const v = value && value[0];
     const item = findItem(data, v);
     setTxt(item.label);
+    setVal(value);
     onChange && onChange(v);
   };
 
