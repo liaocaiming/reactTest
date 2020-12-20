@@ -77,6 +77,9 @@ const formData: FormItemOptions[] = [
   },
   {
     label: "限制开单数量",
+    isShow: (data: any) => {
+      return data.is_limit_num;
+    },
     name: "max_follow_sum",
     type: "input",
   },
@@ -99,7 +102,7 @@ export default (props: IProps) => {
     <AppForm
       formItems={formData}
       onFinish={onMulSelectFinish}
-      initialValues={detail}
+      initialValues={{ is_limit_num: true, ...detail }}
       submitOptions={{
         text: "下一步",
       }}

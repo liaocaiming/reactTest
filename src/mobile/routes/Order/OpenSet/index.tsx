@@ -1,16 +1,10 @@
 import React from "react";
 
-import { marginType, openType } from "../constants";
-
-import { creatArrayByLen } from "@utils/index";
+import { openType } from "../constants";
 
 import { AppForm } from "@src/mobile/components/index";
 
 import { FormItemOptions } from "@src/mobile/components/Form/interface";
-
-const leverageArr = creatArrayByLen(50).map((value) => {
-  return { value, label: `${value}X` };
-});
 
 const formData: FormItemOptions[] = [
   {

@@ -5,7 +5,7 @@ export const marginType = [
   },
   {
     value: "2",
-    label: "半仓",
+    label: "逐仓",
   }
 ];
 
