@@ -18,10 +18,15 @@ const components = [
     title: "杠杆倍数",
     component: (props: any) => <MulSet {...props} />,
   },
+  {
+    step: 1,
+    title: "开单设置",
+    component: (props: any) => <OpenSet {...props} />,
+  },
 ];
 
 export default () => {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(1);
 
   const onTabsChange = (value) => {
     setStep(value);
@@ -44,7 +49,10 @@ export default () => {
   return (
     <div className="mb-order">
       {renderSteps()}
-      <div className="form-container">{item.component({})}</div>
+      <div className="form-container">
+        <div className="line" />
+        {item.component({})}
+      </div>
     </div>
   );
 };

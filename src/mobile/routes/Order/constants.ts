@@ -8,3 +8,10 @@ export const marginType = [
     label: "半仓",
   }
 ];
+
+export const openType = [
+  {
+    value: "1",
+    label: "分批挂单",
+  },
+]
