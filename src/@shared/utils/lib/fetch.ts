@@ -1,4 +1,7 @@
-import request, { IResponse, Irequest } from './request';
+import request, { IResponse } from './request';
+
+
+import { Toast } from 'antd-mobile'
 
 interface IOptions {
   showLoading?: boolean;
@@ -24,6 +27,7 @@ export function post(url: string, data?: any, options?: IOptions): Promise<IResp
         resolve(res)
         return
       }
+      Toast.fail(res && res.message)
       reject(res)
     }).catch((err) => {
       reject(err)

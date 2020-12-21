@@ -7,6 +7,7 @@ import validator from './lib/validator';
 import findItem from './lib/findItem';
 import creatArrayByLen from './lib/creatArrayByLen';
 import * as fetch from './lib/fetch';
+import User from './lib/User';
 
 export {
   createReducer,
@@ -17,5 +18,6 @@ export {
   validator,
   findItem,
   creatArrayByLen,
-  fetch
+  fetch,
+  User
 }

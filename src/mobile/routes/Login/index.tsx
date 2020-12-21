@@ -10,7 +10,8 @@ import reducer, { init, initValue } from './reducer';
 import { fetch, filterObjAttr, validator } from '@utils/index';
 import api from '@src/mobile/config/api';
 import rules from './rules';
-
+import { User } from '@utils/index'
+import { pageUrlsMap } from "@src/mobile/config/routes";
 export default (props: IProps) => {
   const [type, setType] = useState('register');
   const [state, dispatch] = useReducer(reducer, initValue, init);
@@ -18,18 +19,27 @@ export default (props: IProps) => {
   const goNext = () => {
     const { history } = props;
     let values: any = { ...state }
+    let ruleArr = [...rules];
     if (type === 'login') {
       values = filterObjAttr(state, ['binance_user_id'])
+      ruleArr = ruleArr.filter((item) => item.name !== 'binance_user_id')
     }
-    validator(values, rules).then(err => {
+
+    console.log(ruleArr, 'ruleArr')
+    console.log(values, 'ruleArr')
+    validator(values, ruleArr).then(err => {
       if (err && err.message) {
         Toast.fail(err.message);
         return;
       }
 
-      fetch.post(api[type], values).then(() => {
-        history.push("/mobile/pay");
+      fetch.post(api[type], values).then((res) => {
+        if (type === 'login') {
+          User.saveUserInfo(res.data)
+        }
+        history.push(pageUrlsMap.pay);
       }).catch((error) => {
+        console.log(error, '4444')
         if (error.message) {
           Toast.fail(error.message);
         }

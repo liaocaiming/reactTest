@@ -2,6 +2,8 @@ import warning from './warning';
 
 import * as query from './query';
 
+import User from './User';
+
 function checkStatus(response: any) {
   if (!response.ok) {
     warning(false, "Response Status not ok: %s", response.statusText);
@@ -69,9 +71,10 @@ function setHeader(url: string) {
 
   // 非登录页面
   if (filterArr.indexOf(url) < 0) {
-    const userInfo: any = window.sessionStorage.getItem('userInfo');
+    const userInfo: any = User.getUserInfo();
+
     if (userInfo && userInfo.token) {
-      res.token = userInfo.token
+      res.Authorization = userInfo.token
       return JSON.stringify(res)
     } else {
       window.location.hash = '#/'
@@ -149,7 +152,7 @@ const sync = {
         "Cache-Control": "no-cache",
         "If-Modified-Since": "1",
         "Content-Type": "application/json",
-        "liao-Head": setHeader(url)
+        "Common-header": setHeader(url)
       };
     }
 

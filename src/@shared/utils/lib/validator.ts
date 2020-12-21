@@ -26,7 +26,7 @@ export default (parmas: object, arr: IValue[]): Promise<IRule> => {
     })
 
     let ruleItem: any = null;
-    Object.keys(parmas).some((key) => {
+    Object.keys(map).some((key) => {
       const rules: IRule[] = map[key] || [];
       const value = parmas[key];
       return rules.some((rule) => {

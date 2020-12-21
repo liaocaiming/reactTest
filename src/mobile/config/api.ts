@@ -2,11 +2,12 @@
 import { config } from '@utils/lib/request';
 
 
-const localApiPrefix = '/api/';
+const localApiPrefix = '/api/v1/';
 
 export const urls = {
-  login: 'v1/authentication', // 登录
-  register: 'v1/users'
+  login: 'authentication', // 登录
+  register: 'users', // 注册
+  checkTXid: 'deposit_records/check'
 };
 
 config([

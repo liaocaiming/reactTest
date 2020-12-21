@@ -12,6 +12,8 @@ import { filterObjAttr, validator } from "@utils/index";
 
 import { Toggle } from "@components/index";
 
+import { Toast } from 'antd-mobile'
+
 import Switch from "@src/mobile/components/Switch";
 
 import "./index.less";
@@ -61,8 +63,13 @@ const Form = (props: FormOptions) => {
 
   const onSubmit = () => {
     validator(state, formRowData).then((rule) => {
+      console.log(rule, 'rule')
       if (rule) {
-        onError && onError(rule);
+        if (onError) {
+          onError(rule);
+        } else {
+          Toast.fail(rule.message)
+        }
         return;
       }
       onFinish && onFinish(state);

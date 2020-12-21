@@ -2,7 +2,7 @@ import { IValue } from '@utils/lib/validator'
 
 const rules: IValue[] = [
   {
-    name: 'uid',
+    name: 'binance_user_id',
     rules: [
       {
         required: true,
@@ -11,7 +11,7 @@ const rules: IValue[] = [
     ]
   },
   {
-    name: 'userName',
+    name: 'username',
     rules: [
       {
         required: true,
