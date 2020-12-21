@@ -30,7 +30,7 @@ module.exports = {
   // },
   before(app) {
     // app.use('/api', api())
-    app.use('/api', createProxyMiddleware({ target: 'http://47.74.177.128:9090', changeOrigin: true }));
+    app.use('/api', createProxyMiddleware({ target: 'http://47.74.177.128:80', changeOrigin: true }));
   },
   // stats: {
   //     assets: true,

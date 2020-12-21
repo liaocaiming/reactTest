@@ -6,6 +6,7 @@ import filterObjAttr from './lib/filterObjAttr';
 import validator from './lib/validator';
 import findItem from './lib/findItem';
 import creatArrayByLen from './lib/creatArrayByLen';
+import * as fetch from './lib/fetch';
 
 export {
   createReducer,
@@ -15,5 +16,6 @@ export {
   filterObjAttr,
   validator,
   findItem,
-  creatArrayByLen
+  creatArrayByLen,
+  fetch
 }

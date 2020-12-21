@@ -7,7 +7,8 @@ import nextBtn from './images/next-btn.png';
 import { Toggle } from '@components/index';
 import './index.less';
 import reducer, { init, initValue } from './reducer';
-import { request, filterObjAttr, validator } from '@utils/index';
+import { fetch, filterObjAttr, validator } from '@utils/index';
+import api from '@src/mobile/config/api';
 import rules from './rules';
 
 export default (props: IProps) => {
@@ -18,7 +19,7 @@ export default (props: IProps) => {
     const { history } = props;
     let values: any = { ...state }
     if (type === 'login') {
-      values = filterObjAttr(state, ['uid'])
+      values = filterObjAttr(state, ['binance_user_id'])
     }
     validator(values, rules).then(err => {
       if (err && err.message) {
@@ -26,12 +27,14 @@ export default (props: IProps) => {
         return;
       }
 
-      request.post('/save', values).then(res => {
+      fetch.post(api[type], values).then(() => {
         history.push("/mobile/pay");
+      }).catch((error) => {
+        if (error.message) {
+          Toast.fail(error.message);
+        }
       })
-
     })
-
 
   };
 
@@ -44,7 +47,7 @@ export default (props: IProps) => {
     }
   }
 
-  const inputOnChange = (type: 'uid' | 'userName' | 'password') => {
+  const inputOnChange = (type: 'binance_user_id' | 'username' | 'password') => {
     return (e) => {
       dispatch({
         payload: {
@@ -74,9 +77,9 @@ export default (props: IProps) => {
 
       <div className='form-container'>
         <Toggle isShow={type === 'register'}>
-          <Input label='uid' containerClassName='margin_bottom_10' value={state.uid} onChange={inputOnChange('uid')}></Input>
+          <Input label='uid' containerClassName='margin_bottom_10' value={state.binance_user_id} onChange={inputOnChange('binance_user_id')}></Input>
         </Toggle>
-        <Input label='账户名' containerClassName='margin_bottom_10' value={state.userName} onChange={inputOnChange('userName')}></Input>
+        <Input label='账户名' containerClassName='margin_bottom_10' value={state.username} onChange={inputOnChange('username')}></Input>
         <Input label='密码' type='password' value={state.password} onChange={inputOnChange('password')} ></Input>
 
         <div className='next-btn-container' onClick={goNext}><img className='next-btn' src={nextBtn} /></div>

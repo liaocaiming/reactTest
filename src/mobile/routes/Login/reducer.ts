@@ -1,5 +1,5 @@
 const initValue = {
-  uid: '', userName: '', password: ''
+  binance_user_id: '', username: '', password: ''
 }
 
 const init = () => {
@@ -7,8 +7,8 @@ const init = () => {
 }
 
 interface IState {
-  uid?: string;
-  userName: string;
+  binance_user_id?: string;
+  username: string;
   password: string;
 }
 

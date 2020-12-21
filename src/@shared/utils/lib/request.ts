@@ -15,7 +15,20 @@ function checkStatus(response: any) {
  * @param {any} response
  * @returns
  */
-function parseJSON(response: any) {
+
+export interface IResponse {
+  code?: number;
+  message?: string;
+  data?: any;
+}
+
+export interface Irequest {
+  url: string;
+  data?: any;
+  option?: any
+}
+
+function parseJSON(response: any): IResponse {
   let ret: any = {};
 
   try {
@@ -40,7 +53,7 @@ function parseJSON(response: any) {
  * @param {any} json
  * @returns
  */
-function handleServerError(json: { success: boolean }) {
+function handleServerError(json: any): IResponse {
   /* eslint-disable no-console */
   // if (!json) {
   //   warning(false, "Not return json = %s", json);
@@ -50,13 +63,13 @@ function handleServerError(json: { success: boolean }) {
   return json;
 }
 
-function setHeader (url:string) {
-  const res:any = {}
+function setHeader(url: string) {
+  const res: any = {}
   const filterArr = ['/manager/login']
 
   // 非登录页面
   if (filterArr.indexOf(url) < 0) {
-    const userInfo:any = window.sessionStorage.getItem('userInfo');
+    const userInfo: any = window.sessionStorage.getItem('userInfo');
     if (userInfo && userInfo.token) {
       res.token = userInfo.token
       return JSON.stringify(res)
@@ -74,11 +87,11 @@ const localUrlToAbsoluteMap = {};
 let globalApiPrefix = ''
 
 function isAbsoluteUrl(url: string) {
-	if (typeof url !== 'string') {
-		throw new TypeError('Expected a string');
-	}
+  if (typeof url !== 'string') {
+    throw new TypeError('Expected a string');
+  }
 
-	return /^[a-z][a-z0-9+.-]*:/.test(url);
+  return /^[a-z][a-z0-9+.-]*:/.test(url);
 }
 
 export function config(apiList: any[]) {
@@ -99,7 +112,7 @@ export function config(apiList: any[]) {
   });
 }
 
-export function formatUrl (url: string) {
+export function formatUrl(url: string) {
 
   // 如果是绝对路径不做任何处理
   if (isAbsoluteUrl(url)) {
@@ -125,7 +138,7 @@ const sync = {
       baseOption.mode = "cors";
       subData = query.queryToFormData(data);
 
-    // 同域请求
+      // 同域请求
     } else {
       if (data !== undefined) {
         subData = JSON.stringify(data);
@@ -241,7 +254,7 @@ const sync = {
         script.onreadystatechange = () => {
           if (script.readyState === "loaded" || script.readyState === "complete") {
             script.onreadystatechange = null;
-            resolve();
+            resolve({});
             loadedScripts.push(url);
             clearTimeout(thisTimeout);
           }
@@ -250,7 +263,7 @@ const sync = {
         // Others: Firefox, Safari, Chrome, and Opera
       } else {
         script.onload = () => {
-          resolve();
+          resolve({});
           loadedScripts.push(url);
           clearTimeout(thisTimeout);
         };
