@@ -1,5 +1,7 @@
 import warning from './warning';
 
+import { filterXSS } from 'xss';
+
 import * as query from './query';
 
 import User from './User';
@@ -144,7 +146,7 @@ const sync = {
       // 同域请求
     } else {
       if (data !== undefined) {
-        subData = JSON.stringify(data);
+        subData = filterXSS(JSON.stringify(data));
       }
       baseOption.credentials = "include";
       baseOption.headers = {

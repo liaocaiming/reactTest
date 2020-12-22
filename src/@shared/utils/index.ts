@@ -8,6 +8,7 @@ import findItem from './lib/findItem';
 import creatArrayByLen from './lib/creatArrayByLen';
 import * as fetch from './lib/fetch';
 import User from './lib/User';
+import queryToParamsStr from './lib/queryToParamsStr';
 
 export {
   createReducer,
@@ -19,5 +20,6 @@ export {
   findItem,
   creatArrayByLen,
   fetch,
-  User
+  User,
+  queryToParamsStr
 }
