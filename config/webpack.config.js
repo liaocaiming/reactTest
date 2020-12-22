@@ -7,9 +7,14 @@ const publicPath = "/";
 
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+
 const cssLoader = [
-  "style-loader",
-  "vue-style-loader",
+  MiniCssExtractPlugin.loader,
+  // "style-loader",
+  // "vue-style-loader",
   {
     loader: "css-loader",
   },
@@ -57,7 +62,7 @@ module.exports = (options) => {
       index: [utils.resolve(`src/${name}/index.tsx`)],
     },
     output: {
-      filename: "[name].[hash].js",
+      filename: "js/[name].[hash].js",
       path: utils.resolve(`dist/${name}`),
       // publicPath: publicPath,
     },
@@ -170,14 +175,23 @@ module.exports = (options) => {
           use: [
             {
               loader: "file-loader",
-              // options: {
-              //   name: "/images/[name].[ext]",
-              // },
+              options: {
+                name: "[hash].[ext]",
+                outputPath: "./img",
+                publicPath: "/img",
+                esModule: false,
+              },
             },
             // {
             //   loader: 'url-loader?limit=8000&name=img/[name]-[hash:5].[ext]'
             // }
           ],
+        },
+
+        {
+          //处理 html 中通过 img 引入的图片，background-image 设置的图片不可以
+          test: /\.html$/,
+          use: "html-loader",
         },
 
         {
@@ -192,6 +206,15 @@ module.exports = (options) => {
         template: utils.resolve(`src/${name}/index.html`),
         filename: "index.html",
       }),
+
+      new MiniCssExtractPlugin({
+        filename: "css/[name][hash:8].css",
+        chunkFilename: "css/[name][hash:8].css",
+      }),
+
+      // 压缩css
+      new OptimizeCssAssetsPlugin(),
+
       new webpack.ProvidePlugin({
         React: "reat",
         ReactDom: "react-dom",
