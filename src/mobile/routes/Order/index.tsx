@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import MulSet from "./MulSet";
 
@@ -7,6 +7,11 @@ import OpenSet from "./OpenSet";
 import StopProfitOrLoss from "./StopProfitOrLoss";
 
 import Steps from "./Steps";
+
+import { fetch, User } from '@utils/index'
+
+import { api } from '@src/mobile/config/index';
+
 
 import "./index.less";
 
@@ -41,13 +46,30 @@ export default () => {
     setStep(value);
   };
 
+  const userInfo = User.getUserInfo();
+
+
+  const getDetailData = () => {
+    fetch.get(api.userSettings, {
+      set_type: 3,
+      user_id: userInfo.id
+    }).then(res => {
+      if (res.data) {
+        setDetail(res.data)
+      }
+    })
+  }
+
   const onSave = (values) => {
     setDetail({ ...detail, ...values });
+    console.log({ ...detail, ...values })
     if (step >= components.length - 1) {
       return;
     }
     setStep(step + 1);
   };
+
+
 
   const renderSteps = () => {
     return (
@@ -58,6 +80,10 @@ export default () => {
   };
 
   const item = components[step];
+
+  useEffect(() => {
+    getDetailData()
+  }, [userInfo.id])
 
   return (
     <div className="mb-order">
