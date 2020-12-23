@@ -1,19 +1,17 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+
+// const TsCheckerWebpackPlugin = require("ts-checker-webpack-plugin");
+
 const webpack = require("webpack");
 
 const utils = require("./utils/utils");
-
-const publicPath = "/";
 
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-
 const cssLoader = [
   MiniCssExtractPlugin.loader,
-  // "style-loader",
   // "vue-style-loader",
   {
     loader: "css-loader",
@@ -64,7 +62,6 @@ module.exports = (options) => {
     output: {
       filename: "js/[name].[hash].js",
       path: utils.resolve(`dist/${name}`),
-      // publicPath: publicPath,
     },
 
     optimization: {
@@ -182,9 +179,6 @@ module.exports = (options) => {
                 esModule: false,
               },
             },
-            // {
-            //   loader: 'url-loader?limit=8000&name=img/[name]-[hash:5].[ext]'
-            // }
           ],
         },
 
@@ -212,11 +206,10 @@ module.exports = (options) => {
         chunkFilename: "css/[name][hash:8].css",
       }),
 
-      // 压缩css
-      new OptimizeCssAssetsPlugin(),
+      // new TsCheckerWebpackPlugin(),
 
       new webpack.ProvidePlugin({
-        React: "reat",
+        React: "react",
         ReactDom: "react-dom",
       }),
 
