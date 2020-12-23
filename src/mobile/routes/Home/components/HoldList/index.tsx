@@ -1,6 +1,8 @@
 import React from "react";
-import { request } from "@utils/index";
+import { request, helpers } from "@utils/index";
+import { mul } from "@utils/lib/calculate";
 import "./index.less";
+import { marginType } from "../../constants";
 
 interface IProps {
   data: object[];
@@ -17,29 +19,46 @@ export default (props: IProps) => {
   };
 
   const renderItem = (detail: any) => {
+    const {
+      side,
+      symbol,
+      margin_type,
+      leverage,
+      goal_times,
+      avg_price,
+      quantity,
+    } = detail;
     return (
       <div className="hold-item" key={detail.id}>
         <div className="first-line row buy">
           <div className="left">
-            <span className="margin_right_5 direction">买</span>
-            <span className="icon">BTC/USDT</span>
+            <span
+              className={helpers.reactClassNameJoin([
+                "margin_right_5 direction",
+                "direction",
+                side ? "buy" : "sale",
+              ])}
+            >
+              买
+            </span>
+            <span className="icon">{symbol}</span>
           </div>
 
           <div className="right">
-            <span className="margin_right_5">全仓</span>
-            <span>20X</span>
+            <span className="margin_right_5">{marginType[margin_type]}</span>
+            <span>{leverage}X</span>
           </div>
         </div>
 
         <div className="second-line row">
           <div className="col">
             <div className="title">待达到目标</div>
-            <div className="value">2</div>
+            <div className="value">{goal_times}</div>
           </div>
 
           <div className="col">
             <div className="title">买入仓位</div>
-            <div className="value">20u</div>
+            <div className="value">{mul(avg_price || 0, quantity || 0)}u</div>
           </div>
 
           <div className="col">

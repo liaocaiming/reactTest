@@ -5,13 +5,13 @@ import { reactClassNameJoin } from "@utils/lib/helpers";
 import "./index.less";
 
 interface IItem {
-  name: string;
+  name: string | number;
   label: string;
   [key: string]: any;
 }
 
 interface IProps {
-  activeKey?: string;
+  activeKey?: string | number;
   list: IItem[];
   onChange?: (item: IItem) => void;
 }

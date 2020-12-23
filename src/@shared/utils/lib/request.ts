@@ -69,7 +69,7 @@ function handleServerError(json: any): IResponse {
 
 function setHeader(url: string) {
   const res: any = {}
-  const filterArr = ['/manager/login']
+  const filterArr = ['authentication']
 
   // 非登录页面
   if (filterArr.indexOf(url) < 0) {
@@ -218,6 +218,7 @@ const sync = {
         Accept: "application/json",
         "Cache-Control": "no-cache",
         'Access-Control-Allow-Origin': '*',
+        "Common-header": setHeader(url)
       };
     }
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import IProps from "@typings/react.d";
 import { Tabs, HoldList, TrustList, RecordList } from "./components/index";
 import "./index.less";
@@ -6,40 +6,52 @@ import logoIcon from "./images/home-logo-icon.png";
 import UIcon from "./images/home-u-icon.png";
 import SetICon from "./images/home-set-icon.png";
 import { pageUrlsMap } from "@src/mobile/config/routes";
-
+import { api } from "@src/mobile/config/index";
+import { fetch } from "@utils/index";
+import { User } from "@utils/index";
 interface IComponent {
   data: any[];
   unbind?: (params: any) => void;
 }
 
 interface IData {
-  name: string;
+  name: number;
+  type?: string;
   label: string;
   component: (props: IComponent) => JSX.Element;
 }
 
+// 持有:1,委托:2,历史:3
 const data: IData[] = [
   {
-    name: "hold",
+    name: 1,
     label: "持有仓位",
     component: (props: IComponent) => <HoldList {...props} />,
   },
 
   {
-    name: "trust",
+    name: 2,
     label: "当前委托",
     component: (props: IComponent) => <TrustList {...props} />,
   },
   {
-    name: "record",
+    name: 3,
     label: "历史数据",
     component: (props: IComponent) => <RecordList {...props} />,
   },
 ];
 
 export default (props: IProps) => {
-  const [type, setType] = useState("record");
-  const [list, setList] = useState([{ id: 1 }, { id: 2 }]);
+  const [type, setType] = useState(1);
+  const [list, setList] = useState([]);
+
+  const getList = (params: any) => {
+    fetch.get(api.register, params).then((res) => {
+      if (res.data) {
+        setList(res.data || []);
+      }
+    });
+  };
 
   const onTabChange = (item) => {
     setType(item.name);
@@ -53,6 +65,16 @@ export default (props: IProps) => {
       history.push(url);
     };
   };
+
+  const userInfo = User.getUserInfo();
+
+  useEffect(() => {
+    getList({
+      user_id: userInfo.id,
+      status: type,
+      order_type: 3,
+    });
+  }, [userInfo.id, type]);
 
   const renderListContent = () => {
     const item = data.find((it) => it.name === type) as IData;

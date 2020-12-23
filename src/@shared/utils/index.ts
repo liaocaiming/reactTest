@@ -9,6 +9,7 @@ import creatArrayByLen from './lib/creatArrayByLen';
 import * as fetch from './lib/fetch';
 import User from './lib/User';
 import queryToParamsStr from './lib/queryToParamsStr';
+import * as helpers from './lib/helpers';
 
 export {
   createReducer,
@@ -21,5 +22,6 @@ export {
   creatArrayByLen,
   fetch,
   User,
-  queryToParamsStr
+  queryToParamsStr,
+  helpers
 }

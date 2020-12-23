@@ -37,18 +37,22 @@
 		"body": "import {} from '@utils/index'",
 		"description": "引入 @utils/index"
 	},
-
 	"components": {
 		"scope": "javascript,typescript,typescriptreact",
 		"prefix": "IC",
 		"body": "import {} from '@components/index'",
 		"description": "引入 @components/index"
 	},
-
 	"mobileComponent": {
 		"scope": "javascript,typescript,typescriptreact",
 		"prefix": "IMC",
 		"body": "import { } from '@src/mobile/components/index';",
 		"description": "引入 @src/mobile/components/index"
+	},
+	"mobileApi": {
+		"scope": "javascript,typescript,typescriptreact",
+		"prefix": "IMC",
+		"body": "import { api } from '@src/mobile/config/index';",
+		"description": "引入 import { api } from '@src/mobile/config/index'"
 	}
 }
