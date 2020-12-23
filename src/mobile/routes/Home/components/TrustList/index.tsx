@@ -1,49 +1,62 @@
 import React from "react";
-import { request } from "@utils/index";
+import { helpers, request } from "@utils/index";
 import "./index.less";
+import { marginType } from "../../constants";
 
 interface IProps {
   data: object[];
-  unbind?: (detail: any) => void;
+  unbindRobot?: (id: string) => () => void;
 }
 
 export default (props: IProps) => {
-  const { unbind, data } = props;
-
-  const unbindRobot = () => {
-    request.post("/unbind", data).then((res) => {
-      unbind && unbind(data);
-    });
-  };
+  const { unbindRobot, data } = props;
 
   const renderItem = (detail: any) => {
+    const {
+      side,
+      symbol,
+      margin_type,
+      leverage,
+      avg_price,
+      quantity,
+      id,
+    } = detail
+
     return (
       <div className="trust-item">
         <div className="first-line row buy">
           <div className="left">
-            <span className="margin_right_5 direction">买</span>
-            <span className="icon">BTC/USDT</span>
+            <span
+              className={helpers.reactClassNameJoin([
+                "margin_right_5 direction",
+                "direction",
+                side ? "buy" : "sale",
+              ])}
+            >
+              {side ? '买' : '卖'}
+            </span>
+            <span className="icon">{symbol}</span>
           </div>
 
           <div className="right">
-            <span className="margin_right_5">全仓</span>
-            <span>20X</span>
+            <span className="margin_right_5">{marginType[margin_type]}</span>
+            <span>{leverage}X</span>
           </div>
         </div>
 
         <div className="third-line row">
           <div className="col">
             <div className="title">买入仓位</div>
-            <div className="value">2666</div>
+            <div className="value">{quantity}</div>
           </div>
 
           <div className="col">
             <div className="title">买入价钱</div>
-            <div className="value">666</div>
+            <div className="value">{avg_price}</div>
           </div>
 
           <div className="unbind-btn">
-            <span className="btn" onClick={unbindRobot}>
+            <span className="btn" onClick={unbindRobot && unbindRobot(id)}>
               解绑机器人
             </span>
           </div>

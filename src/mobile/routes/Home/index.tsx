@@ -9,6 +9,7 @@ import { pageUrlsMap } from "@src/mobile/config/routes";
 import { api } from "@src/mobile/config/index";
 import { fetch } from "@utils/index";
 import { User } from "@utils/index";
+import { Toast } from "antd-mobile";
 interface IComponent {
   data: any[];
   unbindRobot?: (params: any) => () => void;
@@ -58,6 +59,7 @@ export default (props: IProps) => {
   const unbindRobot = (id: string) => {
     return () => {
       fetch.post(api.cancelFollowRecords, { id }).then((res) => {
+        Toast.success(res && res.message || '成功')
         getList({
           user_id: userInfo.id,
           status: type,
@@ -109,7 +111,7 @@ export default (props: IProps) => {
             src={SetICon}
             onClick={goTo(pageUrlsMap.order)}
           />
-          <img className="fr u-icon" src={UIcon} />
+          <img className="fr u-icon" src={UIcon} onClick={goTo(pageUrlsMap.pay)} />
         </div>
         <Tabs list={data} activeKey={type} onChange={onTabChange} />
       </div>
