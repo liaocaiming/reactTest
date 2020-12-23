@@ -1,22 +1,16 @@
 import React from "react";
-import { request, helpers } from "@utils/index";
+import { helpers } from "@utils/index";
 import { mul } from "@utils/lib/calculate";
 import "./index.less";
 import { marginType } from "../../constants";
 
 interface IProps {
   data: object[];
-  unbind?: (detail: any) => void;
+  unbindRobot?: (id: string) => () => void;
 }
 
 export default (props: IProps) => {
-  const { unbind, data } = props;
-
-  const unbindRobot = () => {
-    request.post("/unbind", data).then((res) => {
-      unbind && unbind(data);
-    });
-  };
+  const { data, unbindRobot } = props;
 
   const renderItem = (detail: any) => {
     const {
@@ -27,6 +21,8 @@ export default (props: IProps) => {
       goal_times,
       avg_price,
       quantity,
+      liquidation_price,
+      id,
     } = detail;
     return (
       <div className="hold-item" key={detail.id}>
@@ -75,16 +71,16 @@ export default (props: IProps) => {
         <div className="third-line row">
           <div className="col">
             <div className="title">买入价钱</div>
-            <div className="value">2666</div>
+            <div className="value">{avg_price}u</div>
           </div>
 
           <div className="col">
             <div className="title">强平价钱</div>
-            <div className="value">666</div>
+            <div className="value">{liquidation_price}u</div>
           </div>
 
           <div className="unbind-btn">
-            <span className="btn" onClick={unbindRobot}>
+            <span className="btn" onClick={unbindRobot && unbindRobot(id)}>
               解绑机器人
             </span>
           </div>

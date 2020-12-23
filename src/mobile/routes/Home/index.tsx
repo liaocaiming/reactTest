@@ -11,7 +11,7 @@ import { fetch } from "@utils/index";
 import { User } from "@utils/index";
 interface IComponent {
   data: any[];
-  unbind?: (params: any) => void;
+  unbindRobot?: (params: any) => () => void;
 }
 
 interface IData {
@@ -44,6 +44,7 @@ const data: IData[] = [
 export default (props: IProps) => {
   const [type, setType] = useState(1);
   const [list, setList] = useState([]);
+  const userInfo = User.getUserInfo();
 
   const getList = (params: any) => {
     fetch.get(api.register, params).then((res) => {
@@ -53,11 +54,22 @@ export default (props: IProps) => {
     });
   };
 
+  // 解绑机器人
+  const unbindRobot = (id: string) => {
+    return () => {
+      fetch.post(api.cancelFollowRecords, { id }).then((res) => {
+        getList({
+          user_id: userInfo.id,
+          status: type,
+          order_type: 3,
+        });
+      });
+    };
+  };
+
   const onTabChange = (item) => {
     setType(item.name);
   };
-
-  const unbind = (params: any) => {};
 
   const goTo = (url: string) => {
     return () => {
@@ -65,8 +77,6 @@ export default (props: IProps) => {
       history.push(url);
     };
   };
-
-  const userInfo = User.getUserInfo();
 
   useEffect(() => {
     getList({
@@ -83,7 +93,7 @@ export default (props: IProps) => {
       <div className="margin_15 padding_15">
         {component({
           data: list,
-          unbind,
+          unbindRobot,
         })}
       </div>
     );
