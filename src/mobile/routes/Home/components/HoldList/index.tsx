@@ -22,6 +22,8 @@ export default (props: IProps) => {
       avg_price,
       quantity,
       liquidation_price,
+      profit_loss,
+      residue_entry_amount,
       id,
     } = detail;
     return (
@@ -35,7 +37,7 @@ export default (props: IProps) => {
                 side ? "buy" : "sale",
               ])}
             >
-              买
+              {side ? '买' : '卖'}
             </span>
             <span className="icon">{symbol}</span>
           </div>
@@ -59,12 +61,12 @@ export default (props: IProps) => {
 
           <div className="col">
             <div className="title">剩余仓位</div>
-            <div className="value">200u</div>
+            <div className="value">{residue_entry_amount}u</div>
           </div>
 
           <div className="col">
             <div className="title">止盈/止损</div>
-            <div className="value">23/456</div>
+            <div className="value">{profit_loss}</div>
           </div>
         </div>
 

@@ -12,6 +12,7 @@ export const urls = {
   cancelFollowRecords: 'follow_records/destroy', // 取消跟单
   orderOpenSettingsUpdate: 'user_settings/update', // 跟新设置开单设置
   getOrderOpenSettingData: 'user_settings', // 获取开单设置
+  userSettings: 'user_settings', // 获取用户跟单设置
 };
 
 config([
