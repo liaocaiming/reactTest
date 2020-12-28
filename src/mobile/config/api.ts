@@ -9,7 +9,8 @@ export const urls = {
   register: 'users', // 注册
   checkTXid: 'deposit_records/check', // 检查转账id
   followRecords: 'follow_records', // 首页列表数据
-  cancelFollowRecords: 'follow_records/destroy'
+  cancelFollowRecords: 'follow_records/destroy', // 取消跟单
+  orderOpenSettingsUpdate: 'user_settings/update', // 跟新设置开单设置
 };
 
 config([

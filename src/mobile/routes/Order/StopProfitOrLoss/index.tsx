@@ -11,7 +11,7 @@ const isShow = (data: any) => {
 const formData: FormItemOptions[] = [
   {
     label: "目标1",
-    name: "task_profit_present@1",
+    name: "task_profit_present@0",
     type: "input",
     eleAttr: {
       children: <span className="unit">%</span>,
@@ -26,7 +26,7 @@ const formData: FormItemOptions[] = [
 
   {
     label: "目标2",
-    name: "task_profit_present@2",
+    name: "task_profit_present@1",
     type: "input",
     eleAttr: {
       children: <span className="unit">%</span>,
@@ -41,7 +41,7 @@ const formData: FormItemOptions[] = [
 
   {
     label: "目标3",
-    name: "task_profit_present@3",
+    name: "task_profit_present@2",
     type: "input",
     eleAttr: {
       children: <span className="unit">%</span>,
@@ -56,7 +56,7 @@ const formData: FormItemOptions[] = [
 
   {
     label: "目标4",
-    name: "task_profit_present@4",
+    name: "task_profit_present@3",
     type: "input",
     eleAttr: {
       children: <span className="unit">%</span>,
@@ -71,7 +71,7 @@ const formData: FormItemOptions[] = [
 
   {
     label: "移动止盈",
-    name: "margin_type",
+    name: "move_task_profit",
     type: "switch",
   },
 
@@ -99,7 +99,7 @@ export default (props: IProps) => {
     <AppForm
       formItems={formData}
       onFinish={onMulSelectFinish}
-      initialValues={{ detail }}
+      initialValues={{ ...detail }}
       submitOptions={{
         text: "完成",
       }}

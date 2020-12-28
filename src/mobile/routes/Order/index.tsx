@@ -8,7 +8,18 @@ import StopProfitOrLoss from "./StopProfitOrLoss";
 
 import Steps from "./Steps";
 
+import { validatorParams } from "./utils";
+
+import { api } from "@src/mobile/config/index";
+
+import { fetch } from "@utils/index";
+
 import "./index.less";
+
+import IProps from "@typings/react.d";
+
+import { Toast } from "antd-mobile";
+import { pageUrlsMap } from "@src/mobile/config/routes";
 
 interface IComponent {
   detail: any;
@@ -33,7 +44,7 @@ const components = [
   },
 ];
 
-export default () => {
+export default (props: IProps) => {
   const [step, setStep] = useState(0);
   const [detail, setDetail] = useState({});
 
@@ -41,9 +52,27 @@ export default () => {
     setStep(value);
   };
 
+  const postData = (params: any) => {
+    fetch.post(api.orderOpenSettingsUpdate, params).then((res) => {
+      if (res.message) {
+        Toast.success(res.message, 1, () => {
+          const { history } = props;
+          history.push(pageUrlsMap.home);
+        });
+      }
+    });
+  };
+
   const onSave = (values) => {
+    console.log(values, "values");
+
     setDetail({ ...detail, ...values });
+    console.log({ ...detail, ...values }, "detail");
     if (step >= components.length - 1) {
+      const params = validatorParams({ ...detail, ...values });
+      console.log(params, "params");
+
+      postData(params);
       return;
     }
     setStep(step + 1);
