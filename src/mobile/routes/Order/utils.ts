@@ -27,7 +27,7 @@ export function validatorParams(values: any) {
 
   Object.keys(res).forEach((key: string) => {
     if (Array.isArray(res[key])) {
-      res[key] = res[key].sort((a: any, b: any) => a.id - b.id).map((item) => item.value)
+      res[key] = res[key].filter(item => item.id).sort((a: any, b: any) => a.id - b.id).map((item) => item.value)
     }
   })
 

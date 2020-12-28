@@ -24,6 +24,7 @@ interface FormItemOptions {
   name: string;
   label?: IDomFun;
   type?: Type;
+  initialValue?: any;
   data?: IList[]; // 下来框数据
   rules?: IRule[];
   isShow?: ((data: Store) => boolean) | boolean;

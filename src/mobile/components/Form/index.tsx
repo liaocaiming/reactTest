@@ -41,11 +41,18 @@ const Form = (props: FormOptions) => {
   const { btnAttr = {} } = submitOptions;
 
   useEffect(() => {
+    const res = {};
+    formItems.forEach((formItem) => {
+      const { name, initialValue } = formItem;
+      if (initialValue) {
+        res[name] = initialValue
+      }
+    })
     dispatch({
       type: "all",
-      payload: initialValues,
+      payload: { ...initialValues, ...res },
     });
-  }, [initialValues]);
+  }, [initialValues, formItems]);
 
   const onItemChange = (item: FormItemOptions) => {
     return (value) => {
@@ -92,6 +99,7 @@ const Form = (props: FormOptions) => {
             "isShow",
             "eleAttr",
             "rules",
+            'initValue'
           ]);
 
           return (

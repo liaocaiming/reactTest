@@ -10,6 +10,7 @@ import * as fetch from './lib/fetch';
 import User from './lib/User';
 import queryToParamsStr from './lib/queryToParamsStr';
 import * as helpers from './lib/helpers';
+import * as constants from './lib/constants';
 
 export {
   createReducer,
@@ -23,5 +24,6 @@ export {
   fetch,
   User,
   queryToParamsStr,
-  helpers
+  helpers,
+  constants
 }

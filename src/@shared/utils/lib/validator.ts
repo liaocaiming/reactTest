@@ -32,11 +32,12 @@ export default (parmas: object, arr: IValue[]): Promise<IRule> => {
       return rules.some((rule) => {
         let isError = false;
         const { required, pattern, max, min } = rule;
-        if (required && (value === '' || value === undefined)) {
+        const isEmpty = value === '' || value === undefined || value === null || (Array.isArray(value) && value.length === 0)
+        if (required && isEmpty) {
           isError = true;
         }
 
-        if (pattern !== undefined && !value.test(pattern)) {
+        if (!isEmpty && pattern && !pattern.test(value)) {
           isError = true;
         }
 

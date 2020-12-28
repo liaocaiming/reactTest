@@ -8,8 +8,10 @@ import { AppForm } from "@src/mobile/components/index";
 
 import { FormItemOptions } from "@src/mobile/components/Form/interface";
 
+import { constants } from '@utils/index'
+
 const leverageArr = creatArrayByLen(50).map((value) => {
-  return { value, label: `${value}X` };
+  return { value: `${value}`, label: `${value}X` };
 });
 
 const formData: FormItemOptions[] = [
@@ -43,6 +45,7 @@ const formData: FormItemOptions[] = [
     name: "open_margin",
     type: "input",
     eleAttr: {
+      type: 'number',
       children: <span className="unit">$</span>,
     },
     rules: [
@@ -50,6 +53,10 @@ const formData: FormItemOptions[] = [
         required: true,
         message: "请输入全仓每单保证金",
       },
+      {
+        pattern: constants.pattern.positiveNum,
+        message: '每单保证金请输入正整数'
+      }
     ],
   },
 
@@ -58,9 +65,10 @@ const formData: FormItemOptions[] = [
     name: "isolated_max_margin",
     type: "input",
     isShow: (data) => {
-      return data.margin_type == "2";
+      return data.margin_type == "ISOLATED";
     },
     eleAttr: {
+      type: 'number',
       children: <span className="unit">$</span>,
     },
     rules: [
@@ -68,6 +76,10 @@ const formData: FormItemOptions[] = [
         required: true,
         message: "请输入全仓每单保证金",
       },
+      {
+        pattern: constants.pattern.positiveNum,
+        message: '逐仓每单开仓保证金请输入正整数'
+      }
     ],
   },
   {
@@ -82,6 +94,15 @@ const formData: FormItemOptions[] = [
     },
     name: "max_follow_sum",
     type: "input",
+    rules: [
+      {
+        pattern: constants.pattern.positiveNum,
+        message: '限制开单数量请输入正整数'
+      }
+    ],
+    eleAttr: {
+      type: 'number',
+    }
   },
 ];
 

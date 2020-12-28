@@ -72,9 +72,9 @@ export default (props: IProps) => {
     console.log({ ...detail, ...values }, "detail");
     if (step >= components.length - 1) {
       const params = validatorParams({ ...detail, ...values });
-      console.log(params, "params");
+      console.log(params, 'params');
 
-      postData(params);
+      postData({ ...params, set_type: 3 });
       return;
     }
     setStep(step + 1);
@@ -85,7 +85,8 @@ export default (props: IProps) => {
       .get(api.getOrderOpenSettingData, { user_id: userInfo.id, set_type: 3 })
       .then((res) => {
         if (res.data) {
-          setDetail(res.data);
+          const [item] = res.data || [{}]
+          setDetail(item);
         }
       });
   };
