@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import MulSet from "./MulSet";
 
@@ -12,13 +12,14 @@ import { validatorParams } from "./utils";
 
 import { api } from "@src/mobile/config/index";
 
-import { fetch } from "@utils/index";
+import { fetch, User } from "@utils/index";
 
 import "./index.less";
 
 import IProps from "@typings/react.d";
 
 import { Toast } from "antd-mobile";
+
 import { pageUrlsMap } from "@src/mobile/config/routes";
 
 interface IComponent {
@@ -47,6 +48,7 @@ const components = [
 export default (props: IProps) => {
   const [step, setStep] = useState(0);
   const [detail, setDetail] = useState({});
+  const userInfo = User.getUserInfo();
 
   const onTabsChange = (value) => {
     setStep(value);
@@ -78,6 +80,16 @@ export default (props: IProps) => {
     setStep(step + 1);
   };
 
+  const getData = () => {
+    fetch
+      .get(api.getOrderOpenSettingData, { user_id: userInfo.id, set_type: 3 })
+      .then((res) => {
+        if (res.data) {
+          setDetail(res.data);
+        }
+      });
+  };
+
   const renderSteps = () => {
     return (
       <div>
@@ -85,6 +97,10 @@ export default (props: IProps) => {
       </div>
     );
   };
+
+  useEffect(() => {
+    getData();
+  }, [userInfo.id]);
 
   const item = components[step];
 

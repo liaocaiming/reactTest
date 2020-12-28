@@ -4,14 +4,10 @@ import { AppForm } from "@src/mobile/components/index";
 
 import { FormItemOptions } from "@src/mobile/components/Form/interface";
 
-const isShow = (data: any) => {
-  return;
-};
-
 const formData: FormItemOptions[] = [
   {
     label: "目标1",
-    name: "task_profit_present@0",
+    name: "take_profit_present@0",
     type: "input",
     eleAttr: {
       children: <span className="unit">%</span>,
@@ -26,7 +22,7 @@ const formData: FormItemOptions[] = [
 
   {
     label: "目标2",
-    name: "task_profit_present@1",
+    name: "take_profit_present@1",
     type: "input",
     eleAttr: {
       children: <span className="unit">%</span>,
@@ -41,7 +37,7 @@ const formData: FormItemOptions[] = [
 
   {
     label: "目标3",
-    name: "task_profit_present@2",
+    name: "take_profit_present@2",
     type: "input",
     eleAttr: {
       children: <span className="unit">%</span>,
@@ -56,7 +52,7 @@ const formData: FormItemOptions[] = [
 
   {
     label: "目标4",
-    name: "task_profit_present@3",
+    name: "take_profit_present@3",
     type: "input",
     eleAttr: {
       children: <span className="unit">%</span>,
@@ -71,7 +67,7 @@ const formData: FormItemOptions[] = [
 
   {
     label: "移动止盈",
-    name: "move_task_profit",
+    name: "move_take_profit",
     type: "switch",
   },
 

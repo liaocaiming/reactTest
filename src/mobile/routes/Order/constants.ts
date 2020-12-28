@@ -1,10 +1,10 @@
 export const marginType = [
   {
-    value: "1",
+    value: "CROSSED",
     label: "全仓",
   },
   {
-    value: "2",
+    value: "ISOLATED",
     label: "逐仓",
   }
 ];
