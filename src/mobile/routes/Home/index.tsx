@@ -48,7 +48,7 @@ export default (props: IProps) => {
   const userInfo = User.getUserInfo();
 
   const getList = (params: any) => {
-    fetch.get(api.register, params).then((res) => {
+    fetch.get(api.followRecords, params).then((res) => {
       if (res.data) {
         setList(res.data || []);
       }
@@ -71,6 +71,7 @@ export default (props: IProps) => {
 
   const onTabChange = (item) => {
     setType(item.name);
+    setList([]);
   };
 
   const goTo = (url: string) => {
