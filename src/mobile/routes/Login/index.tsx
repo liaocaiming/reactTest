@@ -29,8 +29,6 @@ export default (props: IProps) => {
       ruleArr = ruleArr.filter((item) => item.name !== "binance_user_id");
     }
 
-    console.log(ruleArr, "ruleArr");
-    console.log(values, "ruleArr");
     validator(values, ruleArr).then((err) => {
       if (err && err.message) {
         Toast.fail(err.message);
@@ -40,13 +38,17 @@ export default (props: IProps) => {
       fetch
         .post(api[type], values)
         .then((res) => {
+          const { data = {} } = res;
           if (type === "login") {
             User.saveUserInfo(res.data);
           }
-          history.push(pageUrlsMap.pay);
+          if (data.check) {
+            history.push(pageUrlsMap.home);
+          } else {
+            history.push(pageUrlsMap.pay);
+          }
         })
         .catch((error) => {
-          console.log(error, "4444");
           if (error.message) {
             Toast.fail(error.message);
           }
