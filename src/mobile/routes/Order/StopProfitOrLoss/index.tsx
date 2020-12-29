@@ -4,7 +4,11 @@ import { AppForm } from "@src/mobile/components/index";
 
 import { FormItemOptions } from "@src/mobile/components/Form/interface";
 
+import { validatorParams } from "../utils";
 
+import { calculate } from '@utils/index'
+
+import { Toast } from 'antd-mobile'
 
 interface IProps {
   detail?: any;
@@ -15,8 +19,18 @@ export default (props: IProps) => {
   const { detail = {}, onFinish } = props;
   const { take_profit_present = [] } = detail;
   const onMulSelectFinish = (params) => {
+    const values: any = validatorParams(params);
+    const { take_profit_present = [] } = values
+    const sub = take_profit_present.reduce((total: number, num: number) => {
+      return calculate.add(total, num)
+    }, 0)
+
+    if (parseFloat(sub) !== 100) {
+      Toast.fail(`总和(${sub}%)不等于100%`)
+      return
+    }
+
     onFinish && onFinish(params);
-    console.log(params);
   };
 
   const formData: FormItemOptions[] = [

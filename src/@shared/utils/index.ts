@@ -11,6 +11,7 @@ import User from './lib/User';
 import queryToParamsStr from './lib/queryToParamsStr';
 import * as helpers from './lib/helpers';
 import * as constants from './lib/constants';
+import * as calculate from './lib/calculate';
 
 export {
   createReducer,
@@ -25,5 +26,6 @@ export {
   User,
   queryToParamsStr,
   helpers,
-  constants
+  constants,
+  calculate
 }
