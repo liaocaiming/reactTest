@@ -22,16 +22,16 @@ interface IData {
   component: (props: IComponent) => JSX.Element;
 }
 
-// 持有:1,委托:2,历史:3
+// 持有:2,委托:1,历史:3
 const data: IData[] = [
   {
-    name: 1,
+    name: 2,
     label: "持有仓位",
     component: (props: IComponent) => <HoldList {...props} />,
   },
 
   {
-    name: 2,
+    name: 1,
     label: "当前委托",
     component: (props: IComponent) => <TrustList {...props} />,
   },
@@ -43,7 +43,7 @@ const data: IData[] = [
 ];
 
 export default (props: IProps) => {
-  const [type, setType] = useState(1);
+  const [type, setType] = useState(2);
   const [list, setList] = useState([]);
   const userInfo = User.getUserInfo();
 
@@ -59,7 +59,7 @@ export default (props: IProps) => {
   const unbindRobot = (id: string) => {
     return () => {
       fetch.post(api.cancelFollowRecords, { id }).then((res) => {
-        Toast.success(res && res.message || '成功')
+        Toast.success((res && res.message) || "成功");
         getList({
           user_id: userInfo.id,
           status: type,
@@ -112,7 +112,11 @@ export default (props: IProps) => {
             src={SetICon}
             onClick={goTo(pageUrlsMap.order)}
           />
-          <img className="fr u-icon" src={UIcon} onClick={goTo(pageUrlsMap.pay)} />
+          <img
+            className="fr u-icon"
+            src={UIcon}
+            onClick={goTo(pageUrlsMap.pay)}
+          />
         </div>
         <Tabs list={data} activeKey={type} onChange={onTabChange} />
       </div>
