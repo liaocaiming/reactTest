@@ -50,7 +50,7 @@ export default (props: IProps) => {
 
         <div className="second-line row">
           <div className="col">
-            <div className="title">待达到目标</div>
+            <div className="title">止盈目标</div>
             <div className="value">{goal_times}</div>
           </div>
 
