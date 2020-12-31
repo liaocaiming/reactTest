@@ -8,28 +8,14 @@ export function validatorParams(values: any) {
     if (key.indexOf('@') >= 0) {
       const [k, id] = key.split('@');
       if (res[k]) {
-        res[k].push({
-          value: values[key],
-          id
-        })
+        res[k][id] = values[key]
       } else {
-        res[k] = [
-          {
-            value: values[key],
-            id
-          }
-        ]
+        res[k] = [];
+        res[k][id] = values[key];
       }
     } else {
       Object.assign(res, { [key]: values[key] })
     }
   })
-
-  Object.keys(res).forEach((key: string) => {
-    if (Array.isArray(res[key])) {
-      res[key] = res[key].filter(item => item.id).sort((a: any, b: any) => a.id - b.id).map((item) => item.value)
-    }
-  })
-
   return res
 }

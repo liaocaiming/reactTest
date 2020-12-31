@@ -70,7 +70,6 @@ const Form = (props: FormOptions) => {
 
   const onSubmit = () => {
     validator(state, formRowData).then((rule) => {
-      console.log(rule, 'rule')
       if (rule) {
         if (onError) {
           onError(rule);
@@ -122,9 +121,10 @@ const Form = (props: FormOptions) => {
       </div>
       <Toggle isShow={!!submitOptions}>
         <div
-          className={`form-btn-container ${submitOptions.containerClassName}`}
+          className={`form-btn-container ${submitOptions.containerClassName || ''}`}
+          onClick={onSubmit}
         >
-          <span onClick={onSubmit} {...btnAttr}>
+          <span  {...btnAttr}>
             {submitOptions.text}
           </span>
         </div>

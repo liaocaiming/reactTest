@@ -1,16 +1,19 @@
 import React, { useState, memo } from "react";
 import IProps from "@typings/react.d";
 import { Input } from "@src/mobile/components/index";
-import { request } from "@utils/index";
+import { fetch, User } from "@utils/index";
 import { Toast } from "antd-mobile";
+import { api as linkPort } from '@src/mobile/config/index';
 
 import "./index.less";
+import { pageUrlsMap } from "@src/mobile/config/routes";
 
 const APP = (props: IProps) => {
   const [api, setApi] = useState("");
   const [secret, setSecret] = useState("");
 
   const goNext = () => {
+    const userInfo = User.getUserInfo();
     if (!api) {
       Toast.fail("请输入API密钥");
       return;
@@ -21,11 +24,11 @@ const APP = (props: IProps) => {
       return;
     }
 
-    request.post("/saveApi", { api, secret }).then((res) => {
+    fetch.post(linkPort.setSecret, { key: api, secret, id: userInfo.id }).then((res) => {
       // 要改
       if (res) {
         const { history } = props;
-        history.push("/mobile/pay");
+        history.push(pageUrlsMap.home);
       }
     });
   };

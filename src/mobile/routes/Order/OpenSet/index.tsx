@@ -6,7 +6,11 @@ import { AppForm } from "@src/mobile/components/index";
 
 import { FormItemOptions } from "@src/mobile/components/Form/interface";
 
+import { validatorParams } from "../utils";
 
+import { calculate } from '@utils/index'
+
+import { Toast } from 'antd-mobile'
 
 interface IProps {
   detail?: any;
@@ -67,8 +71,18 @@ export default (props: IProps) => {
   ];
 
   const onMulSelectFinish = (params) => {
+    const values: any = validatorParams(params);
+    const { open_margin } = detail;
+    const { entry_present = [] } = values
+    const sub = entry_present.reduce((total: number, num: number) => {
+      return calculate.add(total, num)
+    }, 0)
+
+    if (parseFloat(open_margin) !== sub) {
+      Toast.fail(`总和(${sub})不等于每单保证金(${open_margin})`)
+      return;
+    }
     onFinish && onFinish(params);
-    console.log(params);
   };
 
   return (

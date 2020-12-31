@@ -10,7 +10,7 @@ import { FormItemOptions } from "@src/mobile/components/Form/interface";
 
 import { constants } from '@utils/index'
 
-const leverageArr = creatArrayByLen(50).map((value) => {
+const leverageArr = creatArrayByLen(125).map((value) => {
   return { value: `${value}`, label: `${value}X` };
 });
 
@@ -115,8 +115,9 @@ export default (props: IProps) => {
   const { detail = {}, onFinish } = props;
 
   const onMulSelectFinish = (params) => {
+    console.log(222);
+
     onFinish && onFinish(params);
-    console.log(params);
   };
 
   return (

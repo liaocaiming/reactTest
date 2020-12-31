@@ -66,14 +66,10 @@ export default (props: IProps) => {
   };
 
   const onSave = (values) => {
-    console.log(values, "values");
 
     setDetail({ ...detail, ...values });
-    console.log({ ...detail, ...values }, "detail");
     if (step >= components.length - 1) {
       const params = validatorParams({ ...detail, ...values });
-      console.log(params, 'params');
-
       postData({ ...params, set_type: 3 });
       return;
     }

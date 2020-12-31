@@ -13,6 +13,7 @@ export const urls = {
   orderOpenSettingsUpdate: 'user_settings/update', // 跟新设置开单设置
   getOrderOpenSettingData: 'user_settings', // 获取开单设置
   userSettings: 'user_settings', // 获取用户跟单设置
+  setSecret: 'users/set_secret', // 绑定api
 };
 
 config([
