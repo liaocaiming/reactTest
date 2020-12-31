@@ -20,11 +20,11 @@ export default (props: IProps) => {
       leverage,
       goal_times,
       avg_price,
-      quantity,
       liquidation_price,
       profit_loss,
       residue_entry_amount,
       id,
+      current_quantity,
     } = detail;
     return (
       <div className="hold-item" key={detail.id}>
@@ -37,7 +37,7 @@ export default (props: IProps) => {
                 side ? "buy" : "sale",
               ])}
             >
-              {side ? '买' : '卖'}
+              {side ? "买" : "卖"}
             </span>
             <span className="icon">{symbol}</span>
           </div>
@@ -56,7 +56,9 @@ export default (props: IProps) => {
 
           <div className="col">
             <div className="title">买入仓位</div>
-            <div className="value">{mul(avg_price || 0, quantity || 0)}u</div>
+            <div className="value">
+              {mul(avg_price || 0, current_quantity || 0)}u
+            </div>
           </div>
 
           <div className="col">
