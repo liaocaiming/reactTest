@@ -9,7 +9,8 @@ interface IUrls {
   pay: string;
   home: string;
   bindUser: string;
-  order: string
+  order: string;
+  strategyList: string;
 }
 
 const router = [
@@ -56,6 +57,16 @@ const router = [
         name: 'order',
         component: loadFile({
           load: () => import('@src/mobile/routes/Order')
+        }),
+        title: '机器人设置',
+        exact: true
+      },
+
+      {
+        path: 'strategyList',
+        name: 'strategyList',
+        component: loadFile({
+          load: () => import('@src/mobile/routes/StrategyList')
         }),
         title: '机器人设置',
         exact: true

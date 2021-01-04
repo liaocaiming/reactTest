@@ -115,7 +115,6 @@ export default (props: IProps) => {
   const { detail = {}, onFinish } = props;
 
   const onMulSelectFinish = (params) => {
-    console.log(222);
 
     onFinish && onFinish(params);
   };
