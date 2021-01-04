@@ -131,13 +131,13 @@ module.exports = (options) => {
                 cacheDirectory: true,
               },
             },
-            {
-              loader: "string-replace-loader",
-              options: {
-                search: "./config/boss/index",
-                replace: `./config/${name}/index`,
-              },
-            },
+            // {
+            //   loader: "string-replace-loader",
+            //   options: {
+            //     search: "./config/boss/index",
+            //     replace: `./config/${name}/index`,
+            //   },
+            // },
           ],
         },
 

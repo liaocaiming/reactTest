@@ -66,10 +66,12 @@ export default (props: IProps) => {
   };
 
   const onSave = (values) => {
-
     setDetail({ ...detail, ...values });
     if (step >= components.length - 1) {
-      const params = validatorParams({ ...detail, ...values });
+      const params: any = validatorParams({ ...detail, ...values });
+      if (params.is_limit_num === false) {
+        params.max_follow_sum = -1;
+      }
       postData({ ...params, set_type: 3 });
       return;
     }
@@ -81,7 +83,7 @@ export default (props: IProps) => {
       .get(api.getOrderOpenSettingData, { user_id: userInfo.id, set_type: 3 })
       .then((res) => {
         if (res.data) {
-          const [item] = res.data || [{}]
+          const [item] = res.data || [{}];
           setDetail(item);
         }
       });

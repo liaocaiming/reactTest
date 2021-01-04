@@ -12,7 +12,7 @@ import { filterObjAttr, validator } from "@utils/index";
 
 import { Toggle } from "@components/index";
 
-import { Toast } from 'antd-mobile'
+import { Toast } from "antd-mobile";
 
 import Switch from "@src/mobile/components/Switch";
 
@@ -41,16 +41,25 @@ const Form = (props: FormOptions) => {
   const { btnAttr = {} } = submitOptions;
 
   useEffect(() => {
-    const res = {};
+    const res = Object.assign({}, initialValues, state);
     formItems.forEach((formItem) => {
       const { name, initialValue } = formItem;
       if (initialValue) {
-        res[name] = initialValue
+        res[name] = initialValue;
       }
-    })
+      let { isShow } = formItem;
+      if (typeof isShow === "function") {
+        isShow = isShow(state);
+      }
+
+      if (isShow === false) {
+        delete res[name];
+      }
+    });
+
     dispatch({
       type: "all",
-      payload: { ...initialValues, ...res },
+      payload: res,
     });
   }, [initialValues, formItems]);
 
@@ -74,7 +83,7 @@ const Form = (props: FormOptions) => {
         if (onError) {
           onError(rule);
         } else {
-          Toast.fail(rule.message)
+          Toast.fail(rule.message);
         }
         return;
       }
@@ -92,13 +101,12 @@ const Form = (props: FormOptions) => {
           }
 
           const ItemElement = ItemComponents[type] || Input;
-
           const options: any = filterObjAttr(formItem, [
             "type",
             "isShow",
             "eleAttr",
             "rules",
-            'initValue'
+            "initValue",
           ]);
 
           return (
@@ -121,12 +129,11 @@ const Form = (props: FormOptions) => {
       </div>
       <Toggle isShow={!!submitOptions}>
         <div
-          className={`form-btn-container ${submitOptions.containerClassName || ''}`}
+          className={`form-btn-container ${submitOptions.containerClassName ||
+            ""}`}
           onClick={onSubmit}
         >
-          <span  {...btnAttr}>
-            {submitOptions.text}
-          </span>
+          <span {...btnAttr}>{submitOptions.text}</span>
         </div>
       </Toggle>
     </div>
