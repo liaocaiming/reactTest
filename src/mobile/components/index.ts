@@ -8,6 +8,8 @@ import AppForm from './Form';
 
 import Switch from './Switch';
 
+import Detail from './Detail';
+
 export {
   Switch
 }
@@ -17,4 +19,5 @@ export {
   Select,
   Layout,
   AppForm,
+  Detail
 }
