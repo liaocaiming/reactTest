@@ -11,6 +11,7 @@ interface IUrls {
   bindUser: string;
   order: string;
   strategyList: string;
+  StrategyItem: string;
 }
 
 const router = [
@@ -68,7 +69,18 @@ const router = [
         component: loadFile({
           load: () => import('@src/mobile/routes/StrategyList')
         }),
-        title: '机器人设置',
+        title: '策略列表',
+        exact: true
+      },
+
+
+      {
+        path: 'strategyItem',
+        name: 'strategyItem',
+        component: loadFile({
+          load: () => import('@src/mobile/routes/StrategyItem')
+        }),
+        title: '策略列表',
         exact: true
       },
 
