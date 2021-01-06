@@ -110,7 +110,7 @@ export default (props: IProps) => {
           <img
             className="fr set-icon"
             src={SetICon}
-            onClick={goTo(pageUrlsMap.order)}
+            onClick={goTo(pageUrlsMap.strategyList)}
           />
           <img
             className="fr u-icon"

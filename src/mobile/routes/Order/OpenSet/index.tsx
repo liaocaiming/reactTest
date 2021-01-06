@@ -8,9 +8,9 @@ import { FormItemOptions } from "@src/mobile/components/Form/interface";
 
 import { validatorParams } from "../utils";
 
-import { calculate } from '@utils/index'
+import { calculate } from "@utils/index";
 
-import { Toast } from 'antd-mobile'
+import { Toast } from "antd-mobile";
 
 interface IProps {
   detail?: any;
@@ -42,7 +42,7 @@ export default (props: IProps) => {
       initialValue: entry_present[0],
       type: "input",
       eleAttr: {
-        type: 'number',
+        type: "number",
         children: <span className="unit">$</span>,
       },
     },
@@ -53,7 +53,7 @@ export default (props: IProps) => {
       initialValue: entry_present[1],
       type: "input",
       eleAttr: {
-        type: 'number',
+        type: "number",
         children: <span className="unit">$</span>,
       },
     },
@@ -64,7 +64,7 @@ export default (props: IProps) => {
       initialValue: entry_present[2],
       type: "input",
       eleAttr: {
-        type: 'number',
+        type: "number",
         children: <span className="unit">$</span>,
       },
     },
@@ -73,13 +73,13 @@ export default (props: IProps) => {
   const onMulSelectFinish = (params) => {
     const values: any = validatorParams(params);
     const { open_margin } = detail;
-    const { entry_present = [] } = values
+    const { entry_present = [] } = values;
     const sub = entry_present.reduce((total: number, num: number) => {
-      return calculate.add(total, num)
-    }, 0)
+      return calculate.add(total, num);
+    }, 0);
 
     if (parseFloat(open_margin) !== sub) {
-      Toast.fail(`总和(${sub})不等于每单保证金(${open_margin})`)
+      Toast.fail(`总和(${sub})不等于每单保证金(${open_margin})`);
       return;
     }
     onFinish && onFinish(params);

@@ -11,7 +11,7 @@ interface IUrls {
   bindUser: string;
   order: string;
   strategyList: string;
-  StrategyItem: string;
+  strategyItem: string;
 }
 
 const router = [
