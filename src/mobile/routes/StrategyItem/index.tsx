@@ -1,29 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import "./index.less";
 
 import IProps from "@typings/react.d";
 
-import { Icon } from "antd-mobile";
-
 import { pageUrlsMap } from "@src/mobile/config/routes";
 
-import { Detail } from '@src/mobile/components/index';
+import { Detail } from "@src/mobile/components/index";
 
-import { IRow } from '@src/mobile/components/Detail/interface';
+import { IRow } from "@src/mobile/components/Detail/interface";
 
 import { marginType, openType } from "@src/mobile/utils/constants";
 
+import { User, fetch } from "@utils/index";
 
-
+import { api } from "@src/mobile/config";
 
 const detail = {
-  margin_type: 'CROSSED',
-  leverage: '10倍'
-}
+  margin_type: "CROSSED",
+  leverage: "10倍",
+};
 
 export default (props: IProps) => {
+  const [detail, setDetail] = useState({});
   const { history } = props;
+  const userInfo = User.getUserInfo();
+
   const goTo = (url: string) => {
     return () => {
       history.push(url);
@@ -33,8 +35,8 @@ export default (props: IProps) => {
   const getRowData = () => {
     const rowData: IRow[] = [
       {
-        name: 'margin_type',
-        label: '开仓模式',
+        name: "margin_type",
+        label: "开仓模式",
         type: "select",
         data: marginType,
       },
@@ -56,14 +58,14 @@ export default (props: IProps) => {
         name: "entry_type",
         type: "select",
         data: openType,
-        children: []
+        children: [],
       },
       {
         label: "止盈方式",
         name: "entry_type",
         type: "select",
         data: openType,
-        children: []
+        children: [],
       },
       {
         label: "止损方式",
@@ -71,8 +73,8 @@ export default (props: IProps) => {
       },
     ];
 
-    return rowData
-  }
+    return rowData;
+  };
   const goDetail = (key: string) => {
     return () => {
       history.push({
@@ -82,10 +84,25 @@ export default (props: IProps) => {
     };
   };
 
+  const getData = () => {
+    fetch
+      .get(api.getOrderOpenSettingData, { user_id: userInfo.id, set_type: 3 })
+      .then((res) => {
+        if (res.data) {
+          const [item] = res.data || [{}];
+          setDetail(item);
+        }
+      });
+  };
+
+  useEffect(() => {
+    getData();
+  }, [userInfo.id]);
+
   return (
     <div className="strategy-item">
       <Detail detail={detail} rowData={getRowData()} />
-      <div className="goback" onClick={goTo(pageUrlsMap.home)}>
+      <div className="goBack" onClick={goTo(pageUrlsMap.home)}>
         返回
       </div>
     </div>
