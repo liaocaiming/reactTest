@@ -13,6 +13,7 @@ import * as helpers from './lib/helpers';
 import * as constants from './lib/constants';
 import * as calculate from './lib/calculate';
 import * as query from './lib/query';
+import arrToObj from './lib/arrToObj';
 
 export {
   createReducer,
@@ -29,5 +30,6 @@ export {
   helpers,
   constants,
   calculate,
-  query
+  query,
+  arrToObj
 }
