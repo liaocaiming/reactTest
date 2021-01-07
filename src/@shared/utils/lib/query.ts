@@ -19,8 +19,8 @@ export function getQuery(search: string): object {
     throw new TypeError('getQuery cannot be called with string');
   }
 
-  if (search.indexOf('?') === 0) {
-    search = search.substr(1)
+  if (search.indexOf('?') >= 0) {
+    search = search.split('?')[1] || ''
   }
 
   if (search.indexOf('=') !== -1) {
@@ -47,7 +47,7 @@ export function getQuery(search: string): object {
 export function getUrlQuery() {
   let ret = {};
 
-  ret = getQuery(window.location.search);
+  ret = getQuery(window.location.href);
 
   return ret;
 }

@@ -12,16 +12,18 @@ import { IRow } from "@src/mobile/components/Detail/interface";
 
 import { marginType, openType } from "@src/mobile/utils/constants";
 
-import { User, fetch } from "@utils/index";
+import { User, fetch, query } from "@utils/index";
 
 import { api } from "@src/mobile/config";
+import { Toast } from "antd-mobile";
+import { Toggle } from "@shared/components";
 
 export default (props: IProps) => {
   const [detail, setDetail] = useState({});
   const { history } = props;
   const userInfo = User.getUserInfo();
-
-  const { entry_present = [], take_profit_present = [] } = detail as any;
+  const { entry_present = [], take_profit_present = [], id, stop } = (detail || {}) as any;
+  const params: any = query.getUrlQuery();
 
   const goTo = (url: string) => {
     return () => {
@@ -47,7 +49,7 @@ export default (props: IProps) => {
         name: `take_profit_present@${index}`,
         label: `第${index + 1}目标`,
         render: () => {
-          return <span>{it}$</span>;
+          return <span>{it}%</span>;
         },
       };
     }
@@ -110,25 +112,40 @@ export default (props: IProps) => {
 
     return rowData;
   };
-  const goDetail = (key: string) => {
-    return () => {
-      history.push({
-        pathname: pageUrlsMap.order,
-        key,
-      });
-    };
+  const goEdit = () => {
+    const { location } = props;
+    history.push({
+      pathname: pageUrlsMap.order,
+      search: location.search
+    });
   };
 
   const getData = () => {
+
+    const map = {
+      1: api.getOrderOpenSettingData,
+      2: api.getOrderOpenSettinOfficial
+    }
     fetch
-      .get(api.getOrderOpenSettingData, { user_id: userInfo.id, set_type: 3 })
+      .get(map[params.key || 1], { user_id: userInfo.id, set_type: params.order_type || 3 })
       .then((res) => {
         if (res.data) {
-          const [item] = res.data || [{}];
-          setDetail(item);
+          let item = res.data;
+          if (Array.isArray(item)) {
+            [item] = res.data || [{}];
+          }
+          setDetail(item || {});
         }
       });
   };
+
+  const start = () => {
+
+    fetch.post(api.StopOrStartUserSetting, { id }).then(() => {
+      Toast.success('启动成功');
+    })
+
+  }
 
   useEffect(() => {
     getData();
@@ -137,13 +154,21 @@ export default (props: IProps) => {
   return (
     <div className="strategy-item">
       <Detail detail={detail} rowData={getRowData()} />
-      <div className="btn-container" onClick={goTo(pageUrlsMap.home)}>
+      <div className="btn-container">
         <span className="btn back-btn" onClick={goTo(pageUrlsMap.strategyList)}>
           返回
         </span>
-        <span className="btn" onClick={goDetail("1")}>
-          编辑
-        </span>
+        <Toggle isShow={params.key != 2}>
+          <span className="btn margin_right_20" onClick={goEdit}>
+            编辑
+          </span>
+        </Toggle>
+        <Toggle isShow={stop !== false}>
+          <span className="btn" onClick={start}>
+            启动
+          </span>
+        </Toggle>
+
       </div>
     </div>
   );

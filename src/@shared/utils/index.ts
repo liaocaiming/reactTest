@@ -12,6 +12,7 @@ import queryToParamsStr from './lib/queryToParamsStr';
 import * as helpers from './lib/helpers';
 import * as constants from './lib/constants';
 import * as calculate from './lib/calculate';
+import * as query from './lib/query';
 
 export {
   createReducer,
@@ -27,5 +28,6 @@ export {
   queryToParamsStr,
   helpers,
   constants,
-  calculate
+  calculate,
+  query
 }

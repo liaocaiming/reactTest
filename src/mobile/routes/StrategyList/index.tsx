@@ -72,7 +72,7 @@ export default (props: IProps) => {
           text: "现货",
           onPress: () => {
             params.order_type = "1";
-            goTo(pageUrlsMap.order, params)();
+            goTo(pageUrlsMap.strategyItem, params)();
           },
           style,
         },
@@ -80,7 +80,7 @@ export default (props: IProps) => {
           text: "杠杆",
           onPress: () => {
             params.order_type = "2";
-            goTo(pageUrlsMap.order, params)();
+            goTo(pageUrlsMap.strategyItem, params)();
           },
           style,
         },
@@ -88,7 +88,7 @@ export default (props: IProps) => {
           text: "合约",
           onPress: () => {
             params.order_type = "3";
-            goTo(pageUrlsMap.order, params)();
+            goTo(pageUrlsMap.strategyItem, params)();
           },
           style,
         },
