@@ -80,3 +80,10 @@ export const ORDER_TYPE = [
     label: '合约'
   }
 ]
+
+
+export const marginType = {
+  ISOLATED: '逐仓',
+  CROSSED: '全仓'
+}
+

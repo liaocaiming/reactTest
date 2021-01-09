@@ -12,6 +12,7 @@ interface IUrls {
   order: string;
   strategyList: string;
   strategyItem: string;
+  orderDetail: string;
 }
 
 const router = [
@@ -81,6 +82,17 @@ const router = [
           load: () => import('@src/mobile/routes/StrategyItem')
         }),
         title: '策略列表',
+        exact: true
+      },
+
+
+      {
+        path: 'orderDetail',
+        name: 'orderDetail',
+        component: loadFile({
+          load: () => import('@src/mobile/routes/OrderDetail')
+        }),
+        title: '仓位详情',
         exact: true
       },
 

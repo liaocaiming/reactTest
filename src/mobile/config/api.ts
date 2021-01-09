@@ -1,5 +1,6 @@
 
 import { config } from '@utils/lib/request';
+import OrderDetail from '../routes/OrderDetail';
 
 
 const localApiPrefix = '/api/v1/';
@@ -15,7 +16,8 @@ export const urls = {
   getOrderOpenSettinOfficial: 'user_settings/official', // 推荐开单设置
   userSettings: 'user_settings', // 获取用户跟单设置
   setSecret: 'users/set_secret', // 绑定api
-  StopOrStartUserSetting: 'follow_records/change'
+  StopOrStartUserSetting: 'follow_records/change', // 启动停止策略
+  orderDetail: 'follow_records/show', // 订单详情
 };
 
 config([

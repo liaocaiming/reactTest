@@ -32,4 +32,5 @@ export interface IRow {
 export interface IProps {
   detail: object;
   rowData: IRow[];
+  col?: number;
 }

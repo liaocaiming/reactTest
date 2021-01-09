@@ -4,14 +4,16 @@ import { IProps, IRow } from "./interface.d";
 
 import { Toggle } from "@components/index";
 
+import { helpers } from '@utils/index'
+
 import "./index.less";
 
 export default (props: IProps) => {
-  const { detail, rowData } = props;
+  const { detail, rowData, col = 1 } = props;
 
   const renderContent = (rows: IRow[]) => {
     return (
-      <div className="mb-detail">
+      <div className="mb-content">
         {rows.map((item) => {
           let { name, label, children = [], type, data = [], afterDOM } = item;
           if (typeof label === 'function') {
@@ -34,9 +36,11 @@ export default (props: IProps) => {
           return (
             <div className={`detail-item  detail-item-${name}`} key={name}>
               <div className='detail-item-content'>
-                <span className={`detail-item-label detail-item-label-${name}`}>
-                  {label}
-                </span>
+                <Toggle isShow={!!label}>
+                  <span className={`detail-item-label detail-item-label-${name}`}>
+                    {label}
+                  </span>
+                </Toggle>
                 <span className={`detail-item-name detail-item-name-${name}`}>
                   <span>{value}</span>
                   <span className='detail-item-afterDom'>{afterDOM}</span>
@@ -56,5 +60,15 @@ export default (props: IProps) => {
     );
   };
 
-  return <div className='mb-detail'>{renderContent(rowData)}</div>;
+  const rows = helpers.dyadicArray(rowData, col);
+
+  return (
+    <div className='mb-detail'>
+      {
+        rows.map((rowArr: IRow[], index: number) => {
+          return <div key={String(index)} className={`row-item row-item-${index}`}>{renderContent(rowArr)}</div>
+        })
+      }
+    </div>
+  )
 };
