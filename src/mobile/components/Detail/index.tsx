@@ -15,7 +15,7 @@ export default (props: IProps) => {
     return (
       <div className="mb-content">
         {rows.map((item) => {
-          let { name, label, children = [], type, data = [], afterDOM, nameAndLabelRow, beforeDOM } = item;
+          let { name, label, children = [], type, data = [], afterDOM, nameAndLabelRow, beforeDOM, placeholder } = item;
           if (typeof label === 'function') {
             label = label(detail);
           }
@@ -32,6 +32,11 @@ export default (props: IProps) => {
           if (typeof beforeDOM === 'function') {
             beforeDOM = beforeDOM(detail)
           }
+
+          if (typeof placeholder === 'function') {
+            placeholder = placeholder(detail)
+          }
+
 
 
           if (item.render && typeof item.render === "function") {
@@ -52,9 +57,15 @@ export default (props: IProps) => {
                   </span>
                 </Toggle>
                 <span className={`detail-item-name detail-item-name-${name}`}>
-                  <span>{beforeDOM}</span>
-                  <span>{value}</span>
-                  <span className='detail-item-afterDom'>{afterDOM}</span>
+                  <Toggle isShow={value !== undefined && value !== null} >
+                    <span>{beforeDOM}</span>
+                    <span>{value}</span>
+                    <span className='detail-item-afterDom'>{afterDOM}</span>
+                  </Toggle>
+
+                  <Toggle isShow={value === undefined || value === null}>
+                    <span>{placeholder}</span>
+                  </Toggle>
                 </span>
               </div>
 

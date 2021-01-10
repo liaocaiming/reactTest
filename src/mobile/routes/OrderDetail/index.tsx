@@ -26,12 +26,12 @@ export default (props: IProps) => {
     getData(search)
   }, [])
 
-  const { follow_record_infos = [] } = detail as any;
+  const { follow_record_messages = [] } = detail as any;
 
   return (
     <div className='page-orderDetail'>
       <Title detail={detail} />
-      <DetailList list={follow_record_infos} />
+      <DetailList list={follow_record_messages} />
     </div>
   )
 }

@@ -18,21 +18,22 @@ export default (props: IProps) => {
   const { list = [] } = props;
 
   const description = (item: any) => {
-    const { remark, created_at } = item;
+    const { message } = item;
 
     return (
       <div className='description'>
-        <div>{created_at}</div>
-        <div>{remark}</div>
+        <div>{message}</div>
       </div>
     )
   }
 
-  const title = (side: boolean) => {
-    if (side) {
-      return <span className='buy'>买</span>
-    }
-    return <span className='sale'>卖</span>
+  const title = (item: any) => {
+    const { created_at } = item;
+    return <span>{created_at}</span>
+  }
+
+  if (!Array.isArray(list) || list.length === 0) {
+    return null
   }
 
   return (
@@ -42,7 +43,7 @@ export default (props: IProps) => {
         {
           list.map((item: any) => {
             const { side, id } = item;
-            return <Step key={id} title={title(side)} description={description(item)} icon={icon} />
+            return <Step key={id} title={title(item)} description={description(item)} icon={icon} />
           })
         }
       </Steps>

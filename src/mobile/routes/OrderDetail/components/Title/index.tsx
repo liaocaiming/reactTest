@@ -15,7 +15,7 @@ interface IProps {
 
 export default (props: IProps) => {
   const { detail = {} } = props;
-
+  const { follow_record_infos = [], status } = detail;
 
   const renderTitle = (detail: any) => {
     const {
@@ -24,6 +24,7 @@ export default (props: IProps) => {
       leverage,
       order_type = 3,
     } = detail;
+
 
     return (
       <div className='orderDetail-symbol'>
@@ -41,8 +42,13 @@ export default (props: IProps) => {
         </span>
         <span className="icon">{symbol}</span>
         <span className='margin_right_5 orderType'>{ORDER_TYPE_MAP[order_type]}</span>
-        {/* <span className='status'><span className='text'>平</span></span> */}
-        <span className='status'><span className='hold text'>持</span></span>
+
+        <Toggle isShow={status != 2}>
+          <span className='status'><span className='text'>平</span></span>
+        </Toggle>
+        <Toggle isShow={status == 2}>
+          <span className='status'><span className='hold text'>持</span></span>
+        </Toggle>
       </div>
 
     )
@@ -123,20 +129,32 @@ export default (props: IProps) => {
     )
   }
 
+  const renderSise = (side: boolean) => {
+    if (side) {
+      return <span className='buy'>买</span>
+    }
+    return <span className='sale'>卖</span>
+  }
+
 
   const renderList = (data: any[]) => {
     const rowData1: IRow[] = [
       {
         name: 'created_at',
+        render: (detail: any) => {
+          const { side, created_at } = detail;
+
+          return <span>{renderSise(side)}<span className='margin_left_5'>{created_at}</span></span>
+        }
       },
       {
         name: 'price',
-        beforeDOM: '$'
+        beforeDOM: '$',
       },
 
       {
         name: 'profit_loss',
-        beforeDOM: '$'
+        placeholder: '--'
       },
 
 
@@ -158,14 +176,19 @@ export default (props: IProps) => {
     )
   }
 
-  const { follow_record_infos = [] } = detail;
+
 
   return (
     <div className="orderDetail-detail">
       {renderTitle(detail)}
       <div className='total-info'>
-        {/* {renderEndTotal(detail)} */}
-        {renderHoldingTotal(detail)}
+        <Toggle isShow={status == 2}>
+          {renderHoldingTotal(detail)}
+        </Toggle>
+        <Toggle isShow={status !== 2}>
+          {renderEndTotal(detail)}
+        </Toggle>
+
       </div>
 
       {renderList(follow_record_infos)}

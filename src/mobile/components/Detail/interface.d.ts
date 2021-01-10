@@ -22,6 +22,7 @@ export interface IRow {
   label?: IDOMFn;
   afterDOM?: IDOMFn;
   beforeDOM?: IDOMFn;
+  placeholder?: IDOMFn;
   type?: Type;
   data?: IList[]
   isShow?: IShowFn;
