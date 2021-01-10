@@ -2,20 +2,16 @@ import React from "react";
 import { helpers, request } from "@utils/index";
 import "./index.less";
 import { marginType } from "../../constants";
+import { pageUrlsMap } from "@src/mobile/config/routes";
 
 interface IProps {
   data: object[];
   unbind?: (detail: any) => void;
+  goDetail: (url: string, query: any) => () => void;
 }
 
 export default (props: IProps) => {
-  const { unbind, data } = props;
-
-  const unbindRobot = () => {
-    request.post("/unbind", data).then((res) => {
-      unbind && unbind(data);
-    });
-  };
+  const { data, goDetail } = props;
 
   const renderItem = (detail: any) => {
     const {
@@ -26,11 +22,12 @@ export default (props: IProps) => {
       quantity,
       profit_loss,
       created_at,
-      margin_type
+      margin_type,
+      id
     } = detail;
 
     return (
-      <div className="record-item">
+      <div key={id} className="record-item" onClick={goDetail(pageUrlsMap.orderDetail, { id })}>
         <div className="first-line row">
           <div className="left">
             <span className="icon">{symbol}</span>

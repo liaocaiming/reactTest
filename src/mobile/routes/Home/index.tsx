@@ -8,11 +8,12 @@ import SetICon from "./images/home-set-icon.png";
 import { pageUrlsMap } from "@src/mobile/config/routes";
 import { api } from "@src/mobile/config/index";
 import { fetch } from "@utils/index";
-import { User } from "@utils/index";
+import { User, queryToParamsStr } from "@utils/index";
 import { Toast } from "antd-mobile";
 interface IComponent {
   data: any[];
   unbindRobot?: (params: any) => () => void;
+  goDetail: (url: string, query: any) => () => void;
 }
 
 interface IData {
@@ -74,10 +75,13 @@ export default (props: IProps) => {
     setList([]);
   };
 
-  const goTo = (url: string) => {
+  const goTo = (url: string, search: any = {}) => {
     return () => {
       const { history } = props;
-      history.push(url);
+      history.push({
+        pathname: url,
+        search: queryToParamsStr(search)
+      });
     };
   };
 
@@ -96,6 +100,7 @@ export default (props: IProps) => {
       <div className="margin_15 padding_15">
         {component({
           data: list,
+          goDetail: goTo,
           unbindRobot,
         })}
       </div>
