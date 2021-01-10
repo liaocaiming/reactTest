@@ -1,6 +1,8 @@
 .mb-detail {
+  flex: 1;
   .mb-content {
-    flex: 1;
+    display: flex;
+    justify-content: space-between;
   }
   .detail-item-content {
     display: flex;
@@ -15,7 +17,17 @@
     padding: 0 15px;
   }
 
-  .row-item {
+  .detail-item-flex {
     display: flex;
+    flex-direction: column;
+    line-height: 1;
+    margin-bottom: 10px;
+    .detail-item-label {
+      margin-bottom: 5px;
+    }
+  }
+
+  .flex-1 {
+    flex: 1;
   }
 }

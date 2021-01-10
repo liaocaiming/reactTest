@@ -9,13 +9,13 @@ import { helpers } from '@utils/index'
 import "./index.less";
 
 export default (props: IProps) => {
-  const { detail, rowData, col = 1 } = props;
+  const { detail, rowData, col = 1, nameAndLabelAllRow = false } = props;
 
   const renderContent = (rows: IRow[]) => {
     return (
       <div className="mb-content">
         {rows.map((item) => {
-          let { name, label, children = [], type, data = [], afterDOM } = item;
+          let { name, label, children = [], type, data = [], afterDOM, nameAndLabelRow, beforeDOM } = item;
           if (typeof label === 'function') {
             label = label(detail);
           }
@@ -29,19 +29,30 @@ export default (props: IProps) => {
             afterDOM = afterDOM(detail)
           }
 
+          if (typeof beforeDOM === 'function') {
+            beforeDOM = beforeDOM(detail)
+          }
+
+
           if (item.render && typeof item.render === "function") {
             value = item.render(detail, item.name);
           }
 
+          let isTwoRow = nameAndLabelAllRow;
+          if (nameAndLabelRow !== undefined) {
+            isTwoRow = nameAndLabelRow
+          }
+
           return (
-            <div className={`detail-item  detail-item-${name}`} key={name}>
-              <div className='detail-item-content'>
+            <div className={helpers.reactClassNameJoin(['detail-item', `detail-item-${name}`, col === 1 ? 'flex-1' : ''])} key={name}>
+              <div className={helpers.reactClassNameJoin(['detail-item-content', isTwoRow ? 'detail-item-flex' : ''])}>
                 <Toggle isShow={!!label}>
                   <span className={`detail-item-label detail-item-label-${name}`}>
                     {label}
                   </span>
                 </Toggle>
                 <span className={`detail-item-name detail-item-name-${name}`}>
+                  <span>{beforeDOM}</span>
                   <span>{value}</span>
                   <span className='detail-item-afterDom'>{afterDOM}</span>
                 </span>

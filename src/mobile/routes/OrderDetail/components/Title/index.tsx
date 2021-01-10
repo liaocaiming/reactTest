@@ -76,20 +76,99 @@ export default (props: IProps) => {
   }
 
   const renderHoldingTotal = (detail: any) => {
+    const rowData1: IRow[] = [
+      {
+        name: 'avg_price',
+        label: '开仓均价',
+      },
+      {
+        label: '收益',
+        name: 'profit_loss',
+        afterDOM: 'usdt'
+      },
+    ]
+
+    const rowData2: IRow[] = [
+      {
+        name: 'current_quantity',
+        label: '持仓量',
+        afterDOM: '张'
+      },
+      {
+        name: 'residue_entry_amount',
+        label: '持仓价值',
+        afterDOM: 'usdt'
+      },
+      {
+        name: 'current_margin',
+        label: '保证金',
+        afterDOM: 'usdt'
+      },
+      {
+        name: 'next_profit_price',
+        label: '止盈目标',
+        afterDOM: 'usdt'
+      },
+      {
+        name: 'next_loss_price',
+        label: '止损目标',
+        afterDOM: 'usdt'
+      }
+    ]
     return (
-      <div>renderHoldingTotal</div>
+      <div className='holding'>
+        <div className='holding-profits'><Detail rowData={rowData1} detail={detail} nameAndLabelAllRow col={2} /></div>
+        <div className='holding-profits-detail'><Detail rowData={rowData2} detail={detail} /></div>
+      </div>
     )
   }
 
 
   const renderList = (data: any[]) => {
+    const rowData1: IRow[] = [
+      {
+        name: 'created_at',
+      },
+      {
+        name: 'price',
+        beforeDOM: '$'
+      },
 
+      {
+        name: 'profit_loss',
+        beforeDOM: '$'
+      },
+
+
+      {
+        name: 'quantity',
+        afterDOM: '张'
+      },
+
+    ]
+
+    return (
+      <div className='list'>
+        {
+          data.map((item) => {
+            return <Detail key={item.id} rowData={rowData1} detail={item} col={4} />
+          })
+        }
+      </div>
+    )
   }
+
+  const { follow_record_infos = [] } = detail;
 
   return (
     <div className="orderDetail-detail">
       {renderTitle(detail)}
-      {renderEndTotal(detail)}
+      <div className='total-info'>
+        {/* {renderEndTotal(detail)} */}
+        {renderHoldingTotal(detail)}
+      </div>
+
+      {renderList(follow_record_infos)}
     </div>
   )
 }
