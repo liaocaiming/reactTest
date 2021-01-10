@@ -13,6 +13,7 @@ interface IUrls {
   strategyList: string;
   strategyItem: string;
   orderDetail: string;
+  openNumberLimit: string;
 }
 
 const router = [
@@ -95,6 +96,18 @@ const router = [
         title: '仓位详情',
         exact: true
       },
+
+      {
+        path: 'openNumberLimit',
+        name: 'openNumberLimit',
+        component: loadFile({
+          load: () => import('@src/mobile/routes/OpenNumberLimit')
+        }),
+        title: '开单数设置',
+        exact: true
+      },
+
+
 
     ],
   },

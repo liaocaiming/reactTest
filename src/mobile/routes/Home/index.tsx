@@ -134,7 +134,7 @@ export default (props: IProps) => {
     <div className="mb-home">
       <div className="header">
         <div className="clearfix icon-container">
-          <img className="fl logo-icon" src={logoIcon} />
+          <img className="fl logo-icon" src={logoIcon} onClick={goTo(pageUrlsMap.openNumberLimit)} />
           <img
             className="fr set-icon"
             src={SetICon}
