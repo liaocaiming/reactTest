@@ -6,7 +6,7 @@ import { query, fetch } from '@utils/index'
 
 import './index.less';
 
-import { Title } from './components/index'
+import { Title, DetailList } from './components/index'
 
 import { api } from '@src/mobile/config/index';
 
@@ -26,9 +26,12 @@ export default (props: IProps) => {
     getData(search)
   }, [])
 
+  const { follow_record_infos = [] } = detail as any;
+
   return (
     <div className='page-orderDetail'>
       <Title detail={detail} />
+      <DetailList list={follow_record_infos} />
     </div>
   )
 }
