@@ -82,7 +82,7 @@ const router = [
         component: loadFile({
           load: () => import('@src/mobile/routes/StrategyItem')
         }),
-        title: '策略列表',
+        title: '策略详情',
         exact: true
       },
 
