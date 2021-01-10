@@ -16,7 +16,6 @@ import IProps from '@typings/react.d'
 import { api } from "@src/mobile/config";
 
 export default (props: IProps) => {
-  const { detail = {} } = props;
 
   const formData: FormItemOptions[] = [
     {
@@ -36,6 +35,7 @@ export default (props: IProps) => {
       label: "是否限制开单数量",
       name: "is_limit_num",
       type: "switch",
+      initialValue: true,
     },
     {
       label: "限制开单数量",
@@ -49,6 +49,10 @@ export default (props: IProps) => {
           pattern: constants.pattern.positiveNum,
           message: "限制开单数量请输入正整数",
         },
+        {
+          required: true,
+          message: "请输入限制开单数量",
+        },
       ],
       eleAttr: {
         type: "number",
@@ -57,7 +61,9 @@ export default (props: IProps) => {
   ];
 
   const onMulSelectFinish = (params) => {
-
+    if (!params.is_limit_num) {
+      params.max_follow_sum = '-1'
+    }
     fetch.post(api.orderOpenSettingsUpdate, params).then((res) => {
       if (res.message) {
         Toast.success(res.message, 1, () => {
@@ -73,12 +79,6 @@ export default (props: IProps) => {
       <AppForm
         formItems={formData}
         onFinish={onMulSelectFinish}
-        initialValues={{
-          is_limit_num: detail.max_follow_sum == -1,
-          max_follow_sum:
-            detail.max_follow_sum == -1 ? "" : detail.max_follow_sum,
-          ...detail,
-        }}
         submitOptions={{
           text: "确定",
         }}
