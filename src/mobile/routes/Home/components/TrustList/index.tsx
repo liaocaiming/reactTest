@@ -1,7 +1,8 @@
 import React from "react";
-import { helpers, request } from "@utils/index";
+import { helpers } from "@utils/index";
 import "./index.less";
 import { marginType } from "../../constants";
+import { Toggle } from "@shared/components";
 
 interface IProps {
   data: object[];
@@ -40,7 +41,9 @@ export default (props: IProps) => {
 
           <div className="right">
             <span className="margin_right_5">{marginType[margin_type]}</span>
-            <span>{leverage}X</span>
+            <Toggle isShow={parseInt(leverage) > 0}>
+              <span>{leverage}X</span>
+            </Toggle>
           </div>
         </div>
 

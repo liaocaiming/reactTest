@@ -7,9 +7,11 @@ import UIcon from "./images/home-u-icon.png";
 import SetICon from "./images/home-set-icon.png";
 import { pageUrlsMap } from "@src/mobile/config/routes";
 import { api } from "@src/mobile/config/index";
-import { fetch } from "@utils/index";
+import { fetch, constants } from "@utils/index";
 import { User, queryToParamsStr } from "@utils/index";
 import { Toast } from "antd-mobile";
+import { Select } from '@src/mobile/components/index';
+
 interface IComponent {
   data: any[];
   unbindRobot?: (params: any) => () => void;
@@ -46,9 +48,14 @@ const data: IData[] = [
 export default (props: IProps) => {
   const [type, setType] = useState(2);
   const [list, setList] = useState([]);
+  const [orderType, setOrderType] = useState('-1');
   const userInfo = User.getUserInfo();
 
   const getList = (params: any) => {
+    if (params.order_type === '-1') {
+      delete params.order_type
+    }
+
     fetch.get(api.followRecords, params).then((res) => {
       if (res.data) {
         setList(res.data || []);
@@ -64,7 +71,7 @@ export default (props: IProps) => {
         getList({
           user_id: userInfo.id,
           status: type,
-          order_type: 3,
+          order_type: orderType,
         });
       });
     };
@@ -89,9 +96,9 @@ export default (props: IProps) => {
     getList({
       user_id: userInfo.id,
       status: type,
-      order_type: 3,
+      order_type: orderType,
     });
-  }, [userInfo.id, type]);
+  }, [userInfo.id, type, orderType]);
 
   const renderListContent = () => {
     const item = data.find((it) => it.name === type) as IData;
@@ -106,6 +113,22 @@ export default (props: IProps) => {
       </div>
     );
   };
+
+  const renderSelect = () => {
+    const data = constants.ORDER_TYPE.slice();
+    data.unshift({
+      value: '-1',
+      label: '全部'
+    })
+
+    return (
+      <div className='home-select'>
+        <Select data={data} value={orderType} onChange={(value: any) => {
+          setOrderType(value)
+        }} />
+      </div>
+    )
+  }
 
   return (
     <div className="mb-home">
@@ -125,6 +148,8 @@ export default (props: IProps) => {
         </div>
         <Tabs list={data} activeKey={type} onChange={onTabChange} />
       </div>
+
+      {renderSelect()}
       {renderListContent()}
     </div>
   );

@@ -50,13 +50,13 @@ export default (props: IProps) => {
               >
                 {side ? "买" : "卖"}
               </span>
-              <span className="icon">{symbol}</span>
+              <span className="icon margin_right_5">{symbol}</span>
               <span className='margin_right_5 orderType'>{ORDER_TYPE_MAP[order_type]}</span>
             </div>
 
             <div className="right">
               <span className="margin_right_5">{marginType[margin_type]}</span>
-              <Toggle isShow={leverage}>
+              <Toggle isShow={parseInt(leverage) > 0}>
                 <span>{leverage}X</span>
               </Toggle>
             </div>

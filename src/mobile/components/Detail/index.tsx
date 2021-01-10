@@ -13,7 +13,7 @@ export default (props: IProps) => {
 
   const renderContent = (rows: IRow[]) => {
     return (
-      <div className="mb-content">
+      <div className={`${col === 1 ? '' : "mb-content"}`}>
         {rows.map((item) => {
           let { name, label, children = [], type, data = [], afterDOM, nameAndLabelRow, beforeDOM, placeholder } = item;
           if (typeof label === 'function') {
