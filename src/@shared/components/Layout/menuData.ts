@@ -18,14 +18,14 @@ export default [
     "hasChild": 0,
     "menuType": 1,
   },
- 
+
   {
     "key": "rate",
     "title": "汇率柱形统计图",
     "hasChild": 0,
     "menuType": 1,
   },
- 
+
   {
     "key": "chart",
     "title": "汇率-价格统计图",
@@ -41,6 +41,12 @@ export default [
   {
     "key": "statistics",
     "title": "合约数据统计",
+    "hasChild": 0,
+    "menuType": 1,
+  },
+  {
+    "key": "symbolSlectList",
+    "title": "牛币筛选",
     "hasChild": 0,
     "menuType": 1,
   }
