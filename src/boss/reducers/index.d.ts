@@ -1,3 +1,3 @@
-export  interface IBossActions {
-  getSymbol:(opions?: { url?: string}) => Promise<any>
+export interface IBossActions {
+  getSymbol: (opions?: { url?: string, method: 'get' | 'post' }) => Promise<any>
 }

@@ -1,3 +1,4 @@
+import { helpers } from '@shared/utils';
 import { fromJS } from "immutable";
 import ACTION_TYPES from "./actionTypes";
 
@@ -21,6 +22,23 @@ const defaultState = fromJS({
   // 用于保存Screen自定义属性
   customProps: {},
 
+  // 页面全局配置
+  curSettings: {},
+  defaultSettings: {},
+
+  // 当前列表
+  curList: [],
+  curListKeys: {
+    pageDataKey: "page",
+    listDataKey: "list",
+    selectedListKey: "selectedList",
+    id: ""
+  },
+
+  // 当前正在操作的列表项
+  curListItem: {},
+  defaultListItem: {},
+
   // 操作相关查询对象
   actionQuery: {}
 });
@@ -43,9 +61,9 @@ function initScreenState($$state: any, action: IAction) {
 
   // 第一次初始化
   // if (!$$myScreenState) {
-    $$myScreenState = defaultState.mergeDeep(action.payload);
+  $$myScreenState = defaultState.mergeDeep(action.payload);
 
-    // 更新
+  // 更新
   // } else {
   //   $$myScreenState = $$myScreenState.mergeDeep(action.payload);
   // }
@@ -64,17 +82,29 @@ function initScreenState($$state: any, action: IAction) {
  * @returns
  */
 function receiveScreenData($$state: any, action: IAction) {
-  const  payload = action.payload
-  const pageNo = payload && payload.pageNo || 1;
-  const pageSize = payload && payload.pageSize || 10
-  const list = payload && payload.dataList || []
+  const { payload } = action
+  // const pageNo = payload && payload.pageNo || 1;
+  // const pageSize = payload && payload.pageSize || 10
+  // let list = payload && payload.dataList || [];
+  // if (Array.isArray(payload)) {
+  //   list = payload;
+  // }
+
+  let { pageNo = 1, pageSize = 10, dataList = [], totalCount = 0, totalPages = 0 } = payload || {}
+  if (Array.isArray(payload) && payload.length > 0) {
+    dataList = payload
+    totalCount = dataList.length;
+  }
+  console.log(dataList, 'dataList');
+  console.log(totalCount, 'totalCount');
+
   const data = {
-    list: list,
+    list: dataList,
     page: {
       pageNo,
       pageSize,
-      totalCount: payload && payload.totalCount || 0,
-      totalPages: payload && payload.totalPages || 0
+      totalCount,
+      totalPages
     }
   }
   return $$state
@@ -84,7 +114,7 @@ function receiveScreenData($$state: any, action: IAction) {
 }
 
 
-export default function(state = defaultState, action: IAction) {
+export default function (state = defaultState, action: IAction) {
 
   switch (action.type) {
     // Screen 全局 action

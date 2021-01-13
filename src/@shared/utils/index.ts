@@ -14,6 +14,7 @@ import * as constants from './lib/constants';
 import * as calculate from './lib/calculate';
 import * as query from './lib/query';
 import arrToObj from './lib/arrToObj';
+import trim from './lib/trim';
 
 export {
   createReducer,
@@ -31,5 +32,6 @@ export {
   constants,
   calculate,
   query,
-  arrToObj
+  arrToObj,
+  trim
 }

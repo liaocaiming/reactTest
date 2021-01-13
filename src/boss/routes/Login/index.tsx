@@ -2,13 +2,13 @@ import * as React from "react";
 
 import { Form, Input, Button, Checkbox, message } from "antd";
 
-import User from '@utils/lib/User';
+import User from "@utils/lib/User";
 
 import "./index.css";
 
-import IProps from '@typings/react.d'
+import IProps from "@typings/react.d";
 
-import { connect } from '@containers/app'
+import { connect } from "@containers/app";
 
 const layout = {
   labelCol: { span: 8 },
@@ -19,9 +19,9 @@ const tailLayout = {
 };
 
 const obj = {
-  username: 'woshinidaye',
-  password: 'woshidajiba'
-}
+  username: "woshinidaye",
+  password: "woshidajiba",
+};
 
 @connect()
 export default class App extends React.PureComponent<IProps> {
@@ -32,12 +32,12 @@ export default class App extends React.PureComponent<IProps> {
     // })
 
     if (values.username !== obj.username || values.password !== obj.password) {
-      message.error('请输入正确的密码或用户名')
+      message.error("请输入正确的密码或用户名");
       return;
     }
     User.saveUserInfo(values);
     const { history } = this.props;
-    history.push('/boss/chart')
+    history.push("/boss/iconSelectList");
   };
 
   onFinishFailed = (errorInfo) => {
@@ -49,7 +49,9 @@ export default class App extends React.PureComponent<IProps> {
 
     return (
       <div className="boss-form">
-        <div className='logo'><img src="http://5b0988e595225.cdn.sohucs.com/images/20170922/ca5207e68211450e863d2d859e480e91.gif" /></div>
+        <div className="logo">
+          <img src="http://5b0988e595225.cdn.sohucs.com/images/20170922/ca5207e68211450e863d2d859e480e91.gif" />
+        </div>
         <Form
           {...layout}
           name="basic"
@@ -86,5 +88,4 @@ export default class App extends React.PureComponent<IProps> {
       </div>
     );
   }
-
-};
+}

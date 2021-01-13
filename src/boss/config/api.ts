@@ -2,7 +2,8 @@
 import { config } from '@utils/lib/request';
 
 
-const localApiPrefix = '/api/';
+// const localApiPrefix = '/api/';
+const localApiPrefix = '/';
 
 export const urls = {
   get_indicators: 'get_indicators', // 获取牛币列表；
@@ -17,6 +18,7 @@ export const urls = {
   long_short_user_ratio: 'long_short_user_ratio', // 多空持仓人数比
   long_short_taker_ratio: 'long_short_taker_ratio', // 合约主动买卖量
   depth: 'depth', // 深度接口
+  excel_data: 'excel_data', // 
 };
 
 config([

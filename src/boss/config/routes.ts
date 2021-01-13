@@ -88,7 +88,14 @@ const router = [
         title: '牛币筛选',
         exact: true
       },
-
+      {
+        path: 'iconSelectList',
+        component: loadFile({
+          load: () => import('@src/boss/routes/IconSelectList')
+        }),
+        title: '合约数据统计',
+        exact: true
+      },
     ],
   },
 

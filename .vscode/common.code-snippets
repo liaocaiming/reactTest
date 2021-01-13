@@ -15,6 +15,34 @@
 	// 	],
 	// 	"description": "Log output to console"
 	// }
+	"pageList": {
+		"scope": "javascript,typescript,typescriptreact",
+		"prefix": "PL",
+		"body": [
+			"import React from 'react';",
+			"import { PageList } from '@components/index';",
+			"import linkPort from '@src/boss/config/api'; // 注意: 不是boss项目的请修改路径",
+			"import { connect } from '@containers/appScreen';",
+			"import IProps from '@typings/react.d';",
+			"@connect()",
+			"export default class App extends React.PureComponent<IProps> {",
+			"private row = [];",
+			"public render() {",
+			" return (",
+			"     <PageList",
+			"       {...this.props}",
+			"       url={linkPort.shelfPagePrepareHouseProductStock}",
+			"       tableComponentProps={{ columns: this.row }}",
+			"       groupSearchProps={{",
+			"         isShowResetBtn: true,",
+			"       }}",
+			"     />",
+			"   );",
+			"  }",
+			"}"
+		],
+		"description": "table列表快捷生成"
+	},
 	"connect": {
 		"scope": "javascript,typescript,typescriptreact",
 		"prefix": "ACN",

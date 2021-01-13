@@ -56,8 +56,24 @@ export function dyadicArray(data: any[], num: number): any[][] {
   return arr;
 }
 
-export function getSearchData (rowData: any[], keys: string[]) {
-   return rowData.filter((item:any) => {
-     return keys.indexOf(item.dataIndex) >= 0
-   })
+export function getSearchData(rowData: any[], keys: string[]) {
+  return rowData.filter((item: any) => {
+    return keys.indexOf(item.dataIndex) >= 0
+  })
+}
+
+
+// 统一处理数据字典 oppositeFilter 是否反向过滤
+export function getDic(dictionary: any, filterValue?: string[], oppositeFilter?: boolean, keyField?: string) {
+  let dic = dictionary || [];
+  if (filterValue && filterValue.length > 0 && !oppositeFilter) {
+    dic = dic.filter((item: any) => {
+      return filterValue.includes(String((keyField && item[keyField]) || item.value));
+    });
+  } else if (filterValue && filterValue.length > 0 && oppositeFilter) {
+    dic = dic.filter((item: any) => {
+      return !filterValue.includes(String((keyField && item[keyField]) || item.value));
+    });
+  }
+  return dic;
 }
