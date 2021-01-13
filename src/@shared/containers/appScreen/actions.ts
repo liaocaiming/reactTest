@@ -48,7 +48,7 @@ export function changeScreenActionQuery(payload: any) {
 interface Istatuspayload {
   fetchUrl: string;
   query: {
-    id: string| number;
+    id: string | number;
   }
 }
 
@@ -86,7 +86,14 @@ export function receiveScreenData(data: any) {
   };
 }
 
-export function getScreenData(option?: any) {
+interface IOptions {
+  method?: 'get' | 'post',
+  formUrl?: string;
+  query?: object;
+  [key: string]: any
+}
+
+export function getScreenData(option?: IOptions) {
   return (dispatch: any, getState: any) => {
     const screenState = getState().screen;
     const refreshTime = getState().app.get("rateInterval");
@@ -126,6 +133,7 @@ export function getScreenData(option?: any) {
       }
     }
 
+    const { method = 'post' } = option || {};
     // 如果 Url 路径不存在，返回空 Promise
     if (!myUrl) {
       return new Promise(resolve => {
@@ -133,26 +141,31 @@ export function getScreenData(option?: any) {
       });
     }
 
-    return dispatch(appActions.post(myUrl, query, ajaxOption)).then((json: any) => {
-      const pageNo = json && json.data && json.data.page && json.data.page.pageNo
-      if (json.success) {
-        // 如果请求的页码大于返回数据的总页数，请求最后页
-        if (pageNo < query.pageNo) {
-          dispatch(
-            changeScreenQuery({
-              pageNo: json.totalPage
-            })
-          );
-          dispatch(getScreenData());
+    return dispatch(appActions[method](myUrl, query, ajaxOption)).then((json: any) => {
+      // const pageNo = json && json.data && json.data.page && json.data.page.pageNo
+      // if (json.success) {
+      //   // 如果请求的页码大于返回数据的总页数，请求最后页
+      //   if (pageNo < query.pageNo) {
+      //     dispatch(
+      //       changeScreenQuery({
+      //         pageNo: json.totalPage
+      //       })
+      //     );
+      //     dispatch(getScreenData());
 
-          // 正常接收数据
-        } else {
-          dispatch(receiveScreenData(json.data));
-        }
+      //     // 正常接收数据
+      //   } else {
+      //     dispatch(receiveScreenData(json.data));
+      //   }
+      // } else {
+      //   dispatch(receiveScreenData(null));
+      // }
+
+      if (json.code == 200) {
+        dispatch(receiveScreenData(json.data));
       } else {
         dispatch(receiveScreenData(null));
       }
-
       if (isFetchInfinite && curFetchIntervalTime > 0) {
         refreshTimeout = window.setTimeout(() => {
           dispatch(getScreenData());

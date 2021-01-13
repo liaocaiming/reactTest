@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import * as bossActions from './actions';
 
-function defaultMapStateToProps(state: {app: any, screen: any, boss: any}) {
+function defaultMapStateToProps(state: { app: any, screen: any, boss: any }) {
   return {
     $$app: state.app,
     $$screen: state.screen,

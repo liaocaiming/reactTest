@@ -79,7 +79,7 @@ function setHeader(url: string) {
       res.Authorization = userInfo.token
       return JSON.stringify(res)
     } else {
-      window.location.hash = '#/'
+      // window.location.hash = '#/'
       return '';
     }
   }

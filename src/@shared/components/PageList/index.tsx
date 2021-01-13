@@ -27,6 +27,7 @@ export interface IColumn extends IColumnProps {
 
 export interface ITable extends ITableComponentProps {
   columns: IColumn[];
+  isChangePageRequest?: boolean;
 }
 
 type IRefreshFn = (options?: {
@@ -37,8 +38,10 @@ type IRefreshFn = (options?: {
 // export interface IProps extends IAllProps {
 export interface IProps extends IAllProps {
   url: string; // 列表接口;
+  method?: "get" | "post";
   initOption?: {
-    params: object;
+    isFirst?: boolean;
+    params?: object;
     initType?: "actionQuery"; // 表示默认参数可以删除
   };
   tableComponentProps: ITable;
@@ -96,7 +99,7 @@ export default class App extends React.Component<IProps> {
     pageSize?: number;
   }) => {
     const { params, pageNo, pageSize } = options || {};
-    const { actions } = this.props;
+    const { actions, method = "post" } = this.props;
     if (pageNo) {
       actions.changeScreenQuery({
         pageNo,
@@ -112,7 +115,9 @@ export default class App extends React.Component<IProps> {
     if (params) {
       actions.changeScreenActionQuery(filterEmptyValue(params));
     }
-    actions.getScreenData();
+    actions.getScreenData({
+      method,
+    });
   };
 
   public downExcel = () => {
@@ -201,7 +206,7 @@ export default class App extends React.Component<IProps> {
       (this.props.$$screen.getIn(["data", "page"]) &&
         this.props.$$screen.getIn(["data", "page"]).toJS()) ||
       {};
-    const { pagination = {} } = tableComponentProps;
+    const { pagination = {}, isChangePageRequest = true } = tableComponentProps;
 
     return (
       <TableComponent
@@ -215,9 +220,15 @@ export default class App extends React.Component<IProps> {
           showQuickJumper: true,
           ...pagination,
           onChange: (pageNo: number, pageSize?: number) => {
+            if (!isChangePageRequest) {
+              return;
+            }
             this.initData({ pageNo });
           },
           onShowSizeChange: (current: number, pageSize: number) => {
+            if (!isChangePageRequest) {
+              return;
+            }
             this.initData({ pageNo: 1, pageSize });
           },
         }}

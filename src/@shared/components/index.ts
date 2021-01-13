@@ -6,9 +6,12 @@ import Toggle from './Toggle';
 
 import { AppForm } from './AppForm';
 
+import PageList from './PageList';
+
 export {
   GroupSearch,
   TableComponent,
   Toggle,
-  AppForm
+  AppForm,
+  PageList
 }

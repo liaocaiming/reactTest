@@ -4,7 +4,7 @@ import Login from '@src/boss/routes/Login';
 
 import Layout from '@shared/components/Layout';
 
-const router =  [
+const router = [
   {
     path: '/',
     component: Login,
@@ -50,8 +50,8 @@ const router =  [
         exact: true
       },
 
-      
-    
+
+
       {
         path: 'rate',
         component: loadFile({
@@ -79,9 +79,18 @@ const router =  [
         title: '合约数据统计',
         exact: true
       },
+
+      {
+        path: 'iconSelectList',
+        component: loadFile({
+          load: () => import('@src/boss/routes/IconSelectList')
+        }),
+        title: '合约数据统计',
+        exact: true
+      },
     ],
   },
-  
+
 ]
 
 

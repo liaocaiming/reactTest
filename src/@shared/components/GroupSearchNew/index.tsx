@@ -4,7 +4,7 @@ import { Button } from "antd";
 
 import moment from "dayjs";
 
-import "./index.scss";
+import "./index.less";
 
 import { helpers, trim } from "@utils/index";
 
@@ -291,9 +291,9 @@ export default class GroupSearch extends React.Component<IProps, IState> {
           type = item.type;
         }
 
-        if (key.indexOf("_") !== -1) {
+        if (key.indexOf("@") !== -1) {
           // 数据字典有冲突时,加前缀, 后面的时用搜索的字段
-          const k = key.split("_")[1];
+          const k = key.split("@")[1];
           params[k] = searchParams[key];
         } else if (key.indexOf("&") !== -1) {
           // 处理时间选择区间的问题, 太多地方用了, 不想自定义了, 好烦, dataIndex: startDate&endData, 用&连接
@@ -466,8 +466,9 @@ export default class GroupSearch extends React.Component<IProps, IState> {
 
     if (type === "select") {
       const { selectData } = this.state;
-      let options = selectData[dataIndex] || [];
-      const { listFilters = {} } = item;
+      const { listFilters = {}, list } = item;
+      let options = list || selectData[dataIndex] || [];
+
       const { values = [], opposite = false } = listFilters as any;
       if (values.length > 0) {
         options = helpers.getDic(options, values, opposite);
