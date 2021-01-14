@@ -11,6 +11,7 @@ import { fetch, filterObjAttr, validator } from "@utils/index";
 import api from "@src/mobile/config/api";
 import rules from "./rules";
 import { User } from "@utils/index";
+import md5 from "md5";
 import { pageUrlsMap } from "@src/mobile/config/routes";
 const obj: any = {
   autocomplete: "new-password",
@@ -36,16 +37,18 @@ export default (props: IProps) => {
       }
 
       fetch
-        .post(api[type], values)
+        .post(api[type], { ...values, password: md5(values.password) })
         .then((res) => {
           const { data = {} } = res;
           if (type === "login") {
             User.saveUserInfo(res.data);
-          }
-          if (data.check) {
-            history.push(pageUrlsMap.home);
+            if (data.check) {
+              history.push(pageUrlsMap.home);
+            } else {
+              history.push(pageUrlsMap.pay);
+            }
           } else {
-            history.push(pageUrlsMap.pay);
+            setType("login");
           }
         })
         .catch((error) => {
