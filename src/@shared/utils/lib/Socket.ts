@@ -6,6 +6,7 @@ const emptyFn = function () {
 
 interface IProps {
   url: string;
+  channel: string;
   message: (data: any) => void;
   close?: (e: CloseEvent) => void;
   error?: (e: Event) => void;
@@ -15,20 +16,24 @@ interface IProps {
 let wss: WebSocket;
 
 export default (props: IProps): WebSocket => {
-  const { url, message, close = emptyFn, error = emptyFn, open = emptyFn } = props;
+  const { url, message, close = emptyFn, error = emptyFn, open = emptyFn, channel } = props;
   if (wss) {
     wss.close();
   }
   wss = new WebSocket(url);
   // let send = wss.send;
   wss.addEventListener('close', (e) => {
+    console.log('close');
+
     close(e)
   })
   wss.addEventListener('error', (e) => {
+    console.log('error');
     error(e)
   })
 
   wss.addEventListener('open', (e) => {
+    console.log('open');
     open(e)
   })
 
@@ -41,12 +46,22 @@ export default (props: IProps): WebSocket => {
         data = e.data;
       }
     }
-    message(e.data)
+
+    if (data.type != 'ping') {
+      message(data)
+    }
+
+  })
+
+  wss.addEventListener(channel, (e) => {
+    console.log(e, 'channel');
+
   })
 
   // wss.send = (data: Object) => {
   //   // let msg = queryToParamsStr(data);
   //   send('fff');
   // }
+
   return wss;
 }

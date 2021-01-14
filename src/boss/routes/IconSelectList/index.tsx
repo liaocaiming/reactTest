@@ -3,7 +3,7 @@ import { PageList } from "@components/index";
 import linkPort from "@src/boss/config/api"; // 注意: 不是boss项目的请修改路径
 import { connect } from "@containers/appScreen";
 import IProps from "@typings/react.d";
-import { constants, queryToParamsStr, socket } from "@utils/index";
+import { constants, socket } from "@utils/index";
 
 import "./index.less";
 
@@ -19,6 +19,7 @@ const list = constants.intervals.map((item) => {
 const render = (value: string) => {
   return <div className="item" style={{ background: value }} />;
 };
+
 @connect()
 export default class App extends React.PureComponent<IProps> {
   private wss: WebSocket;
@@ -165,11 +166,18 @@ export default class App extends React.PureComponent<IProps> {
     },
   ];
 
+
+
   componentDidMount() {
+
+
     this.wss = socket({
-      url: "ws://47.74.177.128/cable",
+      url: "ws://47.74.250.66/cable",
+      channel: 'TrendDataChannel',
       message: (data: any) => {
-        console.log(JSON.parse(data), "data");
+        // console.log(JSON.parse(data), "data");
+        console.log(data, 'data');
+
       },
     });
   }
@@ -192,12 +200,17 @@ export default class App extends React.PureComponent<IProps> {
           groupSearchProps={{
             isShowResetBtn: true,
             rowData: this.searchRow,
-            // handleSearch: (params) => {
-            //   // const msg = queryToParamsStr(params);
-            //   console.log(JSON.stringify(params), "params");
+            handleSearch: (params) => {
+              const obj = {
+                channel: "TrendDataChannel",
+                ...params
+              }
+              const query = { "command": "subscribe", "identifier": JSON.stringify(obj) }
+              const msg = JSON.stringify(query);
+              console.log(msg);
 
-            //   this.wss.send(JSON.stringify(params));
-            // },
+              this.wss.send(msg);
+            },
           }}
         />
       </div>
