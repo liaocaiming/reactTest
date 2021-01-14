@@ -34,7 +34,7 @@ module.exports = {
     // app.use('/api', api())
     if (name === "boss") {
       app.use(
-        "/excel_data",
+        "/api",
         createProxyMiddleware({
           target: "http://47.74.177.128",
           changeOrigin: true,

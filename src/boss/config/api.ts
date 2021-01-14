@@ -2,8 +2,8 @@
 import { config } from '@utils/lib/request';
 
 
-// const localApiPrefix = '/api/';
-const localApiPrefix = '/';
+const localApiPrefix = '/api/';
+// const localApiPrefix = '/';
 
 export const urls = {
   get_indicators: 'get_indicators', // 获取牛币列表；
