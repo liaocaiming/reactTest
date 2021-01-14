@@ -45,6 +45,12 @@ export default [
     "menuType": 1,
   },
   {
+    "key": "symbolSlectList",
+    "title": "牛币筛选",
+    "hasChild": 0,
+    "menuType": 1,
+  },
+  {
     "key": "iconSelectList",
     "title": "牛逼筛选",
     "hasChild": 0,

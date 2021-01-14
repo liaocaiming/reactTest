@@ -11,6 +11,8 @@ import { fetch, constants } from "@utils/index";
 import { User, queryToParamsStr } from "@utils/index";
 import { Toast } from "antd-mobile";
 import { Select } from '@src/mobile/components/index';
+import { Modal } from 'antd-mobile';
+const { alert } = Modal;
 
 interface IComponent {
   data: any[];
@@ -130,6 +132,49 @@ export default (props: IProps) => {
     )
   }
 
+  const robitOnchange = (status: 'stop' | 'start') => {
+    return () => {
+      const map = {
+        stop: {
+          url: api.usersStop_bot,
+          title: '停止机器人',
+          mesgae: '您确定要停止机器人么？'
+        },
+        start: {
+          url: api.usersStart_bot,
+          title: '启动机器人',
+          mesgae: '您确定要启动机器人么？'
+        }
+      }
+
+      alert(map[status].title, map[status].mesgae, [
+        { text: '取消', onPress: () => console.log('cancel') },
+        {
+          text: '确定', onPress: () => {
+
+
+            fetch.post(map[status].url, {
+              id: userInfo.id
+            }).then((res) => {
+              if (res.message) {
+                Toast.success(res.message)
+              }
+            })
+          }
+        },
+      ])
+    }
+  }
+
+  const renderBtn = () => {
+    return (
+      <div className='btn-container'>
+        <span className='btn' onClick={robitOnchange('stop')}>停止机器人</span>
+        <span className='btn' onClick={robitOnchange('start')}>启动机器人</span>
+      </div>
+    )
+  }
+
   return (
     <div className="mb-home">
       <div className="header">
@@ -148,6 +193,7 @@ export default (props: IProps) => {
         </div>
         <Tabs list={data} activeKey={type} onChange={onTabChange} />
       </div>
+      {renderBtn()}
 
       {renderSelect()}
       {renderListContent()}

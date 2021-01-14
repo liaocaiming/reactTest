@@ -18,6 +18,8 @@ export const urls = {
   setSecret: 'users/set_secret', // 绑定api
   StopOrStartUserSetting: 'follow_records/change', // 启动停止策略
   orderDetail: 'follow_records/show', // 订单详情
+  usersStop_bot: 'users/stop_bot', // 停用机器人
+  usersStart_bot: 'users/start_bot' // 启用机器人
 };
 
 config([
