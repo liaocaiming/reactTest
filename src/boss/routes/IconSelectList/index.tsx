@@ -56,12 +56,12 @@ export default class App extends React.PureComponent<IProps> {
           width,
           render,
         },
-        {
-          title: "5m",
-          dataIndex: "5m_trend",
-          width,
-          render,
-        },
+        // {
+        //   title: "5m",
+        //   dataIndex: "5m_trend",
+        //   width,
+        //   render,
+        // },
         {
           title: "15m",
           dataIndex: "15m_trend",
@@ -75,8 +75,20 @@ export default class App extends React.PureComponent<IProps> {
           render,
         },
         {
+          title: "1h",
+          dataIndex: "1h_trend",
+          width,
+          render,
+        },
+        {
           title: "4h",
           dataIndex: "4h_trend",
+          width,
+          render,
+        },
+        {
+          title: "12h",
+          dataIndex: "12h_trend",
           width,
           render,
         },
@@ -139,6 +151,15 @@ export default class App extends React.PureComponent<IProps> {
           label: "合约",
         },
       ],
+    },
+    {
+      title: "币种",
+      dataIndex: "symbol",
+      type: "select",
+      // 现货:1,合约:3
+      eleAttr: {
+        mode: "tags",
+      },
     },
   ];
   public render() {
