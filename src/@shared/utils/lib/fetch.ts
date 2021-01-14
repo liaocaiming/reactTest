@@ -15,7 +15,14 @@ export function get(url: string, data?: any, options?: IOptions): Promise<IRespo
         resolve(res)
         return
       }
-      Toast.fail(res && res.message)
+      if (res.code === 1004) {
+        Toast.fail(res && res.message || res.error, 1, () => {
+          window.location.hash = '/'
+        })
+        return
+      }
+
+      Toast.fail(res && res.message || res.error)
       reject(res)
     }).catch((err) => {
       Toast.hide()

@@ -24,9 +24,10 @@ export interface IResponse {
   code?: number;
   message?: string;
   data?: any;
+  error?: string;
 }
 
-export interface Irequest {
+export interface IRequest {
   url: string;
   data?: any;
   option?: any
