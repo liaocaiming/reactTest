@@ -3,7 +3,7 @@ import { PageList } from "@components/index";
 import linkPort from "@src/boss/config/api"; // 注意: 不是boss项目的请修改路径
 import { connect } from "@containers/appScreen";
 import IProps from "@typings/react.d";
-import { constants } from "@utils/index";
+import { constants, queryToParamsStr, socket } from "@utils/index";
 
 import "./index.less";
 
@@ -21,6 +21,8 @@ const render = (value: string) => {
 };
 @connect()
 export default class App extends React.PureComponent<IProps> {
+  private wss: WebSocket;
+
   private row: any = [
     {
       title: "币种",
@@ -162,6 +164,16 @@ export default class App extends React.PureComponent<IProps> {
       },
     },
   ];
+
+  componentDidMount() {
+    this.wss = socket({
+      url: "ws://47.74.177.128/cable",
+      message: (data: any) => {
+        console.log(JSON.parse(data), "data");
+      },
+    });
+  }
+
   public render() {
     return (
       <div className="iconSelectList">
@@ -180,6 +192,12 @@ export default class App extends React.PureComponent<IProps> {
           groupSearchProps={{
             isShowResetBtn: true,
             rowData: this.searchRow,
+            // handleSearch: (params) => {
+            //   // const msg = queryToParamsStr(params);
+            //   console.log(JSON.stringify(params), "params");
+
+            //   this.wss.send(JSON.stringify(params));
+            // },
           }}
         />
       </div>

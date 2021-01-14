@@ -15,6 +15,7 @@ import * as calculate from './lib/calculate';
 import * as query from './lib/query';
 import arrToObj from './lib/arrToObj';
 import trim from './lib/trim';
+import socket from './lib/socket';
 
 export {
   createReducer,
@@ -33,5 +34,6 @@ export {
   calculate,
   query,
   arrToObj,
-  trim
+  trim,
+  socket
 }

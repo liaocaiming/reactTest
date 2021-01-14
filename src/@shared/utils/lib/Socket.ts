@@ -1,10 +1,12 @@
+import queryToParamsStr from './queryToParamsStr'
+
 const emptyFn = function () {
 
 }
 
 interface IProps {
   url: string;
-  message: (data: any) => WebSocket;
+  message: (data: any) => void;
   close?: (e: CloseEvent) => void;
   error?: (e: Event) => void;
   open?: (e: Event) => void;
@@ -18,7 +20,7 @@ export default (props: IProps): WebSocket => {
     wss.close();
   }
   wss = new WebSocket(url);
-  let send = wss.send;
+  // let send = wss.send;
   wss.addEventListener('close', (e) => {
     close(e)
   })
@@ -42,10 +44,9 @@ export default (props: IProps): WebSocket => {
     message(e.data)
   })
 
-  wss.send = (data: Object) => {
-    send(JSON.stringify(data));
-  }
-
-
+  // wss.send = (data: Object) => {
+  //   // let msg = queryToParamsStr(data);
+  //   send('fff');
+  // }
   return wss;
 }
