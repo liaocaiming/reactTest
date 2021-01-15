@@ -22,7 +22,8 @@ export default (props: IProps) => {
   const [detail, setDetail] = useState({});
   const { history } = props;
   const userInfo = User.getUserInfo();
-  const { entry_present = [], take_profit_present = [], id, stop } = (detail || {}) as any;
+  const { entry_present = [], take_profit_present = [], id, stop } = (detail ||
+    {}) as any;
   const params: any = query.getUrlQuery();
 
   const goTo = (url: string) => {
@@ -77,6 +78,13 @@ export default (props: IProps) => {
       {
         label: "是否限制开单数量",
         name: "is_limit_num",
+        render: (detail: any) => {
+          const { max_follow_sum } = detail;
+          if (max_follow_sum == -1) {
+            return <span>否</span>;
+          }
+          return <span>{max_follow_sum}</span>;
+        },
       },
       {
         label: "开单方式",
@@ -116,18 +124,20 @@ export default (props: IProps) => {
     const { location } = props;
     history.push({
       pathname: pageUrlsMap.order,
-      search: location.search
+      search: location.search,
     });
   };
 
   const getData = () => {
-
     const map = {
       1: api.getOrderOpenSettingData,
-      2: api.getOrderOpenSettinOfficial
-    }
+      2: api.getOrderOpenSettinOfficial,
+    };
     fetch
-      .get(map[params.key || 1], { user_id: userInfo.id, set_type: params.order_type || 3 })
+      .get(map[params.key || 1], {
+        user_id: userInfo.id,
+        set_type: params.order_type || 3,
+      })
       .then((res) => {
         if (res.data) {
           let item = res.data;
@@ -140,12 +150,10 @@ export default (props: IProps) => {
   };
 
   const start = () => {
-
     fetch.post(api.StopOrStartUserSetting, { id }).then(() => {
-      Toast.success('启动成功');
-    })
-
-  }
+      Toast.success("启动成功");
+    });
+  };
 
   useEffect(() => {
     getData();
@@ -168,7 +176,6 @@ export default (props: IProps) => {
             启动
           </span>
         </Toggle>
-
       </div>
     </div>
   );

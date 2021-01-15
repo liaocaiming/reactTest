@@ -17,7 +17,10 @@ const list = constants.intervals.map((item) => {
 });
 
 const render = (value: string) => {
-  const isWhite = value === "#ffffff" ? "1px solid #ccc" : `1px solid ${value}`;
+  const isWhite =
+    value.toLocaleLowerCase() === "#ffffff"
+      ? "1px solid #ccc"
+      : `1px solid ${value}`;
   return (
     <div className="item" style={{ background: value, border: isWhite }} />
   );
@@ -190,9 +193,9 @@ export default class App extends React.PureComponent<IProps, IState> {
     this.wss.close();
   }
 
-  private socketStart = () => {
+  private socketStart = (open?: () => void) => {
     this.wss = socket({
-      url: "ws://47.74.250.66/cable",
+      url: "ws://47.74.177.128/cable",
       channel: "TrendDataChannel",
       message: (data: any) => {
         const list = this.state.list.slice();
@@ -207,6 +210,9 @@ export default class App extends React.PureComponent<IProps, IState> {
           });
         }
       },
+      open: () => {
+        open && open();
+      },
     });
   };
 
@@ -216,6 +222,7 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   private getListData = (params: any) => {
     const { actions } = this.props;
+    this.wss.close();
     actions.post(linkPort.excel_data, params).then((res) => {
       const { data = [] } = res || {};
       if (data.length > 0) {
@@ -239,7 +246,9 @@ export default class App extends React.PureComponent<IProps, IState> {
 
         const msg = JSON.stringify(query);
 
-        this.wss.send(msg);
+        this.socketStart(() => {
+          this.wss.send(msg);
+        });
 
         this.setState({
           list: data,

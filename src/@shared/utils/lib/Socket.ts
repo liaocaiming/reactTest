@@ -1,4 +1,3 @@
-import queryToParamsStr from './queryToParamsStr'
 
 const emptyFn = function () {
 
@@ -13,7 +12,7 @@ interface IProps {
   open?: (e: Event) => void;
 }
 
-let wss: WebSocket;
+let wss: WebSocket | null;
 
 export default (props: IProps): WebSocket => {
   const { url, message, close = emptyFn, error = emptyFn, open = emptyFn, channel } = props;
@@ -24,8 +23,9 @@ export default (props: IProps): WebSocket => {
   // let send = wss.send;
   wss.addEventListener('close', (e) => {
     console.log('close');
-
     close(e)
+
+    wss = null
   })
   wss.addEventListener('error', (e) => {
     console.log('error');
@@ -46,6 +46,8 @@ export default (props: IProps): WebSocket => {
         data = e.data;
       }
     }
+
+    console.log(data);
 
     if (data.type != 'ping') {
       message(data)
