@@ -5,9 +5,9 @@ import TableComponent, {
   IColumnProps,
 } from "../TableComponent";
 
-import GroupSearch from "../GroupSearchNew";
+import GroupSearch from "../GroupSearch";
 
-import { IProps as IGroupSearchProps } from "../GroupSearchNew/interface.d";
+import { IProps as IGroupSearchProps } from "../GroupSearch/interface";
 
 import { connect, AppScreen } from "@containers/appScreen";
 

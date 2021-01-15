@@ -1,110 +1,46 @@
-import { Button, DatePicker, Input, Select } from "antd";
+import React from "react";
 
-import * as React from "react";
+import { Button } from "antd";
 
-import moment from "moment";
-
-import locale from "antd/lib/date-picker/locale/zh_CN";
+import moment from "dayjs";
 
 import "./index.less";
 
-import * as helpers from "@utils/lib/helpers";
+import { helpers, trim } from "@utils/index";
+
+import Toggle from "@components/Toggle";
+
+import NumberRanger from "./NumberRanger";
+
+import SizeContext from "antd/lib/config-provider/SizeContext";
 
 import SessionStorage from "@utils/lib/SessionStorage";
 
-import trim from "@utils/lib/trim";
+import {
+  dateFormat,
+  monthFormat,
+  sizeClassNameMap,
+  widthMap,
+  placeholderMap,
+} from "./constants";
 
-import Toggle from "@shared/components/Toggle";
+import {
+  filterRowData,
+  deleteHiddenSearchValue,
+  initSelectData,
+  getPopupContainer,
+  handleOldData,
+  findItem,
+} from "./utils";
 
-const { Option } = Select;
+import ItemElement from "./ItemElement";
 
-const dateFormat = "YYYY-MM-DD";
-const monthFormat = "YYYY-MM";
+import { IRow, IProps, IObject, IState } from "./interface";
 
-const { RangePicker, MonthPicker } = DatePicker;
+export default class GroupSearch extends React.Component<IProps, IState> {
+  static contextType = SizeContext;
 
-interface IState {
-  selectData: any;
-  searchParams: any;
-  [random: string]: any;
-}
-
-interface IList {
-  value: string | number;
-  label: string;
-}
-
-interface ISelectMap {
-  [key: string]: IList[] | object;
-}
-
-export interface IRow {
-  title?: string;
-  dataIndex: string;
-  labelWith?: number; // title容器的宽度
-  searchDataIndex?: string; // 解决表头字段冲突问题, 冲突时不用再写render了
-  InputWidth?: number;
-  fieldNames?: { value: string; label: string }; // 下拉数据用做字典转换映射的
-  eleAttr?: { [random: string]: any }; // 元素的属性;
-  renderSearch?: (
-    item: IRow,
-    state: any,
-    search: (item: IRow) => (e: any) => void
-  ) => JSX.Element;
-  isShow?: (data: any) => boolean | boolean; // 是否要显示
-  isSearch?: boolean; // 是否需要搜索;
-  sort?: number; // 排序; 越小排越前面
-  [random: string]: any;
-}
-
-export interface IProps {
-  rowData?: IRow[];
-  onValuesChange?: (
-    data: any,
-    changeKey?: string,
-    e?: Event,
-    others?: any
-  ) => void; // data 搜索的值, changeKey修改的key;
-  dateKeys?: string[]; // 选择时间的字段
-  rangePickerKeys?: string[]; // 时间区域的字段
-  monthPicker?: string[]; // 月份选择
-  defaultValues?: any; // 所有条件的默认值
-  size?: string;
-  selectKeys?: string[]; // 属于单选下拉框的key,
-  mulSelectKeys?: string[]; // 属于单选下拉框的key
-  selectMap?: ISelectMap; // 单选下拉数据;
-  multipleSelectMap?: ISelectMap; // 多选下拉数据;
-  isShowResetBtn?: boolean; // 是否显示重置按钮;
-  showSearchBtn?: boolean; // 是否显示搜索按钮;
-  cascaderKeys?: string[]; // 省市区
-  validateSearchParams?: (
-    searchParams: any,
-    isReset?: boolean
-  ) => boolean | object; // 校验搜索参数;
-  map?: {
-    // 做字段转化的
-    [key: string]: string; // key是数据字典的字段,  value是转化后的字段;
-  };
-  getInstance?: (that: any) => void; // 获取组件的实力
-  handleSearch?: (params: any, isReset?: boolean) => void | boolean; // 如果需要保存搜索参数请在搜索参数校验通过后返回true;
-  actions?: any; // 如果需要保存搜索参数的和获取数据字典必须传入
-  isSaveSearchParams?: boolean; // 是否记录搜索的值;
-  $$screen?: any; // reducer 数据, 如果需要保存搜索参数的需要传入;
-  colSpan?: number; // 按列排版, 一行排几列
-  containerMinWidth?: number; // 特殊布局时容器的最小宽度;
-  colMargin?: number; // 没列间距;
-  btnAfterSearch?: boolean; // 默认false; // true 表示按钮放在搜索条件后面
-  [key: string]: any;
-}
-
-const widthMap = {
-  4: 1400,
-  3: 1170,
-};
-
-export default class App extends React.Component<IProps, IState> {
-  private size: any = "default";
-
+  private areaList: any[] = [];
   // 处理搜索参数, 保存搜索参数;
   private Search = {
     url: window.location.hash.split("#")[1].split("?")[0],
@@ -117,7 +53,7 @@ export default class App extends React.Component<IProps, IState> {
         $$screen,
         defaultValues = {},
       } = props;
-      const href = window.location.href;
+      const { href } = window.location;
       if (isSaveSearchParams && actions && $$screen && href.indexOf("?") < 0) {
         this.Search.is = true;
         this.Search.searchParams = defaultValues;
@@ -136,11 +72,7 @@ export default class App extends React.Component<IProps, IState> {
         {};
       SessionStorage.setItem("groupSearch-params", {
         ...this.Search.get(),
-        [this.Search.url]: {
-          searchParams: this.Search.searchParams,
-          actionQuery: actionQuery,
-          page,
-        },
+        [this.Search.url]: { actionQuery, page },
       });
     },
     set: (props: IProps) => {
@@ -167,7 +99,10 @@ export default class App extends React.Component<IProps, IState> {
       if (Object.keys(page).length > 0) {
         actions.changeScreenQuery(page);
       }
-      const params = Object.assign({}, searchParams, actionQuery);
+      const params = {
+        ...searchParams,
+        ...actionQuery,
+      };
       if (Object.keys(params).length > 0) {
         const keys = dateKeys.concat(rangePickerKeys).concat(monthPicker);
         this.Search.searchParams = this.Search.formatData(params, keys, map);
@@ -177,11 +112,11 @@ export default class App extends React.Component<IProps, IState> {
       }
     },
 
-    get: (): object => {
+    get: (): IObject => {
       return SessionStorage.getItem("groupSearch-params") || {};
     },
 
-    formatData: (options: any, keys: string[], map: Object): any => {
+    formatData: (options: any, keys: string[], map: any): any => {
       const res: any = Object.create(null);
       // 处理时间日期
       Object.keys(options).forEach((key: string) => {
@@ -206,10 +141,8 @@ export default class App extends React.Component<IProps, IState> {
               [key]: [moment(options[k1]), moment(options[k2])],
             });
           }
-        } else {
-          if (options(key)) {
-            Object.assign(res, { [key]: moment(options(key)) });
-          }
+        } else if (options[key]) {
+          Object.assign(res, { [key]: moment(options[key]) });
         }
       });
 
@@ -230,35 +163,24 @@ export default class App extends React.Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
-    const { defaultValues = {} } = props;
+    const { defaultValues = {}, isFilterRegion = false } = props;
     this.state = {
       searchParams: defaultValues,
-      selectData: this.initSelectData(props),
+      selectData: initSelectData(props),
+      fetchSelectData: {},
     };
     this.Search.init(props);
   }
 
-  public UNSAFE_componentWillMount() {
+  componentDidMount() {
     this.getSelectData();
-    const { getInstance } = this.props;
+    const { getInstance, rowData = [] } = this.props;
     getInstance && getInstance(this);
     this.Search.set(this.props);
+    this.getFetchConfigsData(rowData);
   }
 
-  public setSearchParams = (options: any, isReplace: boolean = false) => {
-    if (isReplace) {
-      this.setState({
-        searchParams: options,
-      });
-      return;
-    }
-    const { searchParams } = this.state;
-    this.setState({
-      searchParams: { ...searchParams, ...options },
-    });
-  };
-
-  public UNSAFE_componentWillReceiveProps(nextProps: IProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: IProps) {
     const { props } = this;
 
     if (
@@ -266,11 +188,7 @@ export default class App extends React.Component<IProps, IState> {
       props.multipleSelectMap !== nextProps.multipleSelectMap
     ) {
       this.setState((preState: IState) => {
-        const params = Object.assign(
-          {},
-          preState.selectData,
-          this.initSelectData(nextProps)
-        );
+        const params = { ...preState.selectData, ...initSelectData(nextProps) };
         return { selectData: params };
       });
     }
@@ -298,105 +216,102 @@ export default class App extends React.Component<IProps, IState> {
     }
   }
 
-  public initSelectData = (props: IProps) => {
-    const { selectMap, multipleSelectMap } = props;
-    const selectData: any = {};
-    if (selectMap) {
-      Object.keys(selectMap).forEach((key: string) => {
-        const values = selectMap[key];
-        if (Object.prototype.toString.call(values) === "[object Object]") {
-          selectData[key] = this.objToArr(values);
-        } else {
-          selectData[key] = values;
-        }
-      });
-    }
-
-    if (multipleSelectMap) {
-      Object.keys(multipleSelectMap).forEach((key: string) => {
-        const values = multipleSelectMap[key];
-        if (Object.prototype.toString.call(values) === "[object Object]") {
-          selectData[key] = this.objToArr(values);
-        } else {
-          selectData[key] = values;
-        }
-      });
-    }
-    return selectData;
-  };
-
-  public objToArr(obj: any) {
-    const res: any = [];
-    if (!obj) {
-      return res;
-    }
-    Object.keys(obj).forEach((key: string) => {
-      res.push({
-        value: key,
-        label: obj[key],
-      });
-    });
-
-    return res;
+  componentWillUnmount() {
+    this.Search.save(this.props);
   }
 
-  public deleteHiddenSearchValue = (
-    rowData: IRow[] | undefined,
-    searchParams: any
-  ): any => {
-    const res: any = Object.assign({}, searchParams);
-    if (!Array.isArray(rowData)) {
-      return searchParams;
+  private getFetchConfigsData = (rowData: IRow[]) => {
+    if (!Array.isArray(rowData) || rowData.length === 0) {
+      return;
     }
-
-    rowData.forEach((row: IRow) => {
-      let isShow: any = row.isShow;
-      const dataIndex: string = row.searchDataIndex || row.dataIndex;
-      if (isShow && typeof isShow === "function") {
-        isShow = isShow(res);
-      }
-
-      if (isShow === false) {
-        delete res[dataIndex];
+    return rowData.forEach((row: IRow) => {
+      const { fetchConfig } = row;
+      if (fetchConfig && fetchConfig.lazy !== true) {
+        this.onDropdownVisibleChange(true, row);
       }
     });
-    return res;
   };
 
-  public search: any = (isReset?: boolean) => {
+  private getSelectData(nextProps?: IProps) {
+    const { actions, selectKeys = [], mulSelectKeys = [], rowData = [] } =
+      nextProps || this.props;
+    let keys = selectKeys.concat(mulSelectKeys);
+    if (!actions) {
+      return;
+    }
+
+    // 记录数据字典要转换的字段
+    let map = {};
+    rowData.forEach((row) => {
+      const { dict, searchDataIndex, dataIndex, name } = row;
+      const key = searchDataIndex || dataIndex || name;
+
+      if (dict) {
+        keys.push(dict);
+        if (dict !== key) {
+          map[dict] = key;
+        }
+      }
+    });
+
+    if (keys.length <= 0) {
+      return;
+    }
+
+    actions
+      .get("dict/getDicItemsByCode", { code: keys.join(",") })
+      .then((json: any) => {
+        if (json.success && json.data) {
+          const { data } = json;
+          const options = helpers.changeObjKey(data, map);
+          this.setState((preState: IState) => {
+            const params = { ...preState.selectData, ...options };
+            return { selectData: params };
+          });
+        }
+      });
+  }
+
+  private search: any = (isReset?: boolean) => {
     return () => {
       const {
         handleSearch,
         map,
         validateSearchParams,
-        monthPicker = [],
         rowData = [],
       } = this.props;
       const { searchParams: res } = this.state;
-      const searchParams = this.deleteHiddenSearchValue(rowData, res);
-      let params: any = Object.create(null);
+      const searchParams = deleteHiddenSearchValue(rowData, res);
 
+      let params: any = Object.create(null);
       Object.keys(searchParams).forEach((key: string) => {
-        if (key.indexOf("_") !== -1) {
+        const item = findItem(rowData, key) as IRow;
+        let { type, eleAttr } = handleOldData(this.props, item);
+        if (item.type) {
+          type = item.type;
+        }
+
+        if (key.indexOf("@") !== -1) {
           // 数据字典有冲突时,加前缀, 后面的时用搜索的字段
-          const k = key.split("_")[1];
+          const k = key.split("@")[1];
           params[k] = searchParams[key];
         } else if (key.indexOf("&") !== -1) {
           // 处理时间选择区间的问题, 太多地方用了, 不想自定义了, 好烦, dataIndex: startDate&endData, 用&连接
           const keys = key.split("&");
           const values = searchParams[key];
-          const item: any = rowData.find((row: IRow) => {
-            return row.dataIndex === key || row.searchDataIndex === key;
-          });
           const format =
             (item && item.eleAttr && item.eleAttr.format) || dateFormat;
           if (values && Array.isArray(values) && values.length > 1) {
             params[keys[0]] = values[0].format(format);
             params[keys[1]] = values[1].format(format);
           }
-        } else if (monthPicker.indexOf(key) !== -1) {
+        } else if (type === "datePicker") {
+          let format = dateFormat;
+          if (eleAttr && eleAttr.picker === "month") {
+            format = monthFormat;
+          }
           Object.assign(params, {
-            [key]: searchParams[key] && searchParams[key].format(monthFormat),
+            [key]: searchParams[key] && searchParams[key].format(format),
           });
         } else {
           params[key] = searchParams[key];
@@ -408,29 +323,32 @@ export default class App extends React.Component<IProps, IState> {
       }
 
       if (validateSearchParams && typeof validateSearchParams === "function") {
-        const options = validateSearchParams(params, isReset);
+        const options = validateSearchParams(
+          helpers.filterEmptyValue(trim(params)),
+          isReset
+        );
         if (options === false) {
           return;
         }
-        if (Object.prototype.toString.call(options) === "[object Object]") {
-          params = Object.assign({}, params, options);
+        if (
+          typeof options !== "boolean" &&
+          Object.prototype.toString.call(options) === "[object Object]"
+        ) {
+          params = { ...params, ...options };
         }
       }
 
       if (handleSearch) {
-        const res = trim(helpers.filterEmptyValue(params));
-        const isSave = handleSearch(res, isReset);
+        const newRes = helpers.filterEmptyValue(trim(params));
+        const isSave = handleSearch(newRes, isReset);
         if (isSave && this.Search.is) {
-          this.Search.searchParams = Object.assign(
-            {},
-            trim(helpers.filterEmptyValue(searchParams))
-          );
+          this.Search.searchParams = newRes;
         }
       }
     };
   };
 
-  public clearSearch = () => {
+  private clearSearch = () => {
     const { defaultValues = {} } = this.props;
     this.setState(
       {
@@ -440,227 +358,171 @@ export default class App extends React.Component<IProps, IState> {
     );
   };
 
-  public changeSearchValue = (item: any) => {
+  private changeSearchValue = (item: any) => {
     return (e: any, others?: any) => {
-      const { dateKeys = [], onValuesChange } = this.props;
-      const dataIndex: string = item.searchDataIndex || item.dataIndex;
-      const { selectData } = this.state;
+      const { onValuesChange } = this.props;
+      const dataIndex: string =
+        item.searchDataIndex || item.dataIndex || item.name;
       let value: any;
-      if (selectData[dataIndex]) {
-        value = e;
-      } else if (dateKeys.indexOf(dataIndex) > -1) {
-        const format = (item.eleAttr && item.eleAttr.format) || dateFormat;
-        value = (e && e.format(format)) || undefined;
-        this.setState(
-          (preState: IState) => {
-            const params = Object.assign({}, preState.searchParams, {
-              [`${dataIndex}_value`]: e,
-            });
-            return { searchParams: params };
-          },
-          () => {
-            if (onValuesChange && typeof onValuesChange === "function") {
-              const { searchParams } = this.state;
-              onValuesChange(searchParams, dataIndex);
-            }
-          }
-        );
-      } else if (e && e.target) {
+      let onValuesChangeReturnObj = {};
+
+      if (e && e.target) {
         value = e.target.value;
       } else {
         value = e;
       }
-      this.setState(
-        (preState: IState, preProp: IProps) => {
-          const params = Object.assign({}, preState.searchParams);
-          params[dataIndex] = value;
-          return { searchParams: params };
-        },
-        () => {
-          if (onValuesChange && typeof onValuesChange === "function") {
-            const { searchParams } = this.state;
-            onValuesChange(searchParams, dataIndex);
+
+      this.setState((preState: IState) => {
+        const params = { ...preState.searchParams, [dataIndex]: value };
+        if (onValuesChange && typeof onValuesChange === "function") {
+          const returnObj = onValuesChange(params, dataIndex, e, others);
+          if (typeof returnObj === "object") {
+            onValuesChangeReturnObj = returnObj;
           }
         }
-      );
+        return { searchParams: { ...params, ...onValuesChangeReturnObj } };
+      });
     };
   };
 
-  public disabledDate = (currentDate: any) => {
-    return moment(currentDate) >= moment();
-  };
-
-  public getSelectData(nextProps?: IProps) {
-    const { actions, selectKeys, mulSelectKeys } = nextProps || this.props;
-    if (!actions || (!selectKeys && !mulSelectKeys)) {
-      return;
-    }
-    let array: any = selectKeys;
-    if (array && mulSelectKeys) {
-      array = array.concat(mulSelectKeys);
-    } else if (mulSelectKeys) {
-      array = mulSelectKeys;
-    }
-    actions
-      .get("dict/getDicItemsByCode", { code: array.join(",") })
-      .then((json: any) => {
-        if (json.success && json.data) {
-          this.setState((preState: IState, preProps) => {
-            const params = Object.assign({}, preState.selectData, json.data);
-            return { selectData: params };
-          });
-        }
-        return;
+  private onDropdownVisibleChange = (open: boolean, item: IRow) => {
+    if (!open) return;
+    const { fetchSelectData } = this.state;
+    const dataIndex: string =
+      item.searchDataIndex || item.dataIndex || item.name || "";
+    // 如果是异步的 Select
+    if (item.fetchConfig) {
+      const { url, method = "get", params, resultKey } = item.fetchConfig;
+      let selectData = fetchSelectData[dataIndex];
+      if (!selectData) {
+        selectData = {
+          loading: false,
+          data: [],
+          hasLoad: false,
+        };
+        fetchSelectData[dataIndex] = selectData;
+      }
+      const { loading, hasLoad } = selectData;
+      if (loading || hasLoad) return;
+      selectData.loading = true;
+      this.setState({
+        fetchSelectData,
       });
-  }
-
-  public getPopupContainer = (triggerNode: HTMLElement): HTMLElement => {
-    return triggerNode;
+      // 开始加载
+      const { actions } = this.props;
+      actions[method](url, params || {}, { showLoading: false })
+        .then((json: any) => {
+          if (json && json.success && json.data) {
+            const list = (resultKey ? json.data[resultKey] : json.data) || [];
+            selectData.data = list;
+          }
+          selectData.loading = false;
+          selectData.hasLoad = true;
+          this.setState({
+            fetchSelectData,
+          });
+        })
+        .catch(() => {
+          selectData.loading = false;
+          this.setState({
+            fetchSelectData,
+          });
+        });
+    }
   };
 
-  public renderSearchType = (item: IRow) => {
-    const {
-      dateKeys = [],
-      selectKeys = [],
-      mulSelectKeys = [],
-      selectMap = {},
-      multipleSelectMap = {},
-      rangePickerKeys = [],
-      monthPicker = [],
-    } = this.props;
+  private renderSearchItem = (item: IRow) => {
+    const { searchParams } = this.state;
 
-    const dataIndex = item.searchDataIndex || item.dataIndex;
-    const longLabel = item.longLabel || false;
-    const { eleAttr = {}, fieldNames = {} as any } = item;
+    const dataIndex = item.searchDataIndex || item.dataIndex || item.name || "";
+
+    // 处理历史接口
+    const { eleAttr: attr = {}, type: eleType = "input" } = handleOldData(
+      this.props,
+      item
+    );
+
+    let { eleAttr = attr, fieldNames, type = eleType } = item;
 
     if (item.renderSearch && typeof item.renderSearch === "function") {
       return item.renderSearch(item, this.state, this.changeSearchValue);
-    } else {
-      if (selectKeys.indexOf(dataIndex) > -1 || selectMap[dataIndex]) {
-        const { selectData = {} } = this.state;
-        const selectList = selectData[dataIndex] || [];
-        return (
-          <Select
-            value={this.state.searchParams[dataIndex]}
-            style={{ width: "100%" }}
-            onChange={this.changeSearchValue(item)}
-            placeholder={"请选择内容"}
-            size={this.size}
-            allowClear
-            getPopupContainer={this.getPopupContainer}
-            {...eleAttr}
-          >
-            {selectList &&
-              selectList.map((it: any) => {
-                const value = it.value || it[fieldNames.value] || it;
-                const label = it.label || it[fieldNames.label] || it;
-                return (
-                  <Option
-                    value={value}
-                    key={value}
-                    title={longLabel ? label : ""}
-                  >
-                    {label}
-                  </Option>
-                );
-              })}
-          </Select>
-        );
-      } else if (dateKeys.indexOf(dataIndex) > -1) {
-        return (
-          <DatePicker
-            disabledDate={this.disabledDate}
-            locale={locale}
-            value={this.state.searchParams[`${dataIndex}_value`]}
-            onChange={this.changeSearchValue(item)}
-            size={this.size}
-            style={{ width: "100%" }}
-            {...eleAttr}
-          />
-        );
-      } else if (rangePickerKeys.indexOf(dataIndex) > -1) {
-        return (
-          <RangePicker
-            disabledDate={this.disabledDate}
-            locale={locale}
-            value={this.state.searchParams[`${dataIndex}`]}
-            onChange={this.changeSearchValue(item)}
-            size={this.size}
-            // style={{ width: '100%' }}
-            {...eleAttr}
-          />
-        );
-      } else if (monthPicker.indexOf(dataIndex) > -1) {
-        return (
-          <MonthPicker
-            disabledDate={this.disabledDate}
-            locale={locale}
-            value={this.state.searchParams[`${dataIndex}`]}
-            onChange={this.changeSearchValue(item)}
-            size={this.size}
-            // style={{ width: '100%' }}
-            {...eleAttr}
-          />
-        );
-      } else if (
-        mulSelectKeys.indexOf(dataIndex) > -1 ||
-        multipleSelectMap[dataIndex]
-      ) {
-        const { selectData } = this.state;
-        const selectList = selectData[dataIndex] || [];
-        return (
-          <Select
-            value={this.state.searchParams[dataIndex]}
-            style={{ width: "100%" }}
-            onChange={this.changeSearchValue(item)}
-            placeholder={"请选择内容"}
-            mode="multiple"
-            size={this.size}
-            allowClear
-            showArrow
-            getPopupContainer={this.getPopupContainer}
-            {...eleAttr}
-          >
-            {selectList &&
-              selectList.map((it: any) => {
-                const value = it.value || it[fieldNames.value];
-                const label = it.label || it[fieldNames.label];
-                return (
-                  <Option
-                    value={value}
-                    key={value}
-                    title={longLabel ? label : ""}
-                  >
-                    {label}
-                  </Option>
-                );
-              })}
-          </Select>
-        );
-      } else {
-        return (
-          <Input
-            placeholder="请输入搜索内容"
-            style={{ width: "100%" }}
-            value={this.state.searchParams[dataIndex]}
-            onChange={this.changeSearchValue(item)}
-            size={this.size}
-            {...eleAttr}
-          />
-        );
-      }
     }
+
+    // 处理数字范围输入
+    if (type === "numberRanger") {
+      return (
+        <NumberRanger
+          row={{ dataIndex }}
+          searchParams={this.state.searchParams}
+          onChange={this.changeSearchValue}
+        />
+      );
+    }
+
+    // 处理省市区选择
+    if (type === "cascader") {
+      eleAttr = { ...eleAttr, options: this.areaList };
+    }
+
+    if (type === "select") {
+      const { selectData } = this.state;
+      const { listFilters = {}, list } = item;
+      let options = list || selectData[dataIndex] || [];
+
+      const { values = [], opposite = false } = listFilters as any;
+      if (values.length > 0) {
+        options = helpers.getDic(options, values, opposite);
+      }
+      // 异步数据
+      const { fetchSelectData } = this.state;
+      const asyncSelectData = fetchSelectData[dataIndex];
+      let loading = false;
+      if (asyncSelectData) {
+        loading = asyncSelectData.loading;
+        options = asyncSelectData.data || [];
+        eleAttr = {
+          loading,
+          ...eleAttr,
+        };
+      }
+
+      if (fieldNames && options) {
+        options = options.map((item) => {
+          return {
+            value: item[fieldNames?.value || ""],
+            label: item[fieldNames?.label || ""],
+          };
+        });
+      }
+
+      eleAttr = {
+        options,
+        getPopupContainer,
+        onDropdownVisibleChange: (open: boolean) =>
+          this.onDropdownVisibleChange(open, item),
+        allowClear: true,
+        ...eleAttr,
+      };
+    }
+
+    eleAttr = {
+      placeholder: placeholderMap[type],
+      value: searchParams[dataIndex],
+      onChange: this.changeSearchValue(item),
+      style: {
+        width: "100%",
+      },
+      ...eleAttr,
+    };
+
+    return <ItemElement type={type} eleAttr={eleAttr} />;
   };
 
-  public renderResetBnt = () => {
+  private renderResetBnt = () => {
     const { isShowResetBtn } = this.props;
     if (isShowResetBtn) {
       return (
-        <Button
-          onClick={this.clearSearch}
-          size={this.size}
-          className={"fl margin_left_20"}
-        >
+        <Button onClick={this.clearSearch} className="fl margin_left_20">
           重置
         </Button>
       );
@@ -668,47 +530,17 @@ export default class App extends React.Component<IProps, IState> {
     return null;
   };
 
-  public filterRowData = (
-    rowData: IRow[] | undefined,
-    searchParams: any
-  ): IRow[] => {
-    if (!Array.isArray(rowData)) {
-      return [];
-    }
-    let data = rowData.filter((row: IRow) => {
-      let isShow: any = row.isShow;
-      if (typeof isShow === "function") {
-        isShow = isShow(searchParams);
-      }
-      return isShow !== false;
-    });
-
-    let arr = data.filter((row: IRow) => {
-      return row.isSearch;
-    });
-
-    let rows = arr.length ? arr : data;
-
-    return rows
-      .map((row: IRow, index: number) => {
-        return { ...row, sort: row.sort || index };
-      })
-      .sort((a: any, b: any) => {
-        return a.sort - b.sort;
-      });
-  };
-
-  public renderSearchContent() {
+  private renderSearchContent() {
     const { rowData, btnAfterSearch } = this.props;
     const { searchParams } = this.state;
 
-    const rowArr = this.filterRowData(rowData, searchParams);
+    const rowArr = filterRowData(rowData || [], searchParams);
 
     if (btnAfterSearch) {
       rowArr.push({
         dataIndex: "btn",
         renderSearch: () => {
-          return this.renderBtn();
+          return this.renderBtn("fl");
         },
       });
     }
@@ -739,18 +571,18 @@ export default class App extends React.Component<IProps, IState> {
                   className={helpers.reactClassNameJoin(["fl", "input"])}
                   style={{ minWidth: item.InputWidth || 180 }}
                 >
-                  {this.renderSearchType(item)}
+                  {this.renderSearchItem(item)}
                 </div>
               </div>
             );
           })}
 
-        {!btnAfterSearch ? this.renderBtn() : null}
+        {!btnAfterSearch ? this.renderBtn("fl") : null}
       </div>
     );
   }
 
-  public renderFlexSearchContent() {
+  private renderFlexSearchContent() {
     const {
       rowData,
       colSpan = 1,
@@ -760,13 +592,13 @@ export default class App extends React.Component<IProps, IState> {
     } = this.props;
     const { searchParams } = this.state;
 
-    const rowArr = this.filterRowData(rowData, searchParams);
+    const rowArr = filterRowData(rowData || [], searchParams);
 
     if (btnAfterSearch) {
       rowArr.push({
         dataIndex: "btn",
         renderSearch: () => {
-          return this.renderBtn();
+          return this.renderBtn("fl");
         },
       });
     }
@@ -815,7 +647,7 @@ export default class App extends React.Component<IProps, IState> {
                         ])}
                         style={{ minWidth: item.InputWidth || 180 }}
                       >
-                        {this.renderSearchType(item)}
+                        {this.renderSearchItem(item)}
                       </div>
                     </div>
                   );
@@ -829,28 +661,30 @@ export default class App extends React.Component<IProps, IState> {
     );
   }
 
-  public renderBtn = () => {
-    const { showSearchBtn = true } = this.props;
-    if (!showSearchBtn) {
-      return <span></span>;
-    }
+  private renderBtn = (className = "") => {
     return (
-      <div className="fl">
+      <div
+        className={helpers.reactClassNameJoin([
+          className,
+          "groupSearch-btn-container",
+        ])}
+      >
         <Button
           type="primary"
           onClick={this.search()}
-          size={this.size}
-          className="groupSearch-btn"
+          className={helpers.reactClassNameJoin(["groupSearch-btn", "fl"])}
         >
           查询
         </Button>
+
         {this.renderResetBnt()}
-        {this.props.children}
+
+        <div className="fl">{this.props.children}</div>
       </div>
     );
   };
 
-  public renderContent() {
+  private renderContent() {
     const { colSpan } = this.props;
     if (colSpan) {
       return this.renderFlexSearchContent();
@@ -858,15 +692,18 @@ export default class App extends React.Component<IProps, IState> {
     return this.renderSearchContent();
   }
 
-  public render() {
+  render() {
+    const size = this.context;
+
     return (
-      <div className="fezs-group-search-new-container">
+      <div
+        className={helpers.reactClassNameJoin([
+          "fezs-group-search-new-container",
+          sizeClassNameMap[size || "large"],
+        ])}
+      >
         {this.renderContent()}
       </div>
     );
-  }
-
-  public componentWillUnmount() {
-    this.Search.save(this.props);
   }
 }

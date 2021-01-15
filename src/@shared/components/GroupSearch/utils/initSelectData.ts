@@ -1,9 +1,9 @@
-import { IProps } from '../interface.d';
+import { IProps } from '../interface';
 
 import objToArr from './objToArr';
 
 
-export default   (props: IProps) => {
+export default (props: IProps) => {
   const { selectMap, multipleSelectMap } = props;
   const selectData: any = {};
   if (selectMap) {

@@ -1,8 +1,15 @@
-import React, { memo } from 'react';
+import React, { memo } from "react";
 
-import { Input, Select, DatePicker, TimePicker, InputNumber, Cascader } from 'antd';
+import {
+  Input,
+  Select,
+  DatePicker,
+  TimePicker,
+  InputNumber,
+  Cascader,
+} from "antd";
 
-import { ItemType, IRow } from './interface.d';
+import { ItemType, IRow } from "./interface.d";
 
 const { RangePicker } = DatePicker;
 
@@ -17,15 +24,15 @@ const itemInputComponents = {
   [ItemType.timePicker]: TimePicker,
   [ItemType.timeRangePicker]: TimeRangePicker,
   [ItemType.number]: InputNumber,
-  [ItemType.cascader]: Cascader
+  [ItemType.cascader]: Cascader,
 };
 
- function InputElement(props: IRow): JSX.Element {
-  const { type = 'input', eleAttr = {} } = props;
+function InputElement(props: IRow): JSX.Element {
+  const { type = "input", eleAttr = {} } = props;
 
   const ItemInput = itemInputComponents[type] || Input;
 
   return <ItemInput {...eleAttr} />;
 }
 
-export default memo(InputElement)
+export default memo(InputElement);

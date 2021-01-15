@@ -1,9 +1,9 @@
 import React from "react";
-import { PageList } from "@components/index";
 import linkPort from "@src/boss/config/api"; // 注意: 不是boss项目的请修改路径
 import { connect } from "@containers/appScreen";
 import IProps from "@typings/react.d";
 import { constants, socket } from "@utils/index";
+import { GroupSearch, TableComponent } from "@components/index";
 
 import "./index.less";
 
@@ -20,9 +20,15 @@ const render = (value: string) => {
   return <div className="item" style={{ background: value }} />;
 };
 
+interface IState {
+  list: any[];
+}
+
 @connect()
-export default class App extends React.PureComponent<IProps> {
+export default class App extends React.PureComponent<IProps, IState> {
   private wss: WebSocket;
+
+  private symbolMap = {}; // 记录每一个币在数组中的index, websocket的时候好处理
 
   private row: any = [
     {
@@ -166,53 +172,109 @@ export default class App extends React.PureComponent<IProps> {
     },
   ];
 
-
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      list: [],
+    };
+  }
 
   componentDidMount() {
+    this.socketStart();
+  }
 
+  componentWillUnmount() {
+    this.wss.close();
+  }
 
+  private socketStart = () => {
     this.wss = socket({
       url: "ws://47.74.250.66/cable",
-      channel: 'TrendDataChannel',
+      channel: "TrendDataChannel",
       message: (data: any) => {
-        // console.log(JSON.parse(data), "data");
-        console.log(data, 'data');
+        const list = this.state.list.slice();
+        const { message = {} } = data || {};
+        const { symbol } = message;
+        const index = this.symbolMap[symbol];
 
+        if (list.length > 0 && symbol && index !== undefined && list[index]) {
+          list[index] = message;
+          this.setState({
+            list,
+          });
+        }
       },
     });
-  }
+  };
+
+  private handleSearch = (params: any) => {
+    this.getListData(params);
+  };
+
+  private getListData = (params: any) => {
+    const { actions } = this.props;
+    actions.post(linkPort.excel_data, params).then((res) => {
+      const { data = [] } = res || {};
+      if (data.length > 0) {
+        const symbols: any[] = [];
+        data.forEach((item, index: number) => {
+          const { symbol } = item;
+          this.symbolMap[symbol] = index;
+          symbols.push(symbol);
+        });
+
+        const obj = {
+          channel: "TrendDataChannel",
+          ...params,
+          symbol: symbols,
+        };
+
+        const query = {
+          command: "subscribe",
+          identifier: JSON.stringify(obj),
+        };
+
+        const msg = JSON.stringify(query);
+
+        this.wss.send(msg);
+
+        this.setState({
+          list: data,
+        });
+      }
+    });
+  };
+
+  renderGroupSearch = () => {
+    return (
+      <div>
+        <GroupSearch
+          isShowResetBtn
+          handleSearch={this.handleSearch}
+          rowData={this.searchRow}
+        />
+      </div>
+    );
+  };
+
+  renderTable = () => {
+    const { list } = this.state;
+    return (
+      <div>
+        <TableComponent
+          columns={this.row}
+          pagination={false}
+          dataSource={list}
+        />
+      </div>
+    );
+  };
 
   public render() {
     return (
       <div className="iconSelectList">
-        <PageList
-          {...this.props}
-          method="post"
-          initOption={{
-            isFirst: false,
-          }}
-          url={linkPort.excel_data}
-          tableComponentProps={{
-            columns: this.row,
-            isChangePageRequest: false,
-            pagination: false,
-          }}
-          groupSearchProps={{
-            isShowResetBtn: true,
-            rowData: this.searchRow,
-            handleSearch: (params) => {
-              const obj = {
-                channel: "TrendDataChannel",
-                ...params
-              }
-              const query = { "command": "subscribe", "identifier": JSON.stringify(obj) }
-              const msg = JSON.stringify(query);
-              console.log(msg);
-
-              this.wss.send(msg);
-            },
-          }}
-        />
+        {this.renderGroupSearch()}
+        {this.renderTable()}
       </div>
     );
   }

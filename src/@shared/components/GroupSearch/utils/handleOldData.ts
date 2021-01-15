@@ -1,4 +1,4 @@
-import { IProps, Type, IRow } from '../interface.d';
+import { IProps, Type, IRow } from '../interface';
 
 import { objToArr } from './index';
 
@@ -20,7 +20,7 @@ export default (props: IProps, item: IRow): IReturn => {
     numberRangerKeys = [],
   } = props;
 
-  const { type: eleType, eleAttr: attr= {}, searchDataIndex, dataIndex: dataKey, name  } = item || {}
+  const { type: eleType, eleAttr: attr = {}, searchDataIndex, dataIndex: dataKey, name } = item || {}
   let type: Type = eleType || 'input';
 
   let eleAttr = attr;
