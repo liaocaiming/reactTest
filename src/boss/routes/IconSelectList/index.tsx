@@ -30,6 +30,9 @@ interface IState {
   list: any[];
 }
 
+const sorter = (key: string) => {
+  return (a: any, b: any) => a[key] - b[key];
+};
 @connect()
 export default class App extends React.PureComponent<IProps, IState> {
   private wss: WebSocket;
@@ -47,6 +50,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       title: "当前价格",
       dataIndex: "price",
       align: "center",
+      sorter: sorter("price"),
       width,
     },
     {
@@ -58,42 +62,42 @@ export default class App extends React.PureComponent<IProps, IState> {
           dataIndex: "1m_trend",
           width,
           render,
+          sorter: sorter("1m_trend"),
         },
         {
           title: "3m",
           dataIndex: "3m_trend",
           width,
           render,
-        },
-        {
-          title: "3m",
-          dataIndex: "3m_trend",
-          width,
-          render,
+          sorter: sorter("3m_trend"),
         },
         // {
         //   title: "5m",
         //   dataIndex: "5m_trend",
         //   width,
         //   render,
+        // sorter: sorter("3m_trend"),
         // },
         {
           title: "15m",
           dataIndex: "15m_trend",
           width,
           render,
+          sorter: sorter("15m_trend"),
         },
         {
           title: "30m",
           dataIndex: "30m_trend",
           width,
           render,
+          sorter: sorter("30m_trend"),
         },
         {
           title: "1h",
           dataIndex: "1h_trend",
           width,
           render,
+          sorter: sorter("1h_trend"),
         },
         {
           title: "4h",
@@ -106,18 +110,21 @@ export default class App extends React.PureComponent<IProps, IState> {
           dataIndex: "12h_trend",
           width,
           render,
+          sorter: sorter("12h_trend"),
         },
         {
           title: "1d",
           dataIndex: "1d_trend",
           width,
           render,
+          sorter: sorter("1d_trend"),
         },
         {
           title: "1w",
           dataIndex: "1w_trend",
           width,
           render,
+          sorter: sorter("1w_trend"),
         },
       ],
     },
@@ -129,16 +136,19 @@ export default class App extends React.PureComponent<IProps, IState> {
           title: "cs",
           dataIndex: "cs",
           width,
+          sorter: sorter("cs"),
         },
         {
           title: "sm",
           dataIndex: "sm",
           width,
+          sorter: sorter("sm"),
         },
         {
           title: "ml",
           dataIndex: "ml",
           width,
+          sorter: sorter("ml"),
         },
       ],
     },
@@ -195,7 +205,8 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   private socketStart = (open?: () => void) => {
     this.wss = socket({
-      url: "ws://47.74.177.128/cable",
+      // url: "ws://47.74.177.128/cable",
+      url: "ws://47.74.250.66/cable", // 调试
       channel: "TrendDataChannel",
       message: (data: any) => {
         const list = this.state.list.slice();
@@ -203,7 +214,13 @@ export default class App extends React.PureComponent<IProps, IState> {
         const { symbol } = message;
         const index = this.symbolMap[symbol];
 
-        if (list.length > 0 && symbol && index !== undefined && list[index]) {
+        if (
+          list.length > 0 &&
+          symbol &&
+          index !== undefined &&
+          list[index] &&
+          list[index].symbol === symbol
+        ) {
           list[index] = message;
           this.setState({
             list,

@@ -47,8 +47,6 @@ export default (props: IProps): WebSocket => {
       }
     }
 
-    console.log(data);
-
     if (data.type != 'ping') {
       message(data)
     }
