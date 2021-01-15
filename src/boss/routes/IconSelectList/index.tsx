@@ -221,7 +221,7 @@ export default class App extends React.PureComponent<IProps, IState> {
           list[index] &&
           list[index].symbol === symbol
         ) {
-          list[index] = message;
+          list[index] = { ...list[index], ...message };
           this.setState({
             list,
           });
