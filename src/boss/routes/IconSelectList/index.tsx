@@ -17,7 +17,10 @@ const list = constants.intervals.map((item) => {
 });
 
 const render = (value: string) => {
-  return <div className="item" style={{ background: value }} />;
+  const isWhite = value === "#ffffff" ? "1px solid #ccc" : `1px solid ${value}`;
+  return (
+    <div className="item" style={{ background: value, border: isWhite }} />
+  );
 };
 
 interface IState {
