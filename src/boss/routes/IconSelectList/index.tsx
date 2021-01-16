@@ -73,13 +73,13 @@ export default class App extends React.PureComponent<IProps, IState> {
           render,
           sorter: sorter("3m_trend"),
         },
-        // {
-        //   title: "5m",
-        //   dataIndex: "5m_trend",
-        //   width,
-        //   render,
-        // sorter: sorter("3m_trend"),
-        // },
+        {
+          title: "5m",
+          dataIndex: "5m_trend",
+          width,
+          render,
+          sorter: sorter("5m_trend"),
+        },
         {
           title: "15m",
           dataIndex: "15m_trend",
