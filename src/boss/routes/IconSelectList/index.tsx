@@ -18,9 +18,9 @@ const list = constants.intervals.map((item) => {
 
 const render = (value: string) => {
   const isWhite =
-    value.toLocaleLowerCase() === "#ffffff"
+    value && value.toLocaleLowerCase() === "#ffffff"
       ? "1px solid #ccc"
-      : `1px solid ${value}`;
+      : `1px solid ${value || 'transparent'}`;
   return (
     <div className="item" style={{ background: value, border: isWhite }} />
   );
