@@ -30,7 +30,16 @@ interface IState {
   list: any[];
 }
 
+const colorMap = {
+  "#FFFFFF": 1,
+  "#808080": 2,
+  "#008000": 3
+}
+
 const sorter = (key: string) => {
+  if (key.includes('_')) {
+    return (a: any, b: any) => (colorMap[a[key]] || 1) - (colorMap[b[key]] || 1);
+  }
   return (a: any, b: any) => a[key] - b[key];
 };
 @connect()
@@ -106,6 +115,7 @@ export default class App extends React.PureComponent<IProps, IState> {
           dataIndex: "4h_trend",
           width,
           render,
+          sorter: sorter("4h_trend"),
         },
         {
           title: "12h",
@@ -207,7 +217,8 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   private socketStart = (open?: () => void) => {
     this.wss = socket({
-      url: "ws://47.74.177.128/cable",
+      // url: "ws://47.74.177.128/cable",
+      url: "cable",
       // url: "ws://47.74.250.66/cable", // 调试
       channel: "TrendDataChannel",
       message: (data: any) => {

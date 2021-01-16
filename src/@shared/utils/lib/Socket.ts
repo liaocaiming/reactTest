@@ -13,13 +13,20 @@ interface IProps {
 }
 
 let wss: WebSocket | null;
+let host = window.location.host;
+const hostname = window.location.hostname;
+if (hostname === 'localhost') {
+  host = '47.74.177.128'
+}
 
 export default (props: IProps): WebSocket => {
   const { url, message, close = emptyFn, error = emptyFn, open = emptyFn, channel } = props;
   if (wss) {
     wss.close();
   }
-  wss = new WebSocket(url);
+  let src = `ws://${host}/${url}`
+
+  wss = new WebSocket(src);
   // let send = wss.send;
   wss.addEventListener('close', (e) => {
     console.log('close');
