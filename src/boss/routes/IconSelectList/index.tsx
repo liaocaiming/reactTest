@@ -44,6 +44,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       title: "币种",
       dataIndex: "symbol",
       align: "center",
+      fixed: 'left',
       width,
     },
     {
@@ -51,6 +52,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       dataIndex: "price",
       align: "center",
       sorter: sorter("price"),
+      fixed: 'left',
       width,
     },
     {
@@ -294,6 +296,7 @@ export default class App extends React.PureComponent<IProps, IState> {
           columns={this.row}
           pagination={false}
           dataSource={list}
+          scroll={{ x: 'max-content' }}
         />
       </div>
     );
