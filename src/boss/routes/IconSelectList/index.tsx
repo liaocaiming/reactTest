@@ -195,18 +195,18 @@ export default class App extends React.PureComponent<IProps, IState> {
     };
   }
 
-  componentDidMount() {
-    this.socketStart();
-  }
+  // componentDidMount() {
+  //   this.socketStart();
+  // }
 
   componentWillUnmount() {
-    this.wss.close();
+    this.wss && this.wss.close && this.wss.close();
   }
 
   private socketStart = (open?: () => void) => {
     this.wss = socket({
-      // url: "ws://47.74.177.128/cable",
-      url: "ws://47.74.250.66/cable", // 调试
+      url: "ws://47.74.177.128/cable",
+      // url: "ws://47.74.250.66/cable", // 调试
       channel: "TrendDataChannel",
       message: (data: any) => {
         const list = this.state.list.slice();
@@ -239,7 +239,7 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   private getListData = (params: any) => {
     const { actions } = this.props;
-    this.wss.close();
+    this.wss && this.wss.close && this.wss.close();
     actions.post(linkPort.excel_data, params).then((res) => {
       const { data = [] } = res || {};
       if (data.length > 0) {
