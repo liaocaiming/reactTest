@@ -48,6 +48,10 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   private symbolMap = {}; // 记录每一个币在数组中的index, websocket的时候好处理
 
+  private list: any[] = []; // 记录所有的数据， 用来做socket延时更新处理；
+
+  private timer: any = null;
+
   private row: any = [
     {
       title: "币种",
@@ -213,6 +217,15 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   componentWillUnmount() {
     this.wss && this.wss.close && this.wss.close();
+    clearInterval(this.timer);
+  }
+
+  componentDidMount() {
+    this.timer = setInterval(() => {
+      this.setState({
+        list: [...this.list]
+      })
+    }, 10000)
   }
 
   private socketStart = (open?: () => void) => {
@@ -222,7 +235,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       // url: "ws://47.74.250.66/cable", // 调试
       channel: "TrendDataChannel",
       message: (data: any) => {
-        const list = this.state.list.slice();
+        const list = this.list.slice();
         const { message = {} } = data || {};
         const { symbol } = message;
         const index = this.symbolMap[symbol];
@@ -235,9 +248,7 @@ export default class App extends React.PureComponent<IProps, IState> {
           list[index].symbol === symbol
         ) {
           list[index] = { ...list[index], ...message };
-          this.setState({
-            list,
-          });
+          this.list = list;
         }
       },
       open: () => {
@@ -280,6 +291,7 @@ export default class App extends React.PureComponent<IProps, IState> {
           this.wss.send(msg);
         });
 
+        this.list = data;
         this.setState({
           list: data,
         });
