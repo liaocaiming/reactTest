@@ -307,7 +307,7 @@ export default class App extends React.PureComponent<IProps, IState> {
           columns={this.row}
           pagination={false}
           dataSource={list}
-          scroll={{ x: 'max-content' }}
+          scroll={{ x: 'max-content', y: '74vh' }}
         />
       </div>
     );
