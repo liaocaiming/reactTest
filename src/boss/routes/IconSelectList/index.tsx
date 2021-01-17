@@ -202,6 +202,22 @@ export default class App extends React.PureComponent<IProps, IState> {
         mode: "tags",
       },
     },
+    {
+      title: "交易对",
+      dataIndex: "asset",
+      type: "select",
+      // 现货:1,合约:3
+      list: [
+        {
+          value: 'btc',
+          label: "btc",
+        },
+        {
+          value: "usdt",
+          label: "usdt",
+        },
+      ],
+    },
   ];
 
   constructor(props: IProps) {
