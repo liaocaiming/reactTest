@@ -33,9 +33,9 @@ const store = remoteActionMiddleware(
   window["devToolsExtension"] ? window["devToolsExtension"]() : (f: any) => f
 );
 
-document.body.addEventListener('focusout', () => {
+document.body.addEventListener("focusout", () => {
   document.body.scrollTop = document.body.scrollTop;
-})
+});
 
 ReactDOM.render(
   <Provider store={store}>
