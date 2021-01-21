@@ -5,9 +5,10 @@ const gulp = require("gulp");
 const path = require("path");
 const zip = require("gulp-zip");
 const fs = require("fs");
-// const argv = require("yargs").argv;
 const Client = require("ssh2").Client;
 const serveConfig = require("./deploy/config");
+const appConfig = require("./config/utils/getProjectConfig")();
+
 const conn = new Client();
 
 const config = serveConfig();
@@ -16,14 +17,14 @@ const sshConfig = {
   host: config.host,
   port: config.port,
   username: config.username,
-  privateKey: config.privateKey,
+  password: config.password,
 };
 
 const NAME = config.projectName;
 // 输出路径
 const OUTPUT_PATH = config.context;
 // 输出zip名
-const OUTPUT_ZIPNAME = `${NAME}-zip.zip`;
+const OUTPUT_ZIPNAME = `${NAME}-${appConfig.version}.zip`;
 // 输出zip路径
 const OUTPUT_ZIP_PATH = path.join(OUTPUT_PATH, OUTPUT_ZIPNAME);
 // 远程zip路径
@@ -31,17 +32,8 @@ const REMOTE_ZIP_PATH = `${config.remotePath}/${OUTPUT_ZIPNAME}`;
 // 上传参数
 const uploadParams = { file: OUTPUT_ZIP_PATH, target: REMOTE_ZIP_PATH };
 // 中转缓存目录
-const UPLOAD_TMP = "upload_serve_tmp";
 
-const shellExecList = [
-  `rm -rf ${config.remotePath}/${UPLOAD_TMP}/*`,
-  `unzip -o ${REMOTE_ZIP_PATH} -d ${config.remotePath}/${UPLOAD_TMP}`,
-  `scp -r ${config.remotePath}/${UPLOAD_TMP}/* ${config.remoteWebUsername}@${config.remoteWebIp}:${config.remoteWebPath}\n`,
-  `ssh ${config.remoteWebUsername}@${config.remoteWebIp}`,
-  `cd ${config.remoteWebPath}`,
-  "npm run reset",
-  "exit",
-];
+const shellExecList = [`cd ${config.remoteWebPath}`, "exit"];
 
 function Ready() {
   log("SSH: release Ready...");
@@ -100,30 +92,7 @@ function Shell(conn) {
 gulp.task("zip", function() {
   delZipPath();
   return gulp
-    .src([
-      "./**/*",
-      "!./node_modules",
-      "!./node_modules/**/*",
-      "!./dist",
-      "!./dist/**/*",
-      "!./test",
-      "!./test/**/*",
-      "!./staticsrc",
-      "!./staticsrc/**/*",
-      "!./logs",
-      "!./logs/**/*",
-      "!./typings",
-      "!./typings/**/*",
-      "!./deploy",
-      "!./deploy/**/*",
-      "!./db",
-      "!./db/**/*",
-      "!./run",
-      "!./run/**/*",
-      "!./yarn.lock",
-      "!./gulpfile.js",
-      "!./prettier.config.js",
-    ])
+    .src([`./dist/${appConfig.projectName}`])
     .pipe(zip(OUTPUT_ZIPNAME))
     .pipe(gulp.dest(OUTPUT_PATH));
 });
@@ -133,7 +102,7 @@ gulp.task("connect", function(done) {
   done();
 });
 
-gulp.task("deploy", gulp.series(["zip", "connect"]));
+gulp.task("default", gulp.series(["zip", "connect"]));
 
 function log(str) {
   // 字色编号：30黑，31红，32绿，33黄，34蓝，35紫，36深绿，37白色

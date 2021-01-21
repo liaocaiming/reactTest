@@ -10,6 +10,8 @@ const name = yargs.name || "boss";
 
 const configJson = require(`../src/${name}/config/app.json`);
 
+console.log(name, "name");
+
 const proConfig = {
   mode: "production",
   devtool: "none",

@@ -10,6 +10,8 @@ const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+const WebpackBar = require("webpackbar");
+
 const cssLoader = [
   MiniCssExtractPlugin.loader,
   // "vue-style-loader",
@@ -196,6 +198,7 @@ module.exports = (options) => {
     },
 
     plugins: [
+      new WebpackBar(),
       new HtmlWebpackPlugin({
         template: utils.resolve(`src/${name}/index.html`),
         filename: "index.html",
