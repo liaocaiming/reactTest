@@ -7,6 +7,7 @@ const chalk = require("chalk");
 const yargs = require("yargs").argv;
 const utils = require("./utils/utils.js");
 const name = yargs.name || "boss";
+const { exec } = require("child_process");
 
 const configJson = require(`../src/${name}/config/app.json`);
 

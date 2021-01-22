@@ -8,7 +8,7 @@
     "start": "node ./config/webpack.dev.js",
     "production": "node ./config/webpack.pro.js",
     "upload": "gulp",
-    "deploy": "yarn production --name mobile && yarn upload"
+    "deploy": "yarn upload"
   },
   "author": "",
   "license": "ISC",
