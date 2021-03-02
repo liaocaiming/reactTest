@@ -40,6 +40,15 @@ module.exports = {
           changeOrigin: true,
         })
       );
+
+      app.use(
+        "/fapi",
+        createProxyMiddleware({
+          target: "http://fapi.binance.com",
+          changeOrigin: true,
+        })
+      );
+
       return;
     }
     app.use(
