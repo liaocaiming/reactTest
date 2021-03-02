@@ -264,7 +264,7 @@ export default class App extends React.Component<IProps, IState> {
       <Layout className="layout">
         <Sider collapsed={this.state.collapsed} className="layout-side">
           <div className="layout-system-name">
-            <span>boss</span>
+            <span>hTrade</span>
           </div>
 
           <Menu
@@ -276,7 +276,7 @@ export default class App extends React.Component<IProps, IState> {
             style={{ backgroundColor: "rgba(34,51,77,1)" }}
           >
             {menu || menuData.map((item: any) => {
-              return this.renderItemOrSub(item, "/boss");
+              return this.renderItemOrSub(item, "/hTrade");
             })}
           </Menu>
         </Sider>
@@ -284,7 +284,7 @@ export default class App extends React.Component<IProps, IState> {
         {/* <Layout style={{ marginLeft }}> */}
         <Layout>
           <Header className="layout-header">
-            <div className="layout-title">最牛逼网站, 不接受反驳</div>
+            <div className="layout-title">H-TRADE</div>
             <Button className="sign-out-btn" type="primary">
               退出
             </Button>
@@ -294,7 +294,7 @@ export default class App extends React.Component<IProps, IState> {
               <ErrorBoundary>{renderRoutes(this.props.routes)}</ErrorBoundary>
             </Spin>
           </Content>
-          <Footer style={{ textAlign: "center" }}>最牛逼网站</Footer>
+          <Footer style={{ textAlign: "center" }}>H-TRADE</Footer>
         </Layout>
       </Layout>
     );
