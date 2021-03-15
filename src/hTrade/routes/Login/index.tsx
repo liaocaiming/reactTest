@@ -2,9 +2,14 @@ import * as React from "react";
 
 import { Form, Input, Button, Checkbox, message } from "antd";
 
+import { AppForm } from '@components/index';
+
+import { AppFormItemOptions } from '@components/AppForm/interface';
+
+
 import User from "@utils/lib/User";
 
-import "./index.css";
+import "./index.less";
 
 import IProps from "@typings/react.d";
 
@@ -14,6 +19,7 @@ const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
 };
+
 const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
@@ -25,6 +31,7 @@ const obj = {
 
 @connect()
 export default class App extends React.PureComponent<IProps> {
+
   onFinish = (values) => {
 
     if (values.username !== obj.username || values.password !== obj.password) {
@@ -40,47 +47,62 @@ export default class App extends React.PureComponent<IProps> {
     console.log("Failed:", errorInfo);
   };
 
+  renderForm = () => {
+    const width = 200;
+    const formItems: AppFormItemOptions[] = [
+      {
+        label: '用户名',
+        name: 'username',
+        rules: [
+          {
+            required: true,
+            message: '请输入用户名',
+            whitespace: true
+          }
+        ],
+        eleAttr: {
+          placeholder: '请输入用户名',
+          style: {
+            width
+          }
+        }
+      },
+      {
+        label: '密码',
+        name: 'password',
+        rules: [
+          {
+            required: true,
+            message: '请输入密码',
+            whitespace: true
+          }
+        ],
+        eleAttr: {
+          placeholder: '请输入密码',
+          style: {
+            width
+          }
+        }
+      }
+    ]
+
+    return <AppForm
+      formItems={formItems}
+      labelCol={{ span: 8 }}
+      submitButton={{ text: '登录', type: 'primary' }}
+      onFinish={this.onFinish}
+      footerStyle={{
+        marginTop: 20,
+        textIndent: 134
+      }} />
+  }
+
   render() {
-    const width = 300;
 
     return (
       <div className="Htrade-form">
-        <div className="logo">
-          <img src="http://5b0988e595225.cdn.sohucs.com/images/20170922/ca5207e68211450e863d2d859e480e91.gif" />
-        </div>
-        <Form
-          {...layout}
-          name="basic"
-          initialValues={{ remember: true }}
-          onFinish={this.onFinish}
-          onFinishFailed={this.onFinishFailed}
-        >
-          <Form.Item
-            label="Username"
-            name="username"
-            rules={[{ required: true, message: "Please input your username!" }]}
-          >
-            <Input style={{ width }} />
-          </Form.Item>
-
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
-          >
-            <Input.Password style={{ width }} />
-          </Form.Item>
-
-          <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
-
-          <Form.Item {...tailLayout}>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
+        <h4 className='title'>H-Tade</h4>
+        {this.renderForm()}
       </div>
     );
   }
