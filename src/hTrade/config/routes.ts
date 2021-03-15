@@ -10,7 +10,7 @@ const router = [
     component: Login,
   },
   {
-    path: 'Htrade',
+    path: 'htrade',
     component: Layout,
     routes: [
       {
@@ -19,6 +19,15 @@ const router = [
           load: () => import('@src/Htrade/routes/BindUser')
         }),
         title: '账户绑定',
+        exact: true
+      },
+
+      {
+        path: 'role',
+        component: loadFile({
+          load: () => import('@src/Htrade/routes/Role')
+        }),
+        title: '角色列表',
         exact: true
       },
 
