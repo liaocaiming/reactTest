@@ -6,7 +6,6 @@ import { AppForm } from '@components/index';
 
 import { AppFormItemOptions } from '@components/AppForm/interface';
 
-
 import User from "@utils/lib/User";
 
 import "./index.less";
@@ -15,18 +14,9 @@ import IProps from "@typings/react.d";
 
 import { connect } from "@containers/app";
 
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-
-const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
-};
-
 const obj = {
-  username: "woshinidaye",
-  password: "woshidajiba",
+  username: "admin",
+  password: "111",
 };
 
 @connect()
@@ -70,6 +60,8 @@ export default class App extends React.PureComponent<IProps> {
       {
         label: '密码',
         name: 'password',
+        type: 'password',
+
         rules: [
           {
             required: true,

@@ -3,8 +3,8 @@
 const User = {
   name: 'boss',
   user: {
-    username: 'woshinidaye',
-    password: 'woshidajiba'
+    username: 'admin',
+    password: '111'
   },
   isLogin: () => {
     const userInfo = User.getUserInfo()

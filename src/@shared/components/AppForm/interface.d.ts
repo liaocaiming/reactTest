@@ -33,6 +33,9 @@ export enum FormItemType {
 
   // 自动补全下拉框
   autoComplete = 'autoComplete',
+
+  // 密码框
+  password = 'password'
 }
 
 export type ItemBooleanFunction = ((formData: Store) => boolean) | boolean;
@@ -135,8 +138,8 @@ export interface AppFormItemBase extends FormItemProps {
   // 内部定义使用，不需要传
   children?: React.ReactElement;
 
-   // 自定义表单项渲染函数
-   render?: (formItem: AppFormItemChildProps, form: FormInstance) => React.ReactElement;
+  // 自定义表单项渲染函数
+  render?: (formItem: AppFormItemChildProps, form: FormInstance) => React.ReactElement;
 }
 
 export interface FormItemDOMFunctions {
