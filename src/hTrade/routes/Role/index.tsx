@@ -36,12 +36,19 @@ export default class App extends React.PureComponent<IProps> {
   ];
 
 
+  private renderBtn = () => {
+    return (
+      <Button type='primary' className='margin_left_20'>新增</Button>
+    )
+  }
+
   public render() {
     return (
       <PageList
         {...this.props}
         url={linkPort.role}
         tableComponentProps={{ columns: this.row }}
+        groupAfterDom={this.renderBtn()}
         groupSearchProps={{
           isShowResetBtn: true,
           rowData: this.row as any
