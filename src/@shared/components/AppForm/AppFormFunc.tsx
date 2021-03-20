@@ -144,8 +144,8 @@ function AppForm(props: AppFormProps): React.ReactElement {
       <AppFormLayout {...formContentProps} />
       {typeof afterFormDOM === 'function'
         ? afterFormDOM({
-            form,
-          })
+          form,
+        })
         : afterFormDOM}
       <div className={footerClassName}>
         {submitButton ? (

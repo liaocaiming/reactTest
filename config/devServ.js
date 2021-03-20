@@ -31,24 +31,33 @@ module.exports = {
   //   poll: true
   // },
   before(app) {
-    // app.use('/api', api())
-    if (name === "boss") {
-      app.use(
-        "/api",
-        createProxyMiddleware({
-          target: "http://47.74.177.128",
-          changeOrigin: true,
-        })
-      );
-      return;
-    }
-    app.use(
-      "/api",
-      createProxyMiddleware({
-        target: "http://47.74.177.128:80",
-        changeOrigin: true,
-      })
-    );
+    app.use('/api', api())
+    // if (name === "boss") {
+    //   app.use(
+    //     "/api",
+    //     createProxyMiddleware({
+    //       target: "http://47.74.177.128",
+    //       changeOrigin: true,
+    //     })
+    //   );
+
+    //   app.use(
+    //     "/fapi",
+    //     createProxyMiddleware({
+    //       target: "http://fapi.binance.com",
+    //       changeOrigin: true,
+    //     })
+    //   );
+
+    //   return;
+    // }
+    // app.use(
+    //   "/api",
+    //   createProxyMiddleware({
+    //     target: "http://47.74.177.128:80",
+    //     changeOrigin: true,
+    //   })
+    // );
   },
   // stats: {
   //     assets: true,

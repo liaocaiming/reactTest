@@ -35,13 +35,13 @@ import { intervals } from "@utils/lib/constants";
 interface IPort {
   url: string;
   key:
-    | "forceOrders"
-    | "openInterest"
-    | "openInterestHist"
-    | "longShortAccountRatio"
-    | "longShortPositionRatio"
-    | "longShortUserRatio"
-    | "longShortTakerRatio";
+  | "forceOrders"
+  | "openInterest"
+  | "openInterestHist"
+  | "longShortAccountRatio"
+  | "longShortPositionRatio"
+  | "longShortUserRatio"
+  | "longShortTakerRatio";
   params: any;
 }
 
@@ -125,7 +125,7 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   public getData = (isFirst?: boolean) => {
     const { actions } = this.props;
-    actions.get(api.realtime, {}, { showLoading: false }).then((res: any) => {
+    actions.get(api.v1PremiumIndex, {}, { showLoading: false }).then((res: any) => {
       const data =
         Array.isArray(res) &&
         res.map((item: any) => {
@@ -531,7 +531,7 @@ export default class App extends React.PureComponent<IProps, IState> {
             ></div>
           </div>
         </div>
-        
+
         <div style={{ padding: "0 50px 50px 50px", overflow: "auto" }}>
           <div>
             <h3 style={{ marginTop: 50 }}>

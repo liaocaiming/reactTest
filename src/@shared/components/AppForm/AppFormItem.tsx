@@ -20,7 +20,7 @@ import {
 } from './interface.d';
 import { getRestProps, createNamePathKey } from './utils';
 
-const { TextArea } = Input;
+const { TextArea, Password } = Input;
 const CheckboxGroup = Checkbox.Group;
 const RadioGroup = Radio.Group;
 const { RangePicker } = DatePicker;
@@ -31,6 +31,7 @@ const itemInputComponents = {
   [FormItemType.checkbox]: CheckboxGroup,
   [FormItemType.select]: Select,
   [FormItemType.autoComplete]: AutoComplete,
+  [FormItemType.password]: Password,
 
   input: Input,
   textArea: TextArea,
@@ -264,18 +265,18 @@ export default function AppFormItem(props: AppFormItemElementProps): React.React
           </FormItem>,
           formItems
             ? formItems.map(formItem => {
-                // 把数组转换成字符串
-                if (formItem.numberToString === true && typeof formItem.initialValue === 'number') {
-                  // eslint-disable-next-line no-param-reassign
-                  formItem.initialValue = String(formItem.initialValue);
-                }
+              // 把数组转换成字符串
+              if (formItem.numberToString === true && typeof formItem.initialValue === 'number') {
+                // eslint-disable-next-line no-param-reassign
+                formItem.initialValue = String(formItem.initialValue);
+              }
 
-                return getShowValue(formItem.isShow, getFieldsValue(true)) ? (
-                  <FormItem {...formItem} key={createNamePathKey(formItem.name)} noStyle>
-                    <InputElement {...formItem} form={form} />
-                  </FormItem>
-                ) : null;
-              })
+              return getShowValue(formItem.isShow, getFieldsValue(true)) ? (
+                <FormItem {...formItem} key={createNamePathKey(formItem.name)} noStyle>
+                  <InputElement {...formItem} form={form} />
+                </FormItem>
+              ) : null;
+            })
             : null,
           typeof afterDOM === 'function' ? afterDOM(options) : afterDOM,
         ];
