@@ -87,6 +87,18 @@ export default memo((props: IProps) => {
           width
         }
       }
+    },
+
+    {
+      name: 'remart',
+      label: '备注',
+      type: 'textArea',
+      eleAttr: {
+        placeholder: '请输入',
+        style: {
+          width
+        }
+      }
     }
   ]
 
