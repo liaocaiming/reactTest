@@ -31,6 +31,14 @@ const router = [
         title: '用户管理',
         exact: true
       },
+      {
+        path: 'moreUser',
+        component: loadFile({
+          load: () => import('@src/Htrade/routes/MoreUser')
+        }),
+        title: '用户管理',
+        exact: true
+      },
 
     ],
   },

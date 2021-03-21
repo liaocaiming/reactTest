@@ -14,4 +14,11 @@ export default [
     "menuType": 1,
   },
 
+  {
+    "key": "moreUser",
+    "title": "大户列表",
+    "hasChild": 0,
+    "menuType": 1,
+  },
+
 ]

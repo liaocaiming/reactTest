@@ -8,7 +8,8 @@ const bianceFApiPrefix = '/fapi/'
 
 export const urls = {
   excel_data: 'excel_data', // 
-  role: 'role/list' // 角色列表
+  role: 'role/list', // 角色列表
+  addAndUpdateUser: 'user/addAndUpdate', // 新增和编辑用户;
 };
 
 
