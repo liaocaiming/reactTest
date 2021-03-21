@@ -21,4 +21,11 @@ export default [
     "menuType": 1,
   },
 
+  {
+    "key": "strategyList",
+    "title": "策略列表",
+    "hasChild": 0,
+    "menuType": 1,
+  },
+
 ]

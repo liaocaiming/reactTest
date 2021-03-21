@@ -40,6 +40,15 @@ const router = [
         exact: true
       },
 
+      {
+        path: 'StrategyList',
+        component: loadFile({
+          load: () => import('@src/Htrade/routes/StrategyList')
+        }),
+        title: '策略管理',
+        exact: true
+      },
+
     ],
   },
 

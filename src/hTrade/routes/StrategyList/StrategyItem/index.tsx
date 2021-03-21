@@ -25,8 +25,8 @@ export default memo((props: IProps) => {
   const width = 300;
   const formData: AppFormItemOptions[] = [
     {
-      name: 'userName',
-      label: '用户名称',
+      name: 'strategyName',
+      label: '策略名称',
       rules: [
         {
           required: true,
@@ -43,8 +43,33 @@ export default memo((props: IProps) => {
     },
 
     {
-      name: 'company',
-      label: '所属公司',
+      name: 'strategyType',
+      label: '策略类型',
+      type: 'select',
+      list: [
+        {
+          value: 'rf4',
+          label: 'rf4'
+        }
+      ],
+      rules: [
+        {
+          required: true,
+          message: '请选择',
+        }
+      ],
+      eleAttr: {
+        placeholder: '请选择',
+        style: {
+          width
+        }
+      }
+    },
+
+
+    {
+      name: 'tradingVolume',
+      label: '交易量',
       rules: [
         {
           required: true,
@@ -60,10 +85,33 @@ export default memo((props: IProps) => {
       }
     },
 
-
     {
-      name: 'biance_user_id',
-      label: '币安id',
+      name: 'upRate',
+      label: '涨幅',
+      afterDOM: <span className='margin_left_5'>%</span>,
+      rules: [
+        {
+          required: true,
+          message: '请输入',
+        }
+      ],
+      eleAttr: {
+        placeholder: '请输入',
+        style: {
+          width
+        }
+      }
+    },
+    {
+      name: 'time',
+      label: '时间周期',
+      rules: [
+        {
+          required: true,
+          message: '请输入',
+          whitespace: true
+        }
+      ],
       eleAttr: {
         placeholder: '请输入',
         style: {
@@ -73,8 +121,8 @@ export default memo((props: IProps) => {
     },
 
     {
-      name: 'API',
-      label: 'API Key',
+      name: 'ema',
+      label: 'ema',
       rules: [
         {
           required: true,
@@ -83,24 +131,7 @@ export default memo((props: IProps) => {
         }
       ],
       eleAttr: {
-        placeholder: '请输入API Key',
-        style: {
-          width
-        }
-      }
-    },
-    {
-      name: 'Secret',
-      label: 'Secret Key',
-      rules: [
-        {
-          required: true,
-          message: '请输入',
-          whitespace: true
-        }
-      ],
-      eleAttr: {
-        placeholder: '请输入API Key',
+        placeholder: '请输入',
         style: {
           width
         }
@@ -132,7 +163,7 @@ export default memo((props: IProps) => {
   }
 
   return (
-    <Modal visible={visible} onCancel={onCancel} width={600} title='新增用户' onOk={onOK}>
+    <Modal visible={visible} onCancel={onCancel} width={600} title='新增策略' onOk={onOK}>
       <AppForm
         formItems={formData}
         labelCol={{ span: 6 }}
