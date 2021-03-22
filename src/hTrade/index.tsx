@@ -10,8 +10,6 @@ import App from '@components/AppRoot';
 
 import { HashRouter as Router } from 'react-router-dom';
 
-import "./index.css";
-
 import { reducers, routes } from "./config";
 
 import { Provider } from "react-redux";
@@ -30,9 +28,9 @@ const mountNode: HTMLElement = document.getElementById("app") as HTMLElement;
 
 // Store
 const store = remoteActionMiddleware(
-    combineReducers({
-      ...reducers,
-    }),
+  combineReducers({
+    ...reducers,
+  }),
 
   // 支持 chrome 插件 Redux DevTools
   // tslint:disable-next-line:no-string-literal
@@ -40,12 +38,12 @@ const store = remoteActionMiddleware(
 );
 
 ReactDOM.render(
-    <Provider store={store}>
-      <Router>
-        <ConfigProvider locale={zhCN} componentSize='small'>
-          <App config={{ routes }} />
-        </ConfigProvider>
-      </Router>
-    </Provider>,
+  <Provider store={store}>
+    <Router>
+      <ConfigProvider locale={zhCN} componentSize='small'>
+        <App config={{ routes }} />
+      </ConfigProvider>
+    </Router>
+  </Provider>,
   mountNode
 );

@@ -5,6 +5,7 @@ import { connect } from '@containers/appScreen';
 import IProps from '@typings/react.d';
 import { Button, Modal } from 'antd';
 import UserModal from './UserModal';
+import { Link } from 'react-router-dom';
 interface IState {
   isShow?: boolean;
   [key: string]: any
@@ -44,6 +45,11 @@ export default class App extends React.PureComponent<IProps, IState> {
     },
 
     {
+      dataIndex: 'limitMoney',
+      title: '每单金额',
+    },
+
+    {
       title: '备注',
       dataIndex: 'remark'
     },
@@ -59,9 +65,11 @@ export default class App extends React.PureComponent<IProps, IState> {
       title: '操作',
       dataIndex: 'remark',
       render: (value: string, record: any) => {
+
+        const { route } = this.props;
         return (
           <div>
-            <Button type='link' className='margin_right_10'>查看</Button>
+            <Button type='link' className='margin_right_10'><Link to={{ pathname: `${route.path}/show` }}>查看</Link></Button>
             <Button type='link' onClick={this.editOnClick(record)}>编辑</Button>
             <Button type='link' className='margin_right_10' onClick={this.stopOrStart({ record, type: '1' })}>启动</Button>
             <Button type='link' className='margin_right_10' onClick={this.stopOrStart({ record, type: '2' })}>停止</Button>
@@ -73,6 +81,8 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
+    console.log(props, 'props');
+
     this.state = {
       isShow: false
     }

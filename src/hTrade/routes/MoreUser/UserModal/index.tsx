@@ -13,6 +13,8 @@ import api from '@src/hTrade/config/api';
 
 import { FormInstance } from 'antd/lib/form';
 
+import { getFormItems } from '../utils';
+
 interface IProps extends ModalProps {
   detail?: any;
   actions: IActions;
@@ -22,104 +24,7 @@ export default memo((props: IProps) => {
   const { detail, visible, actions, onCancel } = props;
   const [form, setForm] = useState<FormInstance>();
 
-  const width = 300;
-  const formData: AppFormItemOptions[] = [
-    {
-      name: 'userName',
-      label: '用户名称',
-      rules: [
-        {
-          required: true,
-          message: '请输入',
-          whitespace: true
-        }
-      ],
-      eleAttr: {
-        placeholder: '请输入',
-        style: {
-          width
-        }
-      }
-    },
-
-    {
-      name: 'company',
-      label: '所属公司',
-      rules: [
-        {
-          required: true,
-          message: '请输入',
-          whitespace: true
-        }
-      ],
-      eleAttr: {
-        placeholder: '请输入',
-        style: {
-          width
-        }
-      }
-    },
-
-
-    {
-      name: 'biance_user_id',
-      label: '币安id',
-      eleAttr: {
-        placeholder: '请输入',
-        style: {
-          width
-        }
-      }
-    },
-
-    {
-      name: 'API',
-      label: 'API Key',
-      rules: [
-        {
-          required: true,
-          message: '请输入',
-          whitespace: true
-        }
-      ],
-      eleAttr: {
-        placeholder: '请输入API Key',
-        style: {
-          width
-        }
-      }
-    },
-    {
-      name: 'Secret',
-      label: 'Secret Key',
-      rules: [
-        {
-          required: true,
-          message: '请输入',
-          whitespace: true
-        }
-      ],
-      eleAttr: {
-        placeholder: '请输入API Key',
-        style: {
-          width
-        }
-      }
-    },
-
-    {
-      name: 'remart',
-      label: '备注',
-      type: 'textArea',
-      eleAttr: {
-        placeholder: '请输入',
-        style: {
-          width
-        }
-      }
-    }
-  ]
-
+  const formData: AppFormItemOptions[] = getFormItems();
 
   const onFinish = (params: any) => {
     actions.post(api.addAndUpdateUser, params).then(() => {

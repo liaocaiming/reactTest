@@ -4,65 +4,58 @@ import React from 'react';
 
 import { AppForm } from '@components/index';
 
-import { AppFormItemOptions } from '@components/AppForm/interface'
+import { AppFormItemOptions } from '@components/AppForm/interface';
 
-const width = 300;
+import * as styles from '../../../index.css'
 
 export default class App extends React.PureComponent {
-
-  public renderForm = () => {
-    const formData: AppFormItemOptions[] = [
-      {
-        name: 'API',
-        label: 'API Key',
-        rules: [
-          {
-            required: true,
-            message: '请输入'
-          }
-        ],
-        eleAttr: {
-          placeholder: '请输入API Key',
-          style: {
-            width
-          }
-        }
-      },
-      {
-        name: 'Secret',
-        label: 'Secret Key',
-        rules: [
-          {
-            required: true,
-            message: '请输入'
-          }
-        ],
-        eleAttr: {
-          placeholder: '请输入API Key',
-          style: {
-            width
-          }
-        }
-      }
-    ]
-
-    return (
-      <AppForm formItems={formData} labelCol={{ span: 3 }} submitButton={{ text: '保存', type: 'primary' }} onFinish={this.onFinish} />
-    )
-  }
-
 
   public onFinish = (params: any) => {
     console.log(params);
   }
 
-  public render() {
+  private renderBaseInfo = () => {
+    const formItems: AppFormItemOptions[] = [
+      {
+        name: 'userName',
+        label: '用户名称',
+        type: 'plainText'
+      }
+    ]
+
+    return <AppForm formItems={formItems} submitButton={null} />
+  }
+
+  private renderTitle = (title: string) => {
+    return <h3>{title}</h3>
+  }
+
+  private renderContainer = (options: { title: string; children: React.ReactNode }) => {
+    const { title, children } = options;
     return (
-      <Card title="账户绑定" bordered={false}>
-        <div style={{ width: 800 }}>
-          {this.renderForm()}
-        </div>
-      </Card>
+      <div className={styles.margin_bottom_20}>
+        <Card title={this.renderTitle(title)}>
+          {children}
+        </Card>
+      </div>
+
+    )
+  }
+
+  render() {
+    return (
+      <div className='margin_bottom_20'>
+        {this.renderContainer({
+          title: '基本信息',
+          children: this.renderBaseInfo()
+        })}
+
+        {this.renderContainer({
+          title: '收益统计',
+          children: this.renderBaseInfo()
+        })}
+
+      </div>
     )
   }
 }

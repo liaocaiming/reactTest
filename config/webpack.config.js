@@ -15,6 +15,11 @@ const cssLoader = [
   // "vue-style-loader",
   {
     loader: "css-loader",
+  //   options: {
+  //     modules: true,
+  //     localIdentName: '[name]__[local]-[hash:base64:5]',
+  //     exclude: '/node_modules/',
+  // }
   },
 ];
 

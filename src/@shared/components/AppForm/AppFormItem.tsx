@@ -111,7 +111,7 @@ export function InputElement(formChildProps: AppFormItemElementProps): JSX.Eleme
 
   // 存文本特殊处理
   if (type === 'plainText') {
-    return value;
+    return value || null;
   }
 
   // 注意 ant-design Form.Item 新增加的属性

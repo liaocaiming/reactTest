@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./config/webpack.dev.js",
-    "production": "node ./config/webpack.pro.js"
+    "production": "node ./config/webpack.pro.js",
+    "tcm": "tcm src"
   },
   "author": "",
   "license": "ISC",

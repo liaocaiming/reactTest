@@ -43,7 +43,7 @@ const router = [
       {
         path: 'moreUser/:id',
         component: loadFile({
-          load: () => import('@src/Htrade/routes/MoreUser')
+          load: () => import('@src/Htrade/routes/MoreUser/Detail')
         }),
         title: '用户管理',
         exact: true
