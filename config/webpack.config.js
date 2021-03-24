@@ -10,16 +10,13 @@ const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+const path = require('path');
+
 const cssLoader = [
   MiniCssExtractPlugin.loader,
   // "vue-style-loader",
   {
     loader: "css-loader",
-  //   options: {
-  //     modules: true,
-  //     localIdentName: '[name]__[local]-[hash:base64:5]',
-  //     exclude: '/node_modules/',
-  // }
   },
 ];
 
@@ -151,8 +148,26 @@ module.exports = (options) => {
           test: /\.js$/,
           loader: "source-map-loader",
         },
+        // {
+        //   test: /\.css?$/,
+        //   exclude: [path.resolve(__dirname, '..', 'node_modules')],
+        //   use: [
+        //     // MiniCssExtractPlugin.loader,
+        //     // "vue-style-loader",
+        //     {
+        //       loader: "css-loader",
+        //       options: {
+        //         modules: true,
+        //         localIdentName: '[name]__[local]-[hash:base64:5]',
+        //         exclude: '/node_modules/',
+        //       }
+        //     },
+        //   ],
+        // },
+
         {
           test: /\.css?$/,
+          // include: [path.resolve(__dirname, '..', 'node_modules')],
           use: cssLoader,
         },
 
