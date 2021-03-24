@@ -148,8 +148,26 @@ module.exports = (options) => {
           test: /\.js$/,
           loader: "source-map-loader",
         },
+
+        {
+          test: /\.css$/,
+          exclude: /node_modules|antd\.css/,
+
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: "css-loader",
+              options: {
+                module: true,
+                localIdentName: "[path][name]__[local]--[hash:base64:5]",
+              },
+            },
+          ],
+        },
+
         {
           test: /\.css?$/,
+          include: /node_modules|antd\.css/,
           use: cssLoader,
         },
 
