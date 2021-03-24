@@ -13,21 +13,49 @@ const router = [
     path: 'htrade',
     component: Layout,
     routes: [
-      {
-        path: 'bindUser',
-        component: loadFile({
-          load: () => import('@src/Htrade/routes/BindUser')
-        }),
-        title: '账户绑定',
-        exact: true
-      },
 
       {
         path: 'role',
         component: loadFile({
           load: () => import('@src/Htrade/routes/Role')
         }),
-        title: '角色列表',
+        title: '角色管理',
+        exact: true
+      },
+
+      {
+        path: 'user',
+        component: loadFile({
+          load: () => import('@src/Htrade/routes/User')
+        }),
+        title: '用户管理',
+        exact: true
+      },
+      {
+        path: 'moreUser',
+        component: loadFile({
+          load: () => import('@src/Htrade/routes/MoreUser')
+        }),
+        title: '用户管理',
+        exact: true
+      },
+
+      {
+        path: 'moreUser/:id',
+        component: loadFile({
+          load: () => import('@src/Htrade/routes/MoreUser')
+        }),
+        title: '用户管理',
+        exact: true
+      },
+
+
+      {
+        path: 'StrategyList',
+        component: loadFile({
+          load: () => import('@src/Htrade/routes/StrategyList')
+        }),
+        title: '策略管理',
         exact: true
       },
 

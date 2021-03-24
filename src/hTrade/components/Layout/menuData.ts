@@ -1,14 +1,29 @@
 export default [
+
   {
-    "key": "bindUser",
-    "title": "账户绑定",
+    "key": "role",
+    "title": "角色管理",
     "hasChild": 0,
     "menuType": 1,
   },
 
   {
-    "key": "role",
-    "title": "角色管理",
+    "key": "user",
+    "title": "用户管理",
+    "hasChild": 0,
+    "menuType": 1,
+  },
+
+  {
+    "key": "moreUser",
+    "title": "大户列表",
+    "hasChild": 0,
+    "menuType": 1,
+  },
+
+  {
+    "key": "strategyList",
+    "title": "策略列表",
     "hasChild": 0,
     "menuType": 1,
   },
