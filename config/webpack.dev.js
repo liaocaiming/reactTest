@@ -30,7 +30,7 @@ const server = new webpackDevServer(compiler, devServer);
 
 const opn = require("opn");
 
-server.listen(3030, () => {
+server.listen(3030, "localhost", () => {
   console.log(`ip:  ${ip}`);
 
   opn(`http://localhost:3030`);

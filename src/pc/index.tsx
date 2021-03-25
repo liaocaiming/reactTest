@@ -6,11 +6,9 @@ import { ConfigProvider } from "antd";
 
 import zhCN from "antd/lib/locale-provider/zh_CN";
 
-import App from '@components/AppRoot';
+import App from "@components/AppRoot";
 
-import { HashRouter as Router } from 'react-router-dom';
-
-import "./index.css";
+import { HashRouter as Router } from "react-router-dom";
 
 import { reducers, routes } from "./config";
 
@@ -20,19 +18,15 @@ import { createStore, applyMiddleware, combineReducers } from "redux";
 
 import reduxThunk from "redux-thunk";
 
-import './index.css';
-
-const remoteActionMiddleware = applyMiddleware(
-  reduxThunk
-)(createStore);
+const remoteActionMiddleware = applyMiddleware(reduxThunk)(createStore);
 
 const mountNode: HTMLElement = document.getElementById("app") as HTMLElement;
 
 // Store
 const store = remoteActionMiddleware(
-    combineReducers({
-      ...reducers,
-    }),
+  combineReducers({
+    ...reducers,
+  }),
 
   // 支持 chrome 插件 Redux DevTools
   // tslint:disable-next-line:no-string-literal
@@ -40,12 +34,12 @@ const store = remoteActionMiddleware(
 );
 
 ReactDOM.render(
-    <Provider store={store}>
-      <Router>
-        <ConfigProvider locale={zhCN} componentSize='small'>
-          <App config={{ routes }} />
-        </ConfigProvider>
-      </Router>
-    </Provider>,
+  <Provider store={store}>
+    <Router>
+      <ConfigProvider locale={zhCN} componentSize="small">
+        <App config={{ routes }} />
+      </ConfigProvider>
+    </Router>
+  </Provider>,
   mountNode
 );

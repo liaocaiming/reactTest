@@ -10,7 +10,7 @@ const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const path = require('path');
+const WebpackBar = require("webpackbar");
 
 const cssLoader = [
   MiniCssExtractPlugin.loader,
@@ -148,26 +148,26 @@ module.exports = (options) => {
           test: /\.js$/,
           loader: "source-map-loader",
         },
-        // {
-        //   test: /\.css?$/,
-        //   exclude: [path.resolve(__dirname, '..', 'node_modules')],
-        //   use: [
-        //     // MiniCssExtractPlugin.loader,
-        //     // "vue-style-loader",
-        //     {
-        //       loader: "css-loader",
-        //       options: {
-        //         modules: true,
-        //         localIdentName: '[name]__[local]-[hash:base64:5]',
-        //         exclude: '/node_modules/',
-        //       }
-        //     },
-        //   ],
-        // },
+
+        {
+          test: /\.css$/,
+          exclude: /node_modules|antd\.css/,
+
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: "css-loader",
+              options: {
+                module: true,
+                localIdentName: "[path][name]__[local]--[hash:base64:5]",
+              },
+            },
+          ],
+        },
 
         {
           test: /\.css?$/,
-          // include: [path.resolve(__dirname, '..', 'node_modules')],
+          include: /node_modules|antd\.css/,
           use: cssLoader,
         },
 
@@ -216,6 +216,7 @@ module.exports = (options) => {
     },
 
     plugins: [
+      new WebpackBar(),
       new HtmlWebpackPlugin({
         template: utils.resolve(`src/${name}/index.html`),
         filename: "index.html",
