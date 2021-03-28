@@ -14,6 +14,7 @@ export const urls = {
   strategyList: 'strategy/list', // 策略列表
   strategyOrderList: 'strategy/order/list', // 策略开单详情列表
   follow_recordsShow: 'follow_records/detail', // 订单详情
+  robotFollowList: 'robot/follow/list'
 };
 
 

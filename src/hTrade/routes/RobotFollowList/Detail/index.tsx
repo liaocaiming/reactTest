@@ -1,61 +1,108 @@
-import { Card } from 'antd';
-
 import React from 'react';
+import { PageList } from '@components/index';
+import linkPort from '@src/hTrade/config/api'; // 注意: 不是boss项目的请修改路径
+import { connect } from '@containers/appScreen';
+import IProps from '@typings/react.d';
+import { Card } from 'antd';
+import DetaiModal from './DetaiModal';
 
-import { AppForm } from '@components/index';
+interface IState {
+  isShow: boolean;
+}
 
-import { AppFormItemOptions } from '@components/AppForm/interface';
+@connect()
+export default class App extends React.PureComponent<IProps, IState> {
+  private changeItem = {};
 
-import * as styles from '../../../index.css'
+  private row: any[] = [
+    {
+      dataIndex: 'addTime',
+      title: '开单时间',
+      isSearch: true,
+      type: 'rangePicker'
+    },
+    {
+      dataIndex: 'coin',
+      title: '币种',
+    },
+    {
+      dataIndex: 'mul',
+      title: '倍数',
+    },
+    {
+      dataIndex: 'strategyType',
+      title: '策略类型',
+    },
 
-export default class App extends React.PureComponent {
-
-  public onFinish = (params: any) => {
-    console.log(params);
-  }
-
-  private renderBaseInfo = () => {
-    const formItems: AppFormItemOptions[] = [
-      {
-        name: 'userName',
-        label: '用户名称',
-        type: 'plainText'
+    {
+      dataIndex: 'is_stop_profit',
+      title: '是否止盈',
+    },
+    {
+      dataIndex: 'is_stop_loss',
+      title: '是否止损',
+    },
+    {
+      dataIndex: 'stop_profit_target',
+      title: '止盈目标',
+    },
+    {
+      dataIndex: 'operate',
+      title: '操作',
+      render: (val: string, item: any) => {
+        return <a onClick={this.toggle({ key: 'isShow', value: true, item })}> 查看 </a>
       }
-    ]
+    }
+  ];
 
-    return <AppForm formItems={formItems} submitButton={null} />
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      isShow: false
+    }
   }
 
-  private renderTitle = (title: string) => {
-    return <h3>{title}</h3>
+
+  private toggle = (options: { key: 'isShow', value, item?: any }) => {
+    return () => {
+      const { key, value, item, } = options;
+      if (item) {
+        this.changeItem = item
+      }
+
+      this.setState({
+        [key]: value
+      })
+    }
   }
 
-  private renderContainer = (options: { title: string; children: React.ReactNode }) => {
-    const { title, children } = options;
-    return (
-      <div className={styles.margin_bottom_20}>
-        <Card title={this.renderTitle(title)}>
-          {children}
-        </Card>
-      </div>
+  private renderDetaiModal = () => {
+    const { actions, } = this.props;
+    const { isShow } = this.state;
 
-    )
+    return <DetaiModal
+      actions={actions}
+      query={this.changeItem}
+      isShow={isShow}
+      title='订单详情'
+      onCancel={this.toggle({ key: 'isShow', value: false })}
+    />
   }
 
   render() {
     return (
-      <div className='margin_bottom_20'>
-        {this.renderContainer({
-          title: '基本信息',
-          children: this.renderBaseInfo()
-        })}
+      <Card title='策略详情'>
+        <PageList
+          {...this.props}
+          url={linkPort.strategyOrderList}
+          tableComponentProps={{ columns: this.row }}
+          groupSearchProps={{
+            isShowResetBtn: true,
+          }}
+        />
 
-        {this.renderContainer({
-          title: '收益统计',
-          children: this.renderBaseInfo()
-        })}
-
-      </div>
-    )
+        {this.renderDetaiModal()}
+      </Card>
+    );
   }
 }

@@ -18,17 +18,21 @@ import { getFormItems } from '../utils';
 interface IProps extends ModalProps {
   detail?: any;
   actions: IActions;
+  operateType?: 'edit' | 'add'
+  onSuccess: () => void;
 }
 
 export default memo((props: IProps) => {
-  const { detail, visible, actions, onCancel } = props;
+  const { detail, visible, actions, onCancel, onSuccess, operateType } = props;
   const [form, setForm] = useState<FormInstance>();
 
-  const formData: AppFormItemOptions[] = getFormItems();
+  const formData: AppFormItemOptions[] = getFormItems({
+    operateType
+  });
 
   const onFinish = (params: any) => {
     actions.post(api.addAndUpdateUser, params).then(() => {
-      onCancel && onCancel(params);
+      onSuccess();
     })
   }
 
@@ -43,7 +47,7 @@ export default memo((props: IProps) => {
         labelCol={{ span: 6 }}
         submitButton={null}
         onFinish={onFinish}
-        initialValues={detail}
+        updateStore={detail}
         onReady={(form) => {
           setForm(form)
         }} />

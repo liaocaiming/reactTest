@@ -5,14 +5,17 @@ import { constants } from '@utils/index';
 interface IOptions {
   width?: number;
   disabled?: boolean;
+  operateType?: 'edit' | 'add'
 }
 
 export const getFormItems = (options?: IOptions) => {
-  const { width = 300 } = options || {};
+  const { width = 300, operateType } = options || {};
+  const disabled = operateType === 'edit';
+
   const formData: AppFormItemOptions[] = [
     {
-      name: 'userName',
-      label: '用户名称',
+      name: 'email',
+      label: '邮箱',
       rules: [
         {
           required: true,
@@ -22,28 +25,18 @@ export const getFormItems = (options?: IOptions) => {
       ],
       eleAttr: {
         placeholder: '请输入',
+        disabled,
         style: {
           width
         }
       }
     },
-
-    {
-      name: 'company',
-      label: '所属公司',
-      eleAttr: {
-        placeholder: '请输入',
-        style: {
-          width
-        }
-      }
-    },
-
 
     {
       name: 'biance_user_id',
       label: '币安id',
       eleAttr: {
+        disabled,
         placeholder: '请输入',
         style: {
           width
@@ -54,6 +47,7 @@ export const getFormItems = (options?: IOptions) => {
     {
       name: 'API',
       label: 'API Key',
+      isShow: !disabled,
       rules: [
         {
           required: true,
@@ -71,6 +65,7 @@ export const getFormItems = (options?: IOptions) => {
     {
       name: 'Secret',
       label: 'Secret Key',
+      isShow: !disabled,
       rules: [
         {
           required: true,
@@ -87,7 +82,7 @@ export const getFormItems = (options?: IOptions) => {
     },
 
     {
-      name: 'limitMoney',
+      name: 'evert_money',
       label: '每单金额',
       rules: [
         {
