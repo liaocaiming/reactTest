@@ -51,11 +51,19 @@ const router = [
 
 
       {
-        path: 'StrategyList',
+        path: 'strategyList',
         component: loadFile({
           load: () => import('@src/Htrade/routes/StrategyList')
         }),
         title: '策略管理',
+        exact: true
+      },
+      {
+        path: 'strategyList/:id',
+        component: loadFile({
+          load: () => import('@src/Htrade/routes/StrategyList/StrategyItem')
+        }),
+        title: '策略详情',
         exact: true
       },
 

@@ -45,7 +45,7 @@ export interface IProps extends IAllProps {
     initType?: "actionQuery"; // 表示默认参数可以删除
   };
   tableComponentProps: ITable;
-  groupSearchProps: IGroupSearchProps;
+  groupSearchProps?: IGroupSearchProps;
   groupAfterDom?: JSX.Element;
   isShowBreadCrumbNav?: boolean;
   getInstance?: (that: any) => void; // that 获取列表实列
@@ -53,6 +53,7 @@ export interface IProps extends IAllProps {
   headerDom?: JSX.Element; // 在 GroupSearch 和 面包屑之间的内容
   searchCallBack?: (params: any) => void; // 查询回调
   getRefreshDataFn?: (refreshDataFn: IRefreshFn) => void; // 获取刷新列表数据的函数;
+  showSearch?: boolean; // 是否显示搜索条件
   [k: string]: any; // 注意使用的时候一样要传 this.props
 }
 
@@ -159,7 +160,7 @@ export default class App extends React.Component<IProps> {
 
   public renderSearch() {
     const {
-      groupSearchProps,
+      groupSearchProps = {},
       groupAfterDom,
       downProps,
       rowData,
@@ -238,13 +239,13 @@ export default class App extends React.Component<IProps> {
   }
 
   public render() {
-    const { headerDom, actionDom } = this.props;
+    const { headerDom, actionDom, showSearch = true } = this.props;
 
     return (
       <AppScreen {...this.props} initOption={this.init}>
         <Card>
           {headerDom}
-          {this.renderSearch()}
+          {showSearch ? this.renderSearch() : null}
           {actionDom}
           {this.renderTable()}
         </Card>

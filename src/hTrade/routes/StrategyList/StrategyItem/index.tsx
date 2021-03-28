@@ -1,178 +1,108 @@
-import React, { memo, useState } from 'react';
-import { Modal } from 'antd'
+import React from 'react';
+import { PageList } from '@components/index';
+import linkPort from '@src/hTrade/config/api'; // 注意: 不是boss项目的请修改路径
+import { connect } from '@containers/appScreen';
+import IProps from '@typings/react.d';
+import { Card } from 'antd';
+import DetaiModal from './DetaiModal';
 
-import { ModalProps } from 'antd/lib/modal'
-
-import { AppForm } from '@components/index';
-
-import { AppFormItemOptions } from '@components/AppForm/interface'
-
-import { IActions } from '@containers/index.d'
-
-import api from '@src/hTrade/config/api';
-
-import { FormInstance } from 'antd/lib/form';
-
-interface IProps extends ModalProps {
-  detail?: any;
-  actions: IActions;
+interface IState {
+  isShow: boolean;
 }
 
-export default memo((props: IProps) => {
-  const { detail, visible, actions, onCancel } = props;
-  const [form, setForm] = useState<FormInstance>();
+@connect()
+export default class App extends React.PureComponent<IProps, IState> {
+  private changeItem = {};
 
-  const width = 300;
-  const formData: AppFormItemOptions[] = [
+  private row: any[] = [
     {
-      name: 'strategyName',
-      label: '策略名称',
-      rules: [
-        {
-          required: true,
-          message: '请输入',
-          whitespace: true
-        }
-      ],
-      eleAttr: {
-        placeholder: '请输入',
-        style: {
-          width
-        }
-      }
+      dataIndex: 'addTime',
+      title: '开单时间',
+      isSearch: true,
+      type: 'rangePicker'
+    },
+    {
+      dataIndex: 'coin',
+      title: '币种',
+    },
+    {
+      dataIndex: 'mul',
+      title: '倍数',
+    },
+    {
+      dataIndex: 'strategyType',
+      title: '策略类型',
     },
 
     {
-      name: 'strategyType',
-      label: '策略类型',
-      type: 'select',
-      list: [
-        {
-          value: 'rf4',
-          label: 'rf4'
-        }
-      ],
-      rules: [
-        {
-          required: true,
-          message: '请选择',
-        }
-      ],
-      eleAttr: {
-        placeholder: '请选择',
-        style: {
-          width
-        }
-      }
-    },
-
-
-    {
-      name: 'tradingVolume',
-      label: '交易量',
-      rules: [
-        {
-          required: true,
-          message: '请输入',
-          whitespace: true
-        }
-      ],
-      eleAttr: {
-        placeholder: '请输入',
-        style: {
-          width
-        }
-      }
-    },
-
-    {
-      name: 'upRate',
-      label: '涨幅',
-      afterDOM: <span className='margin_left_5'>%</span>,
-      rules: [
-        {
-          required: true,
-          message: '请输入',
-        }
-      ],
-      eleAttr: {
-        placeholder: '请输入',
-        style: {
-          width
-        }
-      }
+      dataIndex: 'is_stop_profit',
+      title: '是否止盈',
     },
     {
-      name: 'time',
-      label: '时间周期',
-      rules: [
-        {
-          required: true,
-          message: '请输入',
-          whitespace: true
-        }
-      ],
-      eleAttr: {
-        placeholder: '请输入',
-        style: {
-          width
-        }
-      }
+      dataIndex: 'is_stop_loss',
+      title: '是否止损',
     },
-
     {
-      name: 'ema',
-      label: 'ema',
-      rules: [
-        {
-          required: true,
-          message: '请输入',
-          whitespace: true
-        }
-      ],
-      eleAttr: {
-        placeholder: '请输入',
-        style: {
-          width
-        }
-      }
+      dataIndex: 'stop_profit_target',
+      title: '止盈目标',
     },
-
     {
-      name: 'remart',
-      label: '备注',
-      type: 'textArea',
-      eleAttr: {
-        placeholder: '请输入',
-        style: {
-          width
-        }
+      dataIndex: 'operate',
+      title: '操作',
+      render: (val: string, item: any) => {
+        return <a onClick={this.toggle({ key: 'isShow', value: true, item })}> 查看 </a>
       }
     }
-  ]
+  ];
 
-
-  const onFinish = (params: any) => {
-    actions.post(api.addAndUpdateUser, params).then(() => {
-      onCancel && onCancel(params);
-    })
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      isShow: false
+    }
   }
 
-  const onOK = () => {
-    form?.submit()
+
+  private toggle = (options: { key: 'isShow', value, item?: any }) => {
+    return () => {
+      const { key, value, item, } = options;
+      if (item) {
+        this.changeItem = item
+      }
+
+      this.setState({
+        [key]: value
+      })
+    }
   }
 
-  return (
-    <Modal visible={visible} onCancel={onCancel} width={600} title='新增策略' onOk={onOK}>
-      <AppForm
-        formItems={formData}
-        labelCol={{ span: 6 }}
-        submitButton={null}
-        onFinish={onFinish}
-        initialValues={detail}
-        onReady={(form) => {
-          setForm(form)
-        }} />
-    </Modal>
-  )
-})
+  private renderDetaiModal = () => {
+    const { actions, } = this.props;
+    const { isShow } = this.state;
+
+    return <DetaiModal
+      actions={actions}
+      query={this.changeItem}
+      isShow={isShow}
+      title='订单详情'
+      onCancel={this.toggle({ key: 'isShow', value: false })}
+    />
+  }
+
+  render() {
+    return (
+      <Card title='策略详情'>
+        <PageList
+          {...this.props}
+          url={linkPort.strategyOrderList}
+          tableComponentProps={{ columns: this.row }}
+          groupSearchProps={{
+            isShowResetBtn: true,
+          }}
+        />
+
+        {this.renderDetaiModal()}
+      </Card>
+    );
+  }
+}

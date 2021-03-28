@@ -10,11 +10,14 @@ import PageList from './PageList';
 
 import Breadcrumb from './Breadcrumb';
 
+import Link from './Link';
+
 export {
   GroupSearch,
   TableComponent,
   Toggle,
   AppForm,
   PageList,
-  Breadcrumb
+  Breadcrumb,
+  Link
 }

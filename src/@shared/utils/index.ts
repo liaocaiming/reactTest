@@ -16,6 +16,7 @@ import * as query from './lib/query';
 import arrToObj from './lib/arrToObj';
 import trim from './lib/trim';
 import socket from './lib/socket';
+import filterAttr from './lib/filterAttr';
 
 export {
   createReducer,
@@ -35,5 +36,6 @@ export {
   query,
   arrToObj,
   trim,
-  socket
+  socket,
+  filterAttr
 }

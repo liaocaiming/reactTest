@@ -11,12 +11,15 @@ export const urls = {
   role: 'role/list', // 角色列表
   userList: 'user/list', // 用户列表
   addAndUpdateUser: 'user/addAndUpdate', // 新增和编辑用户;
+  strategyList: 'strategy/list', // 策略列表
+  strategyOrderList: 'strategy/order/list', // 策略开单详情列表
+  follow_recordsShow: 'follow_records/detail', // 订单详情
 };
 
 
-export const bianceUrls = {
-  v1PremiumIndex: 'v1/premiumIndex' // 最新标记价格和资金费率
-};
+// export const bianceUrls = {
+//   v1PremiumIndex: 'v1/premiumIndex' // 最新标记价格和资金费率
+// };
 
 
 config([
@@ -24,10 +27,10 @@ config([
     prefix: localApiPrefix,
     urls,
   },
-  {
-    prefix: bianceFApiPrefix,
-    urls: bianceUrls,
-  },
+  // {
+  //   prefix: bianceFApiPrefix,
+  //   urls: bianceUrls,
+  // },
 ]);
 
-export default { ...urls, ...bianceUrls };
+export default { ...urls };

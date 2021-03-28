@@ -5,6 +5,8 @@ import { connect } from '@containers/appScreen';
 import IProps from '@typings/react.d';
 import { Button, Modal } from 'antd';
 import StrategyItem from './StrategyItem';
+import { Link } from '@components/index';
+
 interface IState {
   isShow?: boolean;
   [key: string]: any
@@ -18,48 +20,36 @@ export default class App extends React.PureComponent<IProps, IState> {
     {
       title: '策略名称',
       dataIndex: 'strategyName',
-      isSearch: true,
-    },
-    {
-      title: '策略类型',
-      dataIndex: 'strategyTypeName',
-      searchDataIndex: 'strategyType',
-      type: 'select',
-      isSearch: true,
-    },
-    {
-      title: '交易量',
-      dataIndex: 'tradingVolume',
     },
 
     {
-      title: '涨幅',
-      dataIndex: 'upRate',
+      title: '状态',
+      dataIndex: 'statusName',
     },
 
     {
-      title: '时间周期',
-      dataIndex: 'time',
+      title: '推送测试',
+      dataIndex: 'pushText',
+    },
+    {
+      title: '止损数量',
+      dataIndex: 'stop_loss_num',
     },
 
     {
-      title: 'ema',
-      dataIndex: 'ema',
+      title: '止盈数量',
+      dataIndex: 'stop_profit_num',
     },
 
-
-    {
-      title: '备注',
-      dataIndex: 'remark'
-    },
     {
       title: '操作',
       dataIndex: 'remark',
       render: (value: string, record: any) => {
+        const { route } = this.props
         return (
           <div>
-            <Button type='link' className='margin_right_10'>查看</Button>
-            <Button type='link' className='margin_right_10' onClick={this.editOnClick(record)}>编辑</Button>
+            <Button type='link' className='margin_right_10'><Link to={{ pathname: `${route.path}/show` }} search={{ id: record.id }} >查看</Link></Button>
+            {/* <Button type='link' className='margin_right_10' onClick={this.editOnClick(record)}>编辑</Button> */}
             <Button type='link' className='margin_right_10' onClick={this.stopOrStart({ record, type: '1' })}>启动</Button>
             <Button type='link' className='margin_right_10' onClick={this.stopOrStart({ record, type: '2' })}>停止</Button>
           </div>
@@ -100,14 +90,6 @@ export default class App extends React.PureComponent<IProps, IState> {
     }
   }
 
-
-  private editOnClick = (record: any) => {
-    return () => {
-      this.changeItem = record;
-      this.toggle('isShow', true)();
-    }
-  }
-
   private toggle = (key: 'isShow', value = false) => {
     return () => {
       this.setState({
@@ -116,34 +98,16 @@ export default class App extends React.PureComponent<IProps, IState> {
     }
   }
 
-  private renderBtn = () => {
-    return (
-      <Button type='primary' className='margin_left_20' onClick={this.toggle('isShow', true)}>新增</Button>
-    )
-  }
-
-  private renderModal = () => {
-    const { actions } = this.props;
-    const { isShow } = this.state;
-
-    return <StrategyItem detail={this.changeItem} actions={actions} visible={isShow} onCancel={this.toggle('isShow', false)} />
-  }
-
 
   public render() {
     return (
       <div>
         <PageList
           {...this.props}
-          url={linkPort.role}
+          url={linkPort.strategyList}
           tableComponentProps={{ columns: this.row }}
-          groupAfterDom={this.renderBtn()}
-          groupSearchProps={{
-            isShowResetBtn: true,
-            rowData: this.row as any
-          }}
+          showSearch={false}
         />
-        {this.renderModal()}
       </div>
     );
   }
