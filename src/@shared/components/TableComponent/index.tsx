@@ -8,11 +8,39 @@ import { TableProps, ColumnProps } from 'antd/lib/table';
 
 import Toggle from '../Toggle';
 
+
+export enum ItemType {
+  // 下拉选择框
+  select = 'select',
+
+  // input 输入框
+  input = 'input',
+  // 数组类输入框
+  number = 'number',
+  datePicker = 'datePicker',
+  rangePicker = 'rangePicker',
+  timePicker = 'timePicker',
+  timeRangePicker = 'timeRangePicker',
+  cascader = 'cascader',
+  // 数字范围
+  numberRanger = 'numberRanger',
+}
+
+export type Type = keyof typeof ItemType;
+
+interface IList {
+  value: string | number;
+  label: string;
+}
+
 export interface IColumnProps extends ColumnProps<any> {
   emptyPlaceholder?: string; // 空数据占位符;
   currency?: string; // 是否货币;
   showPop?: boolean; // 是否需要悬浮提示
   isShow?: boolean | (() => boolean); // 是否显示
+  type?: Type; // 类型;
+  showList?: boolean; // s是否使用自动匹配下拉框;
+  list?: IList[] // 下拉框
   [random: string]: any;
 }
 
@@ -33,7 +61,7 @@ interface ITableComponentState {
 
 export default class TableComponent extends React.Component<ITableComponentProps, ITableComponentState> {
   private columnWidth: number = 150;
-  private selectKeys:any[] = [];
+  private selectKeys: any[] = [];
 
   private isFirst: boolean = false;
 
@@ -48,26 +76,26 @@ export default class TableComponent extends React.Component<ITableComponentProps
     this.modifyColData(this.props);
   }
 
-  public componentDidMount () {
-    const { rowSelection = {}} = this.props;
-    const { selectedRowKeys = []} = rowSelection;
+  public componentDidMount() {
+    const { rowSelection = {} } = this.props;
+    const { selectedRowKeys = [] } = rowSelection;
     this.selectKeys = selectedRowKeys;
   }
 
   public UNSAFE_componentWillReceiveProps(nextProps: ITableComponentProps) {
     const { selectedRowKeys = [] } = nextProps.rowSelection || {};
 
-   if (JSON.stringify(this.props.rowSelection?.selectedRowKeys) !== JSON.stringify(nextProps.rowSelection?.selectedRowKeys)) {
-     const { selectedRowKeys = []  } =   nextProps.rowSelection || {}
-    if (selectedRowKeys.length === 0) {
-      this.selectKeys = []
+    if (JSON.stringify(this.props.rowSelection?.selectedRowKeys) !== JSON.stringify(nextProps.rowSelection?.selectedRowKeys)) {
+      const { selectedRowKeys = [] } = nextProps.rowSelection || {}
+      if (selectedRowKeys.length === 0) {
+        this.selectKeys = []
+      }
     }
-   }
 
-   if (selectedRowKeys.length > 0 && !this.isFirst) {
-    this.isFirst = true;
-    this.selectKeys =  selectedRowKeys;
-  }
+    if (selectedRowKeys.length > 0 && !this.isFirst) {
+      this.isFirst = true;
+      this.selectKeys = selectedRowKeys;
+    }
 
     this.modifyColData(nextProps);
   }
@@ -76,7 +104,30 @@ export default class TableComponent extends React.Component<ITableComponentProps
   public modifyColData = (nextProps: ITableComponentProps) => {
     let { columns } = nextProps;
     columns.map(item => {
-      
+      if (item.type === 'select' && item.showList && item.list) {
+        const list: IList[] = item.list
+        item.render = (val: any) => {
+          if (typeof val === 'string' || typeof val === 'number') {
+            return list.find(it => it.value == val)?.label
+          }
+
+          if (Array.isArray(val)) {
+            let labels: any[] = [];
+            list.forEach((item) => {
+              const is = val.some(v => v == item.value);
+              if (is) {
+                labels.push(item.label)
+              }
+            })
+
+            return labels.join(',')
+
+          }
+
+          return null;
+        }
+      }
+
       if (item.showPop) {
         item.render = (text: any) => {
           let txt = text;
@@ -88,7 +139,7 @@ export default class TableComponent extends React.Component<ITableComponentProps
             txt = text.join('、');
           }
           return (
-          <Popover content={<div className='table-popover'>{txt}</div>} trigger="hover" overlayClassName="authName-popover">
+            <Popover content={<div className='table-popover'>{txt}</div>} trigger="hover" overlayClassName="authName-popover">
               <div style={{ maxWidth: item.width || '150px' }} className="txt_ellipsis">
                 {txt}
               </div>
@@ -107,7 +158,7 @@ export default class TableComponent extends React.Component<ITableComponentProps
 
   // table底部统计信息
   public renderStatisticsInfo = (totalCount: number, selected: number) => {
-    const { rowSelection = {}} = this.props;
+    const { rowSelection = {} } = this.props;
     const { selectedRowKeys = [] } = rowSelection;
 
     return (
@@ -176,11 +227,11 @@ export default class TableComponent extends React.Component<ITableComponentProps
   }
 
   public rowSelection = () => {
-    const {  rowSelection, dataSource = [] } = this.props;
+    const { rowSelection, dataSource = [] } = this.props;
     if (!rowSelection) {
       return
     }
-    const { onChange, type = 'checkbox', onSelect,  onSelectAll } = rowSelection;
+    const { onChange, type = 'checkbox', onSelect, onSelectAll } = rowSelection;
 
     const params = {
       ...rowSelection,
@@ -261,7 +312,7 @@ export default class TableComponent extends React.Component<ITableComponentProps
   };
 
   public render() {
-    const { columns, pagination, children, isFixed = false, isShowStatistics, selectedNum = 0, dataSource = []} = this.props;
+    const { columns, pagination, children, isFixed = false, isShowStatistics, selectedNum = 0, dataSource = [] } = this.props;
     const scroll = {};
     const rows = this.filterRowData(columns);
     const rowData = this.handleColumns(rows, isFixed);
