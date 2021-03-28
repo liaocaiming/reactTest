@@ -1,11 +1,11 @@
 export default [
 
-  {
-    "key": "role",
-    "title": "角色管理",
-    "hasChild": 0,
-    "menuType": 1,
-  },
+  // {
+  //   "key": "role",
+  //   "title": "角色管理",
+  //   "hasChild": 0,
+  //   "menuType": 1,
+  // },
 
   {
     "key": "user",
@@ -14,12 +14,12 @@ export default [
     "menuType": 1,
   },
 
-  {
-    "key": "moreUser",
-    "title": "大户列表",
-    "hasChild": 0,
-    "menuType": 1,
-  },
+  // {
+  //   "key": "moreUser",
+  //   "title": "大户列表",
+  //   "hasChild": 0,
+  //   "menuType": 1,
+  // },
 
   {
     "key": "strategyList",
@@ -27,5 +27,14 @@ export default [
     "hasChild": 0,
     "menuType": 1,
   },
+
+  {
+    "key": "robotFollowList",
+    "title": "机器人跟单",
+    "hasChild": 0,
+    "menuType": 1,
+  },
+
+
 
 ]

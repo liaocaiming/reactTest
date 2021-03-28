@@ -67,6 +67,24 @@ const router = [
         exact: true
       },
 
+      {
+        path: 'robotFollowList',
+        component: loadFile({
+          load: () => import('@src/Htrade/routes/RobotFollowList')
+        }),
+        title: '机器人跟单',
+        exact: true
+      },
+
+      {
+        path: 'robotFollowList/:id',
+        component: loadFile({
+          load: () => import('@src/Htrade/routes/RobotFollowList/Detail')
+        }),
+        title: '机器人跟单详情',
+        exact: true
+      },
+
     ],
   },
 
