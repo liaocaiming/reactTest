@@ -6,3 +6,4 @@ export { default as getChangeStore } from './getChangeStore';
 export { default as createNamePathKey } from './createNamePathKey';
 export { default as shouldUpdateForm } from './shouldUpdateForm';
 export { default as getItemValue } from './getItemValue';
+export { default as getSelectFromItem } from './getSelectFromItem';
