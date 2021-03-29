@@ -17,6 +17,8 @@ import arrToObj from './lib/arrToObj';
 import trim from './lib/trim';
 import socket from './lib/socket';
 import filterAttr from './lib/filterAttr';
+import filterItems from './lib/filterItems';
+import getTableRows from './lib/filterItems';
 
 export {
   createReducer,
@@ -37,5 +39,7 @@ export {
   arrToObj,
   trim,
   socket,
-  filterAttr
+  filterAttr,
+  filterItems,
+  getTableRows
 }
