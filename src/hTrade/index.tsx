@@ -35,6 +35,8 @@ const store = remoteActionMiddleware(
   window["devToolsExtension"] ? window["devToolsExtension"]() : (f: any) => f
 );
 
+console.log(test);
+
 ReactDOM.render(
   <Provider store={store}>
     <Router>
