@@ -40,7 +40,7 @@ export default (props: IProps) => {
   const { follow_record_messages = [] } = detail as any;
   const modalProps = filterAttr(props, ['actions', 'query', 'isShow'])
   return (
-    <Modal visible={isShow} title='订单详情' footer={null} {...modalProps}>
+    <Modal visible={isShow} title='策略详情' footer={null} {...modalProps}>
       <div className='page-orderDetail'>
         <Title detail={detail} />
         <DetailList list={follow_record_messages} />

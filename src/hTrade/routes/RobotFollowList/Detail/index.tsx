@@ -9,8 +9,8 @@ import { AppFormItemOptions } from "@components/AppForm/interface.d";
 import { constants, helpers, query } from "@utils/index";
 import { Chart } from "@antv/g2";
 import chartData from "./chartData";
-
 import api from "@src/hTrade/config/api";
+import './index.less';
 
 interface IState {
   isShow: boolean;
@@ -30,16 +30,44 @@ export default class App extends React.PureComponent<IProps, IState> {
       type: "rangePicker",
     },
     {
-      dataIndex: "coin",
+      dataIndex: "symbol",
       title: "币种",
+      isSearch: true,
     },
     {
       dataIndex: "mul",
       title: "倍数",
     },
+
+    {
+      dataIndex: "orderType",
+      title: "订单类型",
+      type: 'select',
+      isSearch: true,
+      list: [
+
+        {
+          value: 1,
+          label: '合约'
+        },
+        {
+          value: 2,
+          label: ' 现货'
+        }
+      ]
+    },
+
     {
       dataIndex: "strategyType",
       title: "策略类型",
+      type: 'select',
+      isSearch: true,
+      list: [
+        {
+          value: 101,
+          label: '101'
+        }
+      ]
     },
 
     {
@@ -266,13 +294,13 @@ export default class App extends React.PureComponent<IProps, IState> {
   render() {
     const { detail } = this.state;
     return (
-      <div>
-        <div className="margin_bottom_20">
+      <div className='robotFollow-detail'>
+        <div className="margin_bottom_20 line">
           <h3>基本信息</h3>
           {this.renderBaseInfo(detail)}
         </div>
 
-        <div className="margin_bottom_20">
+        <div className="margin_bottom_20 line">
           <h3>总收益曲线图</h3>
           <div id="container" />
         </div>
