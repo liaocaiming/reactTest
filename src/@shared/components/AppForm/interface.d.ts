@@ -10,6 +10,11 @@ export interface Store {
   [name: string]: any;
 }
 
+interface IList {
+  value: string;
+  label: string
+}
+
 export enum FormItemType {
   /**
    * 下拉选择框
@@ -124,7 +129,7 @@ export interface AppFormItemBase extends FormItemProps {
   numberToString?: boolean;
 
   key?: string;
-  label?: string | ReactNode;
+  label?: string | React.ReactDOM;
 
   type?: keyof typeof FormItemType;
 
