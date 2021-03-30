@@ -5,6 +5,7 @@ import { connect } from '@containers/appScreen';
 import IProps from '@typings/react.d';
 import { Card } from 'antd';
 import DetaiModal from './DetaiModal';
+import { orderStatus } from '@src/hTrade/constants/index'
 
 interface IState {
   isShow: boolean;
@@ -90,6 +91,13 @@ export default class App extends React.PureComponent<IProps, IState> {
   }
 
   render() {
+    const searchRowData = this.row.concat({
+      dataIndex: 'order_status',
+      title: '订单状态',
+      isSearch: true,
+      list: orderStatus,
+      type: 'select'
+    })
     return (
       <Card title='策略详情'>
         <PageList
@@ -98,6 +106,7 @@ export default class App extends React.PureComponent<IProps, IState> {
           tableComponentProps={{ columns: this.row }}
           groupSearchProps={{
             isShowResetBtn: true,
+            rowData: searchRowData
           }}
         />
 

@@ -75,7 +75,7 @@ export const getFormItems = (options?: IOptions) => {
 
     {
       name: 'invitees',
-      label: ' 邀请人',
+      label: ' 邀请码',
       eleAttr: {
         placeholder: '请输入',
         style: {
@@ -219,16 +219,23 @@ export const getFormItems = (options?: IOptions) => {
     {
       name: 'api',
       label: 'API Key',
+      isShow: (data) => {
+        return data.is_robot == 1
+      },
       rules: [
-        (form) => {
-          const robot_limit = form.getFieldValue('robot_limit');
-          console.log(robot_limit, 'robot_limit');
+        // (form) => {
+        //   const robot_limit = form.getFieldValue('robot_limit');
+        //   console.log(robot_limit, 'robot_limit');
 
 
-          return {
-            required: robot_limit == 2,
-            message: '请输入'
-          }
+        //   return {
+        //     required: robot_limit == 2,
+        //     message: '请输入'
+        //   }
+        // }
+        {
+          required: true,
+          message: '请输入'
         }
       ],
       eleAttr: {
@@ -241,14 +248,21 @@ export const getFormItems = (options?: IOptions) => {
     {
       name: 'secret',
       label: 'Secret Key',
+      isShow: (data) => {
+        return data.is_robot == 1
+      },
       rules: [
-        (form) => {
-          const robot_limit = form.getFieldValue('robot_limit');
+        // (form) => {
+        //   const robot_limit = form.getFieldValue('robot_limit');
 
-          return {
-            required: robot_limit == 2,
-            message: '请输入'
-          }
+        //   return {
+        //     required: robot_limit == 2,
+        //     message: '请输入'
+        //   }
+        // }
+        {
+          required: true,
+          message: '请输入'
         }
       ],
       eleAttr: {
@@ -258,6 +272,28 @@ export const getFormItems = (options?: IOptions) => {
         }
       }
     },
+
+    {
+      name: 'evert_money',
+      label: ' 每单金额',
+      type: 'number',
+      isShow: (data) => {
+        return data.is_robot == 1
+      },
+      rules: [
+        {
+          required: true,
+          message: '请选择',
+        }
+      ],
+      eleAttr: {
+        placeholder: '请选择',
+        style: {
+          width
+        }
+      }
+    },
+
 
     {
       name: 'remart',

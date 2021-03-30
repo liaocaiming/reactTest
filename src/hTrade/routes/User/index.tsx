@@ -6,6 +6,7 @@ import IProps from '@typings/react.d';
 import { Button } from 'antd';
 import UserModal from './UserModal';
 import { constants } from '@utils/index'
+import { payType } from '@src/hTrade/constants/index'
 
 interface IState {
   isShow?: boolean;
@@ -41,17 +42,17 @@ export default class App extends React.PureComponent<IProps, IState> {
       title: '注册时间',
       dataIndex: 'addTime',
       isSearch: true,
-      type: 'rangePicker',
+      type: 'datePicker',
     },
     {
-      title: '邀请人',
+      title: '邀请码',
       dataIndex: 'invitees',
       isSearch: true,
     },
     {
       title: '是否付费会员',
       dataIndex: 'is_pay_member',
-      type: 'selectt',
+      type: 'select',
       list: constants.isOrNot,
       isSearch: true,
     },
@@ -68,14 +69,15 @@ export default class App extends React.PureComponent<IProps, IState> {
       title: '到期时间',
       dataIndex: 'due_day',
       isSearch: true,
-      type: 'rangePicker',
+      type: 'datePicker',
     },
 
     {
       title: '付费类型',
       dataIndex: 'pay_type',
+      list: payType,
+      type: 'select',
       isSearch: true,
-      type: 'rangePicker',
     },
 
     {
