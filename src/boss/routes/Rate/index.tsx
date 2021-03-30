@@ -125,7 +125,7 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   public getData = (isFirst?: boolean) => {
     const { actions } = this.props;
-    actions.get(api.v1PremiumIndex, {}, { showLoading: false }).then((res: any) => {
+    actions.get(api.v1PremiumIndex, {}, { showLoading: false, mode: 'cors', }).then((res: any) => {
       const data =
         Array.isArray(res) &&
         res.map((item: any) => {
@@ -260,6 +260,9 @@ export default class App extends React.PureComponent<IProps, IState> {
     }
 
     const res = data
+      .filter((item: any) => {
+        return parseFloat(item.lastFundingRate) >= 0.001
+      })
       .map((item: any) => {
         return {
           ...item,

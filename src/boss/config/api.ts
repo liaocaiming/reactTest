@@ -4,7 +4,7 @@ import { config } from '@utils/lib/request';
 
 const localApiPrefix = '/api/';
 // const localApiPrefix = '/';
-const bianceFApiPrefix = '/fapi/'
+const bianceFApiPrefix = 'http://fapi.binance.com/fapi/'
 
 export const urls = {
   get_indicators: 'get_indicators', // 获取牛币列表；

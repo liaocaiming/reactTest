@@ -37,7 +37,7 @@ export default class App extends React.PureComponent<IProps> {
     }
     User.saveUserInfo(values);
     const { history } = this.props;
-    history.push("/boss/iconSelectList");
+    history.push("/boss/rate");
   };
 
   onFinishFailed = (errorInfo) => {

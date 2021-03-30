@@ -102,10 +102,10 @@ export default class App extends React.Component<IProps, IState> {
   public UNSAFE_componentWillMount() { }
 
   public componentDidMount() {
-    if (!User.isLogin()) {
-      const { history } = this.props;
-      history.push("/");
-    }
+    // if (!User.isLogin()) {
+    //   const { history } = this.props;
+    //   history.push("/");
+    // }
   }
 
   // 退出登陆
