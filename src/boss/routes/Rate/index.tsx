@@ -261,7 +261,7 @@ export default class App extends React.PureComponent<IProps, IState> {
 
     const res = data
       .filter((item: any) => {
-        return parseFloat(item.lastFundingRate) >= 0.001
+        return Math.abs(parseFloat(item.lastFundingRate)) >= 0.001
       })
       .map((item: any) => {
         return {
