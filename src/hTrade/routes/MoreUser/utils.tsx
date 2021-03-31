@@ -42,7 +42,7 @@ export const getFormItems = (options?: IOptions) => {
 
     {
       name: 'biance_user_id',
-      label: '币安id',
+      label: '币安UID',
       eleAttr: {
         placeholder: '请输入',
         style: {

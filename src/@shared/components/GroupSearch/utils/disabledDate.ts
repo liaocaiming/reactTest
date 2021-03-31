@@ -1,4 +1,4 @@
-import moment from "dayjs";
+import moment from "moment";
 
 export default (currentDate: any) => {
   return moment(currentDate) >= moment();

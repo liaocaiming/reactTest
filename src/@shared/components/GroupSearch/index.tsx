@@ -2,7 +2,7 @@ import React from "react";
 
 import { Button } from "antd";
 
-import moment from "dayjs";
+import moment from "moment";
 
 import "./index.less";
 
@@ -198,7 +198,7 @@ export default class GroupSearch extends React.Component<IProps, IState> {
       props.defaultValues !== nextProps.defaultValues &&
       nextProps.defaultValues &&
       JSON.stringify(props.defaultValues) !==
-        JSON.stringify(nextProps.defaultValues)
+      JSON.stringify(nextProps.defaultValues)
     ) {
       this.setState({
         searchParams: nextProps.defaultValues,

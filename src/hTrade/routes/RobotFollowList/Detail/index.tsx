@@ -11,6 +11,7 @@ import { Chart } from "@antv/g2";
 import chartData from "./chartData";
 import api from "@src/hTrade/config/api";
 import './index.less';
+import { orderStatus } from '@src/hTrade/constants/index'
 
 interface IState {
   isShow: boolean;
@@ -44,17 +45,15 @@ export default class App extends React.PureComponent<IProps, IState> {
       title: "订单类型",
       type: 'select',
       isSearch: true,
-      list: [
+      list: constants.ORDER_TYPE
+    },
 
-        {
-          value: 1,
-          label: '合约'
-        },
-        {
-          value: 2,
-          label: ' 现货'
-        }
-      ]
+    {
+      dataIndex: "orderStatus",
+      title: "订单状态",
+      type: 'select',
+      isSearch: true,
+      list: orderStatus
     },
 
     {
@@ -156,7 +155,7 @@ export default class App extends React.PureComponent<IProps, IState> {
         editable,
       },
       {
-        label: "币安id",
+        label: "币安UID",
         name: "biance_id",
         editable,
       },

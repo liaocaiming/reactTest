@@ -29,7 +29,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       isSearch: true,
     },
     {
-      title: "币安id",
+      title: "币安UID",
       dataIndex: "biance_id",
       isSearch: true,
     },
@@ -49,7 +49,7 @@ export default class App extends React.PureComponent<IProps, IState> {
 
     {
       title: <span className="tips">.异常</span>,
-      dataIndex: "endTime",
+      dataIndex: "outPrice",
       type: "select",
       list: [
         {

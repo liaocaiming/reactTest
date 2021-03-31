@@ -36,7 +36,7 @@ export const getFormItems = (options?: IOptions) => {
 
     {
       name: 'biance_id',
-      label: '币安id',
+      label: '币安UID',
       rules: [
         {
           required: true,
