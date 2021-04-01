@@ -29,7 +29,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       isSearch: true,
     },
     {
-      title: "币安UID",
+      title: "币安id",
       dataIndex: "biance_id",
       isSearch: true,
     },
@@ -38,18 +38,16 @@ export default class App extends React.PureComponent<IProps, IState> {
       title: "机器人开始时间",
       dataIndex: "startTime",
       isSearch: true,
-      type: 'datePicker'
     },
     {
       title: "机器人结束时间",
       dataIndex: "endTime",
       isSearch: true,
-      type: 'datePicker'
     },
 
     {
       title: <span className="tips">.异常</span>,
-      dataIndex: "outPrice",
+      dataIndex: "endTime",
       type: "select",
       list: [
         {
@@ -279,7 +277,7 @@ export default class App extends React.PureComponent<IProps, IState> {
           {...this.props}
           url={linkPort.robotFollowList}
           tableComponentProps={{ columns: this.row }}
-          // groupAfterDom={this.renderBtn()}
+          groupAfterDom={this.renderBtn()}
           groupSearchProps={{
             isShowResetBtn: true,
             rowData: this.row as any,

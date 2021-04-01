@@ -2,6 +2,8 @@ import { AppFormItemOptions } from "@components/AppForm/interface";
 
 import { constants } from "@utils/index";
 
+import moment from "moment";
+
 interface IOptions {
   width?: number;
   disabled?: boolean;
@@ -34,7 +36,7 @@ export const getFormItems = (options?: IOptions) => {
 
     {
       name: "biance_user_id",
-      label: "币安UID",
+      label: "币安id",
       eleAttr: {
         disabled,
         placeholder: "请输入",
@@ -117,4 +119,12 @@ export const getFormItems = (options?: IOptions) => {
   ];
 
   return formData;
+};
+
+export const getRangeTime = (): any[] => {
+  const curDay = moment().get("date");
+  if (curDay <= 15) {
+    return [moment().date(1), moment()];
+  }
+  return [moment().date(15), moment()];
 };

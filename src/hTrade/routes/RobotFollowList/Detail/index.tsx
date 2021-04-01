@@ -6,28 +6,38 @@ import IProps from "@typings/react.d";
 import DetaiModal from "./DetaiModal";
 import { AppForm } from "@components/index";
 import { AppFormItemOptions } from "@components/AppForm/interface.d";
-import { constants, helpers, query } from "@utils/index";
+import { constants, query } from "@utils/index";
 import { Chart } from "@antv/g2";
 import chartData from "./chartData";
 import api from "@src/hTrade/config/api";
-import './index.less';
-import { orderStatus } from '@src/hTrade/constants/index'
+import "./index.less";
+import { getRangeTime } from "../utils";
+import { GroupSearch } from "@components/index";
 
 interface IState {
   isShow: boolean;
   detail: any;
   profitList: any[];
 }
+const format = "YYYY-MM-DD";
 
+const dateArr = getRangeTime();
+
+const dateMap = {
+  startTime: dateArr[0].format(format),
+  endTime: dateArr[1].format(format),
+};
 @connect()
 export default class App extends React.PureComponent<IProps, IState> {
   private changeItem = {};
+  private chart: any = null;
 
   private row: any[] = [
     {
       dataIndex: "addTime",
       title: "开单时间",
       isSearch: true,
+      searchDataIndex: "startTime&endTime",
       type: "rangePicker",
     },
     {
@@ -43,30 +53,36 @@ export default class App extends React.PureComponent<IProps, IState> {
     {
       dataIndex: "orderType",
       title: "订单类型",
-      type: 'select',
+      type: "select",
       isSearch: true,
-      list: constants.ORDER_TYPE
-    },
-
-    {
-      dataIndex: "orderStatus",
-      title: "订单状态",
-      type: 'select',
-      isSearch: true,
-      list: orderStatus
+      list: [
+        {
+          value: 1,
+          label: "合约",
+        },
+        {
+          value: 2,
+          label: " 现货",
+        },
+      ],
     },
 
     {
       dataIndex: "strategyType",
       title: "策略类型",
-      type: 'select',
+      type: "select",
       isSearch: true,
       list: [
         {
           value: 101,
-          label: '101'
-        }
-      ]
+          label: "101",
+        },
+      ],
+    },
+
+    {
+      dataIndex: "profit_money",
+      title: "收益",
     },
 
     {
@@ -110,7 +126,7 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   componentDidMount() {
     this.getDetail();
-    this.getProfitList();
+    this.getProfitList(dateMap);
   }
 
   private getDetail = () => {
@@ -124,13 +140,15 @@ export default class App extends React.PureComponent<IProps, IState> {
     });
   };
 
-  private getProfitList = () => {
+  private getProfitList = (params: any = {}) => {
     const { actions } = this.props;
-    actions.get(api.userProfitList, this.searchParams).then((res) => {
-      if (res.code === 200 || res.code === 300) {
-        this.renderProfitChart(res.data || []);
-      }
-    });
+    actions
+      .get(api.userProfitList, { ...this.searchParams, ...params })
+      .then((res) => {
+        if (res.code === 200 || res.code === 300) {
+          this.renderProfitChart(res.data || []);
+        }
+      });
   };
 
   private toggle = (options: { key: "isShow"; value; item?: any }) => {
@@ -155,7 +173,7 @@ export default class App extends React.PureComponent<IProps, IState> {
         editable,
       },
       {
-        label: "币安UID",
+        label: "币安id",
         name: "biance_id",
         editable,
       },
@@ -240,25 +258,27 @@ export default class App extends React.PureComponent<IProps, IState> {
       data = chartData;
     }
 
-    const chart = new Chart({
-      container: "container",
-      autoFit: true,
-      height: 300,
-    });
+    if (!this.chart) {
+      this.chart = new Chart({
+        container: "container",
+        autoFit: true,
+        height: 300,
+      });
+    }
 
-    chart.data(data);
-    chart.scale({
+    this.chart.data(data);
+    this.chart.scale({
       money: {
         nice: true,
       },
     });
 
-    chart.tooltip({
+    this.chart.tooltip({
       showCrosshairs: true,
       shared: true,
     });
 
-    chart.axis("money", {
+    this.chart.axis("money", {
       label: {
         formatter: (val) => {
           return val + "USDT";
@@ -266,13 +286,13 @@ export default class App extends React.PureComponent<IProps, IState> {
       },
     });
 
-    chart
+    this.chart
       .line()
       .position("date*money")
       .color("#0fbf3c")
       .shape("smooth");
 
-    chart.render();
+    this.chart.render();
   };
 
   private renderDetailModal = () => {
@@ -289,29 +309,62 @@ export default class App extends React.PureComponent<IProps, IState> {
       />
     );
   };
+  private renderTotalAmount = () => {
+    return (
+      <h2>
+        <span>总收益:</span>
+        <span>444</span>
+      </h2>
+    );
+  };
 
   render() {
     const { detail } = this.state;
     return (
-      <div className='robotFollow-detail'>
+      <div className="robotFollow-detail">
         <div className="margin_bottom_20 line">
           <h3>基本信息</h3>
           {this.renderBaseInfo(detail)}
         </div>
 
         <div className="margin_bottom_20 line">
-          <h3>总收益曲线图</h3>
+          <h3 className="chart-container">
+            <span className="margin_right_20">总收益曲线图</span>
+            <GroupSearch
+              showSearchBtn={false}
+              onValuesChange={(params) => {
+                this.getProfitList(params);
+              }}
+              rowData={[
+                {
+                  dataIndex: "startTime&endTime",
+                  type: "rangePicker",
+                },
+              ]}
+              defaultValues={{
+                "startTime&endTime": dateArr,
+              }}
+            />
+          </h3>
+
           <div id="container" />
         </div>
 
         <div>
           <h3>订单详情</h3>
           <PageList
+            initOption={{
+              params: dateMap,
+            }}
             {...this.props}
             url={linkPort.strategyOrderList}
             tableComponentProps={{ columns: this.row }}
+            actionDom={this.renderTotalAmount()}
             groupSearchProps={{
               isShowResetBtn: true,
+              defaultValues: {
+                "startTime&endTime": dateArr,
+              },
             }}
           />
 
