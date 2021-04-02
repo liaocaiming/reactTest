@@ -529,8 +529,6 @@ export default class App extends React.PureComponent<IProps, IState> {
           <div style={{ overflowX: "auto", width: "100%" }}>
             <div
               id="container"
-              style={{ width: 3000 }}
-              className="rate-container"
             ></div>
           </div>
         </div>
