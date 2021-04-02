@@ -78,7 +78,7 @@ const map = {}; // 记录页面打开后的数据
 export default class App extends React.PureComponent<IProps, IState> {
   private singleFirst: boolean = false;
 
-  private chart: any = {};
+  private chart: any = null;
   private singleChart: Chart = {};
 
   constructor(props: IProps) {
@@ -104,14 +104,14 @@ export default class App extends React.PureComponent<IProps, IState> {
       this.getData();
     }, 60 * 1000);
 
-    this.chart = new Chart({
-      container: "container",
-      autoFit: true,
-      height: 300,
-      limitInPlot: false,
-      localRefresh: true,
-      padding: [30, 20, 20, 100],
-    }).on("click", this.BarChartOnClick);
+    // this.chart = new Chart({
+    //   container: "container",
+    //   autoFit: true,
+    //   height: 300,
+    //   limitInPlot: false,
+    //   localRefresh: true,
+    //   padding: [30, 20, 20, 100],
+    // }).on("click", this.BarChartOnClick);
 
     this.singleChart = new Chart({
       container: "single-container",
@@ -142,17 +142,18 @@ export default class App extends React.PureComponent<IProps, IState> {
           return it;
         });
 
-      const { selectedUsdt } = this.state;
+      // const { selectedUsdt } = this.state;
 
-      this.setState(
-        {
-          rateData: data || [],
-          selectedData: map[selectedUsdt] || [],
-        },
-        () => {
-          this.renderAntLineChart(isFirst);
-        }
-      );
+      this.renderAntLineChart(data || []);
+      // this.setState(
+      //   {
+      //     rateData: data || [],
+      //     selectedData: map[selectedUsdt] || [],
+      //   },
+      //   () => {
+      //     this.renderAntLineChart(isFirst);
+      //   }
+      // );
     });
   };
 
@@ -252,8 +253,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     );
   };
 
-  public renderAntLineChart = (isFirst?: boolean) => {
-    const { rateData: data } = this.state;
+  public renderAntLineChart = (data: any[]) => {
 
     if (!Array.isArray(data) || data.length == 0) {
       return;
@@ -271,10 +271,35 @@ export default class App extends React.PureComponent<IProps, IState> {
       })
       .sort((a, b) => a.lastFundingRate - b.lastFundingRate);
 
-    if (!isFirst) {
+    // if (!this.chart) {
+    //   this.chart = new Chart({
+    //     container: "container",
+    //     autoFit: true,
+    //     width: res.length * 30,
+    //     height: 300,
+    //     limitInPlot: false,
+    //     localRefresh: true,
+    //     padding: [30, 20, 20, 100],
+    //   }).on("click", this.BarChartOnClick);
+    // }
+    if (this.chart) {
       this.chart.changeData(res);
       return;
     }
+
+    if (!this.chart) {
+      this.chart = new Chart({
+        container: "container",
+        // autoFit: true,
+        width: res.length * 35,
+        height: 300,
+        limitInPlot: false,
+        localRefresh: true,
+        padding: [30, 20, 20, 10],
+      }).on("click", this.BarChartOnClick);
+    }
+
+
     this.chart.clear();
     this.chart.data(res);
     this.chart.scale("lastFundingRate", {
@@ -289,7 +314,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       .interval()
       .position("symbol*lastFundingRate")
       .color("lastFundingRate", (val) => {
-        if (Math.abs(val) >= 0.15) {
+        if (Math.abs(val) >= 0.30) {
           return "#ff4d4f";
         }
         if (val < 0) {

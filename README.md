@@ -11,8 +11,12 @@ npm config set sass_binary_site https://npm.taobao.org/mirrors/node-sass/
 yarn config set registry https://registry.npm.taobao.org
 ```
 
-#### 1. npm install 或者 yarn 
+#### 1. npm install 或者 yarn
 
-#### 2. 开发命令: yarn start --name=boss,  生产命令: yarn production --name=boss 或者 npm run production --name=boss;
+#### 2. 开发命令: yarn start --name=boss, 生产命令: yarn production --name=boss 或者 npm run production --name=boss;
 
 #### 3. 生产代码: dist => boss
+
+### ngix 地址: /usr/share/nginx/html/boss
+
+### linx 常用命令: 1. 上传文件: rz 2. 解压文件 unzip boss.zip
