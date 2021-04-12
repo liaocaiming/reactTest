@@ -6,7 +6,7 @@ import IProps from '@typings/react.d';
 import { Button } from 'antd';
 import UserModal from './UserModal';
 import { constants } from '@utils/index'
-import { payType } from '@src/hTrade/constants/index'
+import { userType } from '@src/hTrade/constants/index'
 
 interface IState {
   isShow?: boolean;
@@ -32,38 +32,39 @@ export default class App extends React.PureComponent<IProps, IState> {
       dataIndex: 'userName',
       isSearch: true,
     },
+
+    {
+      title: '用户类型',
+      dataIndex: 'userType',
+      type: 'select',
+      list: userType,
+      isSearch: true,
+    },
+
     {
       title: '币安UID',
       dataIndex: 'biance_id',
       isSearch: true,
     },
 
-    {
-      title: '注册时间',
-      dataIndex: 'addTime',
-      isSearch: true,
-      type: 'datePicker',
-    },
+    // {
+    //   title: '注册时间',
+    //   dataIndex: 'addTime',
+    //   isSearch: true,
+    //   type: 'datePicker',
+    // },
     {
       title: '邀请码',
       dataIndex: 'invitees',
       isSearch: true,
     },
-    {
-      title: '是否付费会员',
-      dataIndex: 'is_pay_member',
-      type: 'select',
-      list: constants.isOrNot,
-      isSearch: true,
-    },
 
     {
-      title: '是否体验过的用户',
-      dataIndex: 'is_experience_user',
-      isSearch: true,
-      type: 'select',
-      list: constants.isOrNot
+      title: '返佣人数',
+      dataIndex: 'return_number',
     },
+
+
 
     {
       title: '到期时间',
@@ -72,17 +73,18 @@ export default class App extends React.PureComponent<IProps, IState> {
       type: 'datePicker',
     },
 
-    {
-      title: '付费类型',
-      dataIndex: 'pay_type',
-      list: payType,
-      type: 'select',
-      isSearch: true,
-    },
+
+    // {
+    //   title: '是否自动机器人',
+    //   dataIndex: 'is_open_robot',
+    //   isSearch: true,
+    //   type: 'select',
+    //   list: constants.isOrNot
+    // },
 
     {
-      title: '是否自动机器人',
-      dataIndex: 'is_open_robot',
+      title: '是否已审核',
+      dataIndex: 'is_audit',
       isSearch: true,
       type: 'select',
       list: constants.isOrNot

@@ -54,24 +54,24 @@ export const getFormItems = (options?: IOptions) => {
     },
 
 
-    {
-      name: 'addTime',
-      label: '注册时间',
-      type: 'datePicker',
-      rules: [
-        {
-          required: true,
-          message: '请选择',
-        }
-      ],
-      eleAttr: {
-        disabled,
-        placeholder: '请选择',
-        style: {
-          width
-        }
-      }
-    },
+    // {
+    //   name: 'addTime',
+    //   label: '注册时间',
+    //   type: 'datePicker',
+    //   rules: [
+    //     {
+    //       required: true,
+    //       message: '请选择',
+    //     }
+    //   ],
+    //   eleAttr: {
+    //     disabled,
+    //     placeholder: '请选择',
+    //     style: {
+    //       width
+    //     }
+    //   }
+    // },
 
     {
       name: 'invitees',
@@ -163,42 +163,42 @@ export const getFormItems = (options?: IOptions) => {
       }
     },
 
+    // {
+    //   name: 'robot_limit',
+    //   label: ' 机器人权限',
+    //   type: 'select',
+    //   isShow: (data) => {
+    //     return data.member_type == 2
+    //   },
+    //   list: [
+    //     {
+    //       value: '1',
+    //       label: '机器人体验权限'
+    //     },
+    //     {
+    //       value: '2',
+    //       label: '自动机器人权限'
+    //     }
+    //   ],
+
+    //   rules: [
+    //     {
+    //       required: true,
+    //       message: '请输入',
+    //     }
+    //   ],
+    //   eleAttr: {
+    //     placeholder: '请输入',
+    //     style: {
+    //       width
+    //     }
+    //   }
+    // },
+
+
     {
-      name: 'robot_limit',
-      label: ' 机器人权限',
-      type: 'select',
-      isShow: (data) => {
-        return data.member_type == 2
-      },
-      list: [
-        {
-          value: '1',
-          label: '机器人体验权限'
-        },
-        {
-          value: '2',
-          label: '自动机器人权限'
-        }
-      ],
-
-      rules: [
-        {
-          required: true,
-          message: '请输入',
-        }
-      ],
-      eleAttr: {
-        placeholder: '请输入',
-        style: {
-          width
-        }
-      }
-    },
-
-
-    {
-      name: 'is_robot',
-      label: ' 是否自动机器人',
+      name: 'is_audit',
+      label: '是否已审核',
       type: 'select',
       list: constants.isOrNot,
       rules: [
@@ -215,84 +215,103 @@ export const getFormItems = (options?: IOptions) => {
       }
     },
 
+    // {
+    //   name: 'is_robot',
+    //   label: ' 是否自动机器人',
+    //   type: 'select',
+    //   list: constants.isOrNot,
+    //   rules: [
+    //     {
+    //       required: true,
+    //       message: '请选择',
+    //     }
+    //   ],
+    //   eleAttr: {
+    //     placeholder: '请选择',
+    //     style: {
+    //       width
+    //     }
+    //   }
+    // },
 
-    {
-      name: 'api',
-      label: 'API Key',
-      isShow: (data) => {
-        return data.is_robot == 1
-      },
-      rules: [
-        // (form) => {
-        //   const robot_limit = form.getFieldValue('robot_limit');
-        //   console.log(robot_limit, 'robot_limit');
+
+    // {
+    //   name: 'api',
+    //   label: 'API Key',
+    //   isShow: (data) => {
+    //     return data.is_robot == 1
+    //   },
+    //   rules: [
+    //     // (form) => {
+    //     //   const robot_limit = form.getFieldValue('robot_limit');
+    //     //   console.log(robot_limit, 'robot_limit');
 
 
-        //   return {
-        //     required: robot_limit == 2,
-        //     message: '请输入'
-        //   }
-        // }
-        {
-          required: true,
-          message: '请输入'
-        }
-      ],
-      eleAttr: {
-        placeholder: '请输入API Key',
-        style: {
-          width
-        }
-      }
-    },
-    {
-      name: 'secret',
-      label: 'Secret Key',
-      isShow: (data) => {
-        return data.is_robot == 1
-      },
-      rules: [
-        // (form) => {
-        //   const robot_limit = form.getFieldValue('robot_limit');
+    //     //   return {
+    //     //     required: robot_limit == 2,
+    //     //     message: '请输入'
+    //     //   }
+    //     // }
+    //     {
+    //       required: true,
+    //       message: '请输入'
+    //     }
+    //   ],
+    //   eleAttr: {
+    //     placeholder: '请输入API Key',
+    //     style: {
+    //       width
+    //     }
+    //   }
+    // },
+    // {
+    //   name: 'secret',
+    //   label: 'Secret Key',
+    //   isShow: (data) => {
+    //     return data.is_robot == 1
+    //   },
+    //   rules: [
+    //     // (form) => {
+    //     //   const robot_limit = form.getFieldValue('robot_limit');
 
-        //   return {
-        //     required: robot_limit == 2,
-        //     message: '请输入'
-        //   }
-        // }
-        {
-          required: true,
-          message: '请输入'
-        }
-      ],
-      eleAttr: {
-        placeholder: '请输入API Key',
-        style: {
-          width
-        }
-      }
-    },
+    //     //   return {
+    //     //     required: robot_limit == 2,
+    //     //     message: '请输入'
+    //     //   }
+    //     // }
+    //     {
+    //       required: true,
+    //       message: '请输入'
+    //     }
+    //   ],
+    //   eleAttr: {
+    //     placeholder: '请输入API Key',
+    //     style: {
+    //       width
+    //     }
+    //   }
+    // },
 
-    {
-      name: 'evert_money',
-      label: ' 每单金额',
-      type: 'number',
-      isShow: (data) => {
-        return data.is_robot == 1
-      },
-      rules: [
-        {
-          required: true,
-          message: '请选择',
-        }
-      ],
-      eleAttr: {
-        placeholder: '请选择',
-        style: {
-          width
-        }
-      }
-    },
+    // {
+    //   name: 'evert_money',
+    //   label: ' 每单金额',
+    //   type: 'number',
+    //   isShow: (data) => {
+    //     return data.is_robot == 1
+    //   },
+    //   rules: [
+    //     {
+    //       required: true,
+    //       message: '请选择',
+    //     }
+    //   ],
+    //   eleAttr: {
+    //     placeholder: '请选择',
+    //     style: {
+    //       width
+    //     }
+    //   }
+    // },
 
 
     {
