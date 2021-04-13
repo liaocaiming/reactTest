@@ -89,34 +89,30 @@ function ajaxErrorCallback(dispatch: any, type: string, url: string) {
 
 export function get(url: string, query?: any, option?: any) {
   return async (dispatch: any) => {
-    const errorFunc = ajaxErrorCallback(dispatch, 'get', url);
     const showLoading = option && option.showLoading === false;
-    // const timerOut = window.setTimeout(() => {
     if (!showLoading) {
       dispatch(rqFetch());
     }
-    // }, 500)
 
     let json: any;
 
     try {
       json = await request.get(url, query, option);
-      // window.clearTimeout(timerOut)
       dispatch(rcFetch());
 
       if (json === undefined) {
         return {};
       }
+      const { code } = json;
 
-      if (!json.success) {
-        json.url = url
-        dispatch(receiveServerError(json));
+      if (code !== 200 && code !== 304) {
+        return Promise.reject(json)
       }
 
-      return json;
+      return json || {};
     } catch (err) {
       message.error('网络错误');
-      return errorFunc(err);
+      return Promise.reject(json);
     }
   };
 }
@@ -130,31 +126,30 @@ export function get(url: string, query?: any, option?: any) {
  */
 export function post(url: string, query: any, option?: any) {
   return (dispatch: any) => {
-    const errorFunc = ajaxErrorCallback(dispatch, 'post', url);
 
-    // dispatch(requestSave());
-    // const timerOut = window.setTimeout(() => {
     dispatch(requestSave());
-    // }, 500)
-
 
     return request
       .post(url, query, option)
       .then((json: any) => {
         // window.clearTimeout(timerOut)
-        console.log(json, 'json')
         dispatch(receiveSave());
 
         if (json === undefined) {
           return {};
         }
-        if (!json.success) {
+
+        const { code } = json;
+        if (code !== 200 && code !== 304) {
           json.url = url;
-          dispatch(receiveServerError(json));
+          return Promise.reject(json);
         }
-        return json;
+        return json || {};
       })
-      .catch(errorFunc);
+      .catch((err) => {
+        message.error(err.message || '网络错误')
+        return Promise.reject(err);
+      });
   };
 }
 

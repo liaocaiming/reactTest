@@ -3,10 +3,11 @@ import { PageList } from '@components/index';
 import linkPort from '@src/hTrade/config/api'; // 注意: 不是boss项目的请修改路径
 import { connect } from '@containers/appScreen';
 import IProps from '@typings/react.d';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import UserModal from './UserModal';
 import { constants } from '@utils/index'
 import { userType } from '@src/hTrade/constants/index'
+import UserReturnRecord from './UserOperateRecord';
 
 interface IState {
   isShow?: boolean;
@@ -14,6 +15,8 @@ interface IState {
 }
 
 type OperateType = 'edit' | 'add';
+
+type ModalKey = 'isShow' | 'isShowReturn'
 
 @connect()
 export default class App extends React.PureComponent<IProps, IState> {
@@ -29,21 +32,22 @@ export default class App extends React.PureComponent<IProps, IState> {
     },
     {
       title: '用户名称',
-      dataIndex: 'userName',
+      dataIndex: 'name',
       isSearch: true,
     },
 
     {
       title: '用户类型',
-      dataIndex: 'userType',
+      dataIndex: 'user_type',
       type: 'select',
       list: userType,
       isSearch: true,
+      showList: true
     },
 
     {
       title: '币安UID',
-      dataIndex: 'biance_id',
+      dataIndex: 'binance_user_id',
       isSearch: true,
     },
 
@@ -55,7 +59,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     // },
     {
       title: '邀请码',
-      dataIndex: 'invitees',
+      dataIndex: 'invite_code',
       isSearch: true,
     },
 
@@ -68,7 +72,7 @@ export default class App extends React.PureComponent<IProps, IState> {
 
     {
       title: '到期时间',
-      dataIndex: 'due_day',
+      dataIndex: 'expire_time',
       isSearch: true,
       type: 'datePicker',
     },
@@ -82,15 +86,6 @@ export default class App extends React.PureComponent<IProps, IState> {
     //   list: constants.isOrNot
     // },
 
-    {
-      title: '是否已审核',
-      dataIndex: 'is_audit',
-      isSearch: true,
-      type: 'select',
-      list: constants.isOrNot
-    },
-
-
 
     {
       title: '备注',
@@ -103,7 +98,9 @@ export default class App extends React.PureComponent<IProps, IState> {
         return (
           <div>
             {/* <Button type='link' className='margin_right_10'>查看</Button> */}
-            <Button type='link' onClick={this.toggle({ key: 'isShow', value: true, item, operateType: 'edit' })}>编辑</Button>
+            <Button className='margin_right_5' type='link' onClick={this.toggle({ key: 'isShow', value: true, item, operateType: 'edit' })}>编辑</Button>
+            <Button className='margin_right_5' type='link' onClick={this.toggle({ key: 'isShow', value: true, item, operateType: 'edit' })}>用户操作记录</Button>
+            <Button type='link' onClick={this.toggle({ key: 'isShowReturn', value: true, item })}>用户返佣详情</Button>
           </div>
         )
       }
@@ -113,7 +110,8 @@ export default class App extends React.PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      isShow: false
+      isShow: false,
+      isShowReturn: false
     }
   }
   private renderBtn = () => {
@@ -125,6 +123,9 @@ export default class App extends React.PureComponent<IProps, IState> {
   private renderModal = () => {
     const { actions } = this.props;
     const { isShow } = this.state;
+    if (!isShow) {
+      return null
+    }
 
     return <UserModal
       actions={actions}
@@ -133,7 +134,12 @@ export default class App extends React.PureComponent<IProps, IState> {
       operateType={this.operateType}
       detail={this.changeItem}
       onSuccess={() => {
+        message.success('成功')
         const { actions } = this.props;
+        this.setState({
+          isShow: false
+        })
+
         actions.changeScreenQuery({
           pageNo: 1
         })
@@ -143,7 +149,25 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   }
 
-  private toggle = (options: { key: 'isShow', value, item?: any, operateType?: OperateType }) => {
+
+  private renderUserReturnRecord = () => {
+    const { actions } = this.props;
+    const { isShowReturn } = this.state;
+    if (!isShowReturn) {
+      return null
+    }
+
+    return <UserReturnRecord
+      actions={actions}
+      visible={isShowReturn}
+      onCancel={this.toggle({ key: 'isShowReturn', value: false })}
+      detail={this.changeItem}
+    />
+
+  }
+
+
+  private toggle = (options: { key: ModalKey, value, item?: any, operateType?: OperateType }) => {
     return () => {
       const { key, value, item, operateType } = options;
       if (item) {
@@ -174,6 +198,7 @@ export default class App extends React.PureComponent<IProps, IState> {
           }}
         />
         {this.renderModal()}
+        {this.renderUserReturnRecord()}
       </div>
     );
   }

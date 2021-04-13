@@ -31,7 +31,7 @@ module.exports = {
   //   poll: true
   // },
   before(app) {
-    app.use('/api', api())
+    app.use('/api/v1', api())
     // if (name === "boss") {
     //   app.use(
     //     "/api",

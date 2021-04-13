@@ -90,21 +90,12 @@ function receiveScreenData($$state: any, action: IAction) {
   //   list = payload;
   // }
 
-  let { pageNo = 1, pageSize = 10, dataList = [], totalCount = 0, totalPages = 0 } = payload || {}
-  if (Array.isArray(payload) && payload.length > 0) {
-    dataList = payload
-    totalCount = dataList.length;
-  }
-  console.log(dataList, 'dataList');
-  console.log(totalCount, 'totalCount');
+  let { count, data: list } = payload || {}
 
   const data = {
-    list: dataList,
+    list,
     page: {
-      pageNo,
-      pageSize,
-      totalCount,
-      totalPages
+      totalCount: count,
     }
   }
   return $$state

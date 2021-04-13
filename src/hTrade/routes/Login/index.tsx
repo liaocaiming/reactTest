@@ -14,21 +14,24 @@ import IProps from "@typings/react.d";
 
 import { connect } from "@containers/app";
 
-const obj = {
-  username: "admin",
-  password: "111",
-};
+import { api } from '@src/hTrade/config';
+
 
 @connect()
 export default class App extends React.PureComponent<IProps> {
   onFinish = (values) => {
-    if (values.username !== obj.username || values.password !== obj.password) {
-      message.error("请输入正确的密码或用户名");
-      return;
-    }
-    User.saveUserInfo(values);
-    const { history } = this.props;
-    history.push("/hTrade/user");
+    // if (values.username !== obj.username || values.password !== obj.password) {
+    //   message.error("请输入正确的密码或用户名");
+    //   return;
+    // }
+    // User.saveUserInfo(values);
+    // const { history } = this.props;
+    const { actions, history } = this.props;
+    actions.post(api.authentication, values).then((data) => {
+      User.saveUserInfo(data)
+      history.push("/hTrade/user");
+    })
+
   };
 
   onFinishFailed = (errorInfo) => {
@@ -39,17 +42,17 @@ export default class App extends React.PureComponent<IProps> {
     const width = 200;
     const formItems: AppFormItemOptions[] = [
       {
-        label: "用户名",
-        name: "username",
+        label: "邮箱",
+        name: "email",
         rules: [
           {
             required: true,
-            message: "请输入用户名",
+            message: "请输入邮箱",
             whitespace: true,
           },
         ],
         eleAttr: {
-          placeholder: "请输入用户名",
+          placeholder: "请输入邮箱",
           style: {
             width,
           },

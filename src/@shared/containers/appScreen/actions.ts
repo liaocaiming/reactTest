@@ -161,11 +161,13 @@ export function getScreenData(option?: IOptions) {
       //   dispatch(receiveScreenData(null));
       // }
 
-      if (json.code == 200) {
-        dispatch(receiveScreenData(json.data));
-      } else {
-        dispatch(receiveScreenData(null));
-      }
+      dispatch(receiveScreenData(json));
+
+      // if (json.code == 200) {
+      //   dispatch(receiveScreenData(json.data));
+      // } else {
+      //   dispatch(receiveScreenData(null));
+      // }
       if (isFetchInfinite && curFetchIntervalTime > 0) {
         refreshTimeout = window.setTimeout(() => {
           dispatch(getScreenData());

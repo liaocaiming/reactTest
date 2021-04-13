@@ -14,12 +14,18 @@ import api from '@src/hTrade/config/api';
 import { FormInstance } from 'antd/lib/form';
 
 import { getFormItems } from '../utils';
+import { helpers } from '@utils/index';
 
 interface IProps extends ModalProps {
   detail?: any;
   operateType?: 'edit' | 'add'
   actions: IActions;
   onSuccess: () => void;
+}
+
+const map = {
+  edit: api.editUser,
+  add: api.addUser
 }
 
 export default memo((props: IProps) => {
@@ -29,7 +35,9 @@ export default memo((props: IProps) => {
   const formData: AppFormItemOptions[] = getFormItems({ operateType });
 
   const onFinish = (params: any) => {
-    actions.post(api.addAndUpdateUser, params).then(() => {
+    const url = map[operateType || 'add']
+    actions.post(url, helpers.filterEmptyValue({ ...params, expire_time: params.expire_time.format('YYYY-MM-DD'), id: detail.id })).then((res) => {
+      debugger
       onSuccess();
     })
   }
@@ -39,12 +47,9 @@ export default memo((props: IProps) => {
   }
 
   const values = { ...detail };
-  if (values.addTime) {
-    values.addTime = moment(values.addTime)
-  }
 
-  if (values.due_day) {
-    values.due_day = moment(values.due_day)
+  if (values.expire_time) {
+    values.expire_time = moment(values.expire_time)
   }
 
   return (

@@ -8,7 +8,7 @@ const User = {
   },
   isLogin: () => {
     const userInfo = User.getUserInfo()
-    return userInfo.username === User.user.username && userInfo.password === User.user.password
+    return userInfo.token
   },
   getUserInfo: () => {
     const userInfo = window.localStorage.getItem('userInfo') || "{}";

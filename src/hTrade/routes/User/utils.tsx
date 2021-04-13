@@ -2,6 +2,8 @@ import { AppFormItemOptions } from '@components/AppForm/interface';
 
 import { constants } from '@utils/index';
 
+import { userType } from '@src/hTrade/constants/index'
+
 interface IOptions {
   width?: number;
   disabled?: boolean;
@@ -32,10 +34,51 @@ export const getFormItems = (options?: IOptions) => {
       }
     },
 
+    {
+      name: 'name',
+      label: '用户名称',
+      rules: [
+        {
+          required: true,
+          message: '请输入',
+          whitespace: true
+        }
+      ],
+      eleAttr: {
+        // disabled,
+        placeholder: '请输入',
+        style: {
+          width
+        }
+      }
+    },
+
+    {
+      name: 'password',
+      label: '密码',
+      isShow: !disabled,
+      rules: [
+        {
+          required: true,
+          message: '请输入',
+          whitespace: true
+        }
+      ],
+      eleAttr: {
+        disabled,
+        placeholder: '请输入',
+        style: {
+          width
+        }
+      }
+    },
+
+
+
 
 
     {
-      name: 'biance_id',
+      name: 'binance_user_id',
       label: '币安UID',
       rules: [
         {
@@ -74,7 +117,7 @@ export const getFormItems = (options?: IOptions) => {
     // },
 
     {
-      name: 'invitees',
+      name: 'invite_code',
       label: ' 邀请码',
       eleAttr: {
         placeholder: '请输入',
@@ -86,19 +129,10 @@ export const getFormItems = (options?: IOptions) => {
 
 
     {
-      name: 'member_type',
-      label: ' 会员类型',
+      name: 'user_type',
+      label: ' 用户类型',
       type: 'select',
-      list: [
-        {
-          value: '1',
-          label: '体验用户'
-        },
-        {
-          value: '2',
-          label: '付费会员'
-        }
-      ],
+      list: userType,
 
       rules: [
         {
@@ -116,7 +150,7 @@ export const getFormItems = (options?: IOptions) => {
 
 
     {
-      name: 'due_day',
+      name: 'expire_time',
       label: '到期时间',
       type: 'datePicker',
       rules: [
@@ -196,24 +230,6 @@ export const getFormItems = (options?: IOptions) => {
     // },
 
 
-    {
-      name: 'is_audit',
-      label: '是否已审核',
-      type: 'select',
-      list: constants.isOrNot,
-      rules: [
-        {
-          required: true,
-          message: '请选择',
-        }
-      ],
-      eleAttr: {
-        placeholder: '请选择',
-        style: {
-          width
-        }
-      }
-    },
 
     // {
     //   name: 'is_robot',
@@ -315,7 +331,7 @@ export const getFormItems = (options?: IOptions) => {
 
 
     {
-      name: 'remart',
+      name: 'remark',
       label: '备注用户名',
       type: 'textArea',
       eleAttr: {
