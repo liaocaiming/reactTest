@@ -53,7 +53,6 @@ export default memo((props: IProps) => {
   const [list, setList] = useState({})
   const getList = (params = {}) => {
     console.log(api.invite_records, 'invite_records')
-    debugger
     actions.get(api.invite_records, { page: 1, user_id: detail.id, ...params }).then((res) => {
       setList(res)
     })
@@ -66,18 +65,35 @@ export default memo((props: IProps) => {
   const { count, data = [] } = list as any;
 
   return (
-    <Modal visible={visible} onCancel={onCancel} width={600} title='用户操作记录' onOk={onCancel} destroyOnClose footer={null}>
+    <Modal visible={visible} onCancel={onCancel} width={600} title='用户返佣详情' onOk={onCancel} destroyOnClose footer={null}>
       <TableComponent
         columns={rowData}
         dataSource={data}
+        // pagination={{
+        //   total: count,
+        //   onchange: (pageNo: number, pageSize) => {
+        //     console.log(pageNo, 'pageNo');
+        //     debugger
+        //     getList({
+        //       page: pageNo,
+        //       pageSize
+        //     })
+        //   }
+        // }}
+
         pagination={{
           total: count,
-          onchange: (pageNo: number, pageSize) => {
-            getList({
-              page: pageNo,
-              pageSize
-            })
-          }
+          // current: ,
+          // pageSize: page.pageSize,
+          pageSizeOptions: ["10", "20", "50", "100"],
+          showQuickJumper: true,
+          onChange: (pageNo: number, pageSize?: number) => {
+            getList({ page: pageNo });
+          },
+          onShowSizeChange: (current: number, pageSize: number) => {
+
+            getList({ page: 1, pageSize });
+          },
         }}
       />
     </Modal>

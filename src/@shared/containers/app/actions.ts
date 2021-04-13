@@ -106,7 +106,7 @@ export function get(url: string, query?: any, option?: any) {
       const { code } = json;
 
       if (code !== 200 && code !== 304) {
-        return Promise.reject(json)
+        throw new Error(json)
       }
 
       return json || {};

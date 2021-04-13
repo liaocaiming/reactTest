@@ -7,7 +7,7 @@ import { Button, message } from 'antd';
 import UserModal from './UserModal';
 import { constants } from '@utils/index'
 import { userType } from '@src/hTrade/constants/index'
-import UserReturnRecord from './UserOperateRecord';
+import UserReturnRecord from './UserReturnRecord';
 
 interface IState {
   isShow?: boolean;
@@ -156,6 +156,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     if (!isShowReturn) {
       return null
     }
+
 
     return <UserReturnRecord
       actions={actions}
