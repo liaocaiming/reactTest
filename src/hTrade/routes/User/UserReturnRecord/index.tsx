@@ -1,5 +1,5 @@
 import React, { memo, useState, useEffect } from 'react';
-import { Modal } from 'antd'
+import { message, Modal } from 'antd'
 import { ModalProps } from 'antd/lib/modal'
 
 import { IActions } from '@containers/index.d'
@@ -7,6 +7,11 @@ import { IActions } from '@containers/index.d'
 import api from '@src/hTrade/config/api';
 
 import { TableComponent } from '@components/index'
+
+import { AppForm } from '@components/index';
+
+import { AppFormItemOptions } from '@components/AppForm/interface.d'
+import { constants } from '@utils/index';
 
 
 interface IProps extends ModalProps {
@@ -50,7 +55,10 @@ const rowData = [
 export default memo((props: IProps) => {
   const { visible, actions, onCancel, detail } = props;
 
-  const [list, setList] = useState({})
+  const [list, setList] = useState({});
+
+  const [form, setForm] = useState({});
+
   const getList = (params = {}) => {
     console.log(api.invite_records, 'invite_records')
     actions.get(api.invite_records, { page: 1, user_id: detail.id, ...params }).then((res) => {
@@ -64,23 +72,98 @@ export default memo((props: IProps) => {
 
   const { count, data = [] } = list as any;
 
+  const onSave = (params: any) => {
+    actions.post(api.invite_records_update, params).then(() => {
+      message.success('添加成功');
+      getList({ page: 1 });
+    })
+  }
+
+  const renderForm = () => {
+    const width = 200
+    const formItems: AppFormItemOptions[] = [
+      {
+        name: 'commission',
+        label: '佣金',
+        rules: [
+          {
+            required: true,
+            message: '请输入'
+          },
+          {
+            pattern: constants.pattern.positiveNumFloat,
+            message: '请输入正数'
+          }
+        ],
+        eleAttr: {
+          placeholder: '请输入',
+          style: {
+            width
+          }
+        }
+      },
+
+      {
+        name: 'asset',
+        label: '佣金币种',
+        rules: [
+          {
+            required: true,
+            message: '请输入'
+          },
+          {
+            pattern: constants.pattern.alphabetOrNumber,
+            message: '请输入正确的币种'
+          }
+        ],
+        eleAttr: {
+          placeholder: '请输入',
+          style: {
+            width
+          }
+        }
+      },
+
+      {
+        name: 'commission_date',
+        label: '返佣时间',
+        type: 'datePicker',
+        rules: [
+          {
+            required: true,
+            message: '请选择'
+          },
+        ],
+        eleAttr: {
+          placeholder: '请选择',
+          showTime: true,
+          style: {
+            width
+          }
+        }
+      }
+
+    ]
+    return <AppForm
+      formItems={formItems}
+      colSpan={2}
+      submitButton={{ type: 'primary', text: '保存', style: { marginLeft: 50 } }}
+      onFinish={onSave}
+      labelCol={{ span: 6 }}
+      onReady={(form) => {
+        setForm(form)
+      }}
+    />
+  }
+
   return (
-    <Modal visible={visible} onCancel={onCancel} width={600} title='用户返佣详情' onOk={onCancel} destroyOnClose footer={null}>
+    <Modal visible={visible} onCancel={onCancel} width={800} title='用户返佣详情' onOk={onCancel} destroyOnClose footer={null}>
+      <div className='margin_bottom_20'>
+        {renderForm()}
+      </div>
       <TableComponent
         columns={rowData}
         dataSource={data}
-        // pagination={{
-        //   total: count,
-        //   onchange: (pageNo: number, pageSize) => {
-        //     console.log(pageNo, 'pageNo');
-        //     debugger
-        //     getList({
-        //       page: pageNo,
-        //       pageSize
-        //     })
-        //   }
-        // }}
-
         pagination={{
           total: count,
           // current: ,

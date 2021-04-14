@@ -20,18 +20,11 @@ import { api } from '@src/hTrade/config';
 @connect()
 export default class App extends React.PureComponent<IProps> {
   onFinish = (values) => {
-    // if (values.username !== obj.username || values.password !== obj.password) {
-    //   message.error("请输入正确的密码或用户名");
-    //   return;
-    // }
-    // User.saveUserInfo(values);
-    // const { history } = this.props;
     const { actions, history } = this.props;
-    actions.post(api.authentication, values).then((data) => {
-      User.saveUserInfo(data)
+    actions.post(api.authentication, values).then((res) => {
+      User.saveUserInfo(res.data)
       history.push("/hTrade/user");
     })
-
   };
 
   onFinishFailed = (errorInfo) => {
