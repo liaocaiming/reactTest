@@ -19,6 +19,10 @@ export const urls = {
   invite_records: 'invite_records', // 获取邀请列表
   invite_records_update: 'invite_records/update', // 设置返佣金额
 
+  // 策略
+  trade_signals: 'trade_signals', // 获取策略列表
+  push_records: 'push_records', // 获取推送列表
+
   addAndUpdateUser: 'user/addAndUpdate', // 新增和编辑用户;
   strategyList: 'strategy/list', // 策略列表
   strategyOrderList: 'strategy/order/list', // 策略开单详情列表

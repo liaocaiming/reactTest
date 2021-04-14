@@ -19,12 +19,15 @@ export default class App extends React.PureComponent<IProps, IState> {
   private row = [
     {
       title: "策略名称",
-      dataIndex: "strategyName",
+      dataIndex: "name",
     },
 
     {
       title: "状态",
-      dataIndex: "statusName",
+      dataIndex: "stop",
+      render: (value: boolean) => {
+        return value ? '停用' : '启用'
+      }
     },
 
     {
@@ -33,12 +36,12 @@ export default class App extends React.PureComponent<IProps, IState> {
     },
     {
       title: "止损数量",
-      dataIndex: "stop_loss_num",
+      dataIndex: "loss_sum",
     },
 
     {
       title: "止盈数量",
-      dataIndex: "stop_profit_num",
+      dataIndex: "success_sum",
     },
 
     {
@@ -122,7 +125,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       <div>
         <PageList
           {...this.props}
-          url={linkPort.strategyList}
+          url={linkPort.trade_signals}
           tableComponentProps={{ columns: this.row }}
           showSearch={false}
         />

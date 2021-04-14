@@ -6,6 +6,7 @@ import IProps from '@typings/react.d';
 import { Card } from 'antd';
 import DetaiModal from './DetaiModal';
 import { orderStatus } from '@src/hTrade/constants/index'
+import { query } from '@utils/index'
 
 interface IState {
   isShow: boolean;
@@ -17,22 +18,22 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   private row: any[] = [
     {
-      dataIndex: 'addTime',
+      dataIndex: 'push_time',
       title: '开单时间',
       isSearch: true,
       type: 'rangePicker'
     },
     {
-      dataIndex: 'coin',
+      dataIndex: 'symbol',
       title: '币种',
     },
     {
-      dataIndex: 'mul',
+      dataIndex: 'leverage',
       title: '倍数',
     },
     {
-      dataIndex: 'strategyType',
-      title: '策略类型',
+      dataIndex: 'signal_type',
+      title: '策略编码',
     },
 
     {
@@ -44,7 +45,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       title: '是否止损',
     },
     {
-      dataIndex: 'stop_profit_target',
+      dataIndex: 'dist',
       title: '止盈目标',
     },
     {
@@ -92,7 +93,7 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   render() {
     const searchRowData = this.row.concat({
-      dataIndex: 'order_status',
+      dataIndex: 'p_type',
       title: '订单状态',
       isSearch: true,
       list: orderStatus,
@@ -101,8 +102,13 @@ export default class App extends React.PureComponent<IProps, IState> {
     return (
       <Card title='策略详情'>
         <PageList
+          initOption={{
+            params: {
+              signal_id: query.getUrlQuery()
+            }
+          }}
           {...this.props}
-          url={linkPort.strategyOrderList}
+          url={linkPort.push_records}
           tableComponentProps={{ columns: this.row }}
           groupSearchProps={{
             isShowResetBtn: true,
