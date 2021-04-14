@@ -37,16 +37,21 @@ export default class App extends React.PureComponent<IProps, IState> {
     },
 
     {
-      dataIndex: 'is_stop_profit',
-      title: '是否止盈',
+      dataIndex: 'p_type',
+      title: '订单状态',
+      type: 'select',
+      list: orderStatus,
+      showList: true
     },
-    {
-      dataIndex: 'is_stop_loss',
-      title: '是否止损',
-    },
+
     {
       dataIndex: 'dist',
       title: '止盈目标',
+    },
+
+    {
+      dataIndex: 'loss',
+      title: '止损点位',
     },
     {
       dataIndex: 'operate',
