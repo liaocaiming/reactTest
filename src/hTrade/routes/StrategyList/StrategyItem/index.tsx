@@ -57,6 +57,8 @@ export default class App extends React.PureComponent<IProps, IState> {
       dataIndex: 'operate',
       title: '操作',
       render: (val: string, item: any) => {
+        console.log(item, 'item');
+
         return <a onClick={this.toggle({ key: 'isShow', value: true, item })}> 查看 </a>
       }
     }

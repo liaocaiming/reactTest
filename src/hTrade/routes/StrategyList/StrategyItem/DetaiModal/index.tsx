@@ -22,28 +22,29 @@ interface IProps extends ModalProps {
 }
 
 export default (props: IProps) => {
-  const [detail, setDetail] = useState({});
+  // const [detail, setDetail] = useState({});
   const { query, actions, isShow } = props;
 
-  const getData = (query: any) => {
-    actions.get(api.follow_recordsShow, query).then((res) => {
-      if (res.data) {
-        setDetail(res.data)
-      }
-    })
-  }
+  // const getData = (query: any) => {
+  //   actions.get(api.follow_recordsShow, query).then((res) => {
+  //     if (res.data) {
+  //       setDetail(res.data)
+  //     }
+  //   })
+  // }
 
-  useEffect(() => {
-    getData(query)
-  }, [query])
+  // useEffect(() => {
+  //   getData(query)
+  // }, [query])
 
-  const { follow_record_messages = [] } = detail as any;
+  // const { follow_record_messages = [] } = detail as any;
   const modalProps = filterAttr(props, ['actions', 'query', 'isShow'])
+
   return (
     <Modal visible={isShow} title='策略详情' footer={null} {...modalProps}>
       <div className='page-orderDetail'>
-        <Title detail={detail} />
-        <DetailList list={follow_record_messages} />
+        <Title detail={query} />
+        {/* <DetailList list={follow_record_messages} /> */}
       </div>
     </Modal>
   )
