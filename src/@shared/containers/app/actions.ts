@@ -100,6 +100,10 @@ export function get(url: string, query?: any, option?: any) {
       json = await request.get(url, query, option);
       dispatch(rcFetch());
 
+      if (Array.isArray(json)) {
+        return json
+      }
+
       if (json === undefined) {
         return {};
       }
@@ -134,6 +138,10 @@ export function post(url: string, query: any, option?: any) {
       .then((json: any) => {
         // window.clearTimeout(timerOut)
         dispatch(receiveSave());
+
+        if (Array.isArray(json)) {
+          return json
+        }
 
         if (json === undefined) {
           return {};
