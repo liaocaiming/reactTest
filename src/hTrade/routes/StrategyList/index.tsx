@@ -6,9 +6,12 @@ import IProps from "@typings/react.d";
 import { Button, Modal } from "antd";
 import StrategyItem from "./StrategyItem";
 import { Link } from "@components/index";
+import AddModal from './AddModal';
+
 
 interface IState {
   isShow?: boolean;
+  isShowAddModal?: boolean;
   [key: string]: any;
 }
 
@@ -84,6 +87,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     super(props);
     this.state = {
       isShow: false,
+      isShowAddModal: false
     };
   }
 
@@ -112,7 +116,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     };
   };
 
-  private toggle = (key: "isShow", value = false) => {
+  private toggle = (key: "isShow" | 'isShowAddModal', value = false) => {
     return () => {
       this.setState({
         [key]: value,
@@ -120,15 +124,28 @@ export default class App extends React.PureComponent<IProps, IState> {
     };
   };
 
+  private renderAddModal = () => {
+    const { isShowAddModal } = this.state;
+    if (!isShowAddModal) {
+      return null
+    }
+    return <AddModal onCancel={this.toggle('isShowAddModal', false)} actions={this.props.actions} />
+  }
+
   public render() {
     return (
       <div>
+        <div className='margin_bottom_20'>
+          <Button type='primary' onClick={this.toggle('isShowAddModal', true)}>新增</Button>
+        </div>
         <PageList
           {...this.props}
           url={linkPort.trade_signals}
           tableComponentProps={{ columns: this.row }}
           showSearch={false}
         />
+
+        {this.renderAddModal()}
       </div>
     );
   }

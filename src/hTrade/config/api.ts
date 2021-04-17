@@ -21,7 +21,8 @@ export const urls = {
 
   // 策略
   trade_signals: 'trade_signals', // 获取策略列表
-  push_records: 'push_records', // 获取推送列表
+  push_records: 'push_records', // 获取推送列表, 手动推送信号
+
 
   addAndUpdateUser: 'user/addAndUpdate', // 新增和编辑用户;
   strategyList: 'strategy/list', // 策略列表
