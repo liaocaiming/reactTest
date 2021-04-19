@@ -64,7 +64,7 @@ export default class App extends React.PureComponent<IProps, IState> {
 
     {
       title: '返佣人数',
-      dataIndex: 'return_number',
+      dataIndex: 'invite_count',
     },
 
 
