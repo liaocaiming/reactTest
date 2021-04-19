@@ -19,6 +19,7 @@ import socket from './lib/socket';
 import filterAttr from './lib/filterAttr';
 import filterItems from './lib/filterItems';
 import getTableRows from './lib/filterItems';
+import Storage from './lib/Storage';
 
 export {
   createReducer,
@@ -41,5 +42,6 @@ export {
   socket,
   filterAttr,
   filterItems,
-  getTableRows
+  getTableRows,
+  Storage
 }

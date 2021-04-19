@@ -116,7 +116,7 @@ export interface IProps {
   multipleSelectMap?: ISelectMap; // 多选下拉数据;
   isShowResetBtn?: boolean; // 是否显示重置按钮;
   cascaderKeys?: string[]; // 省市区,
-  isFilterRegion?:boolean;  // 是否将省市区的区去掉
+  isFilterRegion?: boolean;  // 是否将省市区的区去掉
   validateSearchParams?: (searchParams: any, isReset?: boolean) => boolean | IObject; // 校验搜索参数;
   map?: {
     // 做字段转化的
@@ -131,6 +131,7 @@ export interface IProps {
   containerMinWidth?: number; // 特殊布局时容器的最小宽度;
   colMargin?: number; // 没列间距;
   btnAfterSearch?: boolean; // 默认false; // true 表示按钮放在搜索条件后面
+  showSearchBtn?: boolean; // 默认true, 是否显示查询按钮
   [key: string]: any;
 }
 

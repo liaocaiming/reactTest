@@ -10,6 +10,7 @@ import { userType, transferStatus } from "@src/hTrade/constants";
 import { AppForm, PopupList } from "@components/index";
 import api from "@src/hTrade/config/api";
 import moment from "moment";
+import { User } from "@utils/index";
 
 interface IState {
   isShow?: boolean;
@@ -136,7 +137,7 @@ export default class App extends React.PureComponent<IProps, IState> {
               <a
                 // to={{ pathname: `${route.path}/show` }}
                 // search={{ id: item.id }}
-                onClick={this.goTo(`${route.path}/show`, item.id)}
+                onClick={this.goTo(`${route.path}/show`, item)}
               >
                 查看
               </a>
@@ -205,12 +206,13 @@ export default class App extends React.PureComponent<IProps, IState> {
     };
   }
 
-  private goTo = (path: string, id: string) => {
+  private goTo = (path: string, item: any) => {
     return () => {
       const { history } = this.props;
+      User.setListItem(item);
       history.push({
         pathname: path,
-        search: `id=${id}`,
+        search: `id=${item.id}`,
       });
     };
   };

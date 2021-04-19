@@ -1,4 +1,4 @@
-
+import Storage from './Storage';
 
 const User = {
   name: 'boss',
@@ -21,6 +21,15 @@ const User = {
   },
   removeUserInfo: () => {
     window.localStorage.removeItem('userInfo')
+  },
+  setListItem: (data: any) => {
+    Storage.SessionStorage.setItem('listItem', data)
+  },
+  getListItem: () => {
+    return Storage.SessionStorage.getItem('listItem');
+  },
+  removeListItem: () => {
+    return Storage.SessionStorage.removeItem('listItem')
   }
 }
 

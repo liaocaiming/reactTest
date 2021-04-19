@@ -6,7 +6,7 @@ import IProps from "@typings/react.d";
 import DetaiModal from "./DetaiModal";
 import { AppForm } from "@components/index";
 import { AppFormItemOptions } from "@components/AppForm/interface.d";
-import { constants, query } from "@utils/index";
+import { query, User } from "@utils/index";
 import { Chart } from "@antv/g2";
 import chartData from "./chartData";
 import api from "@src/hTrade/config/api";
@@ -313,6 +313,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       />
     );
   };
+
   private renderTotalAmount = () => {
     return (
       <h2>
@@ -323,12 +324,14 @@ export default class App extends React.PureComponent<IProps, IState> {
   };
 
   render() {
-    const { detail } = this.state;
+    // const { detail } = this.state;
+    const data = User.getListItem();
+
     return (
       <div className="robotFollow-detail">
         <div className="margin_bottom_20 line">
           <h3>基本信息</h3>
-          {this.renderBaseInfo(detail)}
+          {this.renderBaseInfo(data)}
         </div>
 
         <div className="margin_bottom_20 line">
@@ -361,7 +364,7 @@ export default class App extends React.PureComponent<IProps, IState> {
               params: dateMap,
             }}
             {...this.props}
-            url={linkPort.strategyOrderList}
+            url={linkPort.follow_records}
             tableComponentProps={{ columns: this.row }}
             actionDom={this.renderTotalAmount()}
             groupSearchProps={{

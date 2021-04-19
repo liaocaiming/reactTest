@@ -198,7 +198,7 @@ export default class GroupSearch extends React.Component<IProps, IState> {
       props.defaultValues !== nextProps.defaultValues &&
       nextProps.defaultValues &&
       JSON.stringify(props.defaultValues) !==
-      JSON.stringify(nextProps.defaultValues)
+        JSON.stringify(nextProps.defaultValues)
     ) {
       this.setState({
         searchParams: nextProps.defaultValues,
@@ -662,6 +662,11 @@ export default class GroupSearch extends React.Component<IProps, IState> {
   }
 
   private renderBtn = (className = "") => {
+    const { showSearchBtn = true } = this.props;
+    if (!showSearchBtn) {
+      return <span />;
+    }
+
     return (
       <div
         className={helpers.reactClassNameJoin([
