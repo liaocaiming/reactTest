@@ -3,7 +3,7 @@ const api = require("./api");
 const webpackConfig = require("./webpack.config");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 const yargs = require("yargs");
-const { name } = yargs.argv;
+const { name, dev } = yargs.argv;
 
 module.exports = {
   // contentBase: webpackConfig.output.path,
@@ -31,7 +31,22 @@ module.exports = {
   //   poll: true
   // },
   before(app) {
+    if (dev) {
+      app.use(
+        "/api/v1",
+        createProxyMiddleware({
+          target: "http://103.5.144.162:3000/",
+          changeOrigin: true,
+        })
+      );
+      return
+    }
+
     app.use("/api/v1", api());
+
+
+
+
     // if (name === "boss") {
     //   app.use(
     //     "/api",

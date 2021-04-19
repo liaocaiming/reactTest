@@ -90,12 +90,14 @@ function receiveScreenData($$state: any, action: IAction) {
   //   list = payload;
   // }
 
-  let { count, data: list } = payload || {}
+  let { count, data: list, pageNo, pageSize } = payload || {}
 
   const data = {
     list,
     page: {
       totalCount: count,
+      pageNo,
+      pageSize
     }
   }
   return $$state

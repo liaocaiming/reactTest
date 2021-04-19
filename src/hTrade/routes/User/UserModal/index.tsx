@@ -37,7 +37,6 @@ export default memo((props: IProps) => {
   const onFinish = (params: any) => {
     const url = map[operateType || 'add']
     actions.post(url, helpers.filterEmptyValue({ ...params, expire_time: params.expire_time.format('YYYY-MM-DD'), id: detail.id })).then((res) => {
-      debugger
       onSuccess();
     })
   }

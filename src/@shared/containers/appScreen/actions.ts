@@ -133,7 +133,7 @@ export function getScreenData(option?: IOptions) {
       }
     }
 
-    const { method = 'post' } = option || {};
+    const { method = 'get' } = option || {};
     // 如果 Url 路径不存在，返回空 Promise
     if (!myUrl) {
       return new Promise(resolve => {

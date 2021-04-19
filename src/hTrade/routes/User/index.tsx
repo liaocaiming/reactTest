@@ -5,7 +5,6 @@ import { connect } from '@containers/appScreen';
 import IProps from '@typings/react.d';
 import { Button, message } from 'antd';
 import UserModal from './UserModal';
-import { constants } from '@utils/index'
 import { userType } from '@src/hTrade/constants/index'
 import UserReturnRecord from './UserReturnRecord';
 
@@ -99,7 +98,7 @@ export default class App extends React.PureComponent<IProps, IState> {
           <div>
             {/* <Button type='link' className='margin_right_10'>查看</Button> */}
             <Button className='margin_right_5' type='link' onClick={this.toggle({ key: 'isShow', value: true, item, operateType: 'edit' })}>编辑</Button>
-            <Button className='margin_right_5' type='link' onClick={this.toggle({ key: 'isShow', value: true, item, operateType: 'edit' })}>用户操作记录</Button>
+            <Button className='margin_right_5' type='link' >用户操作记录</Button>
             <Button type='link' onClick={this.toggle({ key: 'isShowReturn', value: true, item })}>用户返佣详情</Button>
           </div>
         )
@@ -143,7 +142,9 @@ export default class App extends React.PureComponent<IProps, IState> {
         actions.changeScreenQuery({
           pageNo: 1
         })
-        actions.getScreenData();
+        actions.getScreenData({
+          method: 'get'
+        });
       }}
     />
 

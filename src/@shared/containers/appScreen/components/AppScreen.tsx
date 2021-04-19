@@ -3,6 +3,7 @@ import * as React from "react";
 interface IScreenProps {
   actions?: any;
   location?: any;
+  method?: 'post' | 'get';
   initOption?: {
     fetchUrl: string;
     params?: object;
@@ -31,7 +32,7 @@ export default class AppScreen extends React.Component<IScreenProps> {
   }
 
   public componentDidMount() {
-    const { method = "post", initOption } = this.props;
+    const { method = "get", initOption } = this.props;
     const { isFirst = true } = initOption || ({} as any);
     if (initOption && isFirst) {
       this.props.actions.getScreenData({
