@@ -21,10 +21,15 @@ interface IOptions {
   errMsg?: string
 }
 
+interface IRes {
+  code?: number;
+  data: any;
+  message?: string;
+}
 
 export interface IAppActions {
-  get(url: string, query?: any, option?: IOptions): Promise<any>;
-  post(url: string, query?: any, option?: IOptions): Promise<any>;
+  get(url: string, query?: any, option?: IOptions): Promise<IRes>;
+  post(url: string, query?: any, option?: IOptions): Promise<IRes>;
   initScreen({ fetchUrl: string }): void;
   [random: string]: any;
 }

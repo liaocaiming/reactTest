@@ -21,7 +21,19 @@ export const urls = {
 
   // 策略
   trade_signals: 'trade_signals', // 获取策略列表
-  push_records: 'push_records', // 获取推送列表
+  push_records: 'push_records', // 获取推送列表, 手动推送信号
+
+
+  // 机器人
+  bots: 'bots', // 列表, 新增
+  bots_update: 'bots/update', // 修改机器人
+  bots_start_bot: 'bots/start_bot', // 开启个人机器人
+  bots_stop_bot: 'bots/bots_stop_bot', // 关闭个人机器人
+  bots_stop_all_bot: 'bots/stop_all_bot', // 关闭所有机器人
+  bots_start_all_bot: 'bots/start_all_bot', // 开启所有机器人
+
+
+
 
   addAndUpdateUser: 'user/addAndUpdate', // 新增和编辑用户;
   strategyList: 'strategy/list', // 策略列表
