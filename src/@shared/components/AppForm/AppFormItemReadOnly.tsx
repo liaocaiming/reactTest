@@ -10,6 +10,7 @@ import {
 } from "./interface.d";
 
 import "./readonly.less";
+import isObject from "@utils/lib/isObject";
 
 type FormType = keyof typeof FormItemType;
 
@@ -49,6 +50,13 @@ function renderReadonlySelect(
     actualList = list(formStore);
   } else if (Array.isArray(list)) {
     actualList = list;
+  } else if (isObject(list)) {
+    actualList = Object.keys(list as any).map((key) => {
+      return {
+        value: key,
+        label: (list as any)[key],
+      };
+    });
   }
 
   const coverList = actualList.map((item: unknown) =>

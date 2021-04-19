@@ -37,6 +37,8 @@ import ItemElement from "./ItemElement";
 
 import { IRow, IProps, IObject, IState } from "./interface";
 
+import isObject from "@utils/lib/isObject";
+
 export default class GroupSearch extends React.Component<IProps, IState> {
   static contextType = SizeContext;
 
@@ -468,6 +470,14 @@ export default class GroupSearch extends React.Component<IProps, IState> {
       const { selectData } = this.state;
       const { listFilters = {}, list } = item;
       let options = list || selectData[dataIndex] || [];
+      if (isObject(options)) {
+        options = Object.keys(options).map((key) => {
+          return {
+            value: key,
+            label: options[key],
+          };
+        });
+      }
 
       const { values = [], opposite = false } = listFilters as any;
       if (values.length > 0) {

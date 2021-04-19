@@ -34,7 +34,8 @@ export const urls = {
   exception_records: 'exception_records', // 获取异常列表
   exception_records_update: 'exception_records/update', // 异常处理
   transfer_records: 'transfer_records', // 获取机器人划转列表:
-  follow_records: 'follow_records', // 跟单列表:
+  follow_records: 'follow_records', // 跟单列表
+  follow_records_earnings_report: 'follow_records/earnings_report', // 盈亏分析
 
 
 

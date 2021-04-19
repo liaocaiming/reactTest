@@ -87,6 +87,13 @@ export const transferStatus = [
   },
 ]
 
+// 现货:1,杠杆:2,合约:3,熊牛币:4
+export const orderType = {
+  1: '现货',
+  2: '杠杆',
+  3: '合约',
+  4: '熊牛币'
+}
 
 
 

@@ -33,6 +33,7 @@ import { getRestProps, createNamePathKey } from "./utils";
 import renderReadValue, {
   ignoreRenderReadValueTypes,
 } from "./AppFormItemReadOnly";
+import isObject from "@utils/lib/isObject";
 
 const { TextArea, Password } = Input;
 const CheckboxGroup = Checkbox.Group;
@@ -98,7 +99,16 @@ function addDynamicValueToAttrs({
       eleAttr[attrKey] = curValue(formData);
     } else if (typeof curValue !== "undefined") {
       // eslint-disable-next-line no-param-reassign
-      eleAttr[attrKey] = curValue;
+      if (key === "list" && isObject(curValue)) {
+        eleAttr[attrKey] = Object.keys(curValue).map((key) => {
+          return {
+            value: key,
+            label: curValue[key],
+          };
+        });
+      } else {
+        eleAttr[attrKey] = curValue;
+      }
     }
   });
 }

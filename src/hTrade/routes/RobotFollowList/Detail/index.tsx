@@ -13,7 +13,7 @@ import api from "@src/hTrade/config/api";
 import "./index.less";
 import { getRangeTime } from "../utils";
 import { GroupSearch } from "@components/index";
-import { userType } from "@src/hTrade/constants";
+import { userType, orderType } from "@src/hTrade/constants";
 
 interface IState {
   isShow: boolean;
@@ -47,25 +47,17 @@ export default class App extends React.PureComponent<IProps, IState> {
       isSearch: true,
     },
     {
-      dataIndex: "mul",
+      dataIndex: "leverage",
       title: "倍数",
     },
 
     {
-      dataIndex: "orderType",
+      dataIndex: "order_type",
       title: "订单类型",
       type: "select",
       isSearch: true,
-      list: [
-        {
-          value: 1,
-          label: "合约",
-        },
-        {
-          value: 2,
-          label: " 现货",
-        },
-      ],
+      showList: true,
+      list: orderType,
     },
 
     {
@@ -122,7 +114,6 @@ export default class App extends React.PureComponent<IProps, IState> {
     };
 
     this.searchParams = query.getUrlQuery();
-    console.log(this.searchParams, "this.searchParams");
   }
 
   componentDidMount() {
@@ -144,10 +135,22 @@ export default class App extends React.PureComponent<IProps, IState> {
   private getProfitList = (params: any = {}) => {
     const { actions } = this.props;
     actions
-      .get(api.userProfitList, { ...this.searchParams, ...params })
+      .get(api.follow_records_earnings_report, {
+        ...this.searchParams,
+        ...params,
+      })
       .then((res) => {
-        if (res.code === 200 || res.code === 300) {
-          this.renderProfitChart(res.data || []);
+        if (res.data) {
+          const arr: any[] = [];
+          const { data = {} } = res;
+          Object.keys(data).forEach((key) => {
+            arr.push({
+              date: key,
+              money: parseFloat(data[key]),
+            });
+          });
+
+          this.renderProfitChart(arr || []);
         }
       });
   };
