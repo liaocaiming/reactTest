@@ -36,13 +36,13 @@ export const urls = {
   transfer_records: 'transfer_records', // 获取机器人划转列表:
   follow_records: 'follow_records', // 跟单列表
   follow_records_earnings_report: 'follow_records/earnings_report', // 盈亏分析
+  follow_records_Show: 'follow_records/show', // 订单详情
 
 
 
   addAndUpdateUser: 'user/addAndUpdate', // 新增和编辑用户;
   strategyList: 'strategy/list', // 策略列表
   strategyOrderList: 'strategy/order/list', // 策略开单详情列表
-  follow_recordsShow: 'follow_records/detail', // 订单详情
   robotFollowList: 'robot/follow/list', // 机器人列表
   userProfitList: 'user/profit/list', // 用户曲线收益列表
   userDetail: 'user/detail', // 用户详情

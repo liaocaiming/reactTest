@@ -26,7 +26,7 @@ export default (props: IProps) => {
   const { query, actions, isShow } = props;
 
   const getData = (query: any) => {
-    actions.get(api.follow_recordsShow, query).then((res) => {
+    actions.get(api.follow_records_Show, query).then((res) => {
       if (res.data) {
         setDetail(res.data)
       }

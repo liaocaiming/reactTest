@@ -87,3 +87,9 @@ export const marginType = {
   CROSSED: '全仓'
 }
 
+export const ORDER_STATUS = {
+  // 持有:2,委托:1,历史:3
+  2: '持有',
+  1: '委托',
+  3: '历史'
+}

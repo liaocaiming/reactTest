@@ -6,7 +6,7 @@ import IProps from "@typings/react.d";
 import DetaiModal from "./DetaiModal";
 import { AppForm } from "@components/index";
 import { AppFormItemOptions } from "@components/AppForm/interface.d";
-import { query, User } from "@utils/index";
+import { query, User, constants } from "@utils/index";
 import { Chart } from "@antv/g2";
 import chartData from "./chartData";
 import api from "@src/hTrade/config/api";
@@ -25,9 +25,14 @@ const format = "YYYY-MM-DD";
 const dateArr = getRangeTime();
 
 const dateMap = {
-  startTime: dateArr[0].format(format),
-  endTime: dateArr[1].format(format),
+  start_date: dateArr[0].format(format),
+  end_date: dateArr[1].format(format),
 };
+
+const defaultValues = {
+  status: '2'
+}
+
 @connect()
 export default class App extends React.PureComponent<IProps, IState> {
   private changeItem = {};
@@ -35,16 +40,8 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   private row: any[] = [
     {
-      dataIndex: "addTime",
-      title: "开单时间",
-      isSearch: true,
-      searchDataIndex: "startTime&endTime",
-      type: "rangePicker",
-    },
-    {
       dataIndex: "symbol",
       title: "币种",
-      isSearch: true,
     },
     {
       dataIndex: "leverage",
@@ -61,35 +58,82 @@ export default class App extends React.PureComponent<IProps, IState> {
     },
 
     {
-      dataIndex: "strategyType",
-      title: "策略类型",
-      type: "select",
-      isSearch: true,
-      list: [
-        {
-          value: 101,
-          label: "101",
-        },
-      ],
+      dataIndex: "avg_price",
+      title: "开单均价",
+
     },
 
     {
-      dataIndex: "profit_money",
+      dataIndex: "quantity",
+      title: "开单总数量",
+    },
+
+    {
+      dataIndex: "current_quantity",
+      title: "剩余数量",
+
+    },
+
+    {
+      dataIndex: "current_margin",
+      title: "当前保证金",
+    },
+
+
+
+    {
+      dataIndex: "next_profit_price",
+      title: "止盈价格 ",
+    },
+
+    {
+      dataIndex: "next_loss_price",
+      title: "止损价格 ",
+    },
+
+    {
+      dataIndex: "residue_entry_amount",
+      title: "未买入金额",
+    },
+
+    {
+      dataIndex: "profit_loss",
       title: "收益",
     },
 
     {
-      dataIndex: "is_stop_profit",
-      title: "是否止盈",
+      dataIndex: "status",
+      title: "订单状态",
+      showList: true,
+      type: 'select',
+      list: {
+        1: '暂未买入',
+        2: '正在执行',
+        3: '系统取消',
+        4: '手动取消',
+        5: '止损',
+        6: '完成',
+        7: '跳过',
+        8: '买入后在binane上取消',
+        9: '强平',
+      }
     },
-    {
-      dataIndex: "is_stop_loss",
-      title: "是否止损",
-    },
-    {
-      dataIndex: "stop_profit_target",
-      title: "止盈目标",
-    },
+
+    // {
+    //   dataIndex: "strategyType",
+    //   title: "策略类型",
+    //   type: "select",
+    //   isSearch: true,
+    //   list: [
+    //     {
+    //       value: 101,
+    //       label: "101",
+    //     },
+    //   ],
+    // },
+
+
+
     {
       dataIndex: "operate",
       title: "操作",
@@ -117,20 +161,20 @@ export default class App extends React.PureComponent<IProps, IState> {
   }
 
   componentDidMount() {
-    this.getDetail();
+    // this.getDetail();
     this.getProfitList(dateMap);
   }
 
-  private getDetail = () => {
-    const { actions } = this.props;
-    actions.get(api.userDetail, this.searchParams).then((res) => {
-      if (res.code === 200 || res.code === 300) {
-        this.setState({
-          detail: res.data || {},
-        });
-      }
-    });
-  };
+  // private getDetail = () => {
+  //   const { actions } = this.props;
+  //   actions.get(api.userDetail, this.searchParams).then((res) => {
+  //     if (res.code === 200 || res.code === 300) {
+  //       this.setState({
+  //         detail: res.data || {},
+  //       });
+  //     }
+  //   });
+  // };
 
   private getProfitList = (params: any = {}) => {
     const { actions } = this.props;
@@ -329,7 +373,13 @@ export default class App extends React.PureComponent<IProps, IState> {
   render() {
     // const { detail } = this.state;
     const data = User.getListItem();
-
+    const searchRowData = this.row.concat({
+      title: '状态',
+      dataIndex: 'status',
+      type: 'select',
+      list: constants.ORDER_STATUS,
+      isSearch: true
+    })
     return (
       <div className="robotFollow-detail">
         <div className="margin_bottom_20 line">
@@ -347,13 +397,11 @@ export default class App extends React.PureComponent<IProps, IState> {
               }}
               rowData={[
                 {
-                  dataIndex: "startTime&endTime",
+                  dataIndex: "start_date&end_date",
                   type: "rangePicker",
                 },
               ]}
-              defaultValues={{
-                "startTime&endTime": dateArr,
-              }}
+              defaultValues={{ "start_date&end_date": dateArr }}
             />
           </h3>
 
@@ -364,7 +412,7 @@ export default class App extends React.PureComponent<IProps, IState> {
           <h3>订单详情</h3>
           <PageList
             initOption={{
-              params: dateMap,
+              params: { ...this.searchParams, ...defaultValues },
             }}
             {...this.props}
             url={linkPort.follow_records}
@@ -372,9 +420,8 @@ export default class App extends React.PureComponent<IProps, IState> {
             actionDom={this.renderTotalAmount()}
             groupSearchProps={{
               isShowResetBtn: true,
-              defaultValues: {
-                "startTime&endTime": dateArr,
-              },
+              rowData: searchRowData,
+              defaultValues: defaultValues,
             }}
           />
 
