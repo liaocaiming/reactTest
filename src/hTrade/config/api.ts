@@ -31,8 +31,9 @@ export const urls = {
   bots_stop_bot: 'bots/bots_stop_bot', // 关闭个人机器人
   bots_stop_all_bot: 'bots/stop_all_bot', // 关闭所有机器人
   bots_start_all_bot: 'bots/start_all_bot', // 开启所有机器人
-
-
+  exception_records: 'exception_records', // 获取异常列表
+  exception_records_update: 'exception_records/update', // 异常处理
+  transfer_records: 'transfer_records', // 获取机器人划转列表:
 
 
   addAndUpdateUser: 'user/addAndUpdate', // 新增和编辑用户;

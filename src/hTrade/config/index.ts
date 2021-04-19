@@ -7,7 +7,7 @@ import api from './api';
 const reducers = {
   app: appReducer,
   screen: appScreenReducer,
-  Htrade: hTradeReducers
+  htrade: hTradeReducers
 }
 
 export {

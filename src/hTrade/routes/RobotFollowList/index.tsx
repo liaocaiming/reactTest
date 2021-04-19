@@ -6,22 +6,30 @@ import IProps from "@typings/react.d";
 import { Button, message, Modal } from "antd";
 import UserModal from "./UserModal";
 import "./index.less";
-import { Link } from "@components/index";
-import { userType } from '@src/hTrade/constants';
-import { AppForm } from '@components/index';
+import { userType, transferStatus } from "@src/hTrade/constants";
+import { AppForm, PopupList } from "@components/index";
+import api from "@src/hTrade/config/api";
+import moment from "moment";
 
 interface IState {
   isShow?: boolean;
-  isShowMoneyRecordModal?: boolean;
+  isShowMoneyRecordModal: boolean;
   isEdit?: boolean;
+  isShowErrorModal: boolean;
   [key: string]: any;
 }
 
 type OperateType = "edit" | "add";
 
+type ModalType =
+  | "isShow"
+  | "isShowMoneyRecordModal"
+  | "isShowErrorModal"
+  | "isEdit";
+
 @connect()
 export default class App extends React.PureComponent<IProps, IState> {
-  private changeItem = {};
+  private changeItem: any = {};
 
   private operateType: OperateType = "add";
 
@@ -30,6 +38,13 @@ export default class App extends React.PureComponent<IProps, IState> {
       title: "邮箱名称",
       dataIndex: "email",
       isSearch: true,
+      render: (value: string, record: any) => {
+        if (record.error) {
+          return <span className="error">{value}</span>;
+        }
+
+        return <span>{value}</span>;
+      },
     },
     {
       title: "币安uid",
@@ -53,7 +68,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     },
 
     {
-      title: <span className="tips">.异常</span>,
+      title: "异常",
       dataIndex: "error",
       type: "select",
       list: [
@@ -74,8 +89,8 @@ export default class App extends React.PureComponent<IProps, IState> {
       dataIndex: "user_type",
       showList: true,
       isSearch: true,
-      type: 'select',
-      list: userType
+      type: "select",
+      list: userType,
     },
 
     {
@@ -91,12 +106,10 @@ export default class App extends React.PureComponent<IProps, IState> {
       dataIndex: "loss_sum",
     },
 
-
     {
       title: "初始资金",
       dataIndex: "original_money",
     },
-
 
     {
       title: "每单的U数量",
@@ -104,8 +117,8 @@ export default class App extends React.PureComponent<IProps, IState> {
     },
 
     {
-      title: '机器人状态',
-      dataIndex: 'status'
+      title: "机器人状态",
+      dataIndex: "status",
     },
 
     {
@@ -120,12 +133,13 @@ export default class App extends React.PureComponent<IProps, IState> {
         return (
           <div>
             <Button type="link" className="margin_right_10">
-              <Link
-                to={{ pathname: `${route.path}/show` }}
-                search={{ id: item.id }}
+              <a
+                // to={{ pathname: `${route.path}/show` }}
+                // search={{ id: item.id }}
+                onClick={this.goTo(`${route.path}/show`, item.id)}
               >
                 查看
-              </Link>
+              </a>
             </Button>
             <Button
               type="link"
@@ -156,11 +170,25 @@ export default class App extends React.PureComponent<IProps, IState> {
             <Button
               type="link"
               className="margin_right_10"
+              onClick={this.toggle({
+                key: "isShowMoneyRecordModal",
+                value: true,
+              })}
             >
               资金记录
             </Button>
 
-
+            <Button
+              type="link"
+              className="margin_right_10"
+              onClick={this.toggle({
+                key: "isShowErrorModal",
+                item: item,
+                value: true,
+              })}
+            >
+              未处理的异常
+            </Button>
           </div>
         );
       },
@@ -172,9 +200,21 @@ export default class App extends React.PureComponent<IProps, IState> {
     this.state = {
       isShow: false,
       isEdit: false,
-      isShowMoneyRecordModal: false
+      isShowMoneyRecordModal: false,
+      isShowErrorModal: false,
     };
   }
+
+  private goTo = (path: string, id: string) => {
+    return () => {
+      const { history } = this.props;
+      history.push({
+        pathname: path,
+        search: `id=${id}`,
+      });
+    };
+  };
+
   private renderBtn = () => {
     return (
       <Button
@@ -222,7 +262,7 @@ export default class App extends React.PureComponent<IProps, IState> {
         content: map[type].content,
         onOk: () => {
           actions.post(map[type].url, record).then((res) => {
-            message.success(res.message || '成功');
+            message.success(res.message || "成功");
             actions.changeScreenQuery({
               pageNo: 1,
             });
@@ -256,7 +296,7 @@ export default class App extends React.PureComponent<IProps, IState> {
   };
 
   private toggle = (options: {
-    key: "isShow" | 'isEdit';
+    key: ModalType;
     value;
     item?: any;
     operateType?: OperateType;
@@ -297,68 +337,216 @@ export default class App extends React.PureComponent<IProps, IState> {
   private renderEveryAmount = (amount: number) => {
     const { isEdit } = this.state;
     let btnMap: any = {
-      text: '保存',
-      type: 'text',
+      text: "保存",
+      type: "text",
       style: {
-        color: 'blue',
-        marginLeft: 5
-      }
-    }
+        color: "blue",
+        marginLeft: 5,
+      },
+    };
 
     if (!isEdit) {
-      btnMap = null
+      btnMap = null;
     }
     return (
       <div>
         <AppForm
-          layout='horizontal'
+          layout="horizontal"
           formItems={[
             {
-              name: 'amount',
-              label: '每单金额',
+              name: "amount",
+              label: "每单金额",
               editable: isEdit,
-              afterDOM: <span className='margin_left_5'>USDT</span>,
+              afterDOM: <span className="margin_left_5">USDT</span>,
               initialValue: amount,
               rules: [
                 {
                   required: true,
-                  message: '请输入'
-                }
+                  message: "请输入",
+                },
               ],
               eleAttr: {
-                placeholder: '请输入',
+                placeholder: "请输入",
                 style: {
-                  width: 120
-                }
-              }
-            }
+                  width: 120,
+                },
+              },
+            },
           ]}
           submitButton={btnMap}
           onFinish={this.onFinish}
         >
           <Toggle isShow={!isEdit}>
-            <Button type='text' style={{ marginLeft: 5, color: 'blue', }} onClick={this.toggle({ key: 'isEdit', value: true })}>编辑</Button>
+            <Button
+              type="text"
+              style={{ marginLeft: 5, color: "blue" }}
+              onClick={this.toggle({ key: "isEdit", value: true })}
+            >
+              编辑
+            </Button>
           </Toggle>
 
           <Toggle isShow={isEdit}>
-            <Button type='text' style={{ marginLeft: 5, color: 'blue', }} onClick={this.toggle({ key: 'isEdit', value: false })}>取消</Button>
+            <Button
+              type="text"
+              style={{ marginLeft: 5, color: "blue" }}
+              onClick={this.toggle({ key: "isEdit", value: false })}
+            >
+              取消
+            </Button>
           </Toggle>
-
         </AppForm>
       </div>
-    )
-  }
+    );
+  };
 
   private onFinish = (params: any) => {
     const { actions } = this.props;
 
     actions.post(linkPort.bots_update, params).then(() => {
-      message.success('修改成功')
+      message.success("修改成功");
       this.setState({
-        isEdit: false
-      })
-    })
-  }
+        isEdit: false,
+      });
+    });
+  };
+
+  private renderErrorModal = () => {
+    const { isShowErrorModal } = this.state;
+    const { actions } = this.props;
+    const rowData = [
+      {
+        dataIndex: "message",
+        title: "异常",
+      },
+      {
+        dataIndex: "process",
+        title: "是否处理",
+        render: (value: boolean) => {
+          return value ? "是" : "否";
+        },
+      },
+    ];
+
+    return (
+      <PopupList
+        isShow={isShowErrorModal}
+        url={api.exception_records}
+        query={{ user_id: this.changeItem.id }}
+        columns={rowData}
+        table={{
+          hasRowSelection: true,
+          isAllowNoSelect: false,
+          rowKey: "id",
+          hasPagination: true,
+        }}
+        getData={(options) => {
+          actions
+            .post(api.exception_records_update, options.selectedRowKeys)
+            .then((res) => {
+              message.success(res.message || "成功");
+              this.toggle({
+                key: "isShowErrorModal",
+                value: false,
+              })();
+            });
+        }}
+        isSaveAutoCloseModal={false}
+        modal={{
+          title: "异常详情",
+          okText: "异常处理",
+        }}
+        rowSelectionType="checkbox"
+        disabledFn={(item) => {
+          return item.process === true;
+        }}
+        onCancel={this.toggle({ key: "isShowErrorModal", value: false })}
+        actions={actions}
+      />
+    );
+  };
+
+  private renderMoneyRecordModal = () => {
+    const { isShowMoneyRecordModal } = this.state;
+    const { actions } = this.props;
+    const rowData = [
+      {
+        dataIndex: "t_type_message",
+        title: "类型",
+      },
+      {
+        dataIndex: "amount",
+        title: "数量",
+      },
+      {
+        dataIndex: "asset",
+        title: "币种",
+      },
+
+      {
+        dataIndex: "tran_id",
+        title: "订单ID",
+      },
+
+      {
+        dataIndex: "transaction_fee",
+        title: "费用",
+      },
+
+      {
+        dataIndex: "status",
+        title: "订单状态",
+        showList: true,
+        type: "select",
+        list: transferStatus,
+      },
+
+      {
+        dataIndex: "timestamp",
+        title: "时间",
+        render: (value) => {
+          if (!value) {
+            return null;
+          }
+          return moment(value).format("YYYY-MM-DD hh:mm:ss");
+        },
+      },
+    ];
+
+    return (
+      <PopupList
+        isShow={isShowMoneyRecordModal}
+        url={api.transfer_records}
+        query={{ user_id: this.changeItem.id }}
+        columns={rowData}
+        getData={(options) => {
+          actions
+            .post(api.exception_records_update, options.selectedRowKeys)
+            .then((res) => {
+              message.success(res.message || "成功");
+              this.toggle({
+                key: "isShowErrorModal",
+                value: false,
+              })();
+            });
+        }}
+        isSaveAutoCloseModal={false}
+        table={{
+          hasPagination: true,
+        }}
+        modal={{
+          title: "资金记录",
+          footer: null,
+          destroyOnClose: true,
+        }}
+        disabledFn={(item) => {
+          return item.process === true;
+        }}
+        onCancel={this.toggle({ key: "isShowMoneyRecordModal", value: false })}
+        actions={actions}
+      />
+    );
+  };
 
   render() {
     return (
@@ -377,6 +565,8 @@ export default class App extends React.PureComponent<IProps, IState> {
           }}
         />
         {this.renderModal()}
+        {this.renderErrorModal()}
+        {this.renderMoneyRecordModal()}
       </div>
     );
   }

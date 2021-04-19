@@ -13,6 +13,7 @@ import api from "@src/hTrade/config/api";
 import "./index.less";
 import { getRangeTime } from "../utils";
 import { GroupSearch } from "@components/index";
+import { userType } from "@src/hTrade/constants";
 
 interface IState {
   isShow: boolean;
@@ -173,64 +174,67 @@ export default class App extends React.PureComponent<IProps, IState> {
         editable,
       },
       {
-        label: "币安id",
-        name: "biance_id",
+        label: "币安uid",
+        name: "binance_user_id",
         editable,
       },
 
       {
-        label: "机器人开始时间",
-        name: "startTime",
+        label: "机器人创建时间",
+        name: "created_at",
         editable,
       },
       {
         label: "机器人结束时间",
-        name: "endTime",
+        name: "expire_time",
         editable,
       },
 
       {
-        label: "持有单数",
-        name: "holder_num",
+        label: "机器人到期时间",
+        name: "expire_time",
         editable,
       },
 
       {
-        label: "是否体验用户",
-        name: "is_experience_user",
+        label: "用户类型",
+        name: "user_type",
         type: "select",
-        list: constants.isOrNot,
+        list: userType,
         editable,
       },
 
-      {
-        label: "是否会员",
-        name: "is_pay_member",
-        editable,
-      },
       {
         label: "盈利金额",
-        name: "profit_money",
+        name: "profit_loss",
         editable,
       },
       {
         label: "盈利单数",
-        name: "profit_num",
+        name: "success_sum",
         editable,
       },
       {
         label: "亏损单数",
-        name: "loss_num",
+        name: "loss_sum",
         editable,
       },
+
       {
         label: "初始资金",
         name: "original_money",
         editable,
       },
+
       {
         label: "每单的U数量",
         name: "every_money",
+        editable,
+      },
+
+      {
+        label: "机器人状态",
+        name: "status",
         editable,
       },
 

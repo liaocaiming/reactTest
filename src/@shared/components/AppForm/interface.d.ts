@@ -166,8 +166,6 @@ export interface AppFormItemBase extends FormItemProps {
    */
   eleAttr?: FormInputAttr;
 
-  afterDOM?: JSX.Element;
-  beforeDOM?: JSX.Element;
 
   /**
    * 内部定义，不要从外面传进来

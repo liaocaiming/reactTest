@@ -12,6 +12,8 @@ import Breadcrumb from './Breadcrumb';
 
 import Link from './Link';
 
+import PopupList from './PopupList';
+
 export {
   GroupSearch,
   TableComponent,
@@ -19,5 +21,6 @@ export {
   AppForm,
   PageList,
   Breadcrumb,
-  Link
+  Link,
+  PopupList
 }

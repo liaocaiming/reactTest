@@ -54,8 +54,44 @@ const userType = [
 
 ]
 
+
+export const transferStatus = [
+  {
+    value: 0,
+    label: '已发送确认Email'
+  },
+  {
+    value: 1,
+    label: '已被用户取消'
+  },
+  {
+    value: 2,
+    label: '等待确认'
+  },
+  {
+    value: 3,
+    label: '被拒绝'
+  },
+  {
+    value: 4,
+    label: '处理中'
+  },
+
+  {
+    value: 5,
+    label: '交易失败'
+  },
+  {
+    value: 6,
+    label: '完成'
+  },
+]
+
+
+
+
 export {
   payType,
   orderStatus,
-  userType
+  userType,
 }

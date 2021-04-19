@@ -1,6 +1,6 @@
 import loadFile from '@containers/loadFile';
 
-import Login from '@src/Htrade/routes/Login';
+import Login from '@src/hTrade/routes/Login';
 
 import Layout from '@src/hTrade/components/Layout';
 
@@ -10,14 +10,14 @@ const router = [
     component: Login,
   },
   {
-    path: 'htrade',
+    path: 'hTrade',
     component: Layout,
     routes: [
 
       {
         path: 'role',
         component: loadFile({
-          load: () => import('@src/Htrade/routes/Role')
+          load: () => import('@src/hTrade/routes/Role')
         }),
         title: '角色管理',
         exact: true
@@ -26,7 +26,7 @@ const router = [
       {
         path: 'user',
         component: loadFile({
-          load: () => import('@src/Htrade/routes/User')
+          load: () => import('@src/hTrade/routes/User')
         }),
         title: '用户管理',
         exact: true
@@ -34,7 +34,7 @@ const router = [
       {
         path: 'moreUser',
         component: loadFile({
-          load: () => import('@src/Htrade/routes/MoreUser')
+          load: () => import('@src/hTrade/routes/MoreUser')
         }),
         title: '用户管理',
         exact: true
@@ -43,7 +43,7 @@ const router = [
       {
         path: 'moreUser/:id',
         component: loadFile({
-          load: () => import('@src/Htrade/routes/MoreUser/Detail')
+          load: () => import('@src/hTrade/routes/MoreUser/Detail')
         }),
         title: '用户管理',
         exact: true
@@ -53,7 +53,7 @@ const router = [
       {
         path: 'strategyList',
         component: loadFile({
-          load: () => import('@src/Htrade/routes/StrategyList')
+          load: () => import('@src/hTrade/routes/StrategyList')
         }),
         title: '策略管理',
         exact: true
@@ -61,7 +61,7 @@ const router = [
       {
         path: 'strategyList/:id',
         component: loadFile({
-          load: () => import('@src/Htrade/routes/StrategyList/StrategyItem')
+          load: () => import('@src/hTrade/routes/StrategyList/StrategyItem')
         }),
         title: '策略详情',
         exact: true
@@ -70,7 +70,7 @@ const router = [
       {
         path: 'robotFollowList',
         component: loadFile({
-          load: () => import('@src/Htrade/routes/RobotFollowList')
+          load: () => import('@src/hTrade/routes/RobotFollowList')
         }),
         title: '机器人跟单',
         exact: true
@@ -79,7 +79,7 @@ const router = [
       {
         path: 'robotFollowList/:id',
         component: loadFile({
-          load: () => import('@src/Htrade/routes/RobotFollowList/Detail')
+          load: () => import('@src/hTrade/routes/RobotFollowList/Detail')
         }),
         title: '机器人跟单详情',
         exact: true

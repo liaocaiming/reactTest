@@ -77,3 +77,18 @@ export function getDic(dictionary: any, filterValue?: string[], oppositeFilter?:
   }
   return dic;
 }
+
+
+// 给列表数据添加key值
+export function listDataAddKey(data: any[], pageNo = 0, pageSize = 0) {
+  let res: any[] = [];
+  if (!data || (data && data.length === 0)) {
+    return res;
+  }
+
+  res = data.slice().map((item: any, index: number) => {
+    item.key = index + 1 + (pageNo - 1) * pageSize;
+    return item;
+  });
+  return res;
+}

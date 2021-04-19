@@ -1,7 +1,5 @@
 import * as React from "react";
 
-import { Form, Input, Button, Checkbox, message } from "antd";
-
 import { AppForm } from "@components/index";
 
 import { AppFormItemOptions } from "@components/AppForm/interface";
@@ -14,17 +12,16 @@ import IProps from "@typings/react.d";
 
 import { connect } from "@containers/app";
 
-import { api } from '@src/hTrade/config';
-
+import { api } from "@src/hTrade/config";
 
 @connect()
 export default class App extends React.PureComponent<IProps> {
   onFinish = (values) => {
     const { actions, history } = this.props;
     actions.post(api.authentication, values).then((res) => {
-      User.saveUserInfo(res.data)
+      User.saveUserInfo(res.data);
       history.push("/hTrade/user");
-    })
+    });
   };
 
   onFinishFailed = (errorInfo) => {
