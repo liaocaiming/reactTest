@@ -15,6 +15,7 @@ import api from "@src/hTrade/config/api";
 import { FormInstance } from "antd/lib/form";
 
 import { constants } from "@utils/index";
+import { userType } from "@src/hTrade/constants";
 
 interface IOptions {
   width?: number;
@@ -30,7 +31,7 @@ interface IProps extends ModalProps {
 }
 
 export default memo((props: IProps) => {
-  const { detail, visible, actions, onCancel, onSuccess, operateType } = props;
+  const { detail = {}, visible, actions, onCancel, onSuccess, operateType } = props;
   const [form, setForm] = useState<FormInstance>();
 
   const [userInfo, setUserInfo] = useState<any>({});
@@ -73,9 +74,19 @@ export default memo((props: IProps) => {
         label: "币安uid",
         editable: false,
         render: () => {
-          return <span>{userInfo.binance_user_id}</span>;
-        },
+          return <span>{userInfo.binance_user_id || detail.binance_user_id}</span>
+        }
       },
+
+      {
+        name: "user_type",
+        label: "用户类型",
+        editable: false,
+        type: 'select',
+        initialValue: userInfo.user_type || detail.user_type,
+        list: userType
+      },
+
 
       {
         name: "binance_key",
@@ -129,7 +140,7 @@ export default memo((props: IProps) => {
           },
         ],
         eleAttr: {
-          placeholder: "请输入API Key",
+          placeholder: "请输入",
           style: {
             width,
           },
@@ -190,7 +201,7 @@ export default memo((props: IProps) => {
         labelCol={{ span: 6 }}
         submitButton={null}
         onFinish={onFinish}
-        updateStore={{ ...userInfo, ...detail }}
+        updateStore={{ ...detail, ...userInfo, }}
         onReady={(form) => {
           setForm(form);
         }}

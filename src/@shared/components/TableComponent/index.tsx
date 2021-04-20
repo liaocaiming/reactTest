@@ -110,7 +110,8 @@ export default class TableComponent extends React.Component<
   public modifyColData = (nextProps: ITableComponentProps) => {
     let { columns } = nextProps;
     columns.map((item) => {
-      if (item.type === "select" && item.showList && item.list) {
+      const { showList = true } = item;
+      if (item.type === "select" && showList && item.list) {
         let list: IList[] = item.list;
         if (isObject(list)) {
           list = Object.keys(list).map((key) => {

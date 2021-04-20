@@ -159,7 +159,7 @@ export interface AppFormItemBase extends FormItemProps {
    * 注意函数不要写异步函数, 不要在里面请求接口, 只做数据处理;
    * allValues: 所有表单数据;
    */
-  list?: IList[] | ((allValues: Store) => IList[]);
+  list?: IList[] | ((allValues: Store) => IList[]) | object;
 
   /**
    * 用于直接配置表单 input 组件属性
