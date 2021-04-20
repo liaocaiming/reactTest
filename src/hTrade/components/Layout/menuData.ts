@@ -35,6 +35,13 @@ export default [
     "menuType": 1,
   },
 
+  {
+    "key": "system",
+    "title": "系统设置",
+    "hasChild": 0,
+    "menuType": 1,
+  },
+
 
 
 ]

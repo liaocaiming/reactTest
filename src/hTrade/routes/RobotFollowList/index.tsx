@@ -10,7 +10,7 @@ import { userType, transferStatus } from "@src/hTrade/constants";
 import { AppForm, PopupList } from "@components/index";
 import api from "@src/hTrade/config/api";
 import moment from "moment";
-import { User } from "@utils/index";
+import { helpers, User } from "@utils/index";
 
 interface IState {
   isShow?: boolean;
@@ -53,14 +53,10 @@ export default class App extends React.PureComponent<IProps, IState> {
       isSearch: true,
     },
 
-    {
-      title: "机器人创建时间",
-      dataIndex: "created_at",
-    },
-    {
-      title: "机器人结束时间",
-      dataIndex: "expire_time",
-    },
+    // {
+    //   title: "机器人创建时间",
+    //   dataIndex: "created_at",
+    // },
 
     {
       title: "机器人到期时间",
@@ -263,21 +259,30 @@ export default class App extends React.PureComponent<IProps, IState> {
         title: "确认提示",
         content: map[type].content,
         onOk: () => {
-          actions.post(map[type].url, record).then((res) => {
-            message.success(res.message || "成功");
-            actions.changeScreenQuery({
-              pageNo: 1,
+          actions
+            .post(
+              map[type].url,
+              helpers.filterEmptyValue({ user_id: record.id })
+            )
+            .then((res) => {
+              message.success(res.message || "成功");
+              actions.changeScreenQuery({
+                pageNo: 1,
+              });
+              actions.getScreenData();
             });
-            actions.getScreenData();
-          });
         },
       });
     };
   };
 
+  // 新增机器人
   private renderModal = () => {
     const { actions } = this.props;
     const { isShow } = this.state;
+    if (!isShow) {
+      return null;
+    }
 
     return (
       <UserModal
@@ -292,6 +297,7 @@ export default class App extends React.PureComponent<IProps, IState> {
             pageNo: 1,
           });
           actions.getScreenData();
+          this.toggle({ key: "isShow", value: false })();
         }}
       />
     );

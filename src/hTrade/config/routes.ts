@@ -14,14 +14,33 @@ const router = [
     component: Layout,
     routes: [
 
-      {
-        path: 'role',
-        component: loadFile({
-          load: () => import('@src/hTrade/routes/Role')
-        }),
-        title: '角色管理',
-        exact: true
-      },
+      // {
+      //   path: 'role',
+      //   component: loadFile({
+      //     load: () => import('@src/hTrade/routes/Role')
+      //   }),
+      //   title: '角色管理',
+      //   exact: true
+      // },
+
+      // {
+      //   path: 'moreUser',
+      //   component: loadFile({
+      //     load: () => import('@src/hTrade/routes/MoreUser')
+      //   }),
+      //   title: '用户管理',
+      //   exact: true
+      // },
+
+      // {
+      //   path: 'moreUser/:id',
+      //   component: loadFile({
+      //     load: () => import('@src/hTrade/routes/MoreUser/Detail')
+      //   }),
+      //   title: '用户管理',
+      //   exact: true
+      // },
+
 
       {
         path: 'user',
@@ -31,25 +50,6 @@ const router = [
         title: '用户管理',
         exact: true
       },
-      {
-        path: 'moreUser',
-        component: loadFile({
-          load: () => import('@src/hTrade/routes/MoreUser')
-        }),
-        title: '用户管理',
-        exact: true
-      },
-
-      {
-        path: 'moreUser/:id',
-        component: loadFile({
-          load: () => import('@src/hTrade/routes/MoreUser/Detail')
-        }),
-        title: '用户管理',
-        exact: true
-      },
-
-
       {
         path: 'strategyList',
         component: loadFile({
@@ -84,6 +84,18 @@ const router = [
         title: '机器人跟单详情',
         exact: true
       },
+
+
+      {
+        path: 'system',
+        component: loadFile({
+          load: () => import('@src/hTrade/routes/System')
+        }),
+        title: '系统设置',
+        exact: true
+      },
+
+
 
     ],
   },

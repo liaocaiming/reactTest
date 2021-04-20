@@ -1,21 +1,20 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState } from "react";
 
-import { Modal } from 'antd'
+import { Modal } from "antd";
 
-import { ModalProps } from 'antd/lib/modal'
+import { ModalProps } from "antd/lib/modal";
 
-import { AppForm } from '@components/index';
+import { AppForm } from "@components/index";
 
-import { AppFormItemOptions } from '@components/AppForm/interface'
+import { AppFormItemOptions } from "@components/AppForm/interface";
 
-import { IActions } from '@containers/index.d'
+import { IActions } from "@containers/index.d";
 
-import api from '@src/hTrade/config/api';
+import api from "@src/hTrade/config/api";
 
-import { FormInstance } from 'antd/lib/form';
+import { FormInstance } from "antd/lib/form";
 
 import { constants } from "@utils/index";
-
 
 interface IOptions {
   width?: number;
@@ -23,22 +22,18 @@ interface IOptions {
   operateType?: "edit" | "add";
 }
 
-
 interface IProps extends ModalProps {
   detail?: any;
   actions: IActions;
-  operateType?: 'edit' | 'add'
+  operateType?: "edit" | "add";
   onSuccess: () => void;
 }
-
-
 
 export default memo((props: IProps) => {
   const { detail, visible, actions, onCancel, onSuccess, operateType } = props;
   const [form, setForm] = useState<FormInstance>();
 
   const [userInfo, setUserInfo] = useState<any>({});
-
 
   const getFormItems = (options?: IOptions) => {
     const { width = 300, operateType } = options || {};
@@ -59,14 +54,12 @@ export default memo((props: IProps) => {
         eleAttr: {
           placeholder: "请输入",
           onBlur: () => {
-            form?.validateFields(['email']).then((values: any) => {
+            form?.validateFields(["email"]).then((values: any) => {
               actions.get(api.userList, values).then((json) => {
                 const [item = {}] = json.data || [];
-                console.log(item, 'item');
-
-                setUserInfo(item)
-              })
-            })
+                setUserInfo(item);
+              });
+            });
           },
           disabled,
           style: {
@@ -80,8 +73,8 @@ export default memo((props: IProps) => {
         label: "币安uid",
         editable: false,
         render: () => {
-          return <span>{userInfo.binance_user_id}</span>
-        }
+          return <span>{userInfo.binance_user_id}</span>;
+        },
       },
 
       {
@@ -159,30 +152,39 @@ export default memo((props: IProps) => {
     return formData;
   };
 
-
   const formData: AppFormItemOptions[] = getFormItems({
-    operateType
+    operateType,
   });
-
 
   const onFinish = (params: any) => {
     const { operateType } = props;
     const map = {
       add: api.bots,
-      edit: api.bots_update
-    }
+      edit: api.bots_update,
+    };
 
-    actions.post(map[operateType || 'add'], { user_id: detail.id, ...params }).then(() => {
-      onSuccess();
-    })
-  }
+    actions
+      .post(map[operateType || "add"], {
+        user_id: detail.id || userInfo.id,
+        ...params,
+      })
+      .then(() => {
+        onSuccess();
+      });
+  };
 
   const onOK = () => {
-    form?.submit()
-  }
+    form?.submit();
+  };
 
   return (
-    <Modal visible={visible} onCancel={onCancel} width={600} title='新增用户' onOk={onOK}>
+    <Modal
+      visible={visible}
+      onCancel={onCancel}
+      width={600}
+      title="新增用户"
+      onOk={onOK}
+    >
       <AppForm
         formItems={formData}
         labelCol={{ span: 6 }}
@@ -190,8 +192,9 @@ export default memo((props: IProps) => {
         onFinish={onFinish}
         updateStore={{ ...userInfo, ...detail }}
         onReady={(form) => {
-          setForm(form)
-        }} />
+          setForm(form);
+        }}
+      />
     </Modal>
-  )
-})
+  );
+});

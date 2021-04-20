@@ -14,6 +14,8 @@ import Link from './Link';
 
 import PopupList from './PopupList';
 
+import UploadImage from './UploadImage';
+
 export {
   GroupSearch,
   TableComponent,
@@ -22,5 +24,6 @@ export {
   PageList,
   Breadcrumb,
   Link,
-  PopupList
+  PopupList,
+  UploadImage
 }

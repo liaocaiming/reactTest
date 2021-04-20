@@ -272,7 +272,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       searchParams = changeQuery(searchParams)();
     }
 
-    const fetchType = method || "post";
+    const fetchType = method || "get";
     this.setState({
       loading: true,
     });

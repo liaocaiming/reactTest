@@ -30,8 +30,8 @@ const dateMap = {
 };
 
 const defaultValues = {
-  status: '2'
-}
+  status: "2",
+};
 
 @connect()
 export default class App extends React.PureComponent<IProps, IState> {
@@ -60,7 +60,6 @@ export default class App extends React.PureComponent<IProps, IState> {
     {
       dataIndex: "avg_price",
       title: "开单均价",
-
     },
 
     {
@@ -71,15 +70,12 @@ export default class App extends React.PureComponent<IProps, IState> {
     {
       dataIndex: "current_quantity",
       title: "剩余数量",
-
     },
 
     {
       dataIndex: "current_margin",
       title: "当前保证金",
     },
-
-
 
     {
       dataIndex: "next_profit_price",
@@ -105,18 +101,18 @@ export default class App extends React.PureComponent<IProps, IState> {
       dataIndex: "status",
       title: "订单状态",
       showList: true,
-      type: 'select',
+      type: "select",
       list: {
-        1: '暂未买入',
-        2: '正在执行',
-        3: '系统取消',
-        4: '手动取消',
-        5: '止损',
-        6: '完成',
-        7: '跳过',
-        8: '买入后在binane上取消',
-        9: '强平',
-      }
+        1: "暂未买入",
+        2: "正在执行",
+        3: "系统取消",
+        4: "手动取消",
+        5: "止损",
+        6: "完成",
+        7: "跳过",
+        8: "买入后在binane上取消",
+        9: "强平",
+      },
     },
 
     // {
@@ -131,8 +127,6 @@ export default class App extends React.PureComponent<IProps, IState> {
     //     },
     //   ],
     // },
-
-
 
     {
       dataIndex: "operate",
@@ -349,6 +343,9 @@ export default class App extends React.PureComponent<IProps, IState> {
   private renderDetailModal = () => {
     const { actions } = this.props;
     const { isShow } = this.state;
+    if (!isShow) {
+      return null;
+    }
 
     return (
       <DetaiModal
@@ -374,12 +371,12 @@ export default class App extends React.PureComponent<IProps, IState> {
     // const { detail } = this.state;
     const data = User.getListItem();
     const searchRowData = this.row.concat({
-      title: '状态',
-      dataIndex: 'status',
-      type: 'select',
+      title: "状态",
+      dataIndex: "status",
+      type: "select",
       list: constants.ORDER_STATUS,
-      isSearch: true
-    })
+      isSearch: true,
+    });
     return (
       <div className="robotFollow-detail">
         <div className="margin_bottom_20 line">
