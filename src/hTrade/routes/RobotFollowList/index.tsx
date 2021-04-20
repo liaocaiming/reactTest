@@ -192,6 +192,7 @@ export default class App extends React.PureComponent<IProps, IState> {
               onClick={this.toggle({
                 key: "isShowMoneyRecordModal",
                 value: true,
+                item
               })}
             >
               资金记录
@@ -454,7 +455,7 @@ export default class App extends React.PureComponent<IProps, IState> {
         dataIndex: "process",
         title: "是否处理",
         render: (value: boolean) => {
-          return value ? "是" : "否";
+          return value == 1 ? "是" : "否";
         },
       },
     ];
@@ -473,7 +474,7 @@ export default class App extends React.PureComponent<IProps, IState> {
         }}
         getData={(options) => {
           actions
-            .post(api.exception_records_update, options.selectedRowKeys)
+            .post(api.exception_records_update, { ids: options.selectedRowKeys })
             .then((res) => {
               message.success(res.message || "成功");
               this.toggle({
@@ -489,7 +490,7 @@ export default class App extends React.PureComponent<IProps, IState> {
         }}
         rowSelectionType="checkbox"
         disabledFn={(item) => {
-          return item.process === true;
+          return item.process == 1;
         }}
         onCancel={this.toggle({ key: "isShowErrorModal", value: false })}
         actions={actions}
@@ -539,7 +540,7 @@ export default class App extends React.PureComponent<IProps, IState> {
           if (!value) {
             return null;
           }
-          return moment(value).format("YYYY-MM-DD hh:mm:ss");
+          return moment(parseInt(value)).format("YYYY-MM-DD hh:mm:ss");
         },
       },
     ];
