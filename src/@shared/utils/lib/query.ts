@@ -45,7 +45,7 @@ export function getQuery(search: string): object {
 }
 
 export function getUrlQuery() {
-  let ret = {};
+  let ret: any = {};
 
   ret = getQuery(window.location.href);
 

@@ -100,7 +100,7 @@ export default class App extends React.Component<IProps> {
     pageSize?: number;
   }) => {
     const { params, pageNo, pageSize } = options || {};
-    const { actions, method = "post" } = this.props;
+    const { actions, method = "get" } = this.props;
     if (pageNo) {
       actions.changeScreenQuery({
         pageNo,

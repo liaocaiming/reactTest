@@ -29,6 +29,7 @@ const orderStatus = [
 
 
 
+// 1:新注册会员,2:体验会员,3:vip会员,4:体验到期,5:会员到期
 
 const userType = [
   {
@@ -37,19 +38,19 @@ const userType = [
   },
   {
     value: '2',
-    label: '体验用户'
+    label: '体验会员'
   },
   {
     value: '3',
-    label: '体验过期用户'
+    label: 'vip会员'
   },
   {
     value: '4',
-    label: 'VIP用户'
+    label: '体验到期'
   },
   {
     value: '5',
-    label: 'VIP过期用户'
+    label: '会员到期'
   },
 
 ]
