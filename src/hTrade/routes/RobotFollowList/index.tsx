@@ -47,7 +47,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       dataIndex: "email",
       isSearch: true,
       render: (value: string, record: any) => {
-        if (record.error) {
+        if (record.exception_count > 0) {
           return <span className="error">{value}</span>;
         }
 
@@ -72,19 +72,19 @@ export default class App extends React.PureComponent<IProps, IState> {
     },
 
     {
-      title: "异常",
-      dataIndex: "error",
-      type: "select",
-      list: [
-        {
-          value: "1",
-          label: "资金转出",
-        },
-        {
-          value: "2",
-          label: "私自开单",
-        },
-      ],
+      title: "未处理异常数量",
+      dataIndex: "exception_count",
+      // type: "select",
+      // list: [
+      //   {
+      //     value: "1",
+      //     label: "资金转出",
+      //   },
+      //   {
+      //     value: "2",
+      //     label: "私自开单",
+      //   },
+      // ],
       // isSearch: true,
     },
 
@@ -454,7 +454,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       {
         dataIndex: "process",
         title: "是否处理",
-        render: (value: boolean) => {
+        render: (value: number) => {
           return value == 1 ? "是" : "否";
         },
       },
