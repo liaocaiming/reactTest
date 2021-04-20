@@ -216,7 +216,7 @@ export default class App extends React.Component<IProps> {
         pagination={{
           total: page.totalCount,
           current: page.pageNo,
-          // pageSize: page.pageSize,
+          pageSize: page.pageSize,
           pageSizeOptions: ["10", "20", "50", "100"],
           showQuickJumper: true,
           ...pagination,

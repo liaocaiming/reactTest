@@ -1,11 +1,11 @@
-const payType = [
+export const payType = [
   {
     value: '1',
     label: '年付费'
   }
 ]
 
-const orderStatus = [
+export const orderStatus = [
   {
     value: '1',
     label: '新信号'
@@ -31,7 +31,7 @@ const orderStatus = [
 
 // 1:新注册会员,2:体验会员,3:vip会员,4:体验到期,5:会员到期
 
-const userType = [
+export const userType = [
   {
     value: '1',
     label: '新用户'
@@ -97,9 +97,19 @@ export const orderType = {
 }
 
 
+export const s_type = {
+  1: '自动推单',
+  2: '手动推单'
+}
 
-export {
-  payType,
-  orderStatus,
-  userType,
+
+export const period_type = {
+  1: '短线',
+  2: '中线',
+  3: '长线'
+}
+
+export const set_type = {
+  1: '现货',
+  3: '合约'
 }

@@ -22,6 +22,7 @@ export const urls = {
   // 策略
   trade_signals: 'trade_signals', // 获取策略列表
   push_records: 'push_records', // 获取推送列表, 手动推送信号
+  trade_signals_update: 'trade_signals/update', // 修改策略
 
 
   // 机器人

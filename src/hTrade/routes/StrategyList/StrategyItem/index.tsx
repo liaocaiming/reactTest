@@ -7,6 +7,7 @@ import { Card } from "antd";
 import DetaiModal from "./DetaiModal";
 import { orderStatus } from "@src/hTrade/constants/index";
 import { query } from "@utils/index";
+import "./index.less";
 
 interface IState {
   isShow: boolean;
@@ -47,6 +48,20 @@ export default class App extends React.PureComponent<IProps, IState> {
     {
       dataIndex: "dist",
       title: "止盈目标",
+      render: (value: string) => {
+        const arr = value.split(",");
+        return (
+          <div>
+            {arr.map((val: string, index: number) => {
+              return (
+                <span className="margin_right_5 dist-item" key={`${index}`}>
+                  {val}
+                </span>
+              );
+            })}
+          </div>
+        );
+      },
     },
 
     {
@@ -57,12 +72,9 @@ export default class App extends React.PureComponent<IProps, IState> {
       dataIndex: "operate",
       title: "操作",
       render: (val: string, item: any) => {
-        console.log(item, "item");
-
         return (
           <a onClick={this.toggle({ key: "isShow", value: true, item })}>
-            {" "}
-            查看{" "}
+            查看
           </a>
         );
       },
@@ -113,7 +125,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       type: "select",
     });
     return (
-      <Card title="策略详情">
+      <Card title="策略详情" className="strategyItem">
         <PageList
           initOption={{
             params: {
