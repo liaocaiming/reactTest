@@ -257,6 +257,12 @@ export default class App extends React.Component<IProps, IState> {
     });
   };
 
+  private handleOut = () => {
+    const { history } = this.props;
+    User.removeUserInfo();
+    history.push("/");
+  };
+
   public render() {
     const { history, menu } = this.props;
     const saving = this.props.$$app && this.props.$$app.getIn(["saving"]);
@@ -302,7 +308,9 @@ export default class App extends React.Component<IProps, IState> {
         <Layout style={{ paddingLeft: marginLeft }}>
           <Header className="layout-header">
             <h1 className="layout-title">H-TRADE</h1>
-            <Button type="primary">退出</Button>
+            <Button type="primary" onClick={this.handleOut}>
+              退出
+            </Button>
           </Header>
           <Content
             style={{ padding: "60px 20px 20px" }}

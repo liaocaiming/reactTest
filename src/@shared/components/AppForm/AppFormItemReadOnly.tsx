@@ -155,7 +155,7 @@ export default function renderReadValue(
   }
 
   // 下拉框
-  if (typeof list === "function" || Array.isArray(list)) {
+  if (typeof list === "function" || Array.isArray(list) || isObject(list)) {
     return renderReadonlySelect(formChildProps, formStore);
   }
 

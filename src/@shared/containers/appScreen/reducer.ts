@@ -1,6 +1,7 @@
 import { helpers } from '@shared/utils';
 import { fromJS } from "immutable";
 import ACTION_TYPES from "./actionTypes";
+import omit from 'loadsh/omit'
 
 const defaultState = fromJS({
   fetching: false,
@@ -98,7 +99,8 @@ function receiveScreenData($$state: any, action: IAction) {
       totalCount: count,
       pageNo,
       pageSize
-    }
+    },
+    other: omit(payload, ['data', 'count', 'pageNo', 'pageSize'])
   }
   return $$state
     .setIn(["fetching"], false)

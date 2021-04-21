@@ -8,21 +8,20 @@ import { AppForm } from "@components/index";
 import { AppFormItemOptions } from "@components/AppForm/interface.d";
 import { query, User, constants } from "@utils/index";
 import { Chart } from "@antv/g2";
-// import chartData from "./chartData";
 import api from "@src/hTrade/config/api";
 import "./index.less";
 import { getRangeTime } from "../utils";
 import { GroupSearch } from "@components/index";
 import { userType, orderType } from "@src/hTrade/constants";
-import { sum } from '../utils'
+import { sum } from "../utils";
 import { bot_status } from "@src/hTrade/constants";
 
 const renderMoney = (detail: any, key: string) => {
-  console.log(sum(detail.bot_infos || [], key), 'sum');
+  console.log(sum(detail.bot_infos || [], key), "sum");
   return (formItem: any, form: any) => {
-    return <span>{sum(detail.bot_infos || [], key)}</span>
-  }
-}
+    return <span>{sum(detail.bot_infos || [], key)}</span>;
+  };
+};
 
 interface IState {
   isShow: boolean;
@@ -164,20 +163,12 @@ export default class App extends React.PureComponent<IProps, IState> {
   }
 
   componentDidMount() {
-    // this.getDetail();
     this.getProfitList(dateMap);
   }
 
-  // private getDetail = () => {
-  //   const { actions } = this.props;
-  //   actions.get(api.userDetail, this.searchParams).then((res) => {
-  //     if (res.code === 200 || res.code === 300) {
-  //       this.setState({
-  //         detail: res.data || {},
-  //       });
-  //     }
-  //   });
-  // };
+  componentWillUnmount() {
+    User.removeListItem();
+  }
 
   private getProfitList = (params: any = {}) => {
     const { actions } = this.props;
@@ -258,35 +249,33 @@ export default class App extends React.PureComponent<IProps, IState> {
         label: "盈利金额",
         name: "profit_loss",
         editable,
-        render: renderMoney(detail, 'profit_loss')
+        render: renderMoney(detail, "profit_loss"),
       },
       {
         label: "盈利单数",
         name: "success_sum",
         editable,
-        render: renderMoney(detail, 'success_sum')
+        render: renderMoney(detail, "success_sum"),
       },
       {
         label: "亏损单数",
         name: "loss_sum",
         editable,
-        render: renderMoney(detail, 'loss_sum')
-
+        render: renderMoney(detail, "loss_sum"),
       },
 
       {
         label: "每单的U数量",
         name: "open_margin",
         editable,
-
       },
 
       {
         label: "机器人状态",
-        name: "bot_status",
+        name: "start_bot",
         editable,
         list: bot_status,
-        type: 'select',
+        type: "select",
       },
 
       {
@@ -371,14 +360,13 @@ export default class App extends React.PureComponent<IProps, IState> {
   private renderTotalAmount = () => {
     return (
       <h2>
-        <span>总收益:</span>
+        <span>本周期总收益:</span>
         <span>444</span>
       </h2>
     );
   };
 
   render() {
-    // const { detail } = this.state;
     const data = User.getListItem();
     const searchRowData = this.row.concat({
       title: "状态",
@@ -387,6 +375,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       list: constants.ORDER_STATUS,
       isSearch: true,
     });
+
     return (
       <div className="robotFollow-detail">
         <div className="margin_bottom_20 line">
@@ -424,7 +413,7 @@ export default class App extends React.PureComponent<IProps, IState> {
             {...this.props}
             url={linkPort.follow_records}
             tableComponentProps={{ columns: this.row }}
-            actionDom={this.renderTotalAmount()}
+            actionDom={this.renderTotalAmount}
             groupSearchProps={{
               isShowResetBtn: true,
               rowData: searchRowData,

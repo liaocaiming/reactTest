@@ -131,6 +131,10 @@ export function getScreenData(option?: IOptions) {
       if (option.query) {
         query = option.query;
       }
+
+      if (query.pageNo) {
+        query.page = query.pageNo;
+      }
     }
 
     const { method = 'get' } = option || {};

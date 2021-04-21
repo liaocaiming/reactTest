@@ -49,7 +49,7 @@ export interface IProps extends IAllProps {
   groupAfterDom?: JSX.Element;
   isShowBreadCrumbNav?: boolean;
   getInstance?: (that: any) => void; // that 获取列表实列
-  actionDom?: JSX.Element; // 在 GroupSearch 和 Table 之间的操作内容
+  actionDom?: ((data: any) => JSX.Element) | JSX.Element; // 在 GroupSearch 和 Table 之间的操作内容
   headerDom?: JSX.Element; // 在 GroupSearch 和 面包屑之间的内容
   searchCallBack?: (params: any) => void; // 查询回调
   getRefreshDataFn?: (refreshDataFn: IRefreshFn) => void; // 获取刷新列表数据的函数;
@@ -239,7 +239,13 @@ export default class App extends React.Component<IProps> {
   }
 
   public render() {
-    const { headerDom, actionDom, showSearch = true } = this.props;
+    let { headerDom, actionDom, showSearch = true } = this.props;
+    const data =
+      this.props.$$screen.getIn(["data"]) &&
+      this.props.$$screen.getIn(["data"]).toJS();
+    if (typeof actionDom === "function") {
+      actionDom = actionDom(data);
+    }
 
     return (
       <AppScreen {...this.props} initOption={this.init}>
