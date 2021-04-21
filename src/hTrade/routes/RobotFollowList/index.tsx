@@ -6,11 +6,12 @@ import IProps from "@typings/react.d";
 import { Button, message, Modal } from "antd";
 import UserModal from "./UserModal";
 import "./index.less";
-import { userType, transferStatus } from "@src/hTrade/constants";
+import { userType, transferStatus, bot_status } from "@src/hTrade/constants";
 import { AppForm, PopupList } from "@components/index";
 import api from "@src/hTrade/config/api";
 import moment from "moment";
 import { helpers, User } from "@utils/index";
+import { sum } from './utils'
 
 interface IState {
   isShow?: boolean;
@@ -28,6 +29,12 @@ type ModalType =
   | "isShowErrorModal"
   | "isEdit";
 
+const renderMoney = (key: string) => {
+  return (value: string, record) => {
+    return sum(record.bot_infos || [], key)
+  }
+}
+
 @connect()
 export default class App extends React.PureComponent<IProps, IState> {
   private changeItem: any = {};
@@ -40,7 +47,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       dataIndex: "email",
       isSearch: true,
       render: (value: string, record: any) => {
-        if (record.error) {
+        if (record.exception_count > 0) {
           return <span className="error">{value}</span>;
         }
 
@@ -61,24 +68,24 @@ export default class App extends React.PureComponent<IProps, IState> {
     {
       title: "机器人到期时间",
       dataIndex: "expire_time",
-      isSearch: true,
+      // isSearch: true,
     },
 
     {
-      title: "异常",
-      dataIndex: "error",
-      type: "select",
-      list: [
-        {
-          value: "1",
-          label: "资金转出",
-        },
-        {
-          value: "2",
-          label: "私自开单",
-        },
-      ],
-      isSearch: true,
+      title: "未处理异常数量",
+      dataIndex: "exception_count",
+      // type: "select",
+      // list: [
+      //   {
+      //     value: "1",
+      //     label: "资金转出",
+      //   },
+      //   {
+      //     value: "2",
+      //     label: "私自开单",
+      //   },
+      // ],
+      // isSearch: true,
     },
 
     {
@@ -93,29 +100,36 @@ export default class App extends React.PureComponent<IProps, IState> {
     {
       title: "盈利金额",
       dataIndex: "profit_loss",
+      render: renderMoney('profit_loss')
     },
     {
       title: "盈利单数",
       dataIndex: "success_sum",
+      render: renderMoney('success_sum')
     },
     {
       title: "亏损单数",
       dataIndex: "loss_sum",
+      render: renderMoney('loss_sum')
     },
 
-    {
-      title: "初始资金",
-      dataIndex: "original_money",
-    },
+    // {
+    //   title: "初始资金",
+    //   dataIndex: "original_money",
+    // },
 
     {
       title: "每单的U数量",
-      dataIndex: "every_money",
+      dataIndex: "open_margin",
     },
 
     {
       title: "机器人状态",
-      dataIndex: "status",
+      dataIndex: "start_bot",
+      list: bot_status,
+      type: 'select',
+      showList: true
+
     },
 
     {
@@ -127,6 +141,8 @@ export default class App extends React.PureComponent<IProps, IState> {
       dataIndex: "remark",
       render: (val: string, item: any) => {
         const { route } = this.props;
+        const { start_bot } = item;
+
         return (
           <div>
             <Button type="link" className="margin_right_10">
@@ -149,20 +165,26 @@ export default class App extends React.PureComponent<IProps, IState> {
             >
               编辑
             </Button>
-            <Button
-              type="link"
-              className="margin_right_10"
-              onClick={this.stopOrStart({ record: item, type: "1" })}
-            >
-              启动
+            <Toggle isShow={start_bot == 1}>
+              <Button
+                type="link"
+                className="margin_right_10"
+                onClick={this.stopOrStart({ record: item, type: "2" })}
+              >
+                停止
             </Button>
-            <Button
-              type="link"
-              className="margin_right_10"
-              onClick={this.stopOrStart({ record: item, type: "2" })}
-            >
-              停止
+            </Toggle>
+            <Toggle isShow={start_bot == 2}>
+              <Button
+                type="link"
+                className="margin_right_10"
+                onClick={this.stopOrStart({ record: item, type: "1" })}
+              >
+                启动
             </Button>
+            </Toggle>
+
+
 
             <Button
               type="link"
@@ -170,6 +192,7 @@ export default class App extends React.PureComponent<IProps, IState> {
               onClick={this.toggle({
                 key: "isShowMoneyRecordModal",
                 value: true,
+                item
               })}
             >
               资金记录
@@ -342,71 +365,72 @@ export default class App extends React.PureComponent<IProps, IState> {
     );
   };
 
-  private renderEveryAmount = (amount: number) => {
-    const { isEdit } = this.state;
-    let btnMap: any = {
-      text: "保存",
-      type: "text",
-      style: {
-        color: "blue",
-        marginLeft: 5,
-      },
-    };
+  // private renderEveryAmount = (amount: number) => {
+  //   const { isEdit } = this.state;
+  //   let btnMap: any = {
+  //     text: "保存",
+  //     type: "text",
+  //     style: {
+  //       color: "blue",
+  //       marginLeft: 5,
+  //     },
+  //   };
 
-    if (!isEdit) {
-      btnMap = null;
-    }
-    return (
-      <div>
-        <AppForm
-          layout="horizontal"
-          formItems={[
-            {
-              name: "amount",
-              label: "每单金额",
-              editable: isEdit,
-              afterDOM: <span className="margin_left_5">USDT</span>,
-              initialValue: amount,
-              rules: [
-                {
-                  required: true,
-                  message: "请输入",
-                },
-              ],
-              eleAttr: {
-                placeholder: "请输入",
-                style: {
-                  width: 120,
-                },
-              },
-            },
-          ]}
-          submitButton={btnMap}
-          onFinish={this.onFinish}
-        >
-          <Toggle isShow={!isEdit}>
-            <Button
-              type="text"
-              style={{ marginLeft: 5, color: "blue" }}
-              onClick={this.toggle({ key: "isEdit", value: true })}
-            >
-              编辑
-            </Button>
-          </Toggle>
+  //   if (!isEdit) {
+  //     btnMap = null;
+  //   }
+  //   return (
+  //     <div>
+  //       <AppForm
+  //         layout="horizontal"
+  //         formItems={[
+  //           {
+  //             name: "amount",
+  //             label: "体验用户每单金额",
+  //             editable: isEdit,
+  //             afterDOM: <span className="margin_left_5">USDT</span>,
+  //             initialValue: amount,
+  //             rules: [
+  //               {
+  //                 required: true,
+  //                 message: "请输入",
+  //               },
+  //             ],
+  //             eleAttr: {
+  //               placeholder: "请输入",
+  //               style: {
+  //                 width: 120,
+  //               },
+  //             },
+  //           },
+  //         ]}
+  //         submitButton={btnMap}
+  //         onFinish={this.onFinish}
+  //       >
+  //         <Toggle isShow={!isEdit}>
+  //           <Button
+  //             type="text"
+  //             style={{ marginLeft: 5, color: "blue" }}
+  //             onClick={this.toggle({ key: "isEdit", value: true })}
+  //           >
+  //             编辑
+  //           </Button>
+  //         </Toggle>
 
-          <Toggle isShow={isEdit}>
-            <Button
-              type="text"
-              style={{ marginLeft: 5, color: "blue" }}
-              onClick={this.toggle({ key: "isEdit", value: false })}
-            >
-              取消
-            </Button>
-          </Toggle>
-        </AppForm>
-      </div>
-    );
-  };
+  //         <Toggle isShow={isEdit}>
+  //           <Button
+  //             type="text"
+  //             style={{ marginLeft: 5, color: "blue" }}
+  //             onClick={this.toggle({ key: "isEdit", value: false })}
+  //           >
+  //             取消
+  //           </Button>
+  //         </Toggle>
+  //       </AppForm>
+  //     </div>
+  //   );
+  // };
+
 
   private onFinish = (params: any) => {
     const { actions } = this.props;
@@ -430,8 +454,8 @@ export default class App extends React.PureComponent<IProps, IState> {
       {
         dataIndex: "process",
         title: "是否处理",
-        render: (value: boolean) => {
-          return value ? "是" : "否";
+        render: (value: number) => {
+          return value == 1 ? "是" : "否";
         },
       },
     ];
@@ -450,7 +474,7 @@ export default class App extends React.PureComponent<IProps, IState> {
         }}
         getData={(options) => {
           actions
-            .post(api.exception_records_update, options.selectedRowKeys)
+            .post(api.exception_records_update, { ids: options.selectedRowKeys })
             .then((res) => {
               message.success(res.message || "成功");
               this.toggle({
@@ -466,7 +490,7 @@ export default class App extends React.PureComponent<IProps, IState> {
         }}
         rowSelectionType="checkbox"
         disabledFn={(item) => {
-          return item.process === true;
+          return item.process == 1;
         }}
         onCancel={this.toggle({ key: "isShowErrorModal", value: false })}
         actions={actions}
@@ -516,7 +540,7 @@ export default class App extends React.PureComponent<IProps, IState> {
           if (!value) {
             return null;
           }
-          return moment(value).format("YYYY-MM-DD hh:mm:ss");
+          return moment(parseInt(value)).format("YYYY-MM-DD hh:mm:ss");
         },
       },
     ];
@@ -560,8 +584,10 @@ export default class App extends React.PureComponent<IProps, IState> {
     return (
       <div className="robotFollowList">
         {this.renderAllBtnContent()}
-        {this.renderEveryAmount(1)}
-
+        {/* <div className='every-amount'>
+          {this.renderEveryAmount(1)}
+          {this.renderVipEveryAmount(2)}
+        </div> */}
         <PageList
           {...this.props}
           url={linkPort.bots}

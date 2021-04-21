@@ -8,12 +8,21 @@ import { AppForm } from "@components/index";
 import { AppFormItemOptions } from "@components/AppForm/interface.d";
 import { query, User, constants } from "@utils/index";
 import { Chart } from "@antv/g2";
-import chartData from "./chartData";
+// import chartData from "./chartData";
 import api from "@src/hTrade/config/api";
 import "./index.less";
 import { getRangeTime } from "../utils";
 import { GroupSearch } from "@components/index";
 import { userType, orderType } from "@src/hTrade/constants";
+import { sum } from '../utils'
+import { bot_status } from "@src/hTrade/constants";
+
+const renderMoney = (detail: any, key: string) => {
+  console.log(sum(detail.bot_infos || [], key), 'sum');
+  return (formItem: any, form: any) => {
+    return <span>{sum(detail.bot_infos || [], key)}</span>
+  }
+}
 
 interface IState {
   isShow: boolean;
@@ -249,34 +258,35 @@ export default class App extends React.PureComponent<IProps, IState> {
         label: "盈利金额",
         name: "profit_loss",
         editable,
+        render: renderMoney(detail, 'profit_loss')
       },
       {
         label: "盈利单数",
         name: "success_sum",
         editable,
+        render: renderMoney(detail, 'success_sum')
       },
       {
         label: "亏损单数",
         name: "loss_sum",
         editable,
-      },
+        render: renderMoney(detail, 'loss_sum')
 
-      {
-        label: "初始资金",
-        name: "original_money",
-        editable,
       },
 
       {
         label: "每单的U数量",
-        name: "every_money",
+        name: "open_margin",
         editable,
+
       },
 
       {
         label: "机器人状态",
-        name: "status",
+        name: "bot_status",
         editable,
+        list: bot_status,
+        type: 'select',
       },
 
       {
@@ -299,9 +309,9 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   private renderProfitChart = (list: any[]) => {
     let data = list;
-    if (data.length === 0) {
-      data = chartData;
-    }
+    // if (data.length === 0) {
+    //   data = chartData;
+    // }
 
     if (!this.chart) {
       this.chart = new Chart({

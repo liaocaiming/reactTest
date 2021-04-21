@@ -113,3 +113,9 @@ export const set_type = {
   1: '现货',
   3: '合约'
 }
+
+
+export const bot_status = {
+  1: '启用',
+  2: '停用'
+}
