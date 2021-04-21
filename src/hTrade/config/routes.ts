@@ -41,6 +41,15 @@ const router = [
       //   exact: true
       // },
 
+      {
+        path: 'test',
+        component: loadFile({
+          load: () => import('@src/hTrade/routes/Test')
+        }),
+        title: '测试页面',
+        exact: true
+      },
+
 
       {
         path: 'user',
