@@ -5,6 +5,8 @@ import {
   LogoutOutlined,
   SettingOutlined,
   UserOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
 } from "@ant-design/icons";
 
 import { Avatar, Button, Dropdown, Layout, Menu, Spin } from "antd";
@@ -99,7 +101,7 @@ export default class App extends React.Component<IProps, IState> {
     this.isFirstTime = isFirstTime();
   }
 
-  public UNSAFE_componentWillMount() { }
+  public UNSAFE_componentWillMount() {}
 
   public componentDidMount() {
     if (!User.isLogin()) {
@@ -194,7 +196,7 @@ export default class App extends React.Component<IProps, IState> {
 
   public renderMenuItem(item: any, key: any) {
     return (
-      <Menu.Item key={item.key}>
+      <Menu.Item key={item.key} icon={item.icon}>
         <Link
           className={"margin_right_5"}
           to={{
@@ -259,13 +261,24 @@ export default class App extends React.Component<IProps, IState> {
     const { history, menu } = this.props;
     const saving = this.props.$$app && this.props.$$app.getIn(["saving"]);
     const fetching = this.props.$$app && this.props.$$app.getIn(["fetching"]);
+    const { marginLeft } = this.state;
 
     return (
       <Layout className="layout">
         <Sider collapsed={this.state.collapsed} className="layout-side">
-          <div className="layout-system-name">
+          <Button
+            type="primary"
+            onClick={this.toggleCollapsed}
+            style={{ margin: 15 }}
+          >
+            {React.createElement(
+              this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined
+            )}
+          </Button>
+
+          {/* <div className="layout-system-name">
             <span>hTrade</span>
-          </div>
+          </div> */}
 
           <Menu
             theme="dark"
@@ -273,23 +286,28 @@ export default class App extends React.Component<IProps, IState> {
             defaultOpenKeys={splitUrl(history.location.pathname)}
             mode="inline"
             inlineIndent={16}
-            style={{ backgroundColor: "rgba(34,51,77,1)" }}
+            inlineCollapsed={this.state.collapsed}
+            style={{
+              backgroundColor: "rgba(34,51,77,1)",
+            }}
           >
-            {menu || menuData.map((item: any) => {
-              return this.renderItemOrSub(item, "/hTrade");
-            })}
+            {menu ||
+              menuData.map((item: any) => {
+                return this.renderItemOrSub(item, "/hTrade");
+              })}
           </Menu>
         </Sider>
 
         {/* <Layout style={{ marginLeft }}> */}
-        <Layout>
+        <Layout style={{ paddingLeft: marginLeft }}>
           <Header className="layout-header">
-            <div className="layout-title">H-TRADE</div>
-            <Button className="sign-out-btn" type="primary">
-              退出
-            </Button>
+            <h1 className="layout-title">H-TRADE</h1>
+            <Button type="primary">退出</Button>
           </Header>
-          <Content style={{ padding: "10px 20px" }} className="layout-content">
+          <Content
+            style={{ padding: "60px 20px 20px" }}
+            className="layout-content"
+          >
             <Spin size="large" spinning={saving || fetching}>
               <ErrorBoundary>{renderRoutes(this.props.routes)}</ErrorBoundary>
             </Spin>
