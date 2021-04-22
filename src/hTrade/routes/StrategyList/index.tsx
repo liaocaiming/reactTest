@@ -1,5 +1,5 @@
 import React from "react";
-import { PageList } from "@components/index";
+import { PageList, Toggle } from "@components/index";
 import linkPort from "@src/hTrade/config/api"; // 注意: 不是boss项目的请修改路径
 import { connect } from "@containers/appScreen";
 import IProps from "@typings/react.d";
@@ -98,6 +98,8 @@ export default class App extends React.PureComponent<IProps, IState> {
       dataIndex: "remark",
       render: (value: string, record: any) => {
         const { route } = this.props;
+        const { s_type } = record;
+
         return (
           <div>
             <Button type="link" className="margin_right_10">
@@ -116,13 +118,15 @@ export default class App extends React.PureComponent<IProps, IState> {
               编辑
             </Button>
 
-            <Button
-              type="link"
-              className="margin_right_10"
-              onClick={this.toggle("isShowAddModal", true, record)}
-            >
-              新增手动推单
-            </Button>
+            <Toggle isShow={s_type == 2}>
+              <Button
+                type="link"
+                className="margin_right_10"
+                onClick={this.toggle("isShowAddModal", true, record)}
+              >
+                新增手动推单
+              </Button>
+            </Toggle>
 
             {/* <Button
               type="link"
