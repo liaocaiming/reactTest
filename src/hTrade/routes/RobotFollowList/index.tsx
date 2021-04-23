@@ -98,7 +98,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     },
 
     {
-      title: "盈利金额",
+      title: "本周期盈利金额",
       dataIndex: "profit_loss",
       render: renderMoney('profit_loss')
     },

@@ -246,7 +246,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       },
 
       {
-        label: "盈利金额",
+        label: "本周期盈利金额",
         name: "profit_loss",
         editable,
         render: renderMoney(detail, "profit_loss"),
@@ -358,12 +358,13 @@ export default class App extends React.PureComponent<IProps, IState> {
   };
 
   private renderTotalAmount = () => {
-    return (
-      <h2>
-        <span>本周期总收益:</span>
-        <span>444</span>
-      </h2>
-    );
+    return null
+    // return (
+    //   <h2>
+    //     <span>本周期总收益:</span>
+    //     <span>444</span>
+    //   </h2>
+    // );
   };
 
   render() {
