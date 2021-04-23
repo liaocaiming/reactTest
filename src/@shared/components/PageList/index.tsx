@@ -54,6 +54,7 @@ export interface IProps extends IAllProps {
   searchCallBack?: (params: any) => void; // 查询回调
   getRefreshDataFn?: (refreshDataFn: IRefreshFn) => void; // 获取刷新列表数据的函数;
   showSearch?: boolean; // 是否显示搜索条件
+  formatList?: (data: any[]) => any[]; // 列表数据;
   [k: string]: any; // 注意使用的时候一样要传 this.props
 }
 
@@ -198,8 +199,8 @@ export default class App extends React.Component<IProps> {
   }
 
   public renderTable() {
-    const { tableComponentProps } = this.props;
-    const data =
+    const { tableComponentProps, formatList } = this.props;
+    let data =
       (this.props.$$screen.getIn(["data", "list"]) &&
         this.props.$$screen.getIn(["data", "list"]).toJS()) ||
       [];
@@ -208,6 +209,10 @@ export default class App extends React.Component<IProps> {
         this.props.$$screen.getIn(["data", "page"]).toJS()) ||
       {};
     const { pagination = {}, isChangePageRequest = true } = tableComponentProps;
+
+    if (formatList && typeof formatList === "function") {
+      data = formatList(data);
+    }
 
     return (
       <TableComponent

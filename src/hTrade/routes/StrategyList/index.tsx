@@ -9,6 +9,9 @@ import AddModal from "./AddModal";
 import EditModal from "./EditModal";
 
 import { s_type, period_type, set_type } from "@src/hTrade/constants";
+
+// import { rowObj } from "./constants";
+
 import { isOrNot } from "@utils/lib/constants";
 
 interface IState {
@@ -63,6 +66,38 @@ export default class App extends React.PureComponent<IProps, IState> {
     },
 
     {
+      title: "杠杆倍数",
+      dataIndex: "leverage",
+    },
+    {
+      title: "k线周期",
+      dataIndex: "interval",
+    },
+
+    {
+      title: "涨跌幅%",
+      dataIndex: "change_rate",
+    },
+    {
+      title: "止损百分比%",
+      dataIndex: "loss_rate",
+    },
+    {
+      title: "最小交易量",
+      dataIndex: "min_volume",
+    },
+
+    {
+      title: "涨幅周期",
+      dataIndex: "kline_day",
+    },
+
+    {
+      title: "菲波指数",
+      dataIndex: "feibo",
+    },
+
+    {
       title: "是否推送",
       dataIndex: "start",
       showList: true,
@@ -92,7 +127,6 @@ export default class App extends React.PureComponent<IProps, IState> {
       type: "select",
       list: isOrNot,
     },
-
     {
       title: "操作",
       dataIndex: "remark",
@@ -238,6 +272,25 @@ export default class App extends React.PureComponent<IProps, IState> {
           {...this.props}
           url={linkPort.trade_signals}
           tableComponentProps={{ columns: this.row }}
+          formatList={(data: any[]) => {
+            let list =
+              data &&
+              data.map((item: any) => {
+                const { configuration_list = [] } = item;
+                configuration_list.map((it: any) => {
+                  const { key, value } = it;
+                  item[key] = value;
+
+                  return {
+                    [key]: value,
+                  };
+                });
+
+                return { ...item };
+              });
+
+            return list;
+          }}
           showSearch={false}
         />
 
