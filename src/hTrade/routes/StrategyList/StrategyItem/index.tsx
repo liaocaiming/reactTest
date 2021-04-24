@@ -27,6 +27,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     {
       dataIndex: "symbol",
       title: "币种",
+      isSearch: true,
     },
     {
       dataIndex: "leverage",
@@ -36,6 +37,8 @@ export default class App extends React.PureComponent<IProps, IState> {
       dataIndex: "signal_type",
       title: "策略编码",
     },
+
+
 
     {
       dataIndex: "p_type",
@@ -62,6 +65,23 @@ export default class App extends React.PureComponent<IProps, IState> {
           </div>
         );
       },
+    },
+
+    {
+      dataIndex: "dist_index",
+      title: "已止盈目标",
+    },
+
+    {
+      dataIndex: "spend_time",
+      title: "花费时间",
+      render: (value: string) => {
+        if (!value) {
+          return null
+        }
+        const arr = value.split(',');
+        return arr[arr.length - 1]
+      }
     },
 
     {

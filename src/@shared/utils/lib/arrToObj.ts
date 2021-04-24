@@ -11,6 +11,5 @@ export default (arr: IList[]) => {
   arr.forEach((item) => {
     res[item.value] = item.label
   })
-  console.log(res)
   return res;
 }

@@ -8,8 +8,6 @@ const User = {
   },
   isLogin: () => {
     const userInfo = User.getUserInfo()
-    console.log(userInfo, 'userInfo');
-
     return userInfo.token
   },
   getUserInfo: () => {

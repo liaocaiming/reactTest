@@ -97,7 +97,7 @@ function receiveScreenData($$state: any, action: IAction) {
     list,
     page: {
       totalCount: count,
-      pageNo,
+      pageNo: Number(pageNo),
       pageSize
     },
     other: omit(payload, ['data', 'count', 'pageNo', 'pageSize'])
