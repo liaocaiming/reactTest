@@ -4,7 +4,7 @@ import {
   UserSwitchOutlined,
   ToolOutlined,
   UsergroupAddOutlined,
-  SettingOutlined,
+  // SettingOutlined,
 } from "@ant-design/icons";
 
 export default [
@@ -46,11 +46,11 @@ export default [
     icon: <UsergroupAddOutlined />,
   },
 
-  {
-    key: "system",
-    title: "系统设置",
-    hasChild: 0,
-    menuType: 1,
-    icon: <SettingOutlined />,
-  },
+  // {
+  //   key: "system",
+  //   title: "系统设置",
+  //   hasChild: 0,
+  //   menuType: 1,
+  //   icon: <SettingOutlined />,
+  // },
 ];

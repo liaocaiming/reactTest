@@ -144,13 +144,16 @@ export default class App extends React.PureComponent<IProps, IState> {
                 查看
               </Link>
             </Button>
-            <Button
-              type="link"
-              className="margin_right_10"
-              onClick={this.toggle("isShowEditModal", true, record)}
-            >
-              编辑
-            </Button>
+
+            <Toggle isShow={s_type != 2}>
+              <Button
+                type="link"
+                className="margin_right_10"
+                onClick={this.toggle("isShowEditModal", true, record)}
+              >
+                编辑
+              </Button>
+            </Toggle>
 
             <Toggle isShow={s_type == 2}>
               <Button
