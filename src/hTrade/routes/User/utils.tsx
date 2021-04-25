@@ -1,101 +1,96 @@
-import { AppFormItemOptions } from '@components/AppForm/interface';
+import { AppFormItemOptions } from "@components/AppForm/interface";
 
-import { constants } from '@utils/index';
+import { constants } from "@utils/index";
 
-import { userType } from '@src/hTrade/constants/index'
+import { userType } from "@src/hTrade/constants/index";
 
 interface IOptions {
   width?: number;
   disabled?: boolean;
-  operateType?: 'edit' | 'add'
+  operateType?: "edit" | "add";
 }
 
 export const getFormItems = (options?: IOptions) => {
-  const { width = 300, operateType = 'add' } = options || {};
-  const disabled = operateType === 'edit';
+  const { width = 300, operateType = "add" } = options || {};
+  const disabled = operateType === "edit";
 
   const formData: AppFormItemOptions[] = [
     {
-      name: 'email',
-      label: '邮箱',
+      name: "email",
+      label: "邮箱",
       rules: [
         {
           required: true,
-          message: '请输入',
-          whitespace: true
-        }
+          message: "请输入",
+          whitespace: true,
+        },
       ],
       eleAttr: {
         disabled,
-        placeholder: '请输入',
+        placeholder: "请输入",
         style: {
-          width
-        }
-      }
+          width,
+        },
+      },
     },
 
     {
-      name: 'name',
-      label: '用户名称',
+      name: "name",
+      label: "用户名称",
       rules: [
         {
           required: true,
-          message: '请输入',
-          whitespace: true
-        }
+          message: "请输入",
+          whitespace: true,
+        },
       ],
       eleAttr: {
         // disabled,
-        placeholder: '请输入',
+        placeholder: "请输入",
         style: {
-          width
-        }
-      }
+          width,
+        },
+      },
     },
 
     {
-      name: 'password',
-      label: '密码',
+      name: "password",
+      label: "密码",
       isShow: !disabled,
       rules: [
         {
           required: true,
-          message: '请输入',
-          whitespace: true
-        }
+          message: "请输入",
+          whitespace: true,
+        },
       ],
       eleAttr: {
         disabled,
-        placeholder: '请输入',
+        placeholder: "请输入",
         style: {
-          width
-        }
-      }
+          width,
+        },
+      },
     },
 
-
-
-
-
     {
-      name: 'binance_user_id',
-      label: '币安UID',
+      name: "binance_user_id",
+      label: "币安UID",
       rules: [
         {
           required: true,
-          message: '请输入',
-          whitespace: true
-        }
+          message: "请输入",
+          whitespace: true,
+        },
       ],
       eleAttr: {
-        disabled,
-        placeholder: '请输入',
+        // disabled,
+        placeholder: "请输入",
         style: {
-          width
-        }
-      }
+          width,
+        },
+      },
     },
-
 
     // {
     //   name: 'addTime',
@@ -117,84 +112,81 @@ export const getFormItems = (options?: IOptions) => {
     // },
 
     {
-      name: 'invite_code',
-      label: ' 邀请码',
+      name: "invite_code",
+      label: " 邀请码",
       eleAttr: {
-        placeholder: '请输入',
+        placeholder: "请输入",
         style: {
-          width
-        }
-      }
+          width,
+        },
+      },
     },
 
-
     {
-      name: 'user_type',
-      label: ' 用户类型',
-      type: 'select',
+      name: "user_type",
+      label: " 用户类型",
+      type: "select",
       list: userType,
 
       rules: [
         {
           required: true,
-          message: '请输入',
-        }
+          message: "请输入",
+        },
       ],
       eleAttr: {
-        placeholder: '请输入',
+        placeholder: "请输入",
         style: {
-          width
-        }
-      }
+          width,
+        },
+      },
     },
 
-
     {
-      name: 'expire_time',
-      label: '到期时间',
-      type: 'datePicker',
+      name: "expire_time",
+      label: "到期时间",
+      type: "datePicker",
       rules: [
         {
           required: true,
-          message: '请选择',
-        }
+          message: "请选择",
+        },
       ],
       eleAttr: {
-        placeholder: '请选择',
+        placeholder: "请选择",
         style: {
-          width
-        }
-      }
+          width,
+        },
+      },
     },
 
-
     {
-      name: 'pay_type',
-      label: ' 付费类型',
-      type: 'select',
-      initialValue: '1',
+      name: "pay_type",
+      label: " 付费类型",
+      type: "select",
+      initialValue: "1",
       isShow: (data) => {
-        return data.member_type == 2
+        return data.member_type == 2;
       },
       list: [
         {
-          value: '1',
-          label: '年付费,'
-        }
+          value: "1",
+          label: "年付费,",
+        },
       ],
 
       rules: [
         {
           required: true,
-          message: '请输入',
-        }
+          message: "请输入",
+        },
       ],
       eleAttr: {
-        placeholder: '请输入',
+        placeholder: "请输入",
         style: {
-          width
-        }
-      }
+          width,
+        },
+      },
     },
 
     // {
@@ -229,8 +221,6 @@ export const getFormItems = (options?: IOptions) => {
     //   }
     // },
 
-
-
     // {
     //   name: 'is_robot',
     //   label: ' 是否自动机器人',
@@ -250,7 +240,6 @@ export const getFormItems = (options?: IOptions) => {
     //   }
     // },
 
-
     // {
     //   name: 'api',
     //   label: 'API Key',
@@ -261,7 +250,6 @@ export const getFormItems = (options?: IOptions) => {
     //     // (form) => {
     //     //   const robot_limit = form.getFieldValue('robot_limit');
     //     //   console.log(robot_limit, 'robot_limit');
-
 
     //     //   return {
     //     //     required: robot_limit == 2,
@@ -329,20 +317,18 @@ export const getFormItems = (options?: IOptions) => {
     //   }
     // },
 
-
     {
-      name: 'remark',
-      label: '备注用户名',
-      type: 'textArea',
+      name: "remark",
+      label: "备注用户名",
+      type: "textArea",
       eleAttr: {
-        placeholder: '请输入',
+        placeholder: "请输入",
         style: {
-          width
-        }
-      }
-    }
-  ]
+          width,
+        },
+      },
+    },
+  ];
 
-
-  return formData
-}
+  return formData;
+};

@@ -22,6 +22,11 @@ export const orderStatus = [
     value: '4',
     label: '超时信号'
   },
+  {
+    value: '7',
+    label: '止盈后又止损'
+  },
+
 ]
 
 

@@ -38,8 +38,6 @@ export default class App extends React.PureComponent<IProps, IState> {
       title: "策略编码",
     },
 
-
-
     {
       dataIndex: "p_type",
       title: "订单状态",
@@ -70,6 +68,12 @@ export default class App extends React.PureComponent<IProps, IState> {
     {
       dataIndex: "dist_index",
       title: "已止盈目标",
+      render: (value: number) => {
+        if (value <= 0) {
+          return "未止盈";
+        }
+        return value;
+      },
     },
 
     {
@@ -77,11 +81,11 @@ export default class App extends React.PureComponent<IProps, IState> {
       title: "花费时间",
       render: (value: string) => {
         if (!value) {
-          return null
+          return null;
         }
-        const arr = value.split(',');
-        return arr[arr.length - 1]
-      }
+        const arr = value.split(",");
+        return arr[arr.length - 1];
+      },
     },
 
     {
