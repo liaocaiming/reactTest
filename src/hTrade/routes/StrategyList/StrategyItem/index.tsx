@@ -43,6 +43,10 @@ export default class App extends React.PureComponent<IProps, IState> {
       title: "订单状态",
       type: "select",
       list: orderStatus,
+      listFilters: {
+        values: ["7"],
+        opposite: true,
+      },
       showList: true,
     },
 

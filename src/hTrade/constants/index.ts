@@ -24,7 +24,7 @@ export const orderStatus = [
   },
   {
     value: '7',
-    label: '止盈后又止损'
+    label: '止盈信号'
   },
 
 ]
