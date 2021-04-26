@@ -7,7 +7,7 @@ const defaultState = fromJS({
   fetching: false,
   saving: false,
   query: {
-    pageSize: 10,
+    pageSize: 20,
     pageNo: 1
   },
 
