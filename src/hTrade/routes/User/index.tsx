@@ -104,9 +104,9 @@ export default class App extends React.PureComponent<IProps, IState> {
             >
               编辑
             </Button>
-            <Button className="margin_right_5" type="link">
+            {/* <Button className="margin_right_5" type="link">
               用户操作记录
-            </Button>
+            </Button> */}
             <Button
               type="link"
               onClick={this.toggle({ key: "isShowReturn", value: true, item })}
