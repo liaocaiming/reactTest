@@ -11,7 +11,7 @@ import { AppForm, PopupList } from "@components/index";
 import api from "@src/hTrade/config/api";
 import moment from "moment";
 import { helpers, User } from "@utils/index";
-import { sum } from './utils'
+import { sum } from "./utils";
 
 interface IState {
   isShow?: boolean;
@@ -31,9 +31,9 @@ type ModalType =
 
 const renderMoney = (key: string) => {
   return (value: string, record) => {
-    return sum(record.bot_infos || [], key)
-  }
-}
+    return sum(record.bot_infos || [], key);
+  };
+};
 
 @connect()
 export default class App extends React.PureComponent<IProps, IState> {
@@ -100,17 +100,17 @@ export default class App extends React.PureComponent<IProps, IState> {
     {
       title: "本周期盈利金额",
       dataIndex: "profit_loss",
-      render: renderMoney('profit_loss')
+      render: renderMoney("profit_loss"),
     },
     {
       title: "盈利单数",
       dataIndex: "success_sum",
-      render: renderMoney('success_sum')
+      render: renderMoney("success_sum"),
     },
     {
       title: "亏损单数",
       dataIndex: "loss_sum",
-      render: renderMoney('loss_sum')
+      render: renderMoney("loss_sum"),
     },
 
     // {
@@ -127,9 +127,8 @@ export default class App extends React.PureComponent<IProps, IState> {
       title: "机器人状态",
       dataIndex: "start_bot",
       list: bot_status,
-      type: 'select',
-      showList: true
-
+      type: "select",
+      showList: true,
     },
 
     {
@@ -172,7 +171,7 @@ export default class App extends React.PureComponent<IProps, IState> {
                 onClick={this.stopOrStart({ record: item, type: "2" })}
               >
                 停止
-            </Button>
+              </Button>
             </Toggle>
             <Toggle isShow={start_bot == 2}>
               <Button
@@ -181,10 +180,8 @@ export default class App extends React.PureComponent<IProps, IState> {
                 onClick={this.stopOrStart({ record: item, type: "1" })}
               >
                 启动
-            </Button>
+              </Button>
             </Toggle>
-
-
 
             <Button
               type="link"
@@ -192,7 +189,7 @@ export default class App extends React.PureComponent<IProps, IState> {
               onClick={this.toggle({
                 key: "isShowMoneyRecordModal",
                 value: true,
-                item
+                item,
               })}
             >
               资金记录
@@ -245,6 +242,7 @@ export default class App extends React.PureComponent<IProps, IState> {
           key: "isShow",
           value: true,
           operateType: "add",
+          item: {},
         })}
       >
         新增
@@ -333,7 +331,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     operateType?: OperateType;
   }) => {
     return () => {
-      const { key, value, item, operateType } = options;
+      const { key, value, item = {}, operateType } = options;
       if (item) {
         this.changeItem = item;
       }
@@ -431,7 +429,6 @@ export default class App extends React.PureComponent<IProps, IState> {
   //   );
   // };
 
-
   private onFinish = (params: any) => {
     const { actions } = this.props;
 
@@ -474,7 +471,9 @@ export default class App extends React.PureComponent<IProps, IState> {
         }}
         getData={(options) => {
           actions
-            .post(api.exception_records_update, { ids: options.selectedRowKeys })
+            .post(api.exception_records_update, {
+              ids: options.selectedRowKeys,
+            })
             .then((res) => {
               message.success(res.message || "成功");
               this.toggle({
