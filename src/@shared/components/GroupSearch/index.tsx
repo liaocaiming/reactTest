@@ -31,6 +31,7 @@ import {
   getPopupContainer,
   handleOldData,
   findItem,
+  disabledDate,
 } from "./utils";
 
 import ItemElement from "./ItemElement";
@@ -513,6 +514,10 @@ export default class GroupSearch extends React.Component<IProps, IState> {
         allowClear: true,
         ...eleAttr,
       };
+    }
+
+    if (["datePicker", "rangePicker"].includes(type)) {
+      eleAttr = { disabledDate, ...eleAttr };
     }
 
     eleAttr = {

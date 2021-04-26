@@ -20,8 +20,9 @@ export default class App extends React.PureComponent<IProps, IState> {
   private row: any[] = [
     {
       dataIndex: "push_time",
-      title: "开单时间",
+      title: "推送时间",
       isSearch: true,
+      searchDataIndex: "start_date&end_date",
       type: "rangePicker",
     },
     {
