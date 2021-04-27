@@ -3,7 +3,7 @@ import { PageList, Toggle } from "@components/index";
 import linkPort from "@src/hTrade/config/api"; // 注意: 不是boss项目的请修改路径
 import { connect } from "@containers/appScreen";
 import IProps from "@typings/react.d";
-import { Button } from "antd";
+import { Button, message, Modal } from "antd";
 import { Link } from "@components/index";
 import AddModal from "./AddModal";
 import EditModal from "./EditModal";
@@ -98,7 +98,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     },
 
     {
-      title: "是否推送",
+      title: "是否推送企业微信",
       dataIndex: "start",
       showList: true,
       type: "select",
@@ -165,7 +165,7 @@ export default class App extends React.PureComponent<IProps, IState> {
               </Button>
             </Toggle>
 
-            {/* <Button
+            <Button
               type="link"
               className="margin_right_10"
               onClick={this.stopOrStart({ record, type: "1" })}
@@ -178,7 +178,7 @@ export default class App extends React.PureComponent<IProps, IState> {
               onClick={this.stopOrStart({ record, type: "2" })}
             >
               停止
-            </Button> */}
+            </Button>
           </div>
         );
       },
@@ -194,30 +194,38 @@ export default class App extends React.PureComponent<IProps, IState> {
     };
   }
 
-  // private stopOrStart = (options: { record: any; type: "1" | "2" }) => {
-  //   return () => {
-  //     const { record, type } = options;
-  //     const { actions } = this.props;
-  //     const map = {
-  //       1: {
-  //         content: "确定启动该策略么?",
-  //         url: "strategy/start",
-  //       },
-  //       2: {
-  //         content: "确定停止该策略么?",
-  //         url: "strategy/stop",
-  //       },
-  //     };
+  private stopOrStart = (options: { record: any; type: "1" | "2" }) => {
+    return () => {
+      const { record, type, } = options;
+      const { actions } = this.props;
+      const { name, id } = record;
+      const map = {
+        1: {
+          content: `确定启动${name}策略么?`,
+          url: linkPort.trade_signals_update,
+        },
+        2: {
+          content: `确定停止${name}策略么?`,
+          url: linkPort.trade_signals_update
+        },
+      };
 
-  //     Modal.confirm({
-  //       title: "确认提示",
-  //       content: map[type].content,
-  //       onOk: () => {
-  //         actions.get(map[type].url, record);
-  //       },
-  //     });
-  //   };
-  // };
+      Modal.confirm({
+        title: "确认提示",
+        content: map[type].content,
+        onOk: async () => {
+          const status = type;
+
+          const res = await actions.post(map[type].url, { id, start: status, push_bot: status, push_app: status, push_soso: status });
+          message.success(res.message || '成功');
+          actions.changeScreenQuery({
+            page: 1,
+          });
+          actions.getScreenData();
+        },
+      });
+    };
+  };
 
   private toggle = (
     key: "isShow" | "isShowAddModal" | "isShowEditModal",
