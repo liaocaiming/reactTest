@@ -99,7 +99,7 @@ export default class App extends React.PureComponent<IProps, IState> {
 
   public searchObj: any = {};
 
-  public pageSize: any = 10;
+  public pageSize: any = 20;
 
   public selectAllRowsObj: any = {}; // 分页记住selectedRows的数据;
 
@@ -593,7 +593,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     const pagination: any = {
       defaultCurrent: 1,
       current: page.page,
-      defaultPageSize: (query && query.pageSize) || 10,
+      defaultPageSize: (query && query.pageSize) || 20,
       showQuickJumper: true,
       total: page.totalCount,
       showSizeChanger: true,
