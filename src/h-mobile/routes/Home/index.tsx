@@ -11,8 +11,12 @@ import md5 from "md5";
 const obj: any = {
   autocomplete: "new-password",
 };
+import { query } from "@utils/index";
 
 export default (props: IProps) => {
+  const params = query.getUrlQuery();
+  console.log(params);
+
   useEffect(() => {
     document.title = "首页";
   }, []);

@@ -1,5 +1,5 @@
 
-import Login from '@src/h-mobile/routes/Login';
+import Login from '@src/h-mobile/routes/Home';
 
 interface IUrls {
   login: string;
@@ -15,8 +15,8 @@ interface IUrls {
 
 const router = [
   {
-    path: '/',
-    name: 'login',
+    path: 'home',
+    name: 'home',
     component: Login,
     title: '登录'
   },
@@ -63,6 +63,9 @@ function formatPageUrl(data: any, parentPath?: string) {
 }
 
 const formatterRouter = formatter(router);
+
+console.log(formatterRouter);
+
 
 formatPageUrl(router);
 
