@@ -44,7 +44,7 @@ export default (props: IProps) => {
             <div className="step-num-item">
               <span>1</span>
               <span>2</span>
-              <span>2</span>
+              <span>3</span>
             </div>
 
             <div className="step-num-line" />
@@ -52,20 +52,19 @@ export default (props: IProps) => {
 
           <div className="step-detail">
             <div className="step-detail-item step-detail-first">
-              <img src="" className="img" />
+              <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=73880644,3696456640&fm=26&gp=0.jpg" className="img" />
               <p className="text">注册账号</p>
             </div>
 
             <div className="step-detail-item step-detail-second">
-              <img src="" className="img" />
+              <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=73880644,3696456640&fm=26&gp=0.jpg" className="img" />
               <p className="text">下载APP</p>
             </div>
 
             <div className="step-detail-item step-detail-third">
-              <img src="" className="img" />
+              <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=73880644,3696456640&fm=26&gp=0.jpg" className="img" />
               <p className="text">加客服微信</p>
               <p className="text"> 免费试用</p>
-              <p className="text">（ID：blockchain2046)</p>
             </div>
           </div>
         </div>

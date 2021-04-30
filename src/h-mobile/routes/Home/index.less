@@ -53,7 +53,7 @@
         position: relative;
       }
       &-num-item {
-        padding: 0 300px;
+        padding: 0 200px;
         display: flex;
         justify-content: space-between;
         position: relative;
@@ -74,31 +74,40 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        margin-left: -410px;
+        margin-left: -450px;
         margin-top: -4px;
-        width: 820px;
+        width: 900px;
         height: 8px;
         background: linear-gradient(90deg, #8bf6e9, #5272f5);
         border-radius: 4px;
       }
 
       .step-detail {
-        padding: 0 120px 0 280px;
+        padding: 0 160px;
         display: flex;
         justify-content: space-between;
+        color: #0078ff;
+        img {
+          height: 150px;
+          width: 150px;
+          margin-top: 60px;
+          margin-bottom: 80px;
+        }
         &-item {
           flex: 1;
           word-break: break-all;
+          text-align: center;
         }
         &-first {
           text-align: left;
         }
-        &-second {
-          text-align: left;
-        }
+
         &-third {
-          text-align: center;
-          width: 160px;
+          margin-left: 10px;
+          text-align: right;
+          .text {
+            margin-bottom: 20px;
+          }
         }
       }
     }
