@@ -12,6 +12,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const WebpackBar = require("webpackbar");
 
+const mobilePhone = ["mobile", "h-mobile"];
+
 const cssLoader = [
   MiniCssExtractPlugin.loader,
   // "vue-style-loader",
@@ -22,7 +24,7 @@ const cssLoader = [
 
 module.exports = (options) => {
   const { name } = options;
-  if (name === "mobile") {
+  if (mobilePhone.indexOf(name) > -1) {
     cssLoader.push({
       loader: "postcss-loader",
       options: {

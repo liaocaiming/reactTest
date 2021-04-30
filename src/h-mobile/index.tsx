@@ -6,13 +6,13 @@ import App from "@components/AppRoot";
 
 import { HashRouter as Router } from "react-router-dom";
 
-import { reducers, routes } from "./config/";
+import { reducers, routes } from "./config";
 
 import { Provider } from "react-redux";
 
 import rem from "@utils/lib/rem";
 
-rem(375, 100);
+rem(1500, 100);
 
 import { createStore, applyMiddleware, combineReducers } from "redux";
 
