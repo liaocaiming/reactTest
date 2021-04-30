@@ -1,17 +1,24 @@
 import React, { useEffect, useState, useReducer } from "react";
 import IProps from "@typings/react.d";
-import { Toast } from "antd-mobile";
-import { Toggle } from "@components/index";
 import "./index.less";
 import reducer, { init, initValue } from "./reducer";
-import { fetch, filterObjAttr, validator } from "@utils/index";
-import api from "@src/h-mobile/config/api";
-import { User } from "@utils/index";
+// import api from "@src/h-mobile/config/api";
+// import { User } from "@utils/index";
 import md5 from "md5";
+
+import { query } from "@utils/index";
+
+import register from './images/icon-register.png';
+
+import iconDown from './images/icon-register.png';
+
+import iconWechat from './images/icon-wechat.png';
+
+import iconLogo from './images/icon-logo.png';
+
 const obj: any = {
   autocomplete: "new-password",
 };
-import { query } from "@utils/index";
 
 export default (props: IProps) => {
   const params = query.getUrlQuery();
@@ -25,7 +32,7 @@ export default (props: IProps) => {
     return (
       <div className="header">
         <div className="logo">
-          <img src="" className="img" />
+          <img src={iconLogo} className="img" />
         </div>
 
         <div className="title">
@@ -52,17 +59,17 @@ export default (props: IProps) => {
 
           <div className="step-detail">
             <div className="step-detail-item step-detail-first">
-              <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=73880644,3696456640&fm=26&gp=0.jpg" className="img" />
+              <img src={register} className="img" />
               <p className="text">注册账号</p>
             </div>
 
             <div className="step-detail-item step-detail-second">
-              <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=73880644,3696456640&fm=26&gp=0.jpg" className="img" />
+              <img src={iconDown} className="img" />
               <p className="text">下载APP</p>
             </div>
 
             <div className="step-detail-item step-detail-third">
-              <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=73880644,3696456640&fm=26&gp=0.jpg" className="img" />
+              <img src={iconWechat} className="img" />
               <p className="text">加客服微信</p>
               <p className="text"> 免费试用</p>
             </div>
@@ -72,5 +79,18 @@ export default (props: IProps) => {
     );
   };
 
-  return <div id="home">{renderTitle()}</div>;
+  const renderForm = () => {
+    return (
+      <div className="form">
+        <div></div>
+      </div>
+    )
+  }
+
+  return (
+    <div id="home">
+      {renderTitle()}
+      {renderForm()}
+    </div>
+  )
 };

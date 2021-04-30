@@ -2,7 +2,9 @@
   .header {
     .logo {
       height: 300px;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       .img {
         width: 310px;
         height: 163px;
@@ -16,7 +18,8 @@
       height: 825px;
       box-sizing: border-box;
       padding: 240px 0 240px 184px;
-      background: linear-gradient(#00f0ff, #ff9f5dfd);
+      background: url("./images/title-bg.png") no-repeat;
+      background-size: cover;
       .line {
         width: 30px;
         height: 368px;
@@ -66,7 +69,8 @@
           border-radius: 1000%;
           text-align: center;
           line-height: 112px;
-          background: #0078ff;
+          background: url("./images/icon-step.png") no-repeat;
+          background-size: contain;
         }
       }
 
@@ -111,5 +115,12 @@
         }
       }
     }
+  }
+
+  .form {
+    margin: 100px 100px 130px;
+    height: 2437px;
+    background: url("./images/form-bg.png") no-repeat;
+    background-size: 100% auto;
   }
 }
