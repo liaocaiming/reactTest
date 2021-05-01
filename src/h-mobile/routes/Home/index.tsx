@@ -16,6 +16,8 @@ import iconWechat from './images/icon-wechat.png';
 
 import iconLogo from './images/icon-logo.png';
 
+import Input from './Input';
+
 const obj: any = {
   autocomplete: "new-password",
 };
@@ -82,7 +84,34 @@ export default (props: IProps) => {
   const renderForm = () => {
     return (
       <div className="form">
-        <div></div>
+        <Input placeholder='邮箱' containerClassName='input-container'>
+          <span className='tip'>邮箱格式不对</span>
+        </Input>
+
+        <Input placeholder='邮箱' containerClassName='input-container'>
+          <span className='tip'>邮箱格式不对</span>
+        </Input>
+
+        <Input placeholder='邮箱' containerClassName='input-container'>
+          <span className='tip'>邮箱格式不对</span>
+        </Input>
+
+        <Input placeholder='邮箱' containerClassName='input-container'>
+          <span className='tip'>邮箱格式不对</span>
+        </Input>
+
+        <Input placeholder='邮箱' containerClassName='input-container'>
+          <span className='tip'>邮箱格式不对</span>
+        </Input>
+
+        <div className='checkbox-container'>
+          <input type='checkbox' id="see-checkbox" checked />
+          <label htmlFor="see-checkbox">
+            <span className='see-tip'>我已阅读并同意</span>
+            <span className='see-text'>《用户协议》</span>
+          </label>
+
+        </div>
       </div>
     )
   }
