@@ -172,6 +172,136 @@
       color: #0078FF;
       flex: 1;
     }
+
+    .see-checkbox {
+      position: relative;
+    }
+
+    .checkbox {
+      margin-bottom: 8px;
+      width: 100px;
+      height: 100px;
+
+
+    }
+
+    .show-box {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100px;
+      height: 100px;
+      background: #111622; // 这里取个巧，与下面颜色一样而已
+      border: 8px solid #0078FF;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:before {
+        content: '√';
+        position: absolute;
+        background: #111622;
+        color: #FFFFFF;
+        transform: rotate(30deg);
+      }
+    }
+
+
+    .btn {
+      width: 100%;
+      height: 200px;
+      background: #2074FD;
+      border-radius: 50px;
+      line-height: 200px;
+      text-align: center;
+      font-size: 60px;
+      font-family: SourceHanSansCN;
+      font-weight: bold;
+      color: #FFFFFF;
+      letter-spacing: 20px;
+    }
+
+    .qrcode {
+      text-align: center;
+
+      .tip-text {
+        font-size: 48px;
+        font-family: SourceHanSansCN;
+        font-weight: 400;
+        color: #3984FF;
+        margin: 114px auto;
+      }
+
+      .img {
+        width: 320px;
+        height: 320px;
+      }
+    }
+  }
+
+  .detail-content {
+    margin: 0 120px;
+    font-size: 48px;
+    line-height: 68px;
+    font-family: SourceHanSansCN;
+    font-weight: 400;
+    color: #6D778B;
+    letter-spacing: 1px;
+
+    .img-container {
+      text-align: center;
+      margin-bottom: 100px;
+    }
+
+    .h-24 {
+      margin-bottom: 100px;
+    }
+
+    .h-24-img {
+      width: 866px;
+      height: 688px;
+      margin: 0 auto;
+      margin-bottom: 100px;
+    }
+
+    .detail-show-container {
+      text-align: center;
+      height: 180px;
+      margin-bottom: 100px;
+
+      .btn {
+        padding: 0 76px;
+        height: 180px;
+        line-height: 180px;
+        display: inline-block;
+        background: url('./images/btn-bg.png') no-repeat;
+        background-size: cover;
+        color: #000;
+        border-radius: 20px;
+        overflow: hidden;
+      }
+
+      .weight {
+        font-weight: 700;
+      }
+    }
+
+    .white {
+      color: #FFFFFF;
+    }
+
+
+  }
+
+  .footer {
+    margin-top: 240px;
+    font-size: 36px;
+    font-family: SourceHanSansCN;
+    font-weight: 500;
+    color: #1E4169;
+    text-align: center;
+    padding-bottom: 68px;
   }
 
 

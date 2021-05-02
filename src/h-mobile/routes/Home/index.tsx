@@ -16,6 +16,12 @@ import iconWechat from './images/icon-wechat.png';
 
 import iconLogo from './images/icon-logo.png';
 
+import qrcode from './images/qrcode.png'
+
+import bar from './images/bar.png'
+
+import rate from './images/rate.png'
+
 import Input from './Input';
 
 const obj: any = {
@@ -105,13 +111,67 @@ export default (props: IProps) => {
         </Input>
 
         <div className='checkbox-container'>
-          <input type='checkbox' id="see-checkbox" checked />
-          <label htmlFor="see-checkbox">
+          <label className="see-checkbox">
+            <input type='checkbox' className='checkbox' />
+            <div className="show-box" />
             <span className='see-tip'>我已阅读并同意</span>
-            <span className='see-text'>《用户协议》</span>
           </label>
+          <span className='see-text'>《用户协议》</span>
 
         </div>
+
+        <div className="btn">注册</div>
+
+        <div className="qrcode">
+          <p className='tip-text'>识别二维码，下载APP文件</p>
+          <img src={qrcode} className='img' />
+        </div>
+      </div>
+    )
+  }
+
+  const renderDetailContent = () => {
+    return (
+      <div className="detail-content">
+        <div className="h-24">
+          <div className='img-container'>
+            <img src={bar} className='h-24-img' />
+          </div>
+          <div className='detail-show-container'><span className='btn'><span className='weight'>24小时</span><span>连续推送</span></span></div>
+          <p>依靠专业、完善的交易策略,</p>
+          <p>
+            <span>Hunter trades 交易系统能够</span>
+            <span className='white'>24小时</span>
+            <span>不间断地跟踪现货、合约、杠杆代币的市场走势,帮助用户发现足够多的潜在交易机会。</span>
+          </p>
+        </div>
+
+        <div className="h-24">
+          <div className='img-container'>
+            <img src={bar} className='h-24-img' />
+          </div>
+          <div className='detail-show-container'><span className='btn'><span className='weight'>长中短线</span><span>信号全面覆盖</span></span></div>
+          <p>
+
+            <span>Hunter trades提供了</span>
+            <span className='white'>短线（3天内）、中线（15天内）、长线（30天）</span>
+            <span>等不同周期的信号提醒，让用户都找到适合自己的交易机会。</span>
+          </p>
+        </div>
+
+        <div className="h-24">
+          <div className='img-container'>
+            <img src={rate} className='h-24-img' />
+          </div>
+          <div className='detail-show-container'><span className='btn'><span className='weight'>高准确率</span></span></div>
+          <p>依靠专业、完善的交易策略,</p>
+          <p>
+            <span>经过上万次的策略信号推送，Hunter trades 整体策略准确率维持在</span>
+            <span className='white'>80%以上</span>
+            <span>，远超行业水平，让跟单操作稳定盈利。</span>
+          </p>
+        </div>
+
       </div>
     )
   }
@@ -120,6 +180,8 @@ export default (props: IProps) => {
     <div id="home">
       {renderTitle()}
       {renderForm()}
+      {renderDetailContent()}
+      <div className='footer'>© 2020 Hunter trades App. All Rights Reserved.</div>
     </div>
   )
 };
