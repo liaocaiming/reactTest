@@ -105,6 +105,14 @@ const router = [
       },
 
 
+      {
+        path: 'rechargeList',
+        component: loadFile({
+          load: () => import('@src/hTrade/routes/RechargeList')
+        }),
+        title: '充值列表',
+        exact: true
+      },
 
     ],
   },

@@ -4,6 +4,7 @@ import {
   UserSwitchOutlined,
   ToolOutlined,
   UsergroupAddOutlined,
+  PayCircleOutlined
   // SettingOutlined,
 } from "@ant-design/icons";
 
@@ -22,6 +23,15 @@ export default [
     menuType: 1,
     icon: <UserSwitchOutlined />,
   },
+
+  {
+    key: "rechargeList",
+    title: "充值列表",
+    hasChild: 0,
+    menuType: 1,
+    icon: <PayCircleOutlined />,
+  },
+
 
   // {
   //   "key": "moreUser",

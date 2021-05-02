@@ -39,6 +39,10 @@ export const urls = {
   follow_records_earnings_report: 'follow_records/earnings_report', // 盈亏分析
   follow_records_Show: 'follow_records/show', // 订单详情
 
+  // 充值列表
+  deposit_records: 'deposit_records', // 充值列表
+  deposit_records_update: 'deposit_records/update', // 审核
+  deposit_records_destroy: 'deposit_records/destroy', // 删除
 
 
   addAndUpdateUser: 'user/addAndUpdate', // 新增和编辑用户;
