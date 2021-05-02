@@ -44,14 +44,6 @@ export const urls = {
   deposit_records_update: 'deposit_records/update', // 审核
   deposit_records_destroy: 'deposit_records/destroy', // 删除
 
-
-  addAndUpdateUser: 'user/addAndUpdate', // 新增和编辑用户;
-  strategyList: 'strategy/list', // 策略列表
-  strategyOrderList: 'strategy/order/list', // 策略开单详情列表
-  robotFollowList: 'robot/follow/list', // 机器人列表
-  userProfitList: 'user/profit/list', // 用户曲线收益列表
-  userDetail: 'user/detail', // 用户详情
-  authentication: 'authentication'
 };
 
 
