@@ -22,6 +22,8 @@ import bar from './images/bar.png'
 
 import rate from './images/rate.png'
 
+import h24 from './images/h-24.png';
+
 import Input from './Input';
 
 const obj: any = {
@@ -112,7 +114,7 @@ export default (props: IProps) => {
 
         <div className='checkbox-container'>
           <label className="see-checkbox">
-            <input type='checkbox' className='checkbox' />
+            <input type='checkbox' className='checkbox' style={{ visibility: 'hidden' }} />
             <div className="show-box" />
             <span className='see-tip'>我已阅读并同意</span>
           </label>
@@ -135,7 +137,7 @@ export default (props: IProps) => {
       <div className="detail-content">
         <div className="h-24">
           <div className='img-container'>
-            <img src={bar} className='h-24-img' />
+            <img src={h24} className='h-24-img' />
           </div>
           <div className='detail-show-container'><span className='btn'><span className='weight'>24小时</span><span>连续推送</span></span></div>
           <p>依靠专业、完善的交易策略,</p>
@@ -164,7 +166,6 @@ export default (props: IProps) => {
             <img src={rate} className='h-24-img' />
           </div>
           <div className='detail-show-container'><span className='btn'><span className='weight'>高准确率</span></span></div>
-          <p>依靠专业、完善的交易策略,</p>
           <p>
             <span>经过上万次的策略信号推送，Hunter trades 整体策略准确率维持在</span>
             <span className='white'>80%以上</span>
