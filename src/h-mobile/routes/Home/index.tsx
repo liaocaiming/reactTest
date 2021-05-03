@@ -137,6 +137,21 @@ export default (props: IProps) => {
     })
   }
 
+  const onBlur = () => {
+    if (state.password !== state.checkword) {
+      setError({
+        ...error,
+        checkword: {
+          message: '两次输入不一致'
+        }
+      });
+      return;
+    }
+    if (error) {
+      setError({});
+    }
+  }
+
   const renderForm = () => {
     const formItems: AppFormItemOptions[] = [
       {
@@ -179,6 +194,7 @@ export default (props: IProps) => {
         name: 'checkword',
         placeholder: '确认登录密码',
         type: 'password',
+        onBlur: onBlur,
         rules: [
           {
             required: true,
@@ -210,10 +226,17 @@ export default (props: IProps) => {
           setError(err)
           return;
         }
+        if (state.check === 2) {
+          setError({
+            check: {
+              message: '请勾选用户协议'
+            }
+          })
+          return;
+        }
 
         fetch.post(api.users, state).then((res) => {
           Toast.success(res.message || '注册成功', 1, () => {
-            console.log(333)
           })
         })
       })
@@ -224,6 +247,7 @@ export default (props: IProps) => {
         {
           formItems.map((item) => {
             const err = error[item.name];
+
             return (
               <Input
                 containerClassName='input-container'
@@ -237,7 +261,6 @@ export default (props: IProps) => {
 
                   </Toggle>
                   <Toggle isShow={item.name === 'check_token'}>
-                    {/* <div className='check_token'>验证码</div> */}
                     <EmailCode onSuccess={getCode} />
                   </Toggle>
                 </div>
@@ -254,8 +277,12 @@ export default (props: IProps) => {
             <span className='see-tip'>我已阅读并同意</span>
           </div>
           <span className='see-text'>《用户协议》</span>
-
         </div>
+
+        <Toggle isShow={(error as any).check}>
+          <div className='tip' style={{ marginTop: 20 }}> <ExclamationCircleOutlined className='tip-icon' />请勾选用户协议</div>
+        </Toggle>
+
 
         <div className="btn" onClick={onFinish}>注册</div>
 

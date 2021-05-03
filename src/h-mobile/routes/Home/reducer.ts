@@ -3,7 +3,7 @@ const initValue = {
   password: '',
   code: '',
   check_token: '',
-  checkWord: '',
+  checkword: '',
   check: 2
 }
 
@@ -16,7 +16,7 @@ interface IState {
   password: string;
   code: string;
   check_token: string;
-  checkWord: string;
+  checkword: string;
   check: 1 | 2
 }
 
