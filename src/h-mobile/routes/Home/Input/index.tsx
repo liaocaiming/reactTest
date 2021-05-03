@@ -6,13 +6,14 @@ import { Toggle } from "@components/index";
 
 import "./index.less";
 
-interface IProps extends React.InputHTMLAttributes<any> {
+export interface InputProps extends React.InputHTMLAttributes<any> {
   label?: string | JSX.Element;
   containerClassName?: string;
   children?: JSX.Element;
+  [k: string]: any;
 }
 
-export default (props: IProps) => {
+export default (props: InputProps) => {
   const { label, containerClassName, children } = props;
 
   return (
@@ -24,7 +25,7 @@ export default (props: IProps) => {
         className="input"
         type="text"
         placeholder="请输入"
-        {...filterObjAttr(props, ["containerClassName", "label", "children"])}
+        {...filterObjAttr(props, ["containerClassName", "label", "children", 'rules'])}
       />
 
       <div className='children'>{children}</div>

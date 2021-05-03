@@ -2,11 +2,16 @@ import React, { useEffect, useState, useReducer } from "react";
 import IProps from "@typings/react.d";
 import "./index.less";
 import reducer, { init, initValue } from "./reducer";
-// import api from "@src/h-mobile/config/api";
+import { fetch } from '@utils/index'
+import api from "@src/h-mobile/config/api";
 // import { User } from "@utils/index";
-import md5 from "md5";
+// import md5 from "md5";
+import {
+  ExclamationCircleOutlined
+} from "@ant-design/icons";
 
-import { query } from "@utils/index";
+
+import { constants, query } from "@utils/index";
 
 import register from './images/icon-register.png';
 
@@ -24,15 +29,35 @@ import rate from './images/rate.png'
 
 import h24 from './images/h-24.png';
 
-import Input from './Input';
+import Input, { InputProps } from './Input';
+
+import { IRule } from '@utils/lib/validator'
+
+import { Toggle } from "@shared/components";
+
+import validator from './validator';
+
+import { Toast } from 'antd-mobile'
+
+import EmailCode from './EmailCode';
+
 
 const obj: any = {
   autocomplete: "new-password",
 };
 
+interface AppFormItemOptions extends InputProps {
+  rules?: IRule[];
+  name: string;
+  trigger?: 'blur' | 'change'
+}
+
+
 export default (props: IProps) => {
+  const [state, dispatch] = useReducer(reducer, initValue, init);
+  const [error, setError] = useState({});
+
   const params = query.getUrlQuery();
-  console.log(params);
 
   useEffect(() => {
     document.title = "首页";
@@ -89,40 +114,150 @@ export default (props: IProps) => {
     );
   };
 
+  const onInputChange = (item: AppFormItemOptions) => {
+    return (e) => {
+      if (error) {
+        setError({});
+      }
+      dispatch({
+        payload: {
+          [item.name]: e.target.value
+        }
+      })
+    }
+  }
+
+  const onCheckClick = () => {
+    const { check } = state;
+    // console.log(check)
+    dispatch({
+      payload: {
+        check: check === 1 ? 2 : 1
+      }
+    })
+  }
+
   const renderForm = () => {
+    const formItems: AppFormItemOptions[] = [
+      {
+        name: 'email',
+        placeholder: '邮箱',
+        rules: [
+          {
+            pattern: constants.pattern.email,
+            message: '邮箱格式不正确'
+          },
+          {
+            required: true,
+            message: '邮箱必填'
+          }
+        ]
+      },
+
+      {
+        name: 'check_token',
+        placeholder: '邮箱验证码',
+        rules: [
+          {
+            required: true,
+            message: '邮箱验证码必填'
+          }
+        ]
+      },
+      {
+        name: 'password',
+        placeholder: '登录密码',
+        type: 'password',
+        rules: [
+          {
+            required: true,
+            message: '登录密码必填'
+          }
+        ]
+      },
+      {
+        name: 'checkword',
+        placeholder: '确认登录密码',
+        type: 'password',
+        rules: [
+          {
+            required: true,
+            message: '确认登录密码必填'
+          }
+        ]
+      },
+
+      {
+        name: 'code',
+        placeholder: '邀请码',
+        rules: [
+          {
+            required: true,
+            message: '邀请码必填'
+          }
+        ]
+      }
+
+    ]
+
+    const getCode = () => {
+      fetch.get(api.users_get_code)
+    }
+
+    const onFinish = () => {
+      validator(state, formItems).then((err) => {
+        if (err) {
+          setError(err)
+          return;
+        }
+
+        fetch.post(api.users, state).then((res) => {
+          Toast.success(res.message || '注册成功', 1, () => {
+            console.log(333)
+          })
+        })
+      })
+    }
+
     return (
       <div className="form">
-        <Input placeholder='邮箱' containerClassName='input-container'>
-          <span className='tip'>邮箱格式不对</span>
-        </Input>
+        {
+          formItems.map((item) => {
+            const err = error[item.name];
+            return (
+              <Input
+                containerClassName='input-container'
+                {...item}
+                value={state[item.name]}
+                onChange={onInputChange(item)}
+              >
+                <div className='input-children'>
+                  <Toggle isShow={err}>
+                    <span className='tip'> <ExclamationCircleOutlined className='tip-icon' />{err && err.message}</span>
 
-        <Input placeholder='邮箱' containerClassName='input-container'>
-          <span className='tip'>邮箱格式不对</span>
-        </Input>
+                  </Toggle>
+                  <Toggle isShow={item.name === 'check_token'}>
+                    {/* <div className='check_token'>验证码</div> */}
+                    <EmailCode onSuccess={getCode} />
+                  </Toggle>
+                </div>
 
-        <Input placeholder='邮箱' containerClassName='input-container'>
-          <span className='tip'>邮箱格式不对</span>
-        </Input>
-
-        <Input placeholder='邮箱' containerClassName='input-container'>
-          <span className='tip'>邮箱格式不对</span>
-        </Input>
-
-        <Input placeholder='邮箱' containerClassName='input-container'>
-          <span className='tip'>邮箱格式不对</span>
-        </Input>
+              </Input>
+            )
+          })
+        }
 
         <div className='checkbox-container'>
-          <label className="see-checkbox">
+          <div className="see-checkbox" onClick={onCheckClick}>
             <input type='checkbox' className='checkbox' style={{ visibility: 'hidden' }} />
-            <div className="show-box" />
+            <div className={`show-box ${state.check === 1 ? 'checked' : ''}`} />
             <span className='see-tip'>我已阅读并同意</span>
-          </label>
+          </div>
           <span className='see-text'>《用户协议》</span>
 
         </div>
 
-        <div className="btn">注册</div>
+        <div className="btn" onClick={onFinish}>注册</div>
 
         <div className="qrcode">
           <p className='tip-text'>识别二维码，下载APP文件</p>
@@ -131,6 +266,7 @@ export default (props: IProps) => {
       </div>
     )
   }
+
 
   const renderDetailContent = () => {
     return (

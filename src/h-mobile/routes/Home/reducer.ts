@@ -1,5 +1,10 @@
 const initValue = {
-  binance_user_id: '', username: '', password: ''
+  email: '',
+  password: '',
+  code: '',
+  check_token: '',
+  checkWord: '',
+  check: 2
 }
 
 const init = () => {
@@ -7,9 +12,12 @@ const init = () => {
 }
 
 interface IState {
-  binance_user_id?: string;
-  username: string;
+  email: string;
   password: string;
+  code: string;
+  check_token: string;
+  checkWord: string;
+  check: 1 | 2
 }
 
 interface IAction {

@@ -199,7 +199,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
+    }
 
+    .show-box.checked {
       &:before {
         content: '√';
         position: absolute;
@@ -239,6 +241,26 @@
         width: 320px;
         height: 320px;
       }
+    }
+
+    .input-children {
+      display: flex;
+      height: 100%;
+      justify-content: space-around;
+      flex-direction: column;
+      font-size: 40px;
+      text-align: right;
+    }
+
+    .check_token {
+      font-size: 48px;
+      font-family: SourceHanSansCN;
+      font-weight: 400;
+      color: #0078FF;
+    }
+
+    .tip-icon {
+      margin-right: 10px;
     }
   }
 

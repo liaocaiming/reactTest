@@ -38,6 +38,8 @@ export const pattern = {
   fourDecimalsNumber: /^([1-9]\d*(\.\d{1,4})?|0\.[1-9][0-9]{0,3}|0\.\d{1,3}[1-9])$/,
   //0.00
   twoDecimalsNumberOther: /^(([1-9]{1}\d*)|([0]{1}))(\.(\d){1,2})?$/,
+
+  email: /^\w+@.+$/
 }
 
 
