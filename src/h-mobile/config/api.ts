@@ -3,7 +3,7 @@ import { config } from '@utils/lib/request';
 
 
 
-const localApiPrefix = '/api/v1/';
+const localApiPrefix = '/app/v1/';
 
 export const urls = {
   users: 'users', // 注册

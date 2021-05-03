@@ -10,6 +10,8 @@ import {
   ExclamationCircleOutlined
 } from "@ant-design/icons";
 
+import omit from 'loadsh/omit';
+
 
 import { constants, query } from "@utils/index";
 
@@ -61,7 +63,14 @@ export default (props: IProps) => {
 
   useEffect(() => {
     document.title = "首页";
-  }, []);
+    if (params.code) {
+      dispatch({
+        payload: {
+          code: params.code
+        }
+      })
+    }
+  }, [params.code]);
 
   const renderTitle = () => {
     return (
@@ -135,6 +144,13 @@ export default (props: IProps) => {
         check: check === 1 ? 2 : 1
       }
     })
+
+    if (check === 2) {
+      setError({
+        ...error,
+        check: null
+      })
+    }
   }
 
   const onBlur = () => {
@@ -206,6 +222,7 @@ export default (props: IProps) => {
       {
         name: 'code',
         placeholder: '邀请码',
+        disabled: params.code,
         rules: [
           {
             required: true,
@@ -217,7 +234,9 @@ export default (props: IProps) => {
     ]
 
     const getCode = () => {
-      fetch.get(api.users_get_code)
+      fetch.post(api.users_get_code, { email: state.email, c_type: 1 }).then((res) => {
+        Toast.success(res.message || '已发送验证码至邮箱')
+      })
     }
 
     const onFinish = () => {
@@ -235,7 +254,9 @@ export default (props: IProps) => {
           return;
         }
 
-        fetch.post(api.users, state).then((res) => {
+        let query = omit(state, ['check', 'checkword'])
+
+        fetch.post(api.users, { ...query, from: 'web' }).then((res) => {
           Toast.success(res.message || '注册成功', 1, () => {
           })
         })
@@ -261,7 +282,18 @@ export default (props: IProps) => {
 
                   </Toggle>
                   <Toggle isShow={item.name === 'check_token'}>
-                    <EmailCode onSuccess={getCode} />
+                    <EmailCode onSuccess={getCode} validator={() => {
+                      if (!state.email) {
+                        Toast.fail('请先输入邮箱')
+                        return false;
+                      }
+
+                      if (!constants.pattern.email.test(state.email)) {
+                        Toast.fail('邮箱格式不正确')
+                        return false
+                      }
+                      return true
+                    }} />
                   </Toggle>
                 </div>
 

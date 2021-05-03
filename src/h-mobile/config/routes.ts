@@ -1,5 +1,5 @@
 
-import Login from '@src/h-mobile/routes/Home';
+import Login from '@src/h-mobile/routes/Register';
 
 interface IUrls {
   login: string;
@@ -15,8 +15,8 @@ interface IUrls {
 
 const router = [
   {
-    path: 'home',
-    name: 'home',
+    path: 'register',
+    name: 'register',
     component: Login,
     title: '登录'
   },

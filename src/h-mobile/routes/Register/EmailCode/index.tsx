@@ -4,17 +4,28 @@ import './index.less';
 
 interface EmailCodeProps {
   onSuccess: () => void;
+  disabled?: boolean;
   countNum?: number;
+  validator?: (() => boolean) | boolean;
 }
 
 let timer;
 
 export default memo((props: EmailCodeProps) => {
-  const { onSuccess, countNum = 30 } = props;
+  const { onSuccess, countNum = 30, validator } = props;
   let [count, setCount] = useState(countNum);
   const [start, setstart] = useState(false);
 
   const onClick = () => {
+    let disabled = validator;
+    if (typeof disabled === 'function') {
+      disabled = disabled();
+    }
+
+    if (disabled === false) {
+      return
+    }
+
     if (start || timer) {
       return
     }
@@ -25,6 +36,7 @@ export default memo((props: EmailCodeProps) => {
       count--;
       if (count <= 0) {
         clearInterval(timer)
+        timer = null
         setstart(false)
         setCount(countNum)
       }

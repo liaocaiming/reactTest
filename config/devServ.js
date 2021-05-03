@@ -35,7 +35,17 @@ module.exports = {
       app.use(
         "/api/v1",
         createProxyMiddleware({
-          target: "http://103.5.144.162:3000/",
+          // target: "http://103.5.144.162:3000/",
+          target: "https://test.huntertrades.com/",
+          changeOrigin: true,
+        })
+      );
+
+      app.use(
+        "/app/v1",
+        createProxyMiddleware({
+          // target: "http://103.5.144.162:3000/",
+          target: "https://test.huntertrades.com/",
           changeOrigin: true,
         })
       );
@@ -43,6 +53,7 @@ module.exports = {
     }
 
     app.use("/api/v1", api());
+    app.use("/app/v1", api());
 
 
 
