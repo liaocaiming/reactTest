@@ -8,6 +8,10 @@ interface IOptions {
 }
 export function get(url: string, data?: any, options?: IOptions): Promise<IResponse> {
   return new Promise((resolve, reject) => {
+    const { showLoading } = options || {};
+    if (showLoading !== false) {
+      Toast.loading('加载中')
+    }
     Toast.loading('加载中')
     request.get(url, data, options).then(res => {
       Toast.hide()
@@ -33,7 +37,10 @@ export function get(url: string, data?: any, options?: IOptions): Promise<IRespo
 
 export function post(url: string, data?: any, options?: IOptions): Promise<IResponse> {
   return new Promise((resolve, reject) => {
-    Toast.loading('加载中')
+    const { showLoading } = options || {};
+    if (showLoading !== false) {
+      Toast.loading('加载中')
+    }
     request.post(url, data, options).then(res => {
       Toast.hide()
       if (res.code == 200) {

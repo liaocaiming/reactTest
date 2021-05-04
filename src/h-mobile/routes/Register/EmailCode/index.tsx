@@ -12,7 +12,7 @@ interface EmailCodeProps {
 let timer;
 
 export default memo((props: EmailCodeProps) => {
-  const { onSuccess, countNum = 30, validator } = props;
+  const { onSuccess, countNum = 60, validator } = props;
   let [count, setCount] = useState(countNum);
   const [start, setstart] = useState(false);
 
@@ -39,6 +39,7 @@ export default memo((props: EmailCodeProps) => {
         timer = null
         setstart(false)
         setCount(countNum)
+        return
       }
       setCount(count)
 

@@ -7,8 +7,11 @@ import api from "@src/h-mobile/config/api";
 // import { User } from "@utils/index";
 // import md5 from "md5";
 import {
-  ExclamationCircleOutlined
+  ExclamationCircleOutlined,
+  AndroidOutlined
 } from "@ant-design/icons";
+
+import { Button } from 'antd';
 
 import omit from 'loadsh/omit';
 
@@ -109,7 +112,7 @@ export default (props: IProps) => {
 
             <div className="step-detail-item step-detail-second">
               <img src={iconDown} className="img" />
-              <p className="text">下载APP</p>
+              <span>下载APP</span>
             </div>
 
             <div className="step-detail-item step-detail-third">
@@ -166,6 +169,23 @@ export default (props: IProps) => {
     if (error) {
       setError({});
     }
+  }
+
+  const downApp = async () => {
+    const res = await fetch.get(api.system_settings)
+    console.log(res, 'res');
+    const { data = [] } = res;
+    let host = '';
+    let apiUrl = '';
+    data.forEach((it) => {
+      if (it.key === "lastest_version_url") {
+        apiUrl = it.url
+      }
+      if (it.key === "host") {
+        host = it.value
+      }
+    })
+    window.location.href = `${host}${apiUrl}?name=hTrades`
   }
 
   const renderForm = () => {
@@ -234,7 +254,7 @@ export default (props: IProps) => {
     ]
 
     const getCode = () => {
-      fetch.post(api.users_get_code, { email: state.email, c_type: 1 }).then((res) => {
+      fetch.post(api.users_get_code, { email: state.email, c_type: 1 }, { showLoading: false }).then((res) => {
         Toast.success(res.message || '已发送验证码至邮箱')
       })
     }
@@ -258,10 +278,13 @@ export default (props: IProps) => {
 
         fetch.post(api.users, { ...query, from: 'web' }).then((res) => {
           Toast.success(res.message || '注册成功', 1, () => {
+            downApp()
           })
         })
       })
     }
+
+
 
     return (
       <div className="form">
@@ -319,8 +342,12 @@ export default (props: IProps) => {
         <div className="btn" onClick={onFinish}>注册</div>
 
         <div className="qrcode">
-          <p className='tip-text'>识别二维码，下载APP文件</p>
-          <img src={qrcode} className='img' />
+          {/* <p className='tip-text'>识别二维码，下载APP文件</p>
+          <img src={qrcode} className='img' /> */}
+          <Button type='primary' size='large' onClick={downApp}>
+            <AndroidOutlined />
+            <span>下载</span>
+          </Button>
         </div>
       </div>
     )
