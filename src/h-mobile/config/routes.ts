@@ -1,5 +1,6 @@
 
 import Login from '@src/h-mobile/routes/Register';
+import Agreement from '../routes/Agreement';
 
 interface IUrls {
   login: string;
@@ -19,6 +20,13 @@ const router = [
     name: 'register',
     component: Login,
     title: '登录'
+  },
+
+  {
+    path: 'agreement',
+    name: 'agreement',
+    component: Agreement,
+    title: '协议'
   },
 ]
 
