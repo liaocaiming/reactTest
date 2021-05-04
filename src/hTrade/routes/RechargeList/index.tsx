@@ -94,7 +94,9 @@ export default class App extends React.PureComponent<IProps, IState> {
               <Button
                 type="link"
                 className="margin_right_10"
-                onClick={this.toggle({ key: 'isShow', item, value: true })}
+                // onClick={this.toggle({ key: 'isShow', item, value: true })}
+                onClick={this.deleteOrAudit({ record: item, type: 'audit' })}
+
               >
                 审核
               </Button>
@@ -102,7 +104,7 @@ export default class App extends React.PureComponent<IProps, IState> {
             <Button
               type="link"
               className="margin_right_10"
-              onClick={this.delete({ record: item })}
+              onClick={this.deleteOrAudit({ record: item, type: 'delete' })}
             >
               删除
               </Button>
@@ -120,18 +122,27 @@ export default class App extends React.PureComponent<IProps, IState> {
   }
 
 
-  private delete = (options: {
+  private deleteOrAudit = (options: {
     record?: any;
+    type: 'delete' | 'audit'
   }) => {
     return () => {
-      const { record = {} } = options;
+      const { record = {}, type = 'audit' } = options;
       const { actions } = this.props;
       const { id, txid } = record;
 
-      const obj = {
-        content: `确定删除该充值记录(txid: ${txid})么`,
-        url: linkPort.deposit_records_destroy,
+      const map = {
+        delete: {
+          content: `确定删除该充值记录(txid: ${txid})么`,
+          url: linkPort.deposit_records_destroy,
+        },
+        audit: {
+          content: `确定审核通过记录(txid: ${txid})么`,
+          url: linkPort.deposit_records_update,
+        }
       }
+
+      const obj = map[type];
 
       Modal.confirm({
         title: "确认提示",

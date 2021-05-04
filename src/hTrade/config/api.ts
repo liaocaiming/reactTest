@@ -10,6 +10,7 @@ export const urls = {
   excel_data: 'excel_data', // 
   role: 'role/list', // 角色列表
 
+  authentication: 'authentication', // 登陆
   // 用户信息
   userList: 'users', // 用户列表
   addUser: 'users', // 新增用户
