@@ -28,10 +28,19 @@ webpackDevServer.addDevServerEntrypoints(webpackConfig, devServer);
 
 const server = new webpackDevServer(compiler, devServer);
 
+const checkPort = require('./utils/checkPort');
+
 const opn = require("opn");
 
-server.listen(3030, () => {
-  console.log(`ip:  ${ip}`);
+const port = 3030;
 
-  opn(`http://${ip}:3030`);
-});
+
+checkPort(port).then((usePort) => {
+  server.listen(usePort, () => {
+    console.log(`ip:  ${ip}`);
+  
+    // opn(`http://${ip}:${usePort}`);
+    opn(`http://localhost:${usePort}`);
+  });
+})
+

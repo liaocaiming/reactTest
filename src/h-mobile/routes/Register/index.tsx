@@ -2,7 +2,7 @@ import React, { useEffect, useState, useReducer } from "react";
 import IProps from "@typings/react.d";
 import "./index.less";
 import reducer, { init, initValue } from "./reducer";
-import { fetch } from '@utils/index'
+import { fetch, helpers } from '@utils/index'
 import api from "@src/h-mobile/config/api";
 // import { User } from "@utils/index";
 // import md5 from "md5";
@@ -46,6 +46,8 @@ import { Toast } from 'antd-mobile'
 
 import EmailCode from './EmailCode';
 
+import AgreeModal from './AgreeModal';
+
 
 const obj: any = {
   autocomplete: "new-password",
@@ -61,6 +63,7 @@ interface AppFormItemOptions extends InputProps {
 export default (props: IProps) => {
   const [state, dispatch] = useReducer(reducer, initValue, init);
   const [error, setError] = useState({});
+  const [show, setShow] = useState(false);
 
   const params = query.getUrlQuery();
 
@@ -244,12 +247,12 @@ export default (props: IProps) => {
         name: 'code',
         placeholder: '邀请码',
         disabled: params.code,
-        rules: [
-          {
-            required: true,
-            message: '邀请码必填'
-          }
-        ]
+        // rules: [
+        //   {
+        //     required: true,
+        //     message: '邀请码必填'
+        //   }
+        // ]
       }
 
     ]
@@ -277,7 +280,7 @@ export default (props: IProps) => {
 
         let query = omit(state, ['check', 'checkword'])
 
-        fetch.post(api.users, { ...query, from: 'web' }).then((res) => {
+        fetch.post(api.users, helpers.filterEmptyValue({ ...query, from: 'web' })).then((res) => {
           Toast.success(res.message || '注册成功', 1, () => {
             downApp()
           })
@@ -332,7 +335,7 @@ export default (props: IProps) => {
             <div className={`show-box ${state.check === 1 ? 'checked' : ''}`} />
             <span className='see-tip'>我已阅读并同意</span>
           </div>
-          <span className='see-text'>《用户协议》</span>
+          <span className='see-text' onClick={() => { setShow(true) }}>《用户协议》</span>
         </div>
 
         <Toggle isShow={(error as any).check}>
@@ -406,6 +409,10 @@ export default (props: IProps) => {
       {renderForm()}
       {renderDetailContent()}
       <div className='footer'>© 2020 Hunter trades App. All Rights Reserved.</div>
+      <AgreeModal visible={show} onOk={() => {
+        setShow(false)
+      }} />
+
     </div>
   )
 };
