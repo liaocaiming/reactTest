@@ -105,6 +105,9 @@ export default class App extends React.PureComponent<IProps, IState> {
           page: 1,
         });
         actions.getScreenData();
+        this.setState({
+          selectIds: []
+        })
       }
     })
   }

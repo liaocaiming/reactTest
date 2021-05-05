@@ -112,13 +112,14 @@ export default (props: IProps) => {
 
             <div className="step-detail-item step-detail-second">
               <img src={iconDown} className="img" />
-              <span>下载APP</span>
+              <p>下载APP</p>
             </div>
 
             <div className="step-detail-item step-detail-third">
               <img src={iconWechat} className="img" />
               <p className="text">加客服微信</p>
               <p className="text"> 免费试用</p>
+              <p className="text">客服微信（blockchain2046）</p>
             </div>
           </div>
         </div>
