@@ -255,7 +255,7 @@ export default (props: IProps) => {
     ]
 
     const getCode = () => {
-      fetch.post(api.users_get_code, { email: state.email, c_type: 1 }, { showLoading: false }).then((res) => {
+      fetch.post(api.users_get_code, { email: state.email, c_type: 1 }, { showLoading: false, showError: false }).then((res) => {
         Toast.success(res.message || '已发送验证码至邮箱')
       })
     }

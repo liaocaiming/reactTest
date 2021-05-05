@@ -5,10 +5,11 @@ import { Toast } from 'antd-mobile'
 
 interface IOptions {
   showLoading?: boolean;
+  showError?: boolean;
 }
 export function get(url: string, data?: any, options?: IOptions): Promise<IResponse> {
   return new Promise((resolve, reject) => {
-    const { showLoading } = options || {};
+    const { showLoading, showError } = options || {};
     if (showLoading !== false) {
       Toast.loading('加载中')
     }
@@ -26,7 +27,9 @@ export function get(url: string, data?: any, options?: IOptions): Promise<IRespo
         return
       }
 
-      Toast.fail(res && res.message || res.error)
+      if (showError !== false) {
+        Toast.fail(res && res.message || res.error)
+      }
       reject(res)
     }).catch((err) => {
       Toast.hide()
@@ -37,7 +40,7 @@ export function get(url: string, data?: any, options?: IOptions): Promise<IRespo
 
 export function post(url: string, data?: any, options?: IOptions): Promise<IResponse> {
   return new Promise((resolve, reject) => {
-    const { showLoading } = options || {};
+    const { showLoading, showError } = options || {};
     if (showLoading !== false) {
       Toast.loading('加载中')
     }
@@ -47,7 +50,9 @@ export function post(url: string, data?: any, options?: IOptions): Promise<IResp
         resolve(res)
         return
       }
-      Toast.fail(res && res.message)
+      if (showError !== false) {
+        Toast.fail(res && res.message || res.error)
+      }
       reject(res)
     }).catch((err) => {
       Toast.hide()
