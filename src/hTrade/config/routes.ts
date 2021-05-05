@@ -114,6 +114,16 @@ const router = [
         exact: true
       },
 
+      {
+        path: 'manualPustSymbol',
+        component: loadFile({
+          load: () => import('@src/hTrade/routes/ManualPustSymbol')
+        }),
+        title: '手动推送列表',
+        exact: true
+      },
+
+
     ],
   },
 

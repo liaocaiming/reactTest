@@ -54,7 +54,18 @@ export default [
     hasChild: 0,
     menuType: 1,
     icon: <UsergroupAddOutlined />,
+
+    // ManualPustSymbol
   },
+
+  {
+    key: "manualPustSymbol",
+    title: "手动推送列表",
+    hasChild: 0,
+    menuType: 1,
+    icon: <ToolOutlined />,
+  },
+
 
   // {
   //   key: "system",

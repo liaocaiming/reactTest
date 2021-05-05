@@ -45,6 +45,11 @@ export const urls = {
   deposit_records_update: 'deposit_records/update', // 审核
   deposit_records_destroy: 'deposit_records/destroy', // 删除
 
+
+  // 手机开单
+  trade_signals_symbol_info: 'trade_signals/symbol_info',
+  trade_signals_set_symbol: 'trade_signals/set_symbol', // 编辑策略
+
 };
 
 
