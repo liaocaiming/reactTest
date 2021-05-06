@@ -1,6 +1,6 @@
 import IProps from '@typings/react.d';
 
-import React, { memo } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 
 import LOGO from './images/icon-logo.png';
 
@@ -24,6 +24,12 @@ import QRCODE from './images/QR1.jpg'
 
 import APK from './images/apk.png';
 
+import api from "@src/h-off/config/api";
+
+import { fetch } from '@utils/index'
+
+import { Modal } from 'antd';
+
 const trades = [
   {
     img: BIANCE,
@@ -44,6 +50,43 @@ const trades = [
 ]
 
 export default memo((props: IProps) => {
+  const [info, setInfo] = useState({
+    downUrl: '',
+    qrUrl: ''
+  })
+
+  const [show, setShow] = useState(false);
+
+
+  const downApp = async () => {
+    window.location.href = info.downUrl
+  }
+
+  const getData = async () => {
+    const res = await fetch.get(api.system_settings)
+    console.log(res, 'res');
+    const { data = [] } = res;
+    let host = '';
+    let apiUrl = '';
+    data.forEach((it) => {
+      if (it.key === "lastest_version_url") {
+        apiUrl = it.url
+      }
+      if (it.key === "host") {
+        host = it.value
+      }
+    })
+
+    setInfo({
+      qrUrl: '',
+      downUrl: `${host}${apiUrl}`
+    })
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
+
   const renderHeader = () => {
     return (
       <header className='header'>
@@ -57,7 +100,7 @@ export default memo((props: IProps) => {
             <span className="btn">系统介绍</span>
             <span className="btn">产品优势 </span>
             <span className="btn">购买会员</span>
-            <span className="btn btn-down">App下载</span>
+            <span className="btn btn-down cursor">App下载</span>
           </div>
         </div>
       </header>
@@ -217,7 +260,7 @@ export default memo((props: IProps) => {
 
             <div className='learn_more'>更多其他会员权益</div>
 
-            <div className="btn">购买会员</div>
+            <div className="btn cursor" onClick={() => { setShow(true) }}>购买会员</div>
           </div>
 
           <div className="experience item">
@@ -256,8 +299,8 @@ export default memo((props: IProps) => {
             <div className="app_down flex">
               <img src={QRCODE} />
               <p>扫码下载</p>
-              <img src={APK} />
-              <p>点击下载APK</p>
+              <img src={APK} onClick={downApp} className='cursor' />
+              <p onClick={downApp} className='cursor' >点击下载APK</p>
             </div>
           </div>
 
@@ -267,7 +310,6 @@ export default memo((props: IProps) => {
             <span className="btn">系统介绍</span>
             <span className="btn">产品优势 </span>
             <span className="btn">购买会员</span>
-            <span className="btn btn-down">App下载</span>
           </div>
 
           <p className='footer_text'>© 2020 Hunter trades App. All Rights Reserved.</p>
@@ -275,6 +317,16 @@ export default memo((props: IProps) => {
         </div>
 
       </section>
+    )
+  }
+
+  const renderModal = () => {
+    return (
+      <Modal visible={show} title='客户微信' footer={null} onCancel={() => { setShow(false) }}>
+        <div>
+          <img src={KEFU} />
+        </div>
+      </Modal>
     )
   }
 
@@ -286,6 +338,7 @@ export default memo((props: IProps) => {
       {renderAdvantage()}
       {renderBuyMember()}
       {renderFooter()}
+      {renderModal()}
     </section>
   )
 
