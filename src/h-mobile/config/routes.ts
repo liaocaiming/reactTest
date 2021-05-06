@@ -1,5 +1,6 @@
 
 import Login from '@src/h-mobile/routes/Register';
+import Home from '@src/h-mobile/routes/Home';
 
 interface IUrls {
   login: string;
@@ -20,7 +21,12 @@ const router = [
     component: Login,
     title: '登录'
   },
-
+  {
+    path: '/',
+    name: 'home',
+    component: Home,
+    title: '首页'
+  },
 
 ]
 
