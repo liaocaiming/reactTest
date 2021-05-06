@@ -122,7 +122,7 @@ export default (props: IProps) => {
               <img src={iconWechat} className="img" />
               <p className="text">加客服微信</p>
               <p className="text"> 免费试用</p>
-              <p className="text">客服微信（blockchain2046）</p>
+              <p className="text wechat" >微信（blockchain2046）</p>
             </div>
           </div>
         </div>
