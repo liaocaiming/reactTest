@@ -197,7 +197,7 @@ module.exports = (options) => {
               options: {
                 name: "[hash].[ext]",
                 outputPath: "./img",
-                publicPath: "../img",
+                publicPath: "./img",
                 esModule: false,
               },
             },
@@ -225,8 +225,8 @@ module.exports = (options) => {
       }),
 
       new MiniCssExtractPlugin({
-        filename: "css/[name][hash:8].css",
-        chunkFilename: "css/[name][hash:8].css",
+        filename: "[name][hash:8].css",
+        chunkFilename: "[name][hash:8].css",
       }),
 
       // new TsCheckerWebpackPlugin(),
