@@ -141,52 +141,11 @@
 
 
   .trade_records {
-    display: flex;
-    justify-content: space-between;
-
     .trade_list {
-      width: 1592px;
-      height: 1000px;
-      border-radius: 20px;
+      width: 1233px;
+      height: 774px;
       background: url('./images/main02.jpg') no-repeat;
       background-size: cover;
-    }
-
-    .trade_dec {
-      padding: 134px 0 0 44px;
-      box-sizing: border-box;
-      width: 539px;
-      height: 1000px;
-      background: #111622;
-      border-radius: 20px;
-
-      .btn {
-        font-size: 48px;
-        font-family: SourceHanSansCN;
-        font-weight: 800;
-        color: #161C2A;
-      }
-
-      .title {
-        font-size: 48px;
-        font-family: SourceHanSansCN;
-        font-weight: bold;
-        color: #9AA6BE;
-        line-height: 68px;
-        margin: 118px 0 138px;
-      }
-
-      .detail {
-        font-size: 24px;
-        font-family: SourceHanSansCN;
-        font-weight: 400;
-        color: #9AA6BE;
-        line-height: 50px;
-
-        .first {
-          margin-bottom: 100px;
-        }
-      }
     }
   }
 
@@ -200,8 +159,8 @@
       font-weight: bold;
       color: #D1D9E7;
       text-align: center;
-      margin-top: 267px;
-      margin-bottom: 188px;
+      margin-top: 172px;
+      margin-bottom: 90px;
     }
 
     .advantage_container {
@@ -213,16 +172,17 @@
 
     .btn_container {
       margin-bottom: 78px;
+      text-align: center;
     }
 
     .advantage_item {
-      display: flex;
-      justify-content: space-around;
       margin-bottom: 288px;
     }
 
     .btn {
-      font-size: 48px;
+      height: 181px;
+      line-height: 181px;
+      font-size: 72px;
       font-family: SourceHanSansCN;
       color: #161C2A;
       font-weight: 300;
@@ -238,30 +198,41 @@
 
     .learn_more {
       width: 220px;
-      height: 24px;
+      height: 44px;
       background: url('./images/learnmore.png') no-repeat;
       background-size: 100% 100%;
       margin-top: 130px;
+      margin: 94px auto 220px;
     }
 
     .logo_img {
       width: 866px;
       height: 688px;
+      margin: 0 auto;
       background: url('./images/24_h.png') no-repeat;
       background-size: contain;
+      margin-bottom: 170px;
     }
 
     .advantage_dec {
-      line-height: 60px;
-    }
-
-    .margin_top_100 {
-      margin-top: 100px;
+      line-height: 80px;
+      font-size: 48px;
+      letter-spacing: 5px;
     }
 
     .second {
       .logo_img {
-        background: url('./images/bar.png');
+        background: url('./images/bar.png') no-repeat;
+        background-size: 100% 100%;
+
+      }
+    }
+
+    .third {
+      .logo_img {
+        background: url('./images/3.png') no-repeat;
+        background-size: 100% 100%;
+
       }
     }
   }
@@ -271,31 +242,23 @@
     padding-top: 140px;
     padding-bottom: 140px;
 
-    .container {
-      display: flex;
-      justify-content: space-around;
-    }
-
-
     .item {
-      width: 834px;
-      height: 1160px;
-      background: #161C2A;
-      border-radius: 10px;
       position: relative;
-      padding-top: 264px;
-    }
-
-    .item {
+      padding-top: 360px;
+      width: 1251px;
+      height: 1740px;
+      border-radius: 10px;
       background: #161C2A url('./images/vip-top.jpg') no-repeat;
       background-size: contain;
+      padding-bottom: 183px;
 
       .title {
         text-align: center;
         margin: 0 auto;
-        width: 250px;
+        width: 380px;
         height: 200px;
-        font-size: 48px;
+        line-height: 240px;
+        font-size: 72px;
         font-family: SourceHanSansCN;
         font-weight: bold;
         color: #9AA6BE;
@@ -307,12 +270,12 @@
 
       .dec {
         text-align: left;
-        font-size: 28px;
+        font-size: 48px;
         font-family: SourceHanSansCN;
         font-weight: 300;
         color: #C9D6F1;
-        line-height: 96px;
-        padding-left: 240px;
+        line-height: 144px;
+        padding-left: 330px;
 
         .text {
           &::before {
@@ -330,27 +293,25 @@
     }
 
     .line {
-      width: 534px;
-      height: 12px;
+      margin: 113px auto 154px;
+      width: 801px;
+      height: 18px;
       background: #111622;
-      margin: 0 auto;
     }
 
-    .learn_more {
-      height: 27px;
-      font-size: 28px;
+    .more {
+      height: 44px;
       font-family: SourceHanSansCN;
-      font-weight: 300;
       color: #0078FF;
-      line-height: 48px;
-      padding-left: 270px;
-      margin-top: 70px;
-      margin-bottom: 70px;
+      padding-left: 350px;
+      margin: 0 auto;
+      padding-top: 104px;
+      padding-bottom: 130px;
     }
 
     .btn {
-      width: 477px;
-      height: 103px;
+      width: 716px;
+      height: 155px;
       background: #0078FF;
       border-radius: 20px;
       margin: 0 auto;
@@ -358,7 +319,7 @@
       text-align: center;
       font-family: SourceHanSansCN;
       font-weight: bold;
-      line-height: 103px;
+      line-height: 155px;
     }
 
     .experience {
@@ -366,12 +327,14 @@
       background-size: contain;
 
       .last {
-        width: 550px;
-        line-height: 40px;
+        width: 770px;
+        line-height: 80px;
         display: flex;
 
         &::before {
-          width: 30px !important;
+          position: relative;
+          top: 14px;
+          width: 35px !important;
         }
 
       }
@@ -393,24 +356,30 @@
   .footer {
     background: #000;
 
+    .down_tip {
+      width: 600px;
+      font-size: 30px;
+    }
+
     .htrade_app {
       padding-top: 50px;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
       font-size: 24px;
       font-family: SourceHanSansCN;
       font-weight: 400;
       color: #838CA1;
 
       .logo {
-        width: 137px;
-        height: 137px;
+        width: 202px;
+        height: 202px;
         margin-right: 44px;
       }
 
+      .htrade {
+        justify-content: center;
+        margin-bottom: 128px;
+      }
+
       h6 {
-        width: 153px;
         height: 35px;
         font-size: 36px;
         font-family: SourceHanSansCN;
@@ -424,8 +393,8 @@
         align-items: center;
 
         img {
-          width: 120px;
-          height: 120px;
+          width: 202px;
+          height: 202px;
           margin-right: 30px;
         }
 
@@ -436,19 +405,14 @@
     }
 
     .footer_btn_container {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      width: 1302px;
-      height: 100px;
-      background: #161C2A;
-      border-radius: 50px;
-      margin: 0 auto;
-      font-size: 30px;
-      font-family: SourceHanSansCN;
-      font-weight: 500;
-      color: #0078FF;
-      margin-top: 135px;
+      text-align: center;
+      margin-top: 133px;
+      margin-bottom: 96px;
+
+      .img {
+        width: 77px;
+        height: 63px;
+      }
     }
 
     .footer_text {

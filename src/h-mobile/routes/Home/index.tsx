@@ -2,8 +2,6 @@ import IProps from '@typings/react.d';
 
 import React, { memo, useState, useEffect } from 'react';
 
-import LOGO from './images/icon-logo.png';
-
 import Button from '@src/h-off/components/Button'
 
 import './index.less';
@@ -102,7 +100,7 @@ export default memo((props: IProps) => {
             <img src={nav} className='img' />
           </div>
           <div className="btn-container">
-            <span className="btn btn-down cursor">App下载</span>
+            <span className="btn btn-down cursor" onClick={downApp}>App下载</span>
           </div>
         </div>
       </header>
@@ -158,19 +156,6 @@ export default memo((props: IProps) => {
     return (
       <section className='trade_records container_center'>
         <div className='trade_list' />
-        <div className='trade_dec'>
-          <Button className='btn'>交易信号</Button>
-          <div className='title'>
-            <p>不同行情下</p>
-            <p>APP推送不同的信号</p>
-          </div>
-
-          <div className='detail'>
-            <p className='first'>包括买入通知、止盈止损、风险提示、交易关闭等信号。</p>
-            <p>不同色块代表不同信号类型，用户跟单操作一目了然。</p>
-          </div>
-
-        </div>
       </section>
     )
   }
@@ -180,9 +165,12 @@ export default memo((props: IProps) => {
       <section className='container_center advantage'>
         <h3 className='title'>如何高效捕捉交易机会？</h3>
 
+
         <div className="advantage_container">
+
           <div className="advantage_item first">
-            <div className="left margin_top_100">
+            <div className="right logo_img" />
+            <div className="left">
               <div className='btn_container'>
                 <Button className='btn'>
                   <span className='weight'>24小时</span><span>连续推送</span>
@@ -195,15 +183,12 @@ export default memo((props: IProps) => {
                 <p>
                   <span>Hunter trades 交易系统能够</span>
                   <span className='white'>24小时</span>
-                  <span>不间断地跟踪现货、合约、</span>
+                  <span>不间断地跟踪现货、合约、杠杆代币的市场走势,帮助用户发现足够多的潜在交易机会。</span>
                 </p>
-
-                <p>杠杆代币的市场走势,帮助用户发现足够多的潜在交易机会。</p>
               </div>
               <div className='learn_more'></div>
             </div>
 
-            <div className="right logo_img" />
           </div>
 
 
@@ -222,15 +207,15 @@ export default memo((props: IProps) => {
                 <p>
                   <span>Hunter trades提供了</span>
                   <span className='white'>短线（3天内）、中线（15天内）、长线（30天）</span>
+                  <span>等不同周期的信号提醒，让用户都找到适合自己的交易机会。</span>
                 </p>
-
-                <p>等不同周期的信号提醒，让用户都找到适合自己的交易机会。</p>
               </div>
               <div className='learn_more'></div>
             </div>
           </div>
 
           <div className="advantage_item third">
+            <div className="right logo_img" />
             <div className="left margin_top_100">
               <div className='btn_container'>
                 <Button className='btn'>
@@ -252,7 +237,6 @@ export default memo((props: IProps) => {
               <div className='learn_more'></div>
             </div>
 
-            <div className="right logo_img" />
           </div>
 
 
@@ -277,7 +261,7 @@ export default memo((props: IProps) => {
               <p className='text'>大盘分析以及风险提示</p>
             </div>
 
-            <div className='learn_more'>更多其他会员权益</div>
+            <div className='more'>更多其他会员权益</div>
 
             <div className="btn cursor" onClick={() => { setShow(true) }}>购买会员</div>
           </div>
@@ -311,7 +295,7 @@ export default memo((props: IProps) => {
               <img src={H_LOGO} className="logo" />
               <div className='htrade_text'>
                 <h6>APP下载</h6>
-                <p>下载Hunter trades 移动APP    随时随地接收交易信号</p>
+                <p className='down_tip'>下载Hunter trades 移动APP    随时随地接收交易信号</p>
               </div>
             </div>
 
@@ -325,10 +309,7 @@ export default memo((props: IProps) => {
 
 
           <div className="footer_btn_container">
-            <span className="btn">首 页</span>
-            <span className="btn">系统介绍</span>
-            <span className="btn">产品优势 </span>
-            <span className="btn">购买会员</span>
+            <img src={nav} className='img' />
           </div>
 
           <p className='footer_text'>© 2020 Hunter trades App. All Rights Reserved.</p>

@@ -400,7 +400,7 @@ export default (props: IProps) => {
   }
 
   return (
-    <div id="home">
+    <div id="register">
       {renderTitle()}
       {renderForm()}
       {renderDetailContent()}
