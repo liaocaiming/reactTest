@@ -18,16 +18,6 @@ const webpackConfig = configFn({ name });
 
 webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
 
-webpackConfig.entry.index.unshift(
-  `webpack-dev-server/client?http://localhost:3030/`
-);
-
-const compiler = webpack(webpackConfig);
-
-webpackDevServer.addDevServerEntrypoints(webpackConfig, devServer);
-
-const server = new webpackDevServer(compiler, devServer);
-
 const checkPort = require('./utils/checkPort');
 
 const opn = require("opn");
@@ -36,6 +26,16 @@ const port = 3030;
 
 
 checkPort(port).then((usePort) => {
+  webpackConfig.entry.index.unshift(
+    `webpack-dev-server/client?http://localhost:${usePort}/`
+  );
+  
+  const compiler = webpack(webpackConfig);
+  
+  webpackDevServer.addDevServerEntrypoints(webpackConfig, devServer);
+  
+  const server = new webpackDevServer(compiler, devServer);
+
   server.listen(usePort, () => {
     console.log(`ip:  ${ip}`);
   

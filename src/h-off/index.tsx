@@ -10,6 +10,9 @@ import { reducers, routes } from "./config";
 
 import { Provider } from "react-redux";
 
+import rem from "@utils/lib/rem";
+
+rem(3480, 100, 5000);
 
 import { createStore, applyMiddleware, combineReducers } from "redux";
 

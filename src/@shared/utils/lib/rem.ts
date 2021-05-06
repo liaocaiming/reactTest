@@ -65,7 +65,7 @@
 // })(375, 100);
 
 
-export default (designWidth, rem2px) => {
+export default (designWidth, rem2px, maxWidth = 640) => {
   var doc = document,
     win = window;
   var docEl = doc.documentElement;
@@ -74,7 +74,7 @@ export default (designWidth, rem2px) => {
 
   function refreshRem() {
     var width = docEl.getBoundingClientRect().width;
-    var maxWidth = 640;
+    // var maxWidth = 640;
     if (width > maxWidth) {
       width = maxWidth;
     }

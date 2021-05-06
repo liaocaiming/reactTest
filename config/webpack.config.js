@@ -12,7 +12,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const WebpackBar = require("webpackbar");
 
-const mobilePhone = ["mobile", "h-mobile"];
+const mobilePhone = ["mobile", "h-mobile", 'h-off'];
 
 const cssLoader = [
   MiniCssExtractPlugin.loader,

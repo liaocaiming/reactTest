@@ -82,5 +82,17 @@
 		"prefix": "IMC",
 		"body": "import { api } from '@src/mobile/config/index';",
 		"description": "引入 import { api } from '@src/mobile/config/index'"
+	},
+
+	"fnPage": {
+		"scope": "javascript,typescript,typescriptreact",
+		"prefix": "FP",
+		"body": [
+			"import React, { memo } from 'react';",
+			"export default memo(() => {",
+			"return <div></div>",
+			"})"
+		],
+		"description": "table列表快捷生成"
 	}
 }

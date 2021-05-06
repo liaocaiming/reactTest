@@ -17,7 +17,7 @@ interface IUrls {
 const router = [
 
   {
-    path: 'home',
+    path: '/',
     name: 'home',
     component: Home,
     title: '首页'
