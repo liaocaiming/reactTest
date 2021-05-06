@@ -322,7 +322,7 @@ export default memo((props: IProps) => {
 
   const renderModal = () => {
     return (
-      <Modal visible={show} title='客户微信' footer={null} onCancel={() => { setShow(false) }}>
+      <Modal visible={show} title='客服微信' footer={null} onCancel={() => { setShow(false) }}>
         <div>
           <img src={KEFU} />
         </div>
