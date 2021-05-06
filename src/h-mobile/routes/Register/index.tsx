@@ -4,8 +4,6 @@ import "./index.less";
 import reducer, { init, initValue } from "./reducer";
 import { fetch, helpers } from '@utils/index'
 import api from "@src/h-mobile/config/api";
-// import { User } from "@utils/index";
-// import md5 from "md5";
 import {
   ExclamationCircleOutlined,
   AndroidOutlined
@@ -25,8 +23,6 @@ import iconDown from './images/icon-register.png';
 import iconWechat from './images/icon-wechat.png';
 
 import iconLogo from './images/icon-logo.png';
-
-import qrcode from './images/qrcode.png'
 
 import bar from './images/bar.png'
 
