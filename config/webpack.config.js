@@ -197,7 +197,7 @@ module.exports = (options) => {
               options: {
                 name: "[hash].[ext]",
                 outputPath: "./img",
-                publicPath: "/img",
+                publicPath: "../img",
                 esModule: false,
               },
             },
