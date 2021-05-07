@@ -39,7 +39,7 @@ export const pattern = {
   //0.00
   twoDecimalsNumberOther: /^(([1-9]{1}\d*)|([0]{1}))(\.(\d){1,2})?$/,
 
-  email: /^\w+@.+$/
+  email: /^.+@.+$/
 }
 
 
