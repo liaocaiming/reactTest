@@ -1,6 +1,6 @@
 import IProps from '@typings/react.d';
 
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo, useState, useEffect, useRef } from 'react';
 
 import LOGO from './images/icon-logo.png';
 
@@ -19,8 +19,6 @@ import OK from './images/logo-ouyi_03.png';
 import KEFU from './images/kefu.jpg';
 
 import H_LOGO from './images/Huntericon.png'
-
-// import QRCODE from './images/QR1.jpg'
 
 import APK from './images/apk.png';
 
@@ -52,11 +50,43 @@ const trades = [
   }
 ]
 
+const navs = [
+  {
+    name: 'home',
+    label: '首 页',
+  },
+  {
+    name: 'system',
+    label: '系统介绍',
+  },
+  {
+    name: 'advance',
+    label: '产品优势',
+  },
+  {
+    name: 'buy',
+    label: '购买会员',
+  }
+]
+
+interface IRefs {
+  home?: any;
+  system?: any;
+  advance?: any;
+  buy?: any;
+}
+
 export default memo((props: IProps) => {
   const [info, setInfo] = useState({
     downUrl: '',
     qrUrl: ''
   })
+
+  const refs: IRefs = {};
+  navs.forEach((item) => {
+    refs[item.name] = useRef(null);
+  })
+
 
   const [show, setShow] = useState(false);
 
@@ -120,19 +150,28 @@ export default memo((props: IProps) => {
     getData()
   }, [])
 
+  const goTo = (type: string) => {
+    return () => {
+      const top = refs[type].current.offsetTop - 20;
+      window.scrollTo(0, top)
+    }
+  }
+
   const renderHeader = () => {
     return (
-      <header className='header'>
+      <header className='header' ref={refs.home}>
         <div className='container_center container_content'>
           <div className="logo">
             <img src={LOGO} className='img' />
           </div>
 
           <div className="btn-container">
-            <span className="btn">首 页</span>
-            <span className="btn">系统介绍</span>
-            <span className="btn">产品优势 </span>
-            <span className="btn">购买会员</span>
+            {
+              navs.map((item) => {
+                return <span className="btn cursor" key={item.name} onClick={goTo(item.name)}>{item.label}</span>
+              })
+            }
+
             <span className="btn btn-down cursor" onClick={downApp}>
               <span>App下载</span>
               <div className='qrcode' id='headerQrcode'></div>
@@ -145,7 +184,7 @@ export default memo((props: IProps) => {
 
   const renderHome = () => {
     return (
-      <section className='home-content container_center'>
+      <section className='home-content container_center' ref={refs.home}>
         <div>
           <div className='title-logo' >INTRODUCING HUNTER TRADES</div>
           <h3 className="title">Hunter trades智能交易策略系统</h3>
@@ -173,7 +212,7 @@ export default memo((props: IProps) => {
 
   const renderTradeRecords = () => {
     return (
-      <section className='trade_records container_center'>
+      <section className='trade_records container_center' ref={refs.system}>
         <div className='trade_list' />
         <div className='trade_dec'>
           <Button className='btn'>交易信号</Button>
@@ -194,7 +233,7 @@ export default memo((props: IProps) => {
 
   const renderAdvantage = () => {
     return (
-      <section className='container_center advantage'>
+      <section className='container_center advantage' ref={refs.advance}>
         <h3 className='title'>如何高效捕捉交易机会？</h3>
 
         <div className="advantage_container">
@@ -281,7 +320,7 @@ export default memo((props: IProps) => {
 
   const renderBuyMember = () => {
     return (
-      <section className="buy_member">
+      <section className="buy_member" ref={refs.buy}>
 
         <div className='container_center container'>
           <div className="buy item">
@@ -343,10 +382,11 @@ export default memo((props: IProps) => {
 
 
           <div className="footer_btn_container">
-            <span className="btn">首 页</span>
-            <span className="btn">系统介绍</span>
-            <span className="btn">产品优势 </span>
-            <span className="btn">购买会员</span>
+            {
+              navs.map((item) => {
+                return <span className="btn cursor" key={item.name} onClick={goTo(item.name)}>{item.label}</span>
+              })
+            }
           </div>
 
           <p className='footer_text'>© 2020 Hunter trades App. All Rights Reserved.</p>
