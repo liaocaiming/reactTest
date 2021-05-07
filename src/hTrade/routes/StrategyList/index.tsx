@@ -127,6 +127,15 @@ export default class App extends React.PureComponent<IProps, IState> {
       type: "select",
       list: isOrNot,
     },
+
+    {
+      title: "是否程序全程控制",
+      dataIndex: "bot_control",
+      showList: true,
+      type: "select",
+      list: isOrNot,
+    },
+
     {
       title: "操作",
       dataIndex: "remark",

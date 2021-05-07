@@ -137,6 +137,20 @@ export default memo((props: IProps) => {
         },
       ],
     },
+
+    {
+      label: "是否程序全程控制",
+      name: "bot_control",
+      type: "radio",
+      list: isOrNot,
+      rules: [
+        {
+          required: true,
+          message: "请选择",
+        },
+      ],
+    },
+
   ];
 
   const onFinish = (params: any) => {
