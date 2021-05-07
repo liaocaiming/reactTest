@@ -13,3 +13,5 @@ declare const TradingView: any;
 
 
 declare const pageUrlsMap: IUrls;
+
+declare const QRCode: any;

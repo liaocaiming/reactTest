@@ -44,6 +44,7 @@
     "moment": "^2.29.1",
     "node-sass": "^4.13.0",
     "optimize-css-assets-webpack-plugin": "^5.0.4",
+    "qrcode": "^1.4.4",
     "rc-form": "^2.4.11",
     "react": "^16.4.1",
     "react-beautiful-dnd": "^11.0.0",

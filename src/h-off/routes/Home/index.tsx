@@ -20,7 +20,7 @@ import KEFU from './images/kefu.jpg';
 
 import H_LOGO from './images/Huntericon.png'
 
-import QRCODE from './images/QR1.jpg'
+// import QRCODE from './images/QR1.jpg'
 
 import APK from './images/apk.png';
 
@@ -29,6 +29,9 @@ import api from "@src/h-off/config/api";
 import { fetch } from '@utils/index'
 
 import { message, Modal } from 'antd';
+
+import '@utils/lib/qrcode';
+
 
 const trades = [
   {
@@ -81,11 +84,37 @@ export default memo((props: IProps) => {
       }
     })
 
+    const downUrl: string = `${host}${apiUrl}`
+
     setInfo({
       qrUrl: '',
-      downUrl: `${host}${apiUrl}`
+      downUrl
     })
+
+    const dom = document.getElementById('qrCode');
+
+    const qrDom = document.getElementById('headerQrcode');
+
+    new QRCode(dom, {
+      text: downUrl,
+      width: 150,
+      height: 150,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+
+    new QRCode(qrDom, {
+      text: downUrl,
+      width: 200,
+      height: 200,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+
   }
+
 
   useEffect(() => {
     getData()
@@ -104,7 +133,10 @@ export default memo((props: IProps) => {
             <span className="btn">系统介绍</span>
             <span className="btn">产品优势 </span>
             <span className="btn">购买会员</span>
-            <span className="btn btn-down cursor" onClick={downApp}>App下载</span>
+            <span className="btn btn-down cursor" onClick={downApp}>
+              <span>App下载</span>
+              <div className='qrcode' id='headerQrcode'></div>
+            </span>
           </div>
         </div>
       </header>
@@ -301,7 +333,8 @@ export default memo((props: IProps) => {
             </div>
 
             <div className="app_down flex">
-              <img src={QRCODE} />
+              {/* <img src={QRCODE} /> */}
+              <div id='qrCode' />
               <p>扫码下载</p>
               <img src={APK} onClick={downApp} className='cursor' />
               <p onClick={downApp} className='cursor' >点击下载APK</p>
