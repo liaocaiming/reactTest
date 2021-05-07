@@ -28,7 +28,7 @@ import api from "@src/h-off/config/api";
 
 import { fetch } from '@utils/index'
 
-import { Modal } from 'antd';
+import { message, Modal } from 'antd';
 
 const trades = [
   {
@@ -59,6 +59,10 @@ export default memo((props: IProps) => {
 
 
   const downApp = async () => {
+    if (!info.downUrl) {
+      message.warn('系统故障， 请刷新后重新下载')
+      return
+    }
     window.location.href = info.downUrl
   }
 
@@ -100,7 +104,7 @@ export default memo((props: IProps) => {
             <span className="btn">系统介绍</span>
             <span className="btn">产品优势 </span>
             <span className="btn">购买会员</span>
-            <span className="btn btn-down cursor">App下载</span>
+            <span className="btn btn-down cursor" onClick={downApp}>App下载</span>
           </div>
         </div>
       </header>

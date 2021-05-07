@@ -29,6 +29,7 @@ import api from "@src/h-mobile/config/api";
 import { fetch } from '@utils/index'
 
 import { Modal } from 'antd';
+import { Toast } from 'antd-mobile';
 
 const trades = [
   {
@@ -64,6 +65,10 @@ export default memo((props: IProps) => {
 
 
   const downApp = async () => {
+    if (!info.downUrl) {
+      Toast.fail('系统故障， 请刷新后重新下载')
+      return
+    }
     window.location.href = info.downUrl
   }
 
