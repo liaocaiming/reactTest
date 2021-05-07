@@ -264,7 +264,7 @@ export default memo((props: IProps) => {
           </div>
 
           <div className="experience item">
-            <div className='title'>10天体验 免费申请</div>
+            <div className='title'>7天体验 免费申请</div>
             <div className="line" />
 
             <div className="dec">

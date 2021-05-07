@@ -76,13 +76,13 @@ export const getFormItems = (options?: IOptions) => {
     {
       name: "binance_user_id",
       label: "币安UID",
-      rules: [
-        {
-          required: true,
-          message: "请输入",
-          whitespace: true,
-        },
-      ],
+      // rules: [
+      //   {
+      //     required: true,
+      //     message: "请输入",
+      //     whitespace: true,
+      //   },
+      // ],
       eleAttr: {
         // disabled,
         placeholder: "请输入",
