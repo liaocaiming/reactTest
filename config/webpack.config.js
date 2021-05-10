@@ -12,7 +12,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const WebpackBar = require("webpackbar");
 
-const mobilePhone = ["mobile", "h-mobile", 'h-off'];
+const mobilePhone = ["mobile", "h-mobile", "h-off"];
 
 const cssLoader = [
   MiniCssExtractPlugin.loader,
@@ -40,7 +40,7 @@ module.exports = (options) => {
                 replace: true,
                 mediaQuery: false,
                 minPixelValue: 2.2,
-                exclude: '/node_modules/*'
+                exclude: "/node_modules/*",
               },
             ],
             "autoprefixer",
@@ -193,8 +193,10 @@ module.exports = (options) => {
           test: /\.(png|jpg|gif)$/,
           use: [
             {
-              loader: "file-loader",
+              loader: "url-loader",
               options: {
+                limit: 1024, // 1kB
+                fallback: "file-loader",
                 name: "[hash].[ext]",
                 outputPath: "./img",
                 publicPath: "./img",

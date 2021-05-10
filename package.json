@@ -124,7 +124,7 @@
     "ts-import-plugin": "^1.5.5",
     "ts-loader": "^5.2.1",
     "typed-scss-modules": "^1.0.1",
-    "url-loader": "^1.1.1",
+    "url-loader": "^4.1.1",
     "utf8-byte-length": "^1.0.4",
     "vue-next": "^0.0.1",
     "webpack": "^4.15.1",
