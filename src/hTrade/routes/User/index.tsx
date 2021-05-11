@@ -33,6 +33,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     {
       title: "用户名称",
       dataIndex: "name",
+      isSearch: true,
     },
 
     {

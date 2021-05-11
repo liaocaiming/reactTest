@@ -15,19 +15,41 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "noImplicitReturns": true,
-    "typeRoots": ["./typings"],
+    "typeRoots": [
+      "./typings"
+    ],
     "paths": {
-      "@utils/*": ["src/@shared/utils/*"],
-      "@shared/*": ["src/@shared/*"],
-      "@screens/*": ["src/@screens/*"],
-      "@containers/*": ["src/@shared/containers/*"],
-      "@typings/*": ["typings/*"],
-      "@src/*": ["src/*"],
-      "@components/*": ["src/@shared/components/*"]
+      "@utils/*": [
+        "src/@shared/utils/*"
+      ],
+      "@shared/*": [
+        "src/@shared/*"
+      ],
+      "@screens/*": [
+        "src/@screens/*"
+      ],
+      "@containers/*": [
+        "src/@shared/containers/*"
+      ],
+      "@typings/*": [
+        "typings/*"
+      ],
+      "@src/*": [
+        "src/*"
+      ],
+      "@components/*": [
+        "src/@shared/components/*"
+      ]
     },
     "baseUrl": "./",
     "allowSyntheticDefaultImports": true
   },
-  "include": ["./src/**/*", "typings"],
-  "exclude": ["node_modules/*", "**/**/**.js"]
+  "include": [
+    "./src/**/*",
+    "typings"
+  ],
+  "exclude": [
+    "node_modules/*",
+    "**/**/**.js",
+  ]
 }
