@@ -42,7 +42,9 @@ yarn config set registry https://registry.npm.taobao.org
 yarn start --name hTrade --company biduofeng (--dev || --target https://test.huntertrades.com/);
 
 生产命令
-yarn production --name hTrade --company biduofeng
+yarn production
+
+然后选择  name, company
 
 注意: --dev, --target 只能是开发中使用
 
