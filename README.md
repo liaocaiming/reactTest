@@ -35,3 +35,14 @@ yarn config set registry https://registry.npm.taobao.org
 |      ---             |           ---        |     ---    |    ---             |    ---                    |
 |原管理系统，暂无使用     |  手机端官网及注册      |  pc官网     |   运营管理系统        |  原手机策略设置系统， 暂无使用 |
 
+
+### 命令参数说明
+
+yarn production --name hTrade --company biduofeng (--dev || --target https://test.huntertrades.com/);
+
+|     name                               |     company                                    |  target                                                      |      dev                        |  
+|      ---                               |           ---                                  |     ---                                                      |    ---                           |   
+|需要打包的项目名称, 如: hTrade, h-off等     |  公司名称, 默认是hTrade(自己公司), 其他: 币多分     |  接口设置代理的url, dev是链接开发环境, 两者冲突, 优先级是target      |   接口链接开发环境, 有target是不生效 |
+
+
+

@@ -1,16 +1,16 @@
-const path = require("path");
-const api = require("./api");
-const webpackConfig = require("./webpack.config");
-const { createProxyMiddleware } = require("http-proxy-middleware");
-const yargs = require("yargs");
-const { name, dev } = yargs.argv;
+const path = require('path');
+const api = require('./api');
+const webpackConfig = require('./webpack.config');
+const { createProxyMiddleware } = require('http-proxy-middleware');
+const yargs = require('yargs');
+const { name, dev, target } = yargs.argv;
 
 module.exports = {
   // contentBase: webpackConfig.output.path,
   compress: true,
   port: 3000,
   historyApiFallback: true,
-  stats: "errors-only",
+  stats: 'errors-only',
   // proxy: {
   //   '/api': {
   //     target: 'http://47.74.177.128:3000',
@@ -31,32 +31,50 @@ module.exports = {
   //   poll: true
   // },
   before(app) {
-    if (dev) {
+    if (target) {
       app.use(
-        "/api/v1",
+        '/api/v1',
         createProxyMiddleware({
           // target: "http://103.5.144.162:3000/",
-          target: "https://test.huntertrades.com/",
+          target,
           changeOrigin: true,
-        })
+        }),
       );
 
       app.use(
-        "/app/v1",
+        '/app/v1',
         createProxyMiddleware({
           // target: "http://103.5.144.162:3000/",
-          target: "https://test.huntertrades.com/",
+          target,
           changeOrigin: true,
-        })
+        }),
       );
-      return
+      return;
     }
 
-    app.use("/api/v1", api());
-    app.use("/app/v1", api());
+    if (dev) {
+      app.use(
+        '/api/v1',
+        createProxyMiddleware({
+          // target: "http://103.5.144.162:3000/",
+          target: 'https://test.huntertrades.com/',
+          changeOrigin: true,
+        }),
+      );
 
+      app.use(
+        '/app/v1',
+        createProxyMiddleware({
+          // target: "http://103.5.144.162:3000/",
+          target: 'https://test.huntertrades.com/',
+          changeOrigin: true,
+        }),
+      );
+      return;
+    }
 
-
+    app.use('/api/v1', api());
+    app.use('/app/v1', api());
 
     // if (name === "boss") {
     //   app.use(
