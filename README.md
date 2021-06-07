@@ -17,6 +17,21 @@ yarn config set registry https://registry.npm.taobao.org
 
 #### 3. 生产代码: dist => boss
 
-### ngix 地址: /usr/share/nginx/html/boss
 
-### linx 常用命令: 1. 上传文件: rz 2. 解压文件 unzip boss.zip
+
+### 分支介绍
+
+|     master          |     biduofeng    |
+|      ---            |           ---    |
+| huntertrades公司代码 |  币多分公司代码   |
+
+
+
+
+
+### 系统介绍
+
+|     boss             |     h-mobile         |  h-off     |      hTrade        |    mobile                 |
+|      ---             |           ---        |     ---    |    ---             |    ---                    |
+|原管理系统，暂无使用     |  手机端官网及注册      |  pc官网     |   运营管理系统        |  原手机策略设置系统， 暂无使用 |
+
