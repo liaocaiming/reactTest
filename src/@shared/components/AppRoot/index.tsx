@@ -2,7 +2,11 @@ import * as React from 'react';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
 interface Iprops {
-  config: any;
+  config: {
+    routes: any[];
+    menu?: any;
+  };
+  companyConfig?: any;
 }
 
 interface Iroute {
@@ -12,30 +16,34 @@ interface Iroute {
   routes?: Iroute;
 }
 
-
 export default class AppRoot extends React.Component<Iprops> {
   render() {
-    const { config } = this.props;
+    const { config, companyConfig } = this.props;
     return (
       <Router>
         <Switch>
-          {
-            config.routes.map((route: Iroute, index: number) => {
-              const RouteComponent = route.component;
-              return (
-                <Route
-                  exact={route.exact}
-                  path={route.path}
-                  key={index}
-                  render={(routeProps: any) => {
-                    return <RouteComponent {...routeProps} menu={config.menu} routes={route.routes} />
-                  }}
-                />
-              )
-            })
-          }
+          {config.routes.map((route: Iroute, index: number) => {
+            const RouteComponent = route.component;
+            return (
+              <Route
+                exact={route.exact}
+                path={route.path}
+                key={index}
+                render={(routeProps: any) => {
+                  return (
+                    <RouteComponent
+                      {...routeProps}
+                      companyConfig={companyConfig}
+                      menu={config.menu}
+                      routes={route.routes}
+                    />
+                  );
+                }}
+              />
+            );
+          })}
         </Switch>
       </Router>
-    )
+    );
   }
 }

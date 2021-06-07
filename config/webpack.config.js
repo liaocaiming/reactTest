@@ -1,53 +1,53 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // const TsCheckerWebpackPlugin = require("ts-checker-webpack-plugin");
 
-const webpack = require("webpack");
+const webpack = require('webpack');
 
-const utils = require("./utils/utils");
+const utils = require('./utils/utils');
 
-const VueLoaderPlugin = require("vue-loader/lib/plugin");
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const WebpackBar = require("webpackbar");
+const WebpackBar = require('webpackbar');
 
-const mobilePhone = ["mobile", "h-mobile", "h-off"];
+const mobilePhone = ['mobile', 'h-mobile', 'h-off'];
 
 const cssLoader = [
   MiniCssExtractPlugin.loader,
   // "vue-style-loader",
   {
-    loader: "css-loader",
+    loader: 'css-loader',
   },
 ];
 
-module.exports = (options) => {
-  const { name } = options;
+module.exports = options => {
+  const { name, company } = options;
   if (mobilePhone.indexOf(name) > -1) {
     cssLoader.push({
-      loader: "postcss-loader",
+      loader: 'postcss-loader',
       options: {
         postcssOptions: {
           plugins: [
             [
-              "postcss-pxtorem",
+              'postcss-pxtorem',
               {
                 rootValue: 100,
                 unitPrecision: 5,
-                propList: ["*"],
+                propList: ['*'],
                 selectorBlackList: [],
                 replace: true,
                 mediaQuery: false,
                 minPixelValue: 2.2,
-                exclude: "/node_modules/*",
+                exclude: '/node_modules/*',
               },
             ],
-            "autoprefixer",
+            'autoprefixer',
             [
-              "cssnano",
+              'cssnano',
               {
-                preset: "default",
+                preset: 'default',
                 zindex: false,
                 reduceIdents: false,
               },
@@ -60,11 +60,11 @@ module.exports = (options) => {
 
   const config = {
     entry: {
-      vendor: ["react", "react-dom"],
+      vendor: ['react', 'react-dom'],
       index: [utils.resolve(`src/${name}/index.tsx`)],
     },
     output: {
-      filename: "js/[name].[hash].js",
+      filename: 'js/[name].[hash].js',
       path: utils.resolve(`dist/${name}`),
     },
 
@@ -72,29 +72,29 @@ module.exports = (options) => {
       splitChunks: {
         cacheGroups: {
           commons: {
-            name: "commons",
-            chunks: "initial",
+            name: 'commons',
+            chunks: 'initial',
             minChunks: 2,
           },
         },
       },
     },
 
-    devtool: "eval-source-map",
+    devtool: 'eval-source-map',
 
-    mode: "development",
+    mode: 'development',
 
     resolve: {
       // Add '.ts' and '.tsx' as resolvable extensions.
-      extensions: [".ts", ".tsx", ".js", ".json", ".css", ".less"],
+      extensions: ['.ts', '.tsx', '.js', '.json', '.css', '.less'],
       alias: {
-        "@utils": utils.resolve("src/@shared/utils"),
-        "@shared": utils.resolve("src/@shared"),
-        "@screens": utils.resolve("src/@screens"),
-        "@containers": utils.resolve("src/@shared/containers"),
-        "@typings": utils.resolve("src/typings"),
-        "@src": utils.resolve("src"),
-        "@components": utils.resolve("src/@shared/components"),
+        '@utils': utils.resolve('src/@shared/utils'),
+        '@shared': utils.resolve('src/@shared'),
+        '@screens': utils.resolve('src/@screens'),
+        '@containers': utils.resolve('src/@shared/containers'),
+        '@typings': utils.resolve('src/typings'),
+        '@src': utils.resolve('src'),
+        '@components': utils.resolve('src/@shared/components'),
       },
     },
 
@@ -105,31 +105,31 @@ module.exports = (options) => {
           exclude: [/(node_modules|bower_components)/],
           use: [
             {
-              loader: "babel-loader",
+              loader: 'babel-loader',
               options: {
                 presets: [
-                  ["@babel/preset-env", { modules: false }],
-                  "@babel/preset-typescript",
-                  "@babel/preset-react",
+                  ['@babel/preset-env', { modules: false }],
+                  '@babel/preset-typescript',
+                  '@babel/preset-react',
                 ],
                 plugins: [
                   [
-                    "import",
+                    'import',
                     {
-                      libraryName: "antd",
-                      libraryDirectory: "es",
-                      style: "css",
+                      libraryName: 'antd',
+                      libraryDirectory: 'es',
+                      style: 'css',
                     },
-                    "antDesign",
+                    'antDesign',
                   ],
                   [
-                    "import",
+                    'import',
                     {
-                      libraryName: "antd-mobile",
-                      libraryDirectory: "es",
-                      style: "css",
+                      libraryName: 'antd-mobile',
+                      libraryDirectory: 'es',
+                      style: 'css',
                     },
-                    "antMobile",
+                    'antMobile',
                   ],
                 ],
                 cacheDirectory: true,
@@ -146,9 +146,9 @@ module.exports = (options) => {
         },
 
         {
-          enforce: "pre",
+          enforce: 'pre',
           test: /\.js$/,
-          loader: "source-map-loader",
+          loader: 'source-map-loader',
         },
 
         {
@@ -158,10 +158,10 @@ module.exports = (options) => {
           use: [
             MiniCssExtractPlugin.loader,
             {
-              loader: "css-loader",
+              loader: 'css-loader',
               options: {
                 module: true,
-                localIdentName: "[path][name]__[local]--[hash:base64:5]",
+                localIdentName: '[path][name]__[local]--[hash:base64:5]',
               },
             },
           ],
@@ -179,7 +179,7 @@ module.exports = (options) => {
           use: [
             ...cssLoader,
             {
-              loader: "less-loader",
+              loader: 'less-loader',
               options: {
                 lessOptions: {
                   strictMath: true,
@@ -193,13 +193,13 @@ module.exports = (options) => {
           test: /\.(png|jpg|gif)$/,
           use: [
             {
-              loader: "url-loader",
+              loader: 'url-loader',
               options: {
                 limit: 1024, // 1kB
-                fallback: "file-loader",
-                name: "[hash].[ext]",
-                outputPath: "./img",
-                publicPath: "./img",
+                fallback: 'file-loader',
+                name: '[hash].[ext]',
+                outputPath: './img',
+                publicPath: './img',
                 esModule: false,
               },
             },
@@ -209,36 +209,41 @@ module.exports = (options) => {
         {
           //处理 html 中通过 img 引入的图片，background-image 设置的图片不可以
           test: /\.html$/,
-          use: "html-loader",
+          use: 'html-loader',
         },
 
         {
           test: /\.vue$/,
-          loader: "vue-loader",
+          loader: 'vue-loader',
         },
       ],
     },
 
     plugins: [
       new WebpackBar(),
+
       new HtmlWebpackPlugin({
         template: utils.resolve(`src/${name}/index.html`),
-        filename: "index.html",
+        filename: 'index.html',
       }),
 
       new MiniCssExtractPlugin({
-        filename: "[name][hash:8].css",
-        chunkFilename: "[name][hash:8].css",
+        filename: '[name][hash:8].css',
+        chunkFilename: '[name][hash:8].css',
       }),
 
       // new TsCheckerWebpackPlugin(),
 
       new webpack.ProvidePlugin({
-        React: "react",
-        ReactDom: "react-dom",
+        React: 'react',
+        ReactDom: 'react-dom',
       }),
 
       new VueLoaderPlugin(),
+
+      new webpack.DefinePlugin({
+        COMPANY: JSON.stringify(company),
+      }),
     ],
   };
 

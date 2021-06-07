@@ -3,12 +3,17 @@ import { IActions } from '@containers/index.d'
 
 import { History, Location } from 'history';
 
+export type ICompany = {
+  title: string;
+  menuKeys?: string[]
+}
+
 interface IMatch {
   path: string;
   url: string;
   params: { // 路由的参数
     id: string;
-    [random:string]: any;
+    [random: string]: any;
   }
 }
 
@@ -37,5 +42,6 @@ export default interface IProps {
   match: IMatch;
   location: Location;
   route: IRoute;
-  [random:string]: any;
+  companyConfig?: ICompany;
+  [random: string]: any;
 }

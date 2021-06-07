@@ -1,25 +1,25 @@
-const webpack = require("webpack");
-const uglify = require("uglifyjs-webpack-plugin");
-const configFn = require("./webpack.config");
-const cleanWebpackPlugin = require("clean-webpack-plugin");
-const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const chalk = require("chalk");
-const yargs = require("yargs").argv;
-const utils = require("./utils/utils.js");
-const name = yargs.name || "boss";
-const { exec } = require("child_process");
+const webpack = require('webpack');
+const uglify = require('uglifyjs-webpack-plugin');
+const configFn = require('./webpack.config');
+const cleanWebpackPlugin = require('clean-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const chalk = require('chalk');
+const yargs = require('yargs').argv;
+const utils = require('./utils/utils.js');
+
+const { name = 'hTrade', company = 'hTrade' } = yargs;
 
 const configJson = require(`../src/${name}/config/app.json`);
 
-console.log(name, "name");
+console.log(name, 'name');
 
 const proConfig = {
-  mode: "production",
-  devtool: "none",
+  mode: 'production',
+  devtool: 'none',
 };
 
 const plugin = [
-  new cleanWebpackPlugin(utils.resolve("dist"), {
+  new cleanWebpackPlugin(utils.resolve('dist'), {
     root: process.cwd(),
     verbose: true,
   }),
@@ -28,7 +28,7 @@ const plugin = [
   new OptimizeCssAssetsPlugin(),
 ];
 
-const webpackConfig = configFn({ name });
+const webpackConfig = configFn({ name, company });
 
 Object.assign(webpackConfig, proConfig);
 
@@ -36,7 +36,7 @@ webpackConfig.output.publicPath = configJson.proConfig;
 
 webpackConfig.plugins = webpackConfig.plugins.concat(plugin);
 
-const compressing = require("compressing");
+const compressing = require('compressing');
 
 const compiler = webpack(webpackConfig);
 
@@ -61,13 +61,13 @@ compiler.run((err, stats) => {
   compressing.zip
     .compressDir(
       utils.resolve(`dist/${name}`),
-      utils.resolve(`dist/${zipName}`)
+      utils.resolve(`dist/${zipName}`),
     )
     .then(() => {
       console.log(chalk.yellow(`Tip: 文件压缩成功，已压缩至【${zipName}】`));
     })
-    .catch((err) => {
-      console.log(chalk.red("Tip: 压缩报错"));
+    .catch(err => {
+      console.log(chalk.red('Tip: 压缩报错'));
       console.error(err);
     });
 });

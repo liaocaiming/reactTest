@@ -3,6 +3,8 @@ import hTradeReducers from '@src/hTrade/reducers/hTradeReducer';
 import appScreenReducer from '@shared/containers/appScreen/reducer';
 import appReducer from '@shared/containers/app/reducer';
 import api from './api';
+import companyConfig from './companyConfig';
+import menuData from './menuData';
 
 const reducers = {
   app: appReducer,
@@ -13,5 +15,7 @@ const reducers = {
 export {
   routes,
   reducers,
-  api
+  api,
+  companyConfig,
+  menuData
 }

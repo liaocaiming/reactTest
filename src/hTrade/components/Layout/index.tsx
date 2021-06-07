@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 
 import {
   DownOutlined,
@@ -7,32 +7,30 @@ import {
   UserOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-} from "@ant-design/icons";
+} from '@ant-design/icons';
 
-import { Avatar, Button, Dropdown, Layout, Menu, Spin } from "antd";
+import { Avatar, Button, Dropdown, Layout, Menu, Spin } from 'antd';
 
-import { connect } from "@containers/app";
+import { connect } from '@containers/app';
 
-import { renderRoutes } from "react-router-config";
+import { renderRoutes } from 'react-router-config';
 
 const { Header, Content, Footer, Sider } = Layout;
 
-import SubMenu from "antd/lib/menu/SubMenu";
+import SubMenu from 'antd/lib/menu/SubMenu';
 
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
-import User from "@utils/lib/User";
+import User from '@utils/lib/User';
 
-import "./index.css";
+import './index.css';
 
-import menuData from "./menuData";
-
-import ErrorBoundary from "@shared/components/ErrorBoundary";
+import ErrorBoundary from '@shared/components/ErrorBoundary';
 
 function isFirstTime() {
-  const isNotFirstTime = window.localStorage.getItem("isNotFirstTime");
+  const isNotFirstTime = window.localStorage.getItem('isNotFirstTime');
 
-  return isNotFirstTime !== "true";
+  return isNotFirstTime !== 'true';
 }
 
 interface IMenu {
@@ -55,6 +53,7 @@ export interface IProps {
   routes?: any;
   history?: any;
   $$screen: any;
+  companyConfig: any;
 }
 
 // tslint:disable-next-line:interface-name
@@ -72,8 +71,8 @@ export interface IState {
 }
 
 // 拆分url
-export function splitUrl(pathName: any, defaultPath = "/") {
-  const splitArray = pathName.split("/");
+export function splitUrl(pathName: any, defaultPath = '/') {
+  const splitArray = pathName.split('/');
   const tempArray: any = [];
 
   splitArray.map((item: any) => {
@@ -106,7 +105,7 @@ export default class App extends React.Component<IProps, IState> {
   public componentDidMount() {
     if (!User.isLogin()) {
       const { history } = this.props;
-      history.push("/");
+      history.push('/');
     }
   }
 
@@ -114,7 +113,7 @@ export default class App extends React.Component<IProps, IState> {
   public handleLogout = () => {
     User.removeUserInfo();
     const { history } = this.props;
-    history.push("/");
+    history.push('/');
   };
 
   // 数组转成对象
@@ -171,7 +170,7 @@ export default class App extends React.Component<IProps, IState> {
         <a className="ant-dropdown-link">
           <Avatar
             icon={<UserOutlined />}
-            size={"small"}
+            size={'small'}
             className="margin_right_10 fe-header-avatar"
           />
           <span>{userInfo && userInfo.realName}</span> <DownOutlined />
@@ -182,8 +181,8 @@ export default class App extends React.Component<IProps, IState> {
 
   public renderItemOrSub(item: IMenu, key: any) {
     let concatKey = `${key}/${item.key}`;
-    if (concatKey.substring(0, 1) !== "/") {
-      concatKey = "/" + concatKey;
+    if (concatKey.substring(0, 1) !== '/') {
+      concatKey = '/' + concatKey;
     }
     if (item.children && item.children.length && item.hasChild) {
       return this.renderSubMenu(item, concatKey);
@@ -198,14 +197,14 @@ export default class App extends React.Component<IProps, IState> {
     return (
       <Menu.Item key={item.key} icon={item.icon}>
         <Link
-          className={"margin_right_5"}
+          className={'margin_right_5'}
           to={{
             pathname: key,
             state: item,
           }}
         >
           {/* {item.iconType && <Icon type={item.iconType} />} */}
-          <span style={{ fontSize: "14px" }}>{item.title}</span>
+          <span style={{ fontSize: '14px' }}>{item.title}</span>
         </Link>
       </Menu.Item>
     );
@@ -235,15 +234,15 @@ export default class App extends React.Component<IProps, IState> {
       marginLeft: this.state.collapsed ? 200 : 80,
     });
 
-    window.localStorage.setItem("isNotFirstTime", "true");
+    window.localStorage.setItem('isNotFirstTime', 'true');
     this.isFirstTime = isFirstTime();
   };
 
   public getToggleMenuButtonTip() {
-    let ret = "";
+    let ret = '';
 
     if (this.isFirstTime) {
-      ret = "点击切换菜单伸缩状态";
+      ret = '点击切换菜单伸缩状态';
     }
 
     return ret;
@@ -253,21 +252,23 @@ export default class App extends React.Component<IProps, IState> {
   public getRoutesByMenuData = () => {
     const { menu } = this.props;
     this.setState({
-      menuArray: menu || menuData,
+      menuArray: menu,
     });
   };
 
   private handleOut = () => {
     const { history } = this.props;
     User.removeUserInfo();
-    history.push("/");
+    history.push('/');
   };
 
   public render() {
-    const { history, menu } = this.props;
-    const saving = this.props.$$app && this.props.$$app.getIn(["saving"]);
-    const fetching = this.props.$$app && this.props.$$app.getIn(["fetching"]);
+    const { history, menu = [] } = this.props;
+    const saving = this.props.$$app && this.props.$$app.getIn(['saving']);
+    const fetching = this.props.$$app && this.props.$$app.getIn(['fetching']);
     const { marginLeft } = this.state;
+    const { companyConfig } = this.props;
+    const { title = 'H-TRADE' } = companyConfig || {};
 
     return (
       <Layout className="layout">
@@ -278,7 +279,7 @@ export default class App extends React.Component<IProps, IState> {
             style={{ margin: 15 }}
           >
             {React.createElement(
-              this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined
+              this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
             )}
           </Button>
 
@@ -294,33 +295,32 @@ export default class App extends React.Component<IProps, IState> {
             inlineIndent={16}
             inlineCollapsed={this.state.collapsed}
             style={{
-              backgroundColor: "rgba(34,51,77,1)",
+              backgroundColor: 'rgba(34,51,77,1)',
             }}
           >
-            {menu ||
-              menuData.map((item: any) => {
-                return this.renderItemOrSub(item, "/hTrade");
-              })}
+            {menu.map((item: any) => {
+              return this.renderItemOrSub(item, '/hTrade');
+            })}
           </Menu>
         </Sider>
 
         {/* <Layout style={{ marginLeft }}> */}
         <Layout style={{ paddingLeft: marginLeft }}>
           <Header className="layout-header">
-            <h1 className="layout-title">H-TRADE</h1>
+            <h1 className="layout-title">{title}</h1>
             <Button type="primary" onClick={this.handleOut}>
               退出
             </Button>
           </Header>
           <Content
-            style={{ padding: "60px 20px 20px" }}
+            style={{ padding: '60px 20px 20px' }}
             className="layout-content"
           >
             <Spin size="large" spinning={saving || fetching}>
               <ErrorBoundary>{renderRoutes(this.props.routes)}</ErrorBoundary>
             </Spin>
           </Content>
-          <Footer style={{ textAlign: "center" }}>H-TRADE</Footer>
+          <Footer style={{ textAlign: 'center' }}>{title}</Footer>
         </Layout>
       </Layout>
     );
