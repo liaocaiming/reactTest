@@ -5,6 +5,7 @@ import { History, Location } from 'history';
 
 export type ICompany = {
   title: string;
+  name: string;
   menuKeys?: string[]
 }
 
