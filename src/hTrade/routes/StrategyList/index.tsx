@@ -26,6 +26,10 @@ const renderItemOrNot = value => {
 
   return <span className={`${value == '1' ? 'green' : 'red'}`}>{label}</span>;
 };
+
+const renderRate = value => {
+  return <span>{value && Number(value) * 100}</span>;
+};
 @connect()
 export default class App extends React.PureComponent<IProps, IState> {
   private changeItem: any = {};
@@ -83,11 +87,13 @@ export default class App extends React.PureComponent<IProps, IState> {
     {
       title: '涨跌幅%',
       dataIndex: 'change_rate',
+      render: renderRate,
     },
     {
       title: '100EMA和200EMA的距离%',
       dataIndex: 'entry_distance_rate',
       width: 150,
+      render: renderRate,
     },
     {
       title: '止损百分比%',

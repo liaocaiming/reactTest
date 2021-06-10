@@ -203,7 +203,15 @@ export default memo((props: IProps) => {
     form?.submit();
   };
 
-  const { feibo = '' } = detail;
+  const { feibo = '', change_rate, entry_distance_rate } = detail;
+
+  const obj = {
+    ...detail,
+    feibo: feibo.split(','),
+    change_rate: (change_rate && Number(change_rate) * 100) || '',
+    entry_distance_rate:
+      (entry_distance_rate && Number(entry_distance_rate) * 100) || '',
+  };
 
   return (
     <Modal visible title="编辑策略" {...props} onOk={onOk} width={800}>
@@ -212,8 +220,8 @@ export default memo((props: IProps) => {
         formItems={formItems}
         onFinish={onFinish}
         submitButton={null}
-        initialValues={{ ...detail, feibo: feibo.split(',') }}
-        updateStore={{ ...detail, feibo: feibo.split(',') }}
+        initialValues={obj}
+        updateStore={obj}
         onReady={form => {
           setForm(form);
         }}
