@@ -87,7 +87,7 @@ export default memo((props: IProps) => {
     },
     {
       label: '100EMA和200EMA的距离',
-      name: 'EMA_distance',
+      name: 'entry_distance_rate',
       rules: [
         {
           pattern: constants.pattern.positiveNumFloat,

@@ -45,11 +45,13 @@
     "allowSyntheticDefaultImports": true
   },
   "include": [
-    "./src/**/*",
+    "./src/**/*.ts",
+    "./src/**/*.tsx",
     "typings"
   ],
   "exclude": [
     "node_modules/*",
+    "./src/**/*.js",
     "**/**/**.js",
   ]
 }

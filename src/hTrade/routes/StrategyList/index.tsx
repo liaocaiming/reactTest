@@ -86,7 +86,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     },
     {
       title: '100EMA和200EMA的距离%',
-      dataIndex: 'EMA_distance',
+      dataIndex: 'entry_distance_rate',
       width: 150,
     },
     {
