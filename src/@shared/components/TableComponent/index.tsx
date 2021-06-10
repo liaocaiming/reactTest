@@ -1,29 +1,29 @@
-import * as React from "react";
+import * as React from 'react';
 
-import { Table, Popover } from "antd";
+import { Table, Popover } from 'antd';
 
-import "./index.less";
+import './index.less';
 
-import { TableProps, ColumnProps } from "antd/lib/table";
+import { TableProps, ColumnProps } from 'antd/lib/table';
 
-import Toggle from "../Toggle";
-import isObject from "@utils/lib/isObject";
+import Toggle from '../Toggle';
+import isObject from '@utils/lib/isObject';
 
 export enum ItemType {
   // 下拉选择框
-  select = "select",
+  select = 'select',
 
   // input 输入框
-  input = "input",
+  input = 'input',
   // 数组类输入框
-  number = "number",
-  datePicker = "datePicker",
-  rangePicker = "rangePicker",
-  timePicker = "timePicker",
-  timeRangePicker = "timeRangePicker",
-  cascader = "cascader",
+  number = 'number',
+  datePicker = 'datePicker',
+  rangePicker = 'rangePicker',
+  timePicker = 'timePicker',
+  timeRangePicker = 'timeRangePicker',
+  cascader = 'cascader',
   // 数字范围
-  numberRanger = "numberRanger",
+  numberRanger = 'numberRanger',
 }
 
 export type Type = keyof typeof ItemType;
@@ -52,6 +52,7 @@ export interface ITableComponentProps extends TableProps<any> {
   pagination?: any;
   rowKey?: any;
   isFixed?: boolean; // 默认是false,是否两边需要固定;
+  align?: 'left' | 'center' | 'right';
   [random: string]: any;
 }
 
@@ -108,13 +109,20 @@ export default class TableComponent extends React.Component<
 
   // 修改列数据
   public modifyColData = (nextProps: ITableComponentProps) => {
-    let { columns } = nextProps;
-    columns.map((item) => {
+    let { columns, align } = nextProps;
+    columns.map(item => {
+      if (align && !item.align) {
+        item.align = align;
+      }
+
+      if (item.render) {
+        return true;
+      }
       const { showList = true } = item;
-      if (item.type === "select" && showList && item.list) {
+      if (item.type === 'select' && showList && item.list) {
         let list: IList[] = item.list;
         if (isObject(list)) {
-          list = Object.keys(list).map((key) => {
+          list = Object.keys(list).map(key => {
             return {
               value: key,
               label: list[key],
@@ -122,20 +130,20 @@ export default class TableComponent extends React.Component<
           });
         }
         item.render = (val: any) => {
-          if (typeof val === "string" || typeof val === "number") {
-            return list.find((it) => it.value == val)?.label || val;
+          if (typeof val === 'string' || typeof val === 'number') {
+            return list.find(it => it.value == val)?.label || val;
           }
 
           if (Array.isArray(val)) {
             let labels: any[] = [];
-            list.forEach((item) => {
-              const is = val.some((v) => v == item.value);
+            list.forEach(item => {
+              const is = val.some(v => v == item.value);
               if (is) {
                 labels.push(item.label);
               }
             });
 
-            return labels.join(",") || (val && val.join(","));
+            return labels.join(',') || (val && val.join(','));
           }
 
           return null;
@@ -150,7 +158,7 @@ export default class TableComponent extends React.Component<
           }
 
           if (Array.isArray(text)) {
-            txt = text.join("、");
+            txt = text.join('、');
           }
           return (
             <Popover
@@ -159,7 +167,7 @@ export default class TableComponent extends React.Component<
               overlayClassName="authName-popover"
             >
               <div
-                style={{ maxWidth: item.width || "150px" }}
+                style={{ maxWidth: item.width || '150px' }}
                 className="txt_ellipsis"
               >
                 {txt}
@@ -186,14 +194,14 @@ export default class TableComponent extends React.Component<
       <div className="statistics-info">
         <span className="margin_right_20">
           合计&nbsp;
-          <span className="color_red" style={{ fontSize: "20px" }}>
+          <span className="color_red" style={{ fontSize: '20px' }}>
             {totalCount}
           </span>
           &nbsp;条
         </span>
         <span>
           已选择&nbsp;
-          <span className="color_red" style={{ fontSize: "20px" }}>
+          <span className="color_red" style={{ fontSize: '20px' }}>
             {selected || selectedRowKeys.length}
           </span>
           &nbsp;条
@@ -205,7 +213,7 @@ export default class TableComponent extends React.Component<
   public filterRowData = (rowData: IColumnProps[]) => {
     return rowData.filter((item: IColumnProps) => {
       let is: any = item.isShow;
-      if (typeof is === "function") {
+      if (typeof is === 'function') {
         is = is();
       }
       return !(is === false);
@@ -215,10 +223,10 @@ export default class TableComponent extends React.Component<
   public setSelectAllRowsData = (
     changeRows: any[],
     selected: boolean,
-    rowSelectionType: "checkbox" | "radio"
+    rowSelectionType: 'checkbox' | 'radio',
   ) => {
     let selectKeys: any[] = this.selectKeys.slice();
-    const { rowKey = "id" } = this.props;
+    const { rowKey = 'id' } = this.props;
     if (selected) {
       const keys = changeRows.map((row: any) => {
         return row[rowKey];
@@ -232,7 +240,7 @@ export default class TableComponent extends React.Component<
       });
     }
 
-    if (rowSelectionType === "radio") {
+    if (rowSelectionType === 'radio') {
       this.selectKeys = changeRows.map((row: any) => {
         return row[rowKey];
       });
@@ -245,7 +253,7 @@ export default class TableComponent extends React.Component<
     if (!Array.isArray(data) || !Array.isArray(selectedKeys)) {
       return [];
     }
-    const { rowKey = "id" } = this.props;
+    const { rowKey = 'id' } = this.props;
     return data.filter((item: any) => {
       return selectedKeys.indexOf(item[rowKey]) >= 0;
     });
@@ -256,7 +264,7 @@ export default class TableComponent extends React.Component<
     if (!rowSelection) {
       return;
     }
-    const { onChange, type = "checkbox", onSelect, onSelectAll } = rowSelection;
+    const { onChange, type = 'checkbox', onSelect, onSelectAll } = rowSelection;
 
     const params = {
       ...rowSelection,
@@ -268,7 +276,7 @@ export default class TableComponent extends React.Component<
         record: any,
         selected: boolean,
         selectedRows: any[],
-        nativeEvent: Event
+        nativeEvent: Event,
       ) => {
         this.setSelectAllRowsData([record], selected, type);
         if (onSelect) {
@@ -277,7 +285,7 @@ export default class TableComponent extends React.Component<
         if (onChange) {
           onChange(
             this.selectKeys,
-            this.getSelectedRows(dataSource, this.selectKeys)
+            this.getSelectedRows(dataSource, this.selectKeys),
           );
         }
       },
@@ -285,13 +293,13 @@ export default class TableComponent extends React.Component<
       onSelectAll: (
         selected: boolean,
         selectedRows: any[],
-        changeRows: any[]
+        changeRows: any[],
       ) => {
         this.setSelectAllRowsData(changeRows, selected, type);
         if (onChange) {
           onChange(
             this.selectKeys,
-            this.getSelectedRows(dataSource, this.selectKeys)
+            this.getSelectedRows(dataSource, this.selectKeys),
           );
         }
 
@@ -320,18 +328,18 @@ export default class TableComponent extends React.Component<
     res = res.map((column: any, index: number) => {
       const width = column.width || this.columnWidth;
       if (index === 0) {
-        if (column.dataIndex === "key") {
+        if (column.dataIndex === 'key') {
           firstIsKey = true;
           return Object.assign({}, column, {
-            fixed: "left",
+            fixed: 'left',
             width: column.width || 50,
           });
         }
-        return Object.assign({}, column, { fixed: "left", width });
+        return Object.assign({}, column, { fixed: 'left', width });
       } else if (index === 1 && firstIsKey) {
-        return Object.assign({}, column, { fixed: "left", width });
+        return Object.assign({}, column, { fixed: 'left', width });
       } else if (index === res.length - 1) {
-        return Object.assign({}, column, { fixed: "right", width });
+        return Object.assign({}, column, { fixed: 'right', width });
       } else {
         return Object.assign({}, column, { width });
       }
@@ -343,14 +351,14 @@ export default class TableComponent extends React.Component<
   public calculateFixedWidthSum = (
     data: any[],
     key: string,
-    min: number = 0
+    min: number = 0,
   ): number => {
     let sum: number = min;
     if (!Array.isArray(data)) {
       return 1000;
     }
     data.forEach((column: any) => {
-      if (typeof column[key] === "number") {
+      if (typeof column[key] === 'number') {
         sum += column[key];
       }
     });
@@ -371,14 +379,14 @@ export default class TableComponent extends React.Component<
     const rows = this.filterRowData(columns);
     const rowData = this.handleColumns(rows, isFixed);
     if (isFixed) {
-      const width = this.calculateFixedWidthSum(rowData, "width", 50);
+      const width = this.calculateFixedWidthSum(rowData, 'width', 50);
       Object.assign(scroll, { x: width });
     }
     const newDataSource = dataSource.slice();
 
-    if (pagination && pagination.align === "left") {
+    if (pagination && pagination.align === 'left') {
       return (
-        <div className={"tableComponent left"}>
+        <div className={'tableComponent left'}>
           <Table
             scroll={scroll}
             {...this.props}
@@ -386,12 +394,12 @@ export default class TableComponent extends React.Component<
             rowSelection={this.rowSelection()}
             columns={rowData}
           />
-          <div className={"tableComponent-children clearfix"}>
-            {children}{" "}
+          <div className={'tableComponent-children clearfix'}>
+            {children}{' '}
             <Toggle isShow={isShowStatistics}>
               {this.renderStatisticsInfo(
                 pagination && pagination.total,
-                selectedNum
+                selectedNum,
               )}
             </Toggle>
           </div>
@@ -400,7 +408,7 @@ export default class TableComponent extends React.Component<
     }
 
     return (
-      <div className={"tableComponent"}>
+      <div className={'tableComponent'}>
         <Table
           scroll={scroll}
           {...this.props}
@@ -408,12 +416,12 @@ export default class TableComponent extends React.Component<
           rowSelection={this.rowSelection()}
           columns={rowData}
         />
-        <div className={"tableComponent-children clearfix"}>
-          {children}{" "}
+        <div className={'tableComponent-children clearfix'}>
+          {children}{' '}
           <Toggle isShow={isShowStatistics}>
             {this.renderStatisticsInfo(
               pagination && pagination.total,
-              selectedNum
+              selectedNum,
             )}
           </Toggle>
         </div>

@@ -1,18 +1,18 @@
-import React from "react";
-import { PageList, Toggle } from "@components/index";
-import linkPort from "@src/hTrade/config/api"; // 注意: 不是boss项目的请修改路径
-import { connect } from "@containers/appScreen";
-import IProps from "@typings/react.d";
-import { Button, message, Modal } from "antd";
-import { Link } from "@components/index";
-import AddModal from "./AddModal";
-import EditModal from "./EditModal";
+import React from 'react';
+import { PageList, Toggle } from '@components/index';
+import linkPort from '@src/hTrade/config/api'; // 注意: 不是boss项目的请修改路径
+import { connect } from '@containers/appScreen';
+import IProps from '@typings/react.d';
+import { Button, message, Modal } from 'antd';
+import { Link } from '@components/index';
+import AddModal from './AddModal';
+import EditModal from './EditModal';
 
-import { s_type, period_type, set_type } from "@src/hTrade/constants";
+import { s_type, period_type, set_type } from '@src/hTrade/constants';
 
 // import { rowObj } from "./constants";
 
-import { isOrNot } from "@utils/lib/constants";
+import { isOrNot } from '@utils/lib/constants';
 
 interface IState {
   isShow?: boolean;
@@ -21,124 +21,177 @@ interface IState {
   [key: string]: any;
 }
 
+const renderItemOrNot = value => {
+  const label = isOrNot.find(item => item.value == value)?.label;
+
+  return <span className={`${value == '1' ? 'green' : 'red'}`}>{label}</span>;
+};
 @connect()
 export default class App extends React.PureComponent<IProps, IState> {
   private changeItem: any = {};
 
   private row: any = [
     {
-      title: "策略名称",
-      dataIndex: "name",
+      title: '策略名称',
+      dataIndex: 'name',
+      align: 'center',
     },
 
     {
-      title: "交易类型",
-      dataIndex: "set_type",
+      title: '交易类型',
+      dataIndex: 'set_type',
       showList: true,
-      type: "select",
+      type: 'select',
       list: set_type,
     },
 
     {
-      title: "推送类型",
-      dataIndex: "s_type",
+      title: '推送类型',
+      dataIndex: 's_type',
       showList: true,
-      type: "select",
+      type: 'select',
       list: s_type,
     },
 
     {
-      title: "周期",
-      dataIndex: "period_type",
+      title: '周期',
+      dataIndex: 'period_type',
       showList: true,
-      type: "select",
+      type: 'select',
       list: period_type,
     },
 
     {
-      title: "止损数量",
-      dataIndex: "loss_sum",
+      title: '止损数量',
+      dataIndex: 'loss_sum',
     },
 
     {
-      title: "止盈数量",
-      dataIndex: "success_sum",
+      title: '止盈数量',
+      dataIndex: 'success_sum',
     },
 
     {
-      title: "杠杆倍数",
-      dataIndex: "leverage",
+      title: '杠杆倍数',
+      dataIndex: 'leverage',
     },
     {
-      title: "k线周期",
-      dataIndex: "interval",
-    },
-
-    {
-      title: "涨跌幅%",
-      dataIndex: "change_rate",
-    },
-    {
-      title: "止损百分比%",
-      dataIndex: "loss_rate",
-    },
-    {
-      title: "最小交易量",
-      dataIndex: "min_volume",
+      title: 'k线周期',
+      dataIndex: 'interval',
     },
 
     {
-      title: "涨幅周期",
-      dataIndex: "kline_day",
+      title: '涨跌幅%',
+      dataIndex: 'change_rate',
+    },
+    {
+      title: '100EMA和200EMA的距离%',
+      dataIndex: 'EMA_distance',
+      width: 150,
+    },
+    {
+      title: '止损百分比%',
+      dataIndex: 'loss_rate',
+    },
+    {
+      title: '最小交易量',
+      dataIndex: 'min_volume',
     },
 
     {
-      title: "菲波指数",
-      dataIndex: "feibo",
+      title: '涨幅周期',
+      dataIndex: 'kline_day',
     },
 
     {
-      title: "是否推送企业微信",
-      dataIndex: "start",
+      title: '菲波指数',
+      dataIndex: 'feibo',
+      render: (value: string) => {
+        const arr = (value && value.split(',')) || [];
+        return (
+          <div>
+            {arr.map((it: string) => {
+              return (
+                <span
+                  style={{
+                    padding: '5px 10px',
+                    marginRight: '5px',
+                    border: '1px solid #ccc',
+                    borderRadius: '5px',
+                  }}
+                >
+                  {it}
+                </span>
+              );
+            })}
+          </div>
+        );
+      },
+    },
+
+    {
+      title: '是否推送企业微信',
+      dataIndex: 'start',
+      width: 150,
       showList: true,
-      type: "select",
+      type: 'select',
       list: isOrNot,
+      render: renderItemOrNot,
     },
     {
-      title: "是否推送至机器人",
-      dataIndex: "push_bot",
+      title: '是否推送至机器人',
+      dataIndex: 'push_bot',
+      width: 150,
       showList: true,
-      type: "select",
+      type: 'select',
       list: isOrNot,
+      render: renderItemOrNot,
     },
 
     {
-      title: "是否推送至soso",
-      dataIndex: "push_soso",
+      title: '是否推送至soso',
+      dataIndex: 'push_soso',
+      width: 150,
       showList: true,
-      type: "select",
+      type: 'select',
       list: isOrNot,
+      render: renderItemOrNot,
     },
 
     {
-      title: "是否推送到app",
-      dataIndex: "push_app",
+      title: '是否推送至币多分',
+      dataIndex: 'push_biduofeng',
+      width: 150,
       showList: true,
-      type: "select",
+      type: 'select',
       list: isOrNot,
+      render: renderItemOrNot,
     },
 
     {
-      title: "是否程序全程控制",
-      dataIndex: "bot_control",
+      title: '是否推送到app',
+      dataIndex: 'push_app',
+      width: 150,
       showList: true,
-      type: "select",
+      type: 'select',
       list: isOrNot,
+      render: renderItemOrNot,
     },
 
     {
-      title: "操作",
-      dataIndex: "remark",
+      title: '是否程序全程控制',
+      dataIndex: 'bot_control',
+      width: 150,
+      showList: true,
+      type: 'select',
+      list: isOrNot,
+      render: renderItemOrNot,
+    },
+
+    {
+      title: '操作',
+      dataIndex: 'remark',
+      fixed: 'right',
       render: (value: string, record: any) => {
         const { route } = this.props;
         const { s_type } = record;
@@ -158,7 +211,7 @@ export default class App extends React.PureComponent<IProps, IState> {
               <Button
                 type="link"
                 className="margin_right_10"
-                onClick={this.toggle("isShowEditModal", true, record)}
+                onClick={this.toggle('isShowEditModal', true, record)}
               >
                 编辑
               </Button>
@@ -168,7 +221,7 @@ export default class App extends React.PureComponent<IProps, IState> {
               <Button
                 type="link"
                 className="margin_right_10"
-                onClick={this.toggle("isShowAddModal", true, record)}
+                onClick={this.toggle('isShowAddModal', true, record)}
               >
                 新增手动推单
               </Button>
@@ -177,14 +230,14 @@ export default class App extends React.PureComponent<IProps, IState> {
             <Button
               type="link"
               className="margin_right_10"
-              onClick={this.stopOrStart({ record, type: "1" })}
+              onClick={this.stopOrStart({ record, type: '1' })}
             >
               启动
             </Button>
             <Button
               type="link"
               className="margin_right_10"
-              onClick={this.stopOrStart({ record, type: "2" })}
+              onClick={this.stopOrStart({ record, type: '2' })}
             >
               停止
             </Button>
@@ -203,9 +256,9 @@ export default class App extends React.PureComponent<IProps, IState> {
     };
   }
 
-  private stopOrStart = (options: { record: any; type: "1" | "2" }) => {
+  private stopOrStart = (options: { record: any; type: '1' | '2' }) => {
     return () => {
-      const { record, type, } = options;
+      const { record, type } = options;
       const { actions } = this.props;
       const { name, id } = record;
       const map = {
@@ -215,17 +268,23 @@ export default class App extends React.PureComponent<IProps, IState> {
         },
         2: {
           content: `确定停止${name}策略么?`,
-          url: linkPort.trade_signals_update
+          url: linkPort.trade_signals_update,
         },
       };
 
       Modal.confirm({
-        title: "确认提示",
+        title: '确认提示',
         content: map[type].content,
         onOk: async () => {
           const status = type;
 
-          const res = await actions.post(map[type].url, { id, start: status, push_bot: status, push_app: status, push_soso: status });
+          const res = await actions.post(map[type].url, {
+            id,
+            start: status,
+            push_bot: status,
+            push_app: status,
+            push_soso: status,
+          });
           message.success(res.message || '成功');
           actions.changeScreenQuery({
             page: 1,
@@ -237,9 +296,9 @@ export default class App extends React.PureComponent<IProps, IState> {
   };
 
   private toggle = (
-    key: "isShow" | "isShowAddModal" | "isShowEditModal",
+    key: 'isShow' | 'isShowAddModal' | 'isShowEditModal',
     value = false,
-    item: any = {}
+    item: any = {},
   ) => {
     return () => {
       this.changeItem = item;
@@ -256,7 +315,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     }
     return (
       <AddModal
-        onCancel={this.toggle("isShowAddModal", false)}
+        onCancel={this.toggle('isShowAddModal', false)}
         actions={this.props.actions}
         detail={this.changeItem}
       />
@@ -271,7 +330,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     }
     return (
       <EditModal
-        onCancel={this.toggle("isShowEditModal", false)}
+        onCancel={this.toggle('isShowEditModal', false)}
         actions={actions}
         detail={this.changeItem}
         onSuccess={() => {
@@ -279,7 +338,7 @@ export default class App extends React.PureComponent<IProps, IState> {
             page: 1,
           });
           actions.getScreenData();
-          this.toggle("isShowEditModal", false)();
+          this.toggle('isShowEditModal', false)();
         }}
       />
     );
@@ -291,7 +350,11 @@ export default class App extends React.PureComponent<IProps, IState> {
         <PageList
           {...this.props}
           url={linkPort.trade_signals}
-          tableComponentProps={{ columns: this.row }}
+          tableComponentProps={{
+            columns: this.row,
+            align: 'center',
+            scroll: { x: 'max-content', y: '60vh' },
+          }}
           formatList={(data: any[]) => {
             let list =
               data &&
