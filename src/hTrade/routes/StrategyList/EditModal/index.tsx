@@ -145,7 +145,7 @@ export default memo((props: IProps) => {
 
     {
       label: '是否推送至币多分',
-      name: 'push_币多分',
+      name: 'push_biduofeng',
       type: 'radio',
       list: isOrNot,
       rules: [
