@@ -99,6 +99,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     {
       title: '止损百分比%',
       dataIndex: 'loss_rate',
+      render: renderRate,
     },
     {
       title: '最小交易量',
