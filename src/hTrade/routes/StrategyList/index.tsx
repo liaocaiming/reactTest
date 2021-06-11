@@ -39,6 +39,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       title: '策略名称',
       dataIndex: 'name',
       align: 'center',
+      fixed: true,
     },
 
     {
