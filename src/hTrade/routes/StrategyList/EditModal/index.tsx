@@ -50,10 +50,19 @@ export default memo((props: IProps) => {
   const [form, setForm] = useState<FormInstance>();
   const { actions, detail, onSuccess } = props;
 
+  const { s_type } = detail;
+  const not_handle = s_type != 2; // 是否手动推单
+  console.log(not_handle, 'not_handle');
+  let feibos = distFormItems(feiboArr).slice();
+  if (!not_handle) {
+    feibos = [];
+  }
+
   const formItems: AppFormItemOptions[] = [
     {
       label: '涨跌幅',
       name: 'change_rate',
+      isShow: not_handle,
       rules: [
         {
           pattern: constants.pattern.positiveNumFloat,
@@ -72,6 +81,7 @@ export default memo((props: IProps) => {
     {
       label: '最小交易量',
       name: 'min_volume',
+      isShow: not_handle,
       rules: [
         {
           pattern: constants.pattern.positiveNumFloat,
@@ -88,6 +98,7 @@ export default memo((props: IProps) => {
     {
       label: '100EMA和200EMA的距离',
       name: 'entry_distance_rate',
+      isShow: not_handle,
       rules: [
         {
           pattern: constants.pattern.positiveNumFloat,
@@ -103,13 +114,14 @@ export default memo((props: IProps) => {
       },
     },
 
-    ...distFormItems(feiboArr),
+    ...feibos,
 
     {
       label: '是否推送',
       name: 'start',
       type: 'radio',
       list: isOrNot,
+      isShow: not_handle,
       rules: [
         {
           required: true,
@@ -122,6 +134,7 @@ export default memo((props: IProps) => {
       name: 'push_bot',
       type: 'radio',
       list: isOrNot,
+      isShow: not_handle,
       rules: [
         {
           required: true,
@@ -172,6 +185,7 @@ export default memo((props: IProps) => {
     {
       label: '是否程序全程控制',
       name: 'bot_control',
+      isShow: not_handle,
       type: 'radio',
       list: isOrNot,
       rules: [
