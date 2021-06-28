@@ -1,13 +1,13 @@
 {
-    "git.ignoreLimitWarning": true,
-    "editor.tabSize": 2,
-    "typescript.tsdk": "node_modules/typescript/lib",
-    "editor.formatOnSave": true,
-    "emmet.triggerExpansionOnTab": true, // 启用后，按 TAB 键时，将展开 Emmet 缩写。
-    "emmet.syntaxProfiles": { // 添加需要补全的文档格式
-        "javascript": "jsx",
-        "vue": "html",
-        "vue-html": "html",
-        "typescript": "html"
-    }
+  "git.ignoreLimitWarning": true,
+  "editor.tabSize": 2,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  // "editor.formatOnSave": true,
+  "emmet.triggerExpansionOnTab": true, // 启用后，按 TAB 键时，将展开 Emmet 缩写。
+  "emmet.syntaxProfiles": { // 添加需要补全的文档格式
+    "javascript": "jsx",
+    "vue": "html",
+    "vue-html": "html",
+    "typescript": "html"
+  }
 }
