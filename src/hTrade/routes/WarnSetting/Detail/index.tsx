@@ -54,21 +54,21 @@ export default class App extends React.PureComponent<IProps> {
         },
       },
 
-      {
-        label: "推送时间",
-        name: "post_time",
-        type: 'rangePicker',
-        editable,
-        rules: [
-          {
-            required: true,
-            message: "请输入",
-          },
-        ],
-        eleAttr: {
-          showTime: true,
-        },
-      },
+      // {
+      //   label: "推送时间",
+      //   name: "post_time",
+      //   type: 'rangePicker',
+      //   editable,
+      //   rules: [
+      //     {
+      //       required: true,
+      //       message: "请输入",
+      //     },
+      //   ],
+      //   eleAttr: {
+      //     showTime: true,
+      //   },
+      // },
 
     ];
 
