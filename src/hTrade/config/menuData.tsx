@@ -5,7 +5,7 @@ import {
   ToolOutlined,
   UsergroupAddOutlined,
   PayCircleOutlined,
-  // SettingOutlined,
+  SettingOutlined,
 } from '@ant-design/icons';
 
 import companyConfig from './companyConfig';
@@ -66,6 +66,15 @@ let menuData = [
     menuType: 1,
     icon: <ToolOutlined />,
   },
+
+  {
+    key: 'warnSetting',
+    title: '预警设置',
+    hasChild: 0,
+    menuType: 1,
+    icon: <SettingOutlined />
+  },
+
 
   // {
   //   key: "system",

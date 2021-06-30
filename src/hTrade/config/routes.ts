@@ -123,6 +123,23 @@ const router = [
         exact: true
       },
 
+      {
+        path: 'warnSetting',
+        component: loadFile({
+          load: () => import('@src/hTrade/routes/WarnSetting')
+        }),
+        title: '预警设置',
+        exact: true
+      },
+
+      {
+        path: 'warnSetting/:id',
+        component: loadFile({
+          load: () => import('@src/hTrade/routes/WarnSetting/Detail')
+        }),
+        title: '预警设置',
+        exact: true
+      },
 
     ],
   },
