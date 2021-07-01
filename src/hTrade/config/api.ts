@@ -50,6 +50,11 @@ export const urls = {
   trade_signals_symbol_info: 'trade_signals/symbol_info',
   trade_signals_set_symbol: 'trade_signals/set_symbol', // 编辑策略
 
+
+  // 预警
+  users_notification_user: 'users/notification_user', 
+  users_notifications: 'users/notifications'
+
 };
 
 

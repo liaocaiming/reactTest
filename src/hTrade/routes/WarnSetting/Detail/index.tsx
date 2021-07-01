@@ -1,4 +1,4 @@
-import { Card } from "antd";
+import { Card, message } from "antd";
 
 import React from "react";
 
@@ -10,8 +10,15 @@ import { UploadImage } from "@components/index";
 
 import IProps from '@typings/react.d';
 
+import { api } from '@src/hTrade/config';
+
+import { connect } from "@shared/containers/app";
+
+import { helpers } from "@utils/index";
+
 const width = 300;
 
+@connect()
 export default class App extends React.PureComponent<IProps> {
   private renderForm = () => {
     const editable = this.props.match.params.id !== 'show';
@@ -20,7 +27,7 @@ export default class App extends React.PureComponent<IProps> {
 
       {
         label: "预警内容",
-        name: "content",
+        name: "message",
         type: 'textArea',
         editable,
         rules: [
@@ -85,10 +92,15 @@ export default class App extends React.PureComponent<IProps> {
 
   public onFinish = (params: any) => {
     console.log(params);
+    const { actions, history} = this.props;
+    actions.post(api.users_notification_user, helpers.filterEmptyValue(params)).then((res) => {
+      message.success(res.data || '成功', 1, () => {
+        history.goBack()
+      })
+    })
   };
 
   public render() {
-    console.log(22222);
 
     return (
       <Card title="预警设置" bordered={false}>
