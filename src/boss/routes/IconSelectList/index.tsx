@@ -31,7 +31,7 @@ interface IState {
 }
 
 const colorMap = {
-  "#FFFFFF": 1,
+  "#F00000": 1,
   "#808080": 2,
   "#008000": 3
 }
