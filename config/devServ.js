@@ -31,6 +31,9 @@ module.exports = {
   //   poll: true
   // },
   before(app) {
+
+    
+
     if (target) {
       app.use(
         '/api/v1',
@@ -53,6 +56,17 @@ module.exports = {
     }
 
     if (dev) {
+      if (name === 'boss') {
+        app.use(
+          '/api/',
+          createProxyMiddleware({
+            target: "http://108.62.60.105/",
+            target,
+            changeOrigin: true,
+          }),
+        );
+      }
+
       app.use(
         '/api/v1',
         createProxyMiddleware({
