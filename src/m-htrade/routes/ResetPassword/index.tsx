@@ -76,7 +76,7 @@ export default (props: IProps) => {
 
     {
       label: "验证码",
-      name: "code",
+      name: "check_token",
       type: "input",
       isShow: step === '1',
       rules: [
@@ -161,7 +161,7 @@ export default (props: IProps) => {
 
     if (step === '1') {
       const params = Pick(values, ['email', 'check_token']);
-      fetch.post(api.check_code, { ...params }).then((res) => {
+      fetch.post(api.check_code, { email: params.email, code: params.check_token }).then((res) => {
         setStep('2');
       })
     }
@@ -172,7 +172,7 @@ export default (props: IProps) => {
         props.history.push(pageUrlsMap.login);
       })
     })
-  }, [form])
+  }, [form, step])
 
   useEffect(() => {
     document.title = "登录";
