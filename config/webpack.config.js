@@ -12,7 +12,10 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const WebpackBar = require('webpackbar');
 
-const mobilePhone = ['mobile', 'h-mobile', 'h-off'];
+
+const postcssPresetEnv = require(`postcss-preset-env`)
+
+const mobilePhone = ['mobile', 'h-mobile', 'h-off', 'm-htrade'];
 
 const cssLoader = [
   MiniCssExtractPlugin.loader,
@@ -43,15 +46,20 @@ module.exports = options => {
                 exclude: '/node_modules/*',
               },
             ],
-            'autoprefixer',
-            [
-              'cssnano',
-              {
-                preset: 'default',
-                zindex: false,
-                reduceIdents: false,
-              },
-            ],
+            // 'autoprefixer',
+            // [
+            //   'cssnano',
+            //   {
+            //     preset: 'default',
+            //     zindex: false,
+            //     reduceIdents: false,
+            //   },
+            // ],
+
+            postcssPresetEnv({
+              stage: 0,
+            }),
+
           ],
         },
       },

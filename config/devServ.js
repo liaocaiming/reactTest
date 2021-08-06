@@ -3,7 +3,7 @@ const api = require('./api');
 const webpackConfig = require('./webpack.config');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const yargs = require('yargs');
-const { name, dev, target } = yargs.argv;
+const { name, dev, target, pro } = yargs.argv;
 
 module.exports = {
   // contentBase: webpackConfig.output.path,
@@ -86,6 +86,20 @@ module.exports = {
       );
       return;
     }
+
+    if (pro) {
+      console.log(2222);
+      app.use(
+        '/app/v1',
+        createProxyMiddleware({
+          // target: "http://103.5.144.162:3000/",
+          target: 'https://huntertrades.com/',
+          changeOrigin: true,
+        }),
+      );
+      return;
+    }
+
 
     app.use('/api/v1', api());
     app.use('/app/v1', api());
