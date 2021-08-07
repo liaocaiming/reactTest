@@ -43,6 +43,16 @@ const router = [
   },
 
   {
+    path: 'questions',
+    name: 'questions',
+    component: loadFile({
+      load: () => import('@src/m-htrade/routes/Questions')
+    }),
+    title: '常见问题'
+  },
+
+
+  {
     path: 'm-htrade',
     component: Layout,
     routes: [

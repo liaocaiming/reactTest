@@ -24,6 +24,7 @@ type Step = '1' | '2';
 
 export default (props: IProps) => {
   const [step, setStep] = useState<Step>('1');
+  const [info, setInfo ] = useState({});
 
   const getCode = () => {
     const email = form?.getFieldValue('email');
@@ -38,7 +39,7 @@ export default (props: IProps) => {
     fetch
       .post(
         api.getCode,
-        { email, c_type: 1 },
+        { email, c_type: '2' },
         { showLoading: false },
       )
       .then(res => {
@@ -163,11 +164,12 @@ export default (props: IProps) => {
       const params = Pick(values, ['email', 'check_token']);
       fetch.post(api.check_code, { email: params.email, code: params.check_token }).then((res) => {
         setStep('2');
+        setInfo(params)
       })
     }
 
-    const params = omit(values, ['rpwd']);
-    fetch.post(api.reset_password, { ...params, password: md5(values.password) }).then((res) => {
+    const query = omit(values, ['repwd']);
+    fetch.post(api.reset_password, { ...query, ...info, password: md5(values.password) }).then((res) => {
       Toast.success(res.message || '修改成功', 1, () => {
         props.history.push(pageUrlsMap.login);
       })

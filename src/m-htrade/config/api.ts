@@ -29,6 +29,7 @@ export const urls = {
   reset_password: 'users/reset_password', ///修改密码
   notifications: 'users/notifications', // /// 通知列表
   check_code: 'users/check_code', // 校验邮箱验证码
+  question_answers: 'question_answers', // 问题列表
 };
 
 config([
