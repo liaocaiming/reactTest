@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import { reactClassNameJoin } from "@utils/lib/helpers";
 
@@ -16,7 +16,7 @@ interface IProps {
   onChange?: (item: IItem) => void;
 }
 
-export default (props: IProps) => {
+export default memo((props: IProps) => {
   const { list, activeKey, onChange } = props;
   if (!Array.isArray(list) || list.length === 0) {
     return null;
@@ -44,4 +44,4 @@ export default (props: IProps) => {
       })}
     </div>
   );
-};
+});

@@ -1,7 +1,4 @@
 export { default as Tabs } from './Tabs';
-
-export { default as HoldList } from './HoldList'
-
-export { default as RecordList } from './RecordList'
-
-export { default as TrustList } from './TrustList'
+export { default as Search } from './Search';
+export { default as NoPermission } from './NoPermission';
+export { default as List } from './List';

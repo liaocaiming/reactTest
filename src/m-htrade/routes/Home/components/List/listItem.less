@@ -1,0 +1,99 @@
+.home-list-item {
+  width: 345px;
+  height: 344px;
+  line-height: 1;
+  border-radius: 5px;
+  background: linear-gradient(180deg, #283871 0%, #1B65C9 100%);
+
+  .cur {
+    background: linear-gradient(180deg, #283871 0%, #1B65C9 100%);
+
+  }
+
+  .success {
+
+    background: linear-gradient(180deg, #244447 0%, #0BC976 100%);
+  }
+
+  .failed {
+
+    background: linear-gradient(180deg, #3B3646 0%, #B23D5D 100%);
+  }
+
+  .symbol-container {
+    padding: 15px;
+
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    .img {
+      width: 30px;
+      height: 30px;
+      margin-right: 20px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+      }
+    }
+
+    .icon {
+
+      .icon-name {
+        font-size: 20px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        line-height: 28px;
+        color: #FFFFFF;
+        opacity: 1;
+      }
+
+      .s_type {
+        
+        font-size: 12px;
+      }
+    }
+
+    .time {
+      font-size: 8px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      line-height: 16px;
+      color: #FFFFFF;
+      opacity: 0.6;
+      width: 100px;
+      text-align: right;
+      flex: 1;
+
+      .star {
+        text-align: right;
+        margin-bottom: 5px;
+        img {
+          width: 14px;
+          height: auto;
+        }
+      }
+    }
+  }
+
+  .list-item {
+    margin-bottom: 8px;
+    padding: 15px;
+
+    &-label {
+      font-size: 12px;
+      font-family: PingFang SC;
+      font-weight: 500;
+      line-height: 17px;
+      color: #FFFFFF;
+      margin-bottom: 7px;
+    }
+
+    .label {
+      opacity: 0.6;
+      font-size: 10px;
+      font-weight: 400;
+    }
+  }
+}
