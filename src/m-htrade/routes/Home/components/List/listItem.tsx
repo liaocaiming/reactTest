@@ -2,8 +2,11 @@ import React, { memo } from 'react';
 import { Toggle } from '@components/index';
 import './listItem.less';
 import starWhite from './images/icon-star-white.png'
+import starYellow from './images/icon-star-yellow.png'
 import statusImgYes from './images/icon-cir-yes.png';
 import statusImgNo from './images/icon-cir-no.png';
+import logo from './images/icon-logo-48.png';
+
 import { formatDetail, orderStatus, getLabel, formatStatus } from './utils';
 
 interface Props {
@@ -68,14 +71,15 @@ const renderTable = (data: any) => {
 
 export default memo((props: Props) => {
   const item = formatDetail(props.item || {});
-  const { leverage, created_at, updated_at, symbol, signal_type, p_type, dist, spend_time, loss, entry, dist_profit_rate_arr } = item;
+  const { leverage, created_at, updated_at, symbol, signal_type, p_type, loss, is_subscribe, entry, dist_profit_rate_arr } = item;
   const statusLabel = getLabel(orderStatus, p_type);
   const statusClassName = formatStatus(p_type);
+  const star = is_subscribe ? starYellow : starWhite;
 
   return (
     <section className={`home-list-item ${statusClassName}`}>
       <section className='symbol-container'>
-        <div className="img"><img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201109%2F24%2F142408pbzsivq493j4ssjq.jpg&refer=http%3A%2F%2Fattach.bbs.miui.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1630944622&t=9d54b80235678e770e7e675de1a5a31a" /></div>
+        <div className="img"><img src={logo} /></div>
 
         <div className='icon'>
           <div className='icon-name'>{symbol}</div>
@@ -84,7 +88,7 @@ export default memo((props: Props) => {
 
         <div className="time">
           <div className="star">
-            <img src={starWhite} />
+            <img src={star} />
           </div>
           <div className="stime">开始时间：{created_at}</div>
           <div className="update-time">最近更新：{updated_at}</div>
