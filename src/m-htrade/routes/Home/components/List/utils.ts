@@ -17,11 +17,11 @@ export  function formatDetail  (detail: any)  {
 export const orderStatus = [
   {
     value: '1',
-    label: '新信号'
+    label: '未止盈',
   },
   {
     value: '2',
-    label: '已止盈'
+    label: '已止盈',
   },
   {
     value: '3',
@@ -29,11 +29,11 @@ export const orderStatus = [
   },
   {
     value: '4',
-    label: '超时'
+    label: '已超时'
   },
   {
     value: '7',
-    label: '已止损'
+    label: '已止盈'
   },
 ]
 
@@ -41,5 +41,16 @@ export function getLabel (list: any[], value: string | number) {
   if (!Array.isArray(list)) {
     return ''
   }
-  return (list.find((item) => item.value == value) || {}).label
+  return (list.find((item) => item.value == value) || {}).label || '未止盈'
+}
+
+export function formatStatus (status: number): "cur" | 'success' |'failed' {
+  const map = {
+    1: 'cur',
+    2: 'success',
+    3: 'failed',
+    4: 'failed',
+    7: 'success'
+  }
+  return map[status] || 'cur'
 }

@@ -4,7 +4,7 @@ import './listItem.less';
 import starWhite from './images/icon-star-white.png'
 import statusImgYes from './images/icon-cir-yes.png';
 import statusImgNo from './images/icon-cir-no.png';
-import { formatDetail, orderStatus, getLabel } from './utils';
+import { formatDetail, orderStatus, getLabel, formatStatus } from './utils';
 
 interface Props {
   item: any
@@ -47,11 +47,11 @@ const renderTable = (data: any) => {
 
       {
         dist_arr.map((item, index) => {
-          const img = dist_index >= index ? statusImgYes : statusImgNo;
+          const img = dist_index -1 >= index ? statusImgYes : statusImgNo;
 
           return (
-            <div key={`${index}`} className="tr flex row" >
-              <p><span className='sort td-0'>{index + 1}</span></p>
+            <div key={`${index}`} className={`tr flex row tr-${index}`} >
+              <p className='td-0'><span className='sort'>{index + 1}</span></p>
               <p className='td-1'> {item}</p>
               <p className='td-2'>{dist_profit_rate_arr[index]}</p>
               <p className='td-3'>{dist_time_arr[index]}</p>
@@ -70,8 +70,10 @@ export default memo((props: Props) => {
   const item = formatDetail(props.item || {});
   const { leverage, created_at, updated_at, symbol, signal_type, p_type, dist, spend_time, loss, entry, dist_profit_rate_arr } = item;
   const statusLabel = getLabel(orderStatus, p_type);
+  const statusClassName = formatStatus(p_type);
+
   return (
-    <section className='home-list-item'>
+    <section className={`home-list-item ${statusClassName}`}>
       <section className='symbol-container'>
         <div className="img"><img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201109%2F24%2F142408pbzsivq493j4ssjq.jpg&refer=http%3A%2F%2Fattach.bbs.miui.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1630944622&t=9d54b80235678e770e7e675de1a5a31a" /></div>
 
@@ -95,7 +97,7 @@ export default memo((props: Props) => {
         </Toggle>
         <p className="mul list-item-label"><span className="label">挂单区间：</span><span className='value'>{entry}</span></p>
         <p className="mul list-item-label"><span className="label">利润空间：</span><span className='value'>{dist_profit_rate_arr[0]} ~ {dist_profit_rate_arr[dist_profit_rate_arr.length - 1]}</span></p>
-        <p className="mul list-item-label"><span className="label">止损点数：</span><span className='value'>{loss}</span><span>（{statusLabel}）</span></p>
+        <p className="mul list-item-label"><span className="label">止损点数：</span><span className='value loss'>{loss}</span><span>（{statusLabel}）</span></p>
       </section>
 
       <section className="table ">
