@@ -4,7 +4,7 @@ import { Toast } from "antd-mobile";
 import "./index.less";
 import { fetch } from "@utils/index";
 import api from "@src/m-htrade/config/api";
-import md5 from "md5";
+// import md5 from "md5";
 import { pageUrlsMap } from "@src/m-htrade/config/routes";
 import { FormItemOptions } from "@src/m-htrade/components/Form/interface";
 import { AppForm } from "@src/m-htrade/components";
@@ -81,7 +81,8 @@ export default (props: IProps) => {
 
 
   const onLogin = useCallback((values: any) => {
-    fetch.post(api.authentication, { ...values, password: md5(values.password) }).then((res) => {
+    // const params = { ...values, password: md5(values.password) }
+    fetch.post(api.authentication, { ...values }).then((res) => {
       User.saveUserInfo(res.data);
       Toast.success(res.message || '注册成功', 1, () => {
         props.history.push(pageUrlsMap.home);

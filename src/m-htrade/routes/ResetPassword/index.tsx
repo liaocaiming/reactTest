@@ -4,7 +4,7 @@ import { Toast } from "antd-mobile";
 import "./index.less";
 import { fetch } from "@utils/index";
 import api from "@src/m-htrade/config/api";
-import md5 from "md5";
+// import md5 from "md5";
 import { pageUrlsMap } from "@src/m-htrade/config/routes";
 import { FormItemOptions } from "@src/m-htrade/components/Form/interface";
 import { AppForm, EmailCode } from "@src/m-htrade/components";
@@ -77,7 +77,7 @@ export default (props: IProps) => {
 
     {
       label: "验证码",
-      name: "checkToken",
+      name: "check_token",
       type: "input",
       isShow: step === '1',
       rules: [
@@ -161,8 +161,8 @@ export default (props: IProps) => {
     }
 
     if (step === '1') {
-      const params = Pick(values, ['email', 'checkToken']);
-      fetch.post(api.check_code, { email: params.email, code: params.checkToken }).then((res) => {
+      const params = Pick(values, ['email', 'check_token']);
+      fetch.post(api.check_code, { email: params.email, code: params.check_token }).then((res) => {
         setStep('2');
         setInfo(params)
       })
@@ -170,7 +170,7 @@ export default (props: IProps) => {
     }
 
     const query = omit(values, ['repwd']);
-    fetch.post(api.reset_password, { ...query, ...info, password: md5(values.password) }).then((res) => {
+    fetch.post(api.reset_password, { ...query, ...info }).then((res) => {
       Toast.success(res.message || '修改成功', 1, () => {
         props.history.push(pageUrlsMap.login);
       })

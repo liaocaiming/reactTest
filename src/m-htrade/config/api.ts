@@ -30,6 +30,7 @@ export const urls = {
   notifications: 'users/notifications', // /// 通知列表
   check_code: 'users/check_code', // 校验邮箱验证码
   question_answers: 'question_answers', // 问题列表
+  push_records: 'push_records', // 获取推送列表
 };
 
 config([

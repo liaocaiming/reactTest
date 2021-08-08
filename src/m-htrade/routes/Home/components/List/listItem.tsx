@@ -1,10 +1,65 @@
 import React, { memo } from 'react';
 import './listItem.less';
 import starWhite from './images/icon-star-white.png'
+import statusImgYes from './images/icon-cir-yes.png';
+import statusImgNo from './images/icon-cir-no.png';
 
 interface Props {
   item: any
 }
+
+const rowData = [
+  {
+    title: '',
+    dataIndex: 'index'
+  },
+  {
+    title: '目标价位',
+    dataIndex: 'target'
+  },
+  {
+    title: '盈利率',
+    dataIndex: 'pross'
+  },
+  {
+    title: '触发耗时',
+    dataIndex: 'time'
+  },
+  {
+    title: '状态',
+    dataIndex: 'status'
+  }
+]
+
+const renderTable = (data: any[]) => {
+  return (
+    <div className='table'>
+      <div className="th flex row">
+        {
+          rowData.map((item, index) => {
+            return <div className={`td td-${index} `} key={item.dataIndex}>{item.title}</div>
+          })
+        }
+      </div>
+
+      {
+        data.map((item, index) => {
+          return (
+            <p className="tr flex row">
+             <div><span className='sort'>{index+1}</span></div>
+             <div>7,6</div>
+             <div>+38.8%</div>
+             <div>8时23分</div>
+             <div className='status'><img className='status-img' src={statusImgYes} /></div>
+            </p>
+          )
+        })
+      }
+
+    </div>
+  )
+}
+
 
 export default memo((props: Props) => {
   return (
@@ -33,8 +88,10 @@ export default memo((props: Props) => {
         <p className="mul list-item-label"><span className="label">止损点数：</span><span className='value'>12,862.36</span></p>
       </section>
 
-      <section className="table">
-
+      <section className="table ">
+        <div className="table-success">
+          {renderTable([{}, {}, {}, {}])}
+        </div>
       </section>
     </section>
   )

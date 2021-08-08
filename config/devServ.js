@@ -88,7 +88,6 @@ module.exports = {
     }
 
     if (pro) {
-      console.log(2222);
       app.use(
         '/app/v1',
         createProxyMiddleware({
