@@ -10,6 +10,10 @@ import { reducers, routes } from "./config";
 
 import { Provider } from "react-redux";
 
+import VConsole from 'vconsole';
+
+new VConsole()
+
 import rem from "@utils/lib/rem";
 
 rem(375, 100);
@@ -23,6 +27,8 @@ import "./index.less";
 const remoteActionMiddleware = applyMiddleware(reduxThunk)(createStore);
 
 const mountNode: HTMLElement = document.getElementById("app") as HTMLElement;
+
+const vConsole = new VConsole();
 
 // Store
 const store = remoteActionMiddleware(
