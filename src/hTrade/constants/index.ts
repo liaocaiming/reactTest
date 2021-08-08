@@ -26,7 +26,6 @@ export const orderStatus = [
     value: '7',
     label: '止盈信号'
   },
-
 ]
 
 

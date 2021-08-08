@@ -13,9 +13,9 @@ export default memo((props: Props) => {
   return (
     <section className="home-list">
       {
-        list.map((item) => {
+        list.map((item, index) => {
           return (
-            <div className='item'>
+            <div className='item' key={item.id || index}>
               <ListItem item={item}/>
             </div>
           )
