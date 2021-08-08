@@ -32,25 +32,29 @@ export default memo(() => {
 
   return (
     <section className='m-home'>
-      <div className='head'>
-        <img src={header} className='icon' />
-      </div>
-      <section className='tabs'>
-        <Tabs
-          list={tabs}
-          activeKey={tab}
-          onChange={tabOnchange}
-        />
-      </section>
+      <section className='header-fixed'>
+        
+        <section className='head'>
+          <img src={header} className='icon' />
+        </section>
 
-      <section className="search">
-        <Search />
+        <section className='tabs'>
+          <Tabs
+            list={tabs}
+            activeKey={tab}
+            onChange={tabOnchange}
+          />
+        </section>
+
+        <section className="search">
+          <Search />
+        </section>
+
       </section>
 
       <section className='home-list'>
         <List list={list}></List>
       </section>
-
       {/* <section className='no-permisssion'>
         <NoPermission />
       </section> */}
