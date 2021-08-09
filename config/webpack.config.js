@@ -215,6 +215,13 @@ module.exports = options => {
         },
 
         {
+          test: /\.(woff|woff2|eot|ttf|otf)/,
+          use: [
+            'file-loader'
+          ]
+        },
+
+        {
           //处理 html 中通过 img 引入的图片，background-image 设置的图片不可以
           test: /\.html$/,
           use: 'html-loader',

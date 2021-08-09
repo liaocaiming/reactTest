@@ -8,6 +8,8 @@ import IProps from "@typings/react.d";
 
 import { pageUrlsTitle } from "@src/m-htrade/config/routes";
 
+import BottomNav from './BottomNav';
+
 @connect()
 export default class App extends React.Component<IProps> {
   constructor(props: IProps) {
@@ -29,6 +31,10 @@ export default class App extends React.Component<IProps> {
   };
 
   public render() {
-    return <div className="layout">{renderRoutes(this.props.routes)}</div>;
+    const { history, location } = this.props;
+    return <div className="layout">
+      {renderRoutes(this.props.routes)}
+      <BottomNav history={history} location={location}/>
+      </div>;
   }
 }

@@ -57,6 +57,15 @@ const router = [
     component: Layout,
     routes: [
       {
+        path: 'notice',
+        name: 'notice',
+        component: loadFile({
+          load: () => import('@src/m-htrade/routes/Notice')
+        }),
+        title: '通知',
+        exact: true
+      },
+      {
         path: 'pay',
         name: 'pay',
         component: loadFile({

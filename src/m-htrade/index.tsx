@@ -24,11 +24,11 @@ import reduxThunk from "redux-thunk";
 
 import "./index.less";
 
+import './index.css';
+
 const remoteActionMiddleware = applyMiddleware(reduxThunk)(createStore);
 
 const mountNode: HTMLElement = document.getElementById("app") as HTMLElement;
-
-const vConsole = new VConsole();
 
 // Store
 const store = remoteActionMiddleware(

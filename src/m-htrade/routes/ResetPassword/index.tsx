@@ -164,7 +164,8 @@ export default (props: IProps) => {
       const params = Pick(values, ['email', 'check_token']);
       fetch.post(api.check_code, { email: params.email, code: params.check_token }).then((res) => {
         setStep('2');
-        setInfo(params)
+        const { data } = res || {}
+        setInfo({ ...params, ...data })
       })
       return;
     }
