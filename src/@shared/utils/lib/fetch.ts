@@ -20,7 +20,7 @@ export function get(url: string, data?: any, options?: IOptions): Promise<IRespo
         resolve(res)
         return
       }
-      if (res.code === 1004) {
+      if (res.code === 1004 || res.code === 1500) {
         Toast.fail(res && res.message || res.error, 1, () => {
           window.location.hash = '/'
         })

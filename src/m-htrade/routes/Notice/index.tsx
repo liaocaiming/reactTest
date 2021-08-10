@@ -35,7 +35,7 @@ export default memo(() => {
             return (
               <Item key={item.id} label={<span className='time'>{item.created_at}</span>}>
                 <div className='notice-content'>
-                  <div className='title'>系统通知</div>
+                  <div className='title'><span className='iconfont font'>&#xe60e;</span> 系统通知</div>
                   <p className='content'>{item.message}</p>
                 </div>
               </Item>
