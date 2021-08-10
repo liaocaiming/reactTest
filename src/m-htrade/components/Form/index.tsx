@@ -48,6 +48,7 @@ const Form = (props: FormOptions) => {
   }, [state]);
 
   const setFieldsValue = useCallback((values: Store) => {
+    console.log(values, 'values');
     dispatch({
       type: "all",
       payload: values || {},
@@ -125,12 +126,22 @@ const Form = (props: FormOptions) => {
     <div className="mb-form">
       <div className="mb-form-container">
         {formRowData.map((formItem) => {
-          let { type = "input", eleAttr = {}, name = "", afterDom } = formItem;
+          let { type = "input", eleAttr = {}, name = "", afterDom, render } = formItem;
           if (typeof afterDom === "function") {
             afterDom = afterDom(state);
           }
 
           const ItemElement = ItemComponents[type] || Input;
+
+          if (typeof render === 'function') {
+            return render({
+              form: {
+                getFieldValue,
+                getFieldsValue,
+                setFieldsValue
+              }
+            })
+          }
           const options: any = filterObjAttr(formItem, [
             "type",
             "isShow",

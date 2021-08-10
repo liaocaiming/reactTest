@@ -71,7 +71,7 @@ const router = [
         component: loadFile({
           load: () => import('@src/m-htrade/routes/Pay')
         }),
-        title: 'USDT收款码',
+        title: '付费说明',
         exact: true
       },
       {
@@ -83,6 +83,9 @@ const router = [
         title: '首页',
         exact: true
       },
+
+
+
       {
         path: 'bindUser',
         name: 'bindUser',

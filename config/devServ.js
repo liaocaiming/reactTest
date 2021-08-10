@@ -6,7 +6,8 @@ const yargs = require('yargs');
 const { name, dev, target, pro } = yargs.argv;
 
 module.exports = {
-  // contentBase: webpackConfig.output.path,
+  contentBase: webpackConfig({ name }).output.path,
+  // publicPath: webpackConfig({ name }).output.path,
   compress: true,
   port: 3000,
   historyApiFallback: true,

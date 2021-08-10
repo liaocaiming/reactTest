@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { copy } from "@utils/index";
 import IProps from "@typings/react.d";
 import "./index.less";
@@ -6,8 +6,13 @@ import { AppForm } from '@src/m-htrade/components/index';
 import { fetch } from '@utils/index'
 import { api } from '@src/m-htrade/config';
 import { pageUrlsMap } from "@src/m-htrade/config/routes";
+import buy from './images/img-buy.png';
+import wxchat from './images/icon-wxchat.png'
+import Popup from './Popup';
 
 export default (props: IProps) => {
+  const [show, setShow] = useState<boolean>(false);
+
   const copyFn = () => {
     copy("account");
   };
@@ -26,45 +31,28 @@ export default (props: IProps) => {
   }
 
   return (
-    <div className='mb-pay'>
+    <section className='m-pay'>
+      <section className="pay-introduce">
+        <h2>基本介绍</h2>
+        <p>Hunder Teadrs智能信号是一套智能化的交易策略系统，依靠专业、完善的交易策略，Hunder Teadrs智能信号系统能够24小时不间断的跟踪现货、合约的市场走势，帮助用户发现短线、中线、长线的潜在交易机会。同时，系统也会在风险出现的时候，给用户及时的风险提醒。</p>
+        <div className='icon-buy-container'><img className='icon-buy' src={buy} /></div>
+        <h2>功能优势</h2>
+        <h3>1.极致方便</h3>
+        <p>简单高效的推送方式，方便用户第一时间获取信号，并进行交易操作；</p>
+        <h3 className='margin_top_20'>2.简单操作</h3>
+        <p>开单之后，在信号对应位置设置止盈止损，无需盯盘，利润&风险完全可控；</p>
+        <h2 className='margin_top_40'>套餐类型</h2>
+        <p className='margin_top_20'>2000 USDT/年</p>
+        <h2 className='margin_top_20'>如何开通智能信号</h2>
+        <p>请点击「立即开通」按钮，按照提示操作填写相关信息后并「确认提交」，系统审核通过后即可正常使用智能信号VIP会员服务，如有疑问请联系微信客服。</p>
+        <h3 className='margin_top_20 margin_bottom_8'>请联系客服微信号：</h3>
+        <p className='wxchat-container'><img className='icon-wxchat' src={wxchat} /><span className='wxchat-txt'>SOSOLX</span> <a className='copy'>点击复制</a></p>
+        <h3 className='margin_top_20 margin_bottom_8'>客服在线时间：</h3>
+        <p>工作日：上午 09:00-12:30 / 下午 14:00-19:00</p>
+      </section>
+      <div className='btn-container' onClick={() => { setShow(true) }}>立即开通</div>
 
-      <div className='skip-btn-container'><span className='skip-btn' onClick={goTo(pageUrlsMap.home)}>跳过</span></div>
-
-      <div className='receive-code'>
-        <img className='qrcode' src="" alt="usdt收款码" />
-      </div>
-
-      <div>
-        <input type="text" style={{ display: "none" }} id="input" />
-        <div className='address' id="account">4343434</div>
-        <div className='copy-btn-container'> <span className='copy-btn' onClick={copyFn}>复制</span></div>
-      </div>
-
-      <div className='form-container'>
-        <AppForm
-          formItems={
-            [
-              {
-                name: 'txid',
-                rules: [
-                  {
-                    required: true,
-                    message: '请输入txid'
-                  }
-                ],
-                eleAttr: {
-                  placeholder: '请输入充值txid'
-                }
-              }
-            ]
-          }
-          submitOptions={{
-            text: '下一步',
-            containerClassName: 'margin_top_30'
-          }}
-          onFinish={onFinish}
-        />
-      </div>
-    </div>
+      <div><Popup isShow={show} onClose={() => { setShow(false) }} /></div>
+    </section>
   );
 };

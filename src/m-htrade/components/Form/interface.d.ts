@@ -36,6 +36,7 @@ interface FormItemOptions {
   isShow?: ((data: Store) => boolean) | boolean;
   eleAttr?: Store;
   afterDom?: IDomFun,
+  render?: (options: { form: FormInstance }) => JSX.Element;
 }
 
 
