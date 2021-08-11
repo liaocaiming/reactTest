@@ -157,6 +157,7 @@ const Form = (props: FormOptions) => {
             >
               <div className="form-item-ele">
                 <ItemElement
+                  id={name}
                   value={state[name]}
                   onChange={onItemChange(formItem)}
                   {...options}

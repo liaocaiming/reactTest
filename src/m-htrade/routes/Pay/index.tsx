@@ -1,21 +1,33 @@
-import React, { useState } from "react";
+import React, { useState,useCallback } from "react";
 import { copy } from "@utils/index";
 import IProps from "@typings/react.d";
 import "./index.less";
-import { AppForm } from '@src/m-htrade/components/index';
 import { fetch } from '@utils/index'
 import { api } from '@src/m-htrade/config';
 import { pageUrlsMap } from "@src/m-htrade/config/routes";
 import buy from './images/img-buy.png';
-import wxchat from './images/icon-wxchat.png'
+// import wxchat from './images/icon-wxchat.png'
 import Popup from './Popup';
+import useSystemInfo from '@src/m-htrade/hooks/useSystemInfo';
+
+import { Toast } from "antd-mobile";
 
 export default (props: IProps) => {
   const [show, setShow] = useState<boolean>(false);
-
-  const copyFn = () => {
-    copy("account");
-  };
+  const [ system ] = useSystemInfo();
+  const copyFn = useCallback(
+    () => {
+      copy(`${system?.customer_service_qrcode?.value}`, {
+        success: () => {
+          Toast.success('复制成功')
+        },
+        failed: () => {
+          Toast.success('该浏览器不支持复制')
+        }
+      });
+    },
+    [system]
+  )
 
   const goTo = (url: string) => {
     const { history } = props;
@@ -46,13 +58,13 @@ export default (props: IProps) => {
         <h2 className='margin_top_20'>如何开通智能信号</h2>
         <p>请点击「立即开通」按钮，按照提示操作填写相关信息后并「确认提交」，系统审核通过后即可正常使用智能信号VIP会员服务，如有疑问请联系微信客服。</p>
         <h3 className='margin_top_20 margin_bottom_8'>请联系客服微信号：</h3>
-        <p className='wxchat-container'><img className='icon-wxchat' src={wxchat} /><span className='wxchat-txt'>SOSOLX</span> <a className='copy'>点击复制</a></p>
+        <p className='wxchat-container'><img className='icon-wxchat' src={`${system?.host?.value}${system?.customer_service_qrcode?.pictures[0]?.url?.url}`} /><span className='wxchat-txt' id='wxchat'>{system?.customer_service_qrcode?.value}</span> <a className='copy' onClick={copyFn}>点击复制</a></p>
         <h3 className='margin_top_20 margin_bottom_8'>客服在线时间：</h3>
         <p>工作日：上午 09:00-12:30 / 下午 14:00-19:00</p>
       </section>
       <div className='btn-container' onClick={() => { setShow(true) }}>立即开通</div>
 
-      <div><Popup isShow={show} onClose={() => { setShow(false) }} /></div>
+      <div><Popup isShow={show} onClose={() => { setShow(false) }} system={system} /></div>
     </section>
   );
 };

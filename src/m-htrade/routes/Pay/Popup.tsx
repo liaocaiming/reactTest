@@ -4,19 +4,55 @@ import { AppForm } from '@src/m-htrade/components/index';
 
 import { FormItemOptions } from '@src/m-htrade/components/Form/interface.d';
 
-import { Checkbox } from 'antd-mobile';
+import { Checkbox, Toast } from 'antd-mobile';
+
+import { ISystem }from '@src/m-htrade/hooks/useSystemInfo';
+
+import { copy, fetch } from '@utils/index';
+import { api } from '@src/m-htrade/config';
 
 interface Props {
   onClose?: () => void;
   isShow: boolean;
+  system: ISystem
 }
 
 export default memo((props: Props) => {
-  const { onClose, isShow } = props;
+  const { onClose, isShow, system } = props;
 
-  const onSubmit = (values: any) => {
-    console.log(values, 'values');
+  const addressUrl = `${system?.host?.value}${system?.pay_address?.pictures[0]?.url?.url}`;
+
+  const onSubmit = () => {
+    const hash = (document.getElementById('hash') as any)?.value;
+    if (!hash) {
+      Toast.fail('请输入交易hash')
+      return;
+    }
+
+    fetch.post(api.deposit_records, {
+      hash,
+      asset: system?.pay_asset?.value, 
+      address: system?.pay_address?.value,
+      amount: system?.pay_price?.value
+    }).then(() => {
+      Toast.success('提交成功');
+      onClose && onClose();
+    })
   }
+
+  const copyFn = useCallback(
+    () => {
+      copy(`${system?.pay_address?.value}`, {
+        success: () => {
+          Toast.success('复制成功')
+        },
+        failed: () => {
+          Toast.success('该浏览器不支持复制')
+        }
+      });
+    },
+    [system]
+  )
 
   const onClickClose = useCallback(
     () => {
@@ -26,17 +62,11 @@ export default memo((props: Props) => {
   )
   const formItems: FormItemOptions[] = [
     {
-      name: 'textid',
+      name: 'hash',
       label: '交易哈希（Hash）',
-      rules: [
-        {
-          required: true,
-          message: '请输入交易哈希（Hash）'
-        }
-      ],
       eleAttr: {
         placeholder: '请输入交易哈希（Hash）',
-        children: <a className='paste'>粘贴</a>
+        // children: <a className='paste' onClick={onPaster}>粘贴</a>
       }
     },
 
@@ -79,12 +109,12 @@ export default memo((props: Props) => {
 
         <div className="address">
           <div className="left">
-            <div className='trx'><span>TRX地址:</span><a className='copy'>复制</a></div>
-            <span className='address-str'>dhajkhdskahdksasalhsksdhajdhaskhddadhahsdahka</span>
+            <div className='trx'><span>TRX地址: </span><a className='copy' onClick={copyFn}>复制</a></div>
+            <span className='address-str'>{system?.pay_address?.value}</span>
           </div>
 
           <div className='right'>
-            <img src="" />
+            <img src={addressUrl} />
           </div>
         </div>
 

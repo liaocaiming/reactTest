@@ -31,6 +31,8 @@ export const urls = {
   check_code: 'users/check_code', // 校验邮箱验证码
   question_answers: 'question_answers', // 问题列表
   push_records: 'push_records', // 获取推送列表
+  system_settings: 'system_settings', // 获取系统配置；
+  deposit_records: 'deposit_records', // 提交充值
 };
 
 config([
