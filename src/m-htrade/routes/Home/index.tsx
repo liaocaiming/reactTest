@@ -1,5 +1,5 @@
 import React, { memo, useState, useCallback, useEffect, useRef } from 'react';
-import { Tabs, Search, NoPermission, List } from './components'
+import { Tabs, Search, NoPermission, List, Drawer } from './components'
 import { tabs } from './constants';
 import header from './images/icon-header.png';
 import { fetch } from '@utils/index';
@@ -85,6 +85,9 @@ export default memo(() => {
         <NoPermission />
       </section> */}
 
+      <section>
+        <Drawer drawerWebProps={{ open: false }}></Drawer>
+      </section>
     </section>
   )
 })
