@@ -71,6 +71,7 @@ export default memo((props: Props) => {
     <section className="m-drawer">
       <Drawer
         sidebar={<Sidebar />}
+        enableDragHandle
         {...drawerWebProps}
       ><span></span></Drawer>
     </section>
