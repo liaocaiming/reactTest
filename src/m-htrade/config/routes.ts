@@ -86,6 +86,11 @@ const router = [
 
 
 
+
+
+
+      
+
       {
         path: 'bindUser',
         name: 'bindUser',

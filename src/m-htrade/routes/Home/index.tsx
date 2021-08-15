@@ -13,6 +13,7 @@ export default memo(() => {
   const [tab, setTab] = useState<Tab>('1');
   const [list, setList] = useState([]);
   const ref = useRef(null);
+  const [ showDrawer, setShowDrawer ] = useState<boolean>(false)
 
   const tabOnchange = useCallback(
     (item) => {
@@ -31,14 +32,18 @@ export default memo(() => {
     getList()
   }, [])
 
-  console.log(888)
+  const toggle = useCallback(() => {
+    console.log(showDrawer, 'showDrawer');
+    setShowDrawer(showDrawer ? false : true)
+  }, [showDrawer])
+
 
   return (
     <section className='m-home'>
       <section className='header-fixed'>
 
         <section className='head'>
-          <img src={header} className='icon' />
+          <img src={header} className='icon' onClick={toggle}/>
         </section>
 
         <section className='tabs'>
@@ -86,7 +91,7 @@ export default memo(() => {
       </section> */}
 
       <section>
-        <Drawer drawerWebProps={{ open: false }}></Drawer>
+        <Drawer drawerWebProps={{ open: showDrawer, onOpenChange: toggle }}></Drawer>
       </section>
     </section>
   )
