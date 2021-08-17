@@ -19,7 +19,7 @@ import { Toggle } from '@shared/components';
 
 interface Total {
   total: number;
-  amount: number;
+  amount?: number;
   onTabChange: (type: Type) => void;
 }
 
@@ -125,7 +125,7 @@ export default memo(() => {
       <Header />
 
       <section className="content">
-        <Total total={222} amount={222} onTabChange={onTabChange} />
+        <Total total={count}  onTabChange={onTabChange} />
 
         <section className="list">
           <div className="th flex">
