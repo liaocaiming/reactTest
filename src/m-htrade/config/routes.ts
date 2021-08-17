@@ -16,6 +16,7 @@ interface IUrls {
   openNumberLimit: string;
   register: string;
   resetPassword: string;
+  returnList: string;
 }
 
 const router = [
@@ -49,6 +50,15 @@ const router = [
       load: () => import('@src/m-htrade/routes/Questions')
     }),
     title: '常见问题'
+  },
+
+  {
+    path: 'returnList',
+    name: 'returnList',
+    component: loadFile({
+      load: () => import('@src/m-htrade/routes/ReturnList')
+    }),
+    title: '返佣'
   },
 
 

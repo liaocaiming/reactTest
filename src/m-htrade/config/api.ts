@@ -33,6 +33,7 @@ export const urls = {
   push_records: 'push_records', // 获取推送列表
   system_settings: 'system_settings', // 获取系统配置；
   deposit_records: 'deposit_records', // 提交充值
+  invite_records: 'invite_records', // 返佣记录
 };
 
 config([
