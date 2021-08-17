@@ -102,7 +102,7 @@
 
 
   .list {
-    height: 200px;
+    // height: 200px;
     background: #2E3546FF;
     overflow: hidden;
 
@@ -138,12 +138,21 @@
       height: 170px;
       overflow-y: scroll;
     }
+
+    .no-data {
+      text-align: center;
+      line-height: 30px;
+      font-size: 12px;
+      opacity: 0.6;
+    }
   }
 
   .btn-container {
     display: flex;
     justify-content: center;
-    margin-top: 10px;
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
     .btn {
       width: 152px;
       height: 52px;

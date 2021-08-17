@@ -12,9 +12,10 @@ import user from './images/icon-user.png';
 
 import './index.less';
 
-import { fetch }  from '@utils/index'
+import { fetch } from '@utils/index'
 
 import { api } from '@src/m-htrade/config';
+import { Toggle } from '@shared/components';
 
 interface Total {
   total: number;
@@ -99,13 +100,13 @@ const Total = memo((props: Total) => {
 
 export default memo(() => {
   const [list, setList] = useState<any[]>([{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]);
-  const [ type, setType ] = useState<Type>('add')
-  const [ count, setCount] = useState<number>(0);
+  const [type, setType] = useState<Type>('add')
+  const [count, setCount] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
 
   const getList = useCallback((pageNo: number = 1) => {
     fetch.get(api.invite_records, { page: pageNo, is_vip: '1' }).then((res) => {
-      setList(res.data ||  []);
+      setList(res.data || []);
       setCount(res.count || 0);
     })
   }, [type, page])
@@ -132,18 +133,24 @@ export default memo(() => {
             <div className='td'>添加时间</div>
           </div>
 
-          <ul className='list-content'>
-            {
-              list.map((item, index) => {
-                return (
-                  <li key={String(index)} className='tr flex'>
-                    <div>zhenzhen@gmail.com</div>
-                    <div>17:30 09/21</div>
-                  </li>
-                )
-              })
-            }
-          </ul>
+          <Toggle isShow={list.length > 0}>
+            <ul className='list-content'>
+              {
+                list.map((item, index) => {
+                  return (
+                    <li key={String(index)} className='tr flex'>
+                      <div>zhenzhen@gmail.com</div>
+                      <div>17:30 09/21</div>
+                    </li>
+                  )
+                })
+              }
+            </ul>
+          </Toggle>
+
+          <Toggle isShow={list.length == 0}>
+            <div className='no-data'>暂无数据</div>
+          </Toggle>
         </section>
       </section>
 
