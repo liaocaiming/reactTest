@@ -99,7 +99,7 @@ const Total = memo((props: Total) => {
 
 
 export default memo(() => {
-  const [list, setList] = useState<any[]>([{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]);
+  const [list, setList] = useState<any[]>([]);
   const [type, setType] = useState<Type>('add')
   const [count, setCount] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
@@ -139,8 +139,8 @@ export default memo(() => {
                 list.map((item, index) => {
                   return (
                     <li key={String(index)} className='tr flex'>
-                      <div>zhenzhen@gmail.com</div>
-                      <div>17:30 09/21</div>
+                      <div>{item.email}</div>
+                      <div>{item.created_time}</div>
                     </li>
                   )
                 })
