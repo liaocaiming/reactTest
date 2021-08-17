@@ -3,7 +3,7 @@ module.exports = {
     type: 'list',
     name: 'name',
     message: '请选择要获取的项目',
-    choices: ['hTrade', 'h-mobile', 'h-off', 'mobile', 'boss'],
+    choices: ['hTrade', 'h-mobile', 'h-off', 'mobile', 'boss', 'm-htrade'],
   },
 
   selectCompany: {
