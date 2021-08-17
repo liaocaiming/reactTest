@@ -75,10 +75,10 @@ const Total = memo((props: Total) => {
             <span className="label">人数：</span>
             <span className="value">{total || 2}</span>
           </span>
-          <span className='amount'>
+          {/* <span className='amount'>
             <span className="label">金额(USTD)：</span>
             <span className="value">{amount || 122}</span>
-          </span>
+          </span> */}
         </div>
       </div>
 
