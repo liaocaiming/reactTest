@@ -34,6 +34,7 @@ export default memo(() => {
   const getList = useCallback((params: any, showLoading: boolean = true) => {
     if (count > 0 && count <= list.length) {
       refreshing && setRefreshing(false);
+      Toast.success('暂无更多数据！')
       return;
     }
     fetch.get(api.push_records, { pageSize: 10, page, ...params, ...searchparams }, { showLoading }).then((res) => {
