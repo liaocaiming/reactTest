@@ -15,6 +15,7 @@ import './index.less';
 import { fetch } from '@utils/index'
 
 import { api } from '@src/m-htrade/config';
+
 import { Toggle } from '@shared/components';
 
 interface Total {
@@ -98,6 +99,11 @@ const Total = memo((props: Total) => {
 })
 
 
+const map  = {
+  add: 0,
+  reward: 1
+}
+
 export default memo(() => {
   const [list, setList] = useState<any[]>([]);
   const [type, setType] = useState<Type>('add')
@@ -105,7 +111,7 @@ export default memo(() => {
   const [page, setPage] = useState<number>(1);
 
   const getList = useCallback((pageNo: number = 1) => {
-    fetch.get(api.invite_records, { page: pageNo, is_vip: '1' }).then((res) => {
+    fetch.get(api.invite_records, { page: pageNo, is_vip: map[type] }).then((res) => {
       setList(res.data || []);
       setCount(res.count || 0);
     })
@@ -139,8 +145,8 @@ export default memo(() => {
                 list.map((item, index) => {
                   return (
                     <li key={String(index)} className='tr flex'>
-                      <div>{item.email}</div>
-                      <div>{item.created_time}</div>
+                      <div>{item.to_email}</div>
+                      <div>{item.created_at}</div>
                     </li>
                   )
                 })
