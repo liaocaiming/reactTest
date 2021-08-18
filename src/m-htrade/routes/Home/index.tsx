@@ -5,15 +5,24 @@ import header from './images/icon-header.png';
 import { fetch } from '@utils/index';
 import './index.less';
 import { api } from '@src/m-htrade/config';
-import { PullToRefresh } from 'antd-mobile';
+import { PullToRefresh, Toast } from 'antd-mobile';
 
 type Tab = '1' | '2' | '3' | '4';
 
+const height = document.body.clientHeight;
+
+console.log(height, 'height');
+
+
 export default memo(() => {
   const [tab, setTab] = useState<Tab>('1');
-  const [list, setList] = useState([]);
+  const [list, setList] = useState<any[]>([]);
   const ref = useRef(null);
-  const [ showDrawer, setShowDrawer ] = useState<boolean>(false)
+  const [showDrawer, setShowDrawer] = useState<boolean>(false)
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+  let [page, setPage] = useState<number>(1);
+  const [count, setCount] = useState<number>(0);
+  const [searchparams, setSearchparams] = useState({})
 
   const tabOnchange = useCallback(
     (item) => {
@@ -22,18 +31,36 @@ export default memo(() => {
     [tab],
   )
 
-  const getList = useCallback(() => {
-    fetch.get(api.push_records).then((res) => {
-      setList(res.data || [])
+  const getList = useCallback((params: any, showLoading: boolean = true) => {
+    if (count > 0 && count <= list.length) {
+      refreshing && setRefreshing(false);
+      return;
+    }
+    fetch.get(api.push_records, { pageSize: 10, page, ...params, ...searchparams }, { showLoading }).then((res) => {
+      if (count !== res.count && res.count) {
+        setCount(res.count)
+      }
+      const data: any[] = res.data || []
+      setList([...list, ...data])
+      setRefreshing(false);
+    })
+  }, [page, refreshing, searchparams])
+
+  const onSearch = useCallback((values: any) => {
+    setSearchparams(values);
+    setPage(1);
+    getList({
+      ...values
+    })
+  }, [page, refreshing, searchparams])
+
+  useEffect(() => {
+    getList({
+      page: 1
     })
   }, [])
 
-  useEffect(() => {
-    getList()
-  }, [])
-
   const toggle = useCallback(() => {
-    console.log(showDrawer, 'showDrawer');
     setShowDrawer(showDrawer ? false : true)
   }, [showDrawer])
 
@@ -43,7 +70,7 @@ export default memo(() => {
       <section className='header-fixed'>
 
         <section className='head'>
-          <img src={header} className='icon' onClick={toggle}/>
+          <img src={header} className='icon' onClick={toggle} />
         </section>
 
         <section className='tabs'>
@@ -55,29 +82,38 @@ export default memo(() => {
         </section>
 
         <section className="search">
-          <Search />
+          <Search
+            onChange={onSearch}
+          />
         </section>
 
       </section>
 
 
-      <section className='home-list-container'>
+      <section className='home-list-container' >
+        {/* <List list={list}></List> */}
         <PullToRefresh
           ref={ref}
           direction='up'
-          refreshing={false}
-          indicator={{ deactivate: '上拉可以刷新' }}
-          distanceToRefresh={100}
+          refreshing={refreshing}
+          indicator={{ deactivate: '下拉加载更多' }}
+          distanceToRefresh={80}
           getScrollContainer={() => {
             return document.body
           }}
           style={{
             overflow: 'auto',
+            height: height
           }}
           onRefresh={() => {
-            console.log('222')
+            let pageNo = page + 1
+            setPage(pageNo);
+            setRefreshing(true);
+            getList({
+              page: pageNo
+            }, false)
           }}
-          damping={50}
+          damping={100}
         >
           <List list={list}></List>
         </PullToRefresh>

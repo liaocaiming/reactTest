@@ -11,7 +11,7 @@ interface Props {
 export default memo((props: Props) => {
   const { list } = props;
   return (
-    <section className="home-list">
+    <section className="home-list" id='scroll'>
       {
         list.map((item, index) => {
           return (

@@ -22,7 +22,7 @@ export const sideRowData: Side[] = [
   },
   {
     title: '邀请返佣',
-    url: '/m-htrade/returnList',
+    url: '/returnList',
     showBorder: false,
     icon: iconreturn
   },

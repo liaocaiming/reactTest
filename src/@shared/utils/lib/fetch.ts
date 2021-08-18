@@ -15,7 +15,6 @@ export function get(url: string, obj?: any, options?: IOptions): Promise<IRespon
       Toast.loading('加载中')
     }
     const data = filterEmptyValue(obj)
-    Toast.loading('加载中')
     request.get(url, data, options).then(res => {
       Toast.hide()
       if (res.code == 200) {

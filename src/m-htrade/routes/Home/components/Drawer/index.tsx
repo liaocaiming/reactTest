@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useCallback } from 'react';
+import React, { memo, useCallback } from 'react';
 
 import { Drawer } from 'antd-mobile';
 
@@ -67,6 +67,11 @@ const Sidebar = memo((props: SidebarProps) => {
 
 export default memo((props: Props) => {
   const { drawerWebProps } = props;
+  const { open } = drawerWebProps || {};
+  if (!open) {
+    return null
+  }
+
   return (
     <section className="m-drawer">
       <Drawer
