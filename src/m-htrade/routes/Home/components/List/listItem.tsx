@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import { Toggle } from '@components/index';
 import './listItem.less';
 import starWhite from './images/icon-star-white.png'
@@ -15,8 +15,10 @@ import { api } from '@src/m-htrade/config';
 
 import classnames from 'classnames';
 
+
 interface Props {
   item: any
+  host?: string | number;
   onSuccess?: (item: any) => void;
 }
 
@@ -76,7 +78,9 @@ const renderTable = (data: any) => {
 
 
 export default memo((props: Props) => {
-  const { onSuccess } = props
+  const { onSuccess, host } = props
+  
+  
   const item = formatDetail(props.item || {});
   const { leverage, created_at, updated_at, symbol, signal_type, p_type, loss, is_subscribe, entry, dist_profit_rate_arr, id, show_dist_profit_rate, show_dist_profit_rate_arr = [] } = item;
   const statusLabel = getLabel(orderStatus, p_type);
@@ -98,10 +102,15 @@ export default memo((props: Props) => {
     [item, onSuccess],
   )
 
+  const formLogoUrl = useMemo(() => {
+    // return `${system?.}`
+    return `${host}/icon/${symbol.replace('USDT', '')}.png` || logo;
+  }, [host])
+
   return (
     <section className={`home-list-item ${statusClassName}`}>
       <section className='symbol-container'>
-        <div className="img"><img src={logo} /></div>
+        <div className="img"><img src={formLogoUrl} /></div>
 
         <div className='icon'>
           <div className='icon-name'>{symbol}</div>

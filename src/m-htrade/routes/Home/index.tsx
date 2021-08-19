@@ -6,6 +6,7 @@ import { fetch } from '@utils/index';
 import './index.less';
 import { api } from '@src/m-htrade/config';
 import { PullToRefresh, Toast } from 'antd-mobile';
+import useSystemInfo from '@src/m-htrade/hooks/useSystemInfo';
 
 type Tab = '1' | '2' | '3' | '4';
 
@@ -21,6 +22,7 @@ export default memo(() => {
   const [count, setCount] = useState<number>(0);
   const [searchparams, setSearchparams] = useState({})
   const [tabParams, setTabParams] = useState({});
+
 
   const tabOnchange = useCallback(
     (item) => {

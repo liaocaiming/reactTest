@@ -20,8 +20,10 @@ export interface ISystem {
 
 export default () => {
   const [system, setSystem] = useState<ISystem>({})
+  const [ is, setIs ] = useState<boolean>(false)
   const getSystemInfo = useCallback(() => {
-    fetch.get(api.system_settings).then((res) => {
+    fetch.get(api.system_settings, { }, { showLoading: false }).then((res) => {
+      setIs(true)
       const { data = [] } = res;
       const obj = {}
       data.forEach((item) => {
@@ -33,8 +35,9 @@ export default () => {
   }, [])
 
   useEffect(() => {
+    if (is) return;
     getSystemInfo();
-  }, [])
+  }, [is])
 
   return [system]
 }
