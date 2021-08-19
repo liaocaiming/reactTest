@@ -34,6 +34,8 @@ export const urls = {
   system_settings: 'system_settings', // 获取系统配置；
   deposit_records: 'deposit_records', // 提交充值
   invite_records: 'invite_records', // 返佣记录
+  subscribe: 'push_records/subscribe', // 关注
+  unsubscribe: 'push_records/unsubscribe' // 取消关注
 };
 
 config([

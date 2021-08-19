@@ -9,29 +9,32 @@ export const tabs = [
     name: '1',
     label: '全部推送',
     query: {
-      setType: null,
+      set_type: null,
+      sub: null
     }
   },
   {
     name: '2',
     label: '现货信号',
     query: {
-      setType: 1,
+      set_type: 1,
+      sub: null
     }
   },
   {
     name: '3',
     label: '合约信号',
     query: {
-      setType: 2,
+      set_type: 3,
+      sub: null
     }
   },
   {
     name: '4',
     label: '我的关注',
     query: {
-      setType: null,
-      isSub: 1
+      set_type: null,
+      sub: 1
     }
   }
 ]

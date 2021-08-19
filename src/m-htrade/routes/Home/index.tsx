@@ -11,9 +11,6 @@ type Tab = '1' | '2' | '3' | '4';
 
 const height = document.body.clientHeight;
 
-console.log(height, 'height');
-
-
 export default memo(() => {
   const [tab, setTab] = useState<Tab>('1');
   const [list, setList] = useState<any[]>([]);
@@ -23,37 +20,51 @@ export default memo(() => {
   let [page, setPage] = useState<number>(1);
   const [count, setCount] = useState<number>(0);
   const [searchparams, setSearchparams] = useState({})
+  const [tabParams, setTabParams] = useState({});
 
   const tabOnchange = useCallback(
     (item) => {
       setTab(item.name)
+      setTabParams(item.query);
+      setPage(1);
+      getList({
+        ...item.query,
+        page: 1
+      })
     },
     [tab],
   )
 
   const getList = useCallback((params: any, showLoading: boolean = true) => {
-    if (count > 0 && count <= list.length) {
-      refreshing && setRefreshing(false);
-      Toast.success('暂无更多数据！')
-      return;
-    }
-    fetch.get(api.push_records, { pageSize: 10, page, ...params, ...searchparams }, { showLoading }).then((res) => {
+    fetch.get(api.push_records, { pageSize: 10, page,  ...searchparams, ...tabParams, ...params }, { showLoading }).then((res) => {
       if (count !== res.count && res.count) {
         setCount(res.count)
       }
-      const data: any[] = res.data || []
-      setList([...list, ...data])
+      let data: any[] = res.data || []
+      if (page > 1) {
+        data = [...list, ...data];
+      }
+      setList(data);
       setRefreshing(false);
     })
-  }, [page, refreshing, searchparams])
+  }, [page, refreshing, searchparams, tabParams, list])
 
   const onSearch = useCallback((values: any) => {
     setSearchparams(values);
     setPage(1);
     getList({
-      ...values
+      ...values,
+      page: 1
     })
   }, [page, refreshing, searchparams])
+
+  const onStarChange = useCallback((item) => {
+    const { index } = item;
+    const arr = list.slice();
+    arr[index].is_subscribe = !arr[index].is_subscribe;
+    setList(arr);
+
+  }, [list])
 
   useEffect(() => {
     getList({
@@ -107,6 +118,10 @@ export default memo(() => {
             height: height
           }}
           onRefresh={() => {
+            if (list.length >= count) {
+              Toast.success('暂无更多数据！')
+              return;
+            }
             let pageNo = page + 1
             setPage(pageNo);
             setRefreshing(true);
@@ -116,7 +131,7 @@ export default memo(() => {
           }}
           damping={100}
         >
-          <List list={list}></List>
+          <List list={list} onSuccess={onStarChange}></List>
         </PullToRefresh>
 
       </section>
