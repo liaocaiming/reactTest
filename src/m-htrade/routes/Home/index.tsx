@@ -38,7 +38,7 @@ export default memo(() => {
   )
 
   const getList = useCallback((params: any, showLoading: boolean = true) => {
-    fetch.get(api.push_records, { pageSize: 10, page,  ...searchparams, ...tabParams, ...params }, { showLoading }).then((res) => {
+    fetch.get(api.push_records, { pageSize: 10, page, ...searchparams, ...tabParams, ...params }, { showLoading }).then((res) => {
       if (count !== res.count && res.count) {
         setCount(res.count)
       }

@@ -12,8 +12,10 @@ import { helpers } from '@utils/index'
 
 import history from '@utils/lib/history';
 
+import omit from 'loadsh/omit';
 
-interface Props {
+
+interface Props extends DrawerWebProps {
   drawerWebProps?: DrawerWebProps;
 }
 
@@ -47,8 +49,8 @@ const Sidebar = memo((props: SidebarProps) => {
           {
             sideRowData.map((item) => {
               return (
-                <li 
-                 className={helpers.reactClassNameJoin(['content-item', item.showBorder ? 'border-bottom' : ''])}
+                <li
+                  className={helpers.reactClassNameJoin(['content-item', item.showBorder ? 'border-bottom' : ''])}
                   key={item.url}
                   onClick={goTo(item.url)}
                 >
@@ -66,17 +68,20 @@ const Sidebar = memo((props: SidebarProps) => {
 
 
 export default memo((props: Props) => {
-  const { drawerWebProps } = props;
+  const { drawerWebProps, open: show } = props;
   const { open } = drawerWebProps || {};
-  if (!open) {
+  if (!open && !show) {
     return null
   }
+
+  const drawerProps = omit(props, [drawerWebProps])
 
   return (
     <section className="m-drawer">
       <Drawer
         sidebar={<Sidebar />}
         enableDragHandle
+        {...drawerProps}
         {...drawerWebProps}
       ><span></span></Drawer>
     </section>

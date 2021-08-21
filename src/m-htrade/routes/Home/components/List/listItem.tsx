@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo } from 'react';
+import React, { memo, useCallback, useMemo, useState } from 'react';
 import { Toggle } from '@components/index';
 import './listItem.less';
 import starWhite from './images/icon-star-white.png'
@@ -9,7 +9,7 @@ import logo from './images/icon-logo-48.png';
 
 import { fetch } from '@utils/index';
 
-import { formatDetail, orderStatus, getLabel, formatStatus, formatTime } from './utils';
+import { formatDetail, orderStatus, getLabel, formatStatus } from './utils';
 
 import { api } from '@src/m-htrade/config';
 
@@ -46,7 +46,7 @@ const rowData = [
 ]
 
 const renderTable = (data: any) => {
-  const { dist_profit_rate_arr = [], dist_arr = [], dist_index, spend_time_arr  } = data || {}
+  const { dist_profit_rate_arr = [], dist_arr = [], dist_index, spend_time_arr } = data || {}
   return (
     <div className='table'>
       <div className="th flex row">
@@ -79,8 +79,7 @@ const renderTable = (data: any) => {
 
 export default memo((props: Props) => {
   const { onSuccess, host } = props
-  
-  
+  const [showDrawer, setShowDrawer] = useState<boolean>(false)
   const item = formatDetail(props.item || {});
   const { leverage, created_at, updated_at, symbol, signal_type, p_type, loss, is_subscribe, entry, dist_profit_rate_arr, id, show_dist_profit_rate, show_dist_profit_rate_arr = [] } = item;
   const statusLabel = getLabel(orderStatus, p_type);
@@ -107,6 +106,10 @@ export default memo((props: Props) => {
     return `${host}/icon/${symbol.replace('USDT', '')}.png` || logo;
   }, [host])
 
+  const onDrawerToggle = useCallback(() => {
+    setShowDrawer(showDrawer ? false : true)
+  }, [showDrawer])
+
   return (
     <section className={`home-list-item ${statusClassName}`}>
       <section className='symbol-container'>
@@ -119,7 +122,7 @@ export default memo((props: Props) => {
 
         <div className="time">
           <div className={classnames("star")}>
-            <img src={star} onClick={onStarChange}/>
+            <img src={star} onClick={onStarChange} />
           </div>
           <div className="stime">开始时间：{created_at}</div>
           <div className="update-time">最近更新：{updated_at}</div>
@@ -127,11 +130,15 @@ export default memo((props: Props) => {
       </section>
 
       <section className="list-item">
-        <p className="mul list-item-label">
-          <Toggle isShow={leverage > 1}>
-            <span className="label">方向/倍数：</span><span className="value leverage">做多/{leverage}倍</span>
+        <p className="mul list-item-label detail-first">
+          <span>
+            <Toggle isShow={leverage > 1}>
+              <span className="label">方向/倍数：</span><span className="value leverage">做多/{leverage}倍</span>
+            </Toggle>
+          </span>
+          <Toggle isShow={p_type == 1 && leverage <= 1}>
+            <span className="flow-btn" onClick={onDrawerToggle}>跟单</span>
           </Toggle>
-
         </p>
         <p className="mul list-item-label"><span className="label">挂单区间：</span><span className='value'>{entry}</span></p>
         <p className="mul list-item-label"><span className="label">利润空间：</span><span className='value'>{dist_profit_rate_arr[0]} ~ {dist_profit_rate_arr[dist_profit_rate_arr.length - 1]}</span><Toggle isShow={show_dist_profit_rate_arr.length > 0}><span>(已盈利+{show_dist_profit_rate_arr[show_dist_profit_rate_arr.length - 1]})</span></Toggle></p>
@@ -140,9 +147,10 @@ export default memo((props: Props) => {
 
       <section className="table ">
         <div className="table-success">
-          {renderTable({...item, created_at})}
+          {renderTable({ ...item, created_at })}
         </div>
       </section>
+
     </section>
   )
 })
