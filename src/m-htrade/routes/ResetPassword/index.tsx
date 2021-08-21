@@ -178,10 +178,6 @@ export default (props: IProps) => {
     })
   }, [form, step, info])
 
-  useEffect(() => {
-    document.title = "登录";
-  }, []);
-
   return (
     <div className="mb-resetPassword">
       <div className="form-container">

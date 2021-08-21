@@ -4,6 +4,9 @@ import Login from '@src/m-htrade/routes/Login';
 
 import Layout from '@src/m-htrade/components/Layout';
 
+import history from '@utils/lib/history';
+
+
 interface IUrls {
   login: string;
   pay: string;
@@ -94,12 +97,20 @@ const router = [
         exact: true
       },
 
+      {
+        path: 'order',
+        name: 'order',
+        component: loadFile({
+          load: () => import('@src/m-htrade/routes/Order')
+        }),
+        title: '下单',
+        exact: true
+      },
 
 
 
 
 
-      
 
       {
         path: 'bindUser',
@@ -111,15 +122,6 @@ const router = [
         exact: true
       },
 
-      {
-        path: 'order',
-        name: 'order',
-        component: loadFile({
-          load: () => import('@src/m-htrade/routes/Order')
-        }),
-        title: '机器人设置',
-        exact: true
-      },
 
       {
         path: 'strategyList',
@@ -210,9 +212,32 @@ function formatPageUrl(data: any, parentPath?: string) {
   });
 }
 
+const setTititle = (routes: any[], path: string) => {
+  routes.some((item) => {
+    if (path === item.path) {
+      document.title = item.title
+      return
+    }
+    if (item.routes && item.routes.length > 0) {
+      setTititle(item.routes, path);
+    }
+  })
+}
+
+
 const formatterRouter = formatter(router);
 
 formatPageUrl(router);
+
+(window as any).pageUrlsMap = pageUrlsMap;
+
+history.listen((location) => {
+  const { pathname } = location;
+  setTititle(formatterRouter, pathname);
+})
+
+const path = window.location.hash.replace('#','');
+setTititle(formatterRouter, path)
 
 
 export {
@@ -220,8 +245,6 @@ export {
   pageUrlsMap,
   IUrls
 }
-
-(window as any).pageUrlsMap = pageUrlsMap;
 
 
 export default formatterRouter;

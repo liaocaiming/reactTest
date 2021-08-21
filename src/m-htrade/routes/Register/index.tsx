@@ -176,9 +176,6 @@ export default (props: IProps) => {
     props.history.push(pageUrlsMap.login)
   }, [props.history])
 
-  useEffect(() => {
-    document.title = "登录";
-  }, []);
 
   return (
     <div className="mb-register">

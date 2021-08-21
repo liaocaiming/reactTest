@@ -3,8 +3,8 @@ import './index.less';
 
 const data = [
   {
-    text: '通知',
-    url: '/m-htrade/notice',
+    text: '下单',
+    url: '/m-htrade/order',
     font: <p className='iconfont'>&#xe60e;</p>
   },
   {
