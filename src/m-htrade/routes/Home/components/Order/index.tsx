@@ -14,17 +14,18 @@ export default memo((props: OrderProps) => {
   const { visibility, onClose, detail } = props;
   const onDrawerClose = useCallback(
     () => {
+      console.log(detail, 'detail');
+      console.log(visibility);
+
       onClose && onClose();
     },
-    [],
+    [visibility],
   )
 
 
   return (
-    <section className='order-component'>
-      <Drawer visibility={visibility || true} onClose={onDrawerClose}>
-        <div>ffff</div>
-      </Drawer>
-    </section>
+    <Drawer visibility={visibility} onClose={onDrawerClose}>
+      <div>ffff</div>
+    </Drawer>
   )
 })

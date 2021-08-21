@@ -19,9 +19,10 @@ export default memo((props: Props) => {
   const [showDrawer, setShowDrawer] = useState<boolean>(false)
   const [detail, setDetail] = useState<any>({});
 
-  const onDrawerToggle = useCallback(() => {
-    setShowDrawer(showDrawer ? false : true)
-  }, [showDrawer])
+  const onDrawerClose = useCallback(() => {
+    setShowDrawer(false)
+    setDetail({});
+  }, [])
 
   const onDrawerShow = useCallback((item) => {
     return () => {
@@ -42,7 +43,7 @@ export default memo((props: Props) => {
       }
 
 
-      <Order visibility={showDrawer} detail={detail} onClose={onDrawerToggle}></Order>
+      <Order visibility={showDrawer} detail={detail} onClose={onDrawerClose}></Order>
     </section>
   )
 })

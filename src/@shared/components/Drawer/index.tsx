@@ -5,15 +5,17 @@ import { Icon } from 'antd-mobile';
 import ReactDOM from 'react-dom';
 
 import './index.less';
+import classNames from 'classnames';
 
 interface DrawerProps {
+  className?: string;
   visibility: boolean;
   onClose?: () => void;
   children?: JSX.Element | JSX.Element[];
 }
 
 export default memo((props: DrawerProps) => {
-  const { visibility, onClose, children } = props;
+  const { visibility, onClose, children, className = '' } = props;
   const [show, setShow] = useState<boolean>(false)
 
   const onDrawerClose = useCallback(
@@ -41,7 +43,7 @@ export default memo((props: DrawerProps) => {
   return (
     ReactDOM.createPortal(
       (
-        <section className='m-drawer'>
+        <section className={classNames(className, 'm-drawer')} >
           <div className="m-drawer__master"></div>
           <div className="m-drawer__wrapper">
             <div className="m-drawer__close" onClick={onDrawerClose}><Icon type='cross' size='md'></Icon></div>
