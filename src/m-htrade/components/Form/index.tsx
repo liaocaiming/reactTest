@@ -20,6 +20,10 @@ import { Store } from './interface'
 
 import "./index.less";
 
+const obj = {
+  autocomplete: 'off'
+}
+
 const ItemComponents = {
   [FormType.input]: Input,
   [FormType.select]: Select,
@@ -83,7 +87,7 @@ const Form = (props: FormOptions) => {
     });
   }, [initialValues, formItems]);
 
-  
+
   useEffect(() => {
     if (typeof getRef === 'function') {
       getRef({
@@ -160,6 +164,7 @@ const Form = (props: FormOptions) => {
                   id={name}
                   value={state[name]}
                   onChange={onItemChange(formItem)}
+                  {...obj}
                   {...options}
                   {...eleAttr}
                 />
