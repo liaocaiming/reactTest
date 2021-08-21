@@ -1,10 +1,12 @@
-import React, { memo } from 'react';
+import React, { memo, useState, useCallback } from 'react';
 
 import ListItem from './listItem';
 
 import './index.less';
 
 import useSystemInfo from '@src/m-htrade/hooks/useSystemInfo';
+
+import Order from '../Order';
 
 interface Props {
   list: any[];
@@ -14,18 +16,33 @@ interface Props {
 export default memo((props: Props) => {
   const { list, onSuccess } = props;
   const [system] = useSystemInfo();
-  
+  const [showDrawer, setShowDrawer] = useState<boolean>(false)
+  const [detail, setDetail] = useState<any>({});
+
+  const onDrawerToggle = useCallback(() => {
+    setShowDrawer(showDrawer ? false : true)
+  }, [showDrawer])
+
+  const onDrawerShow = useCallback((item) => {
+    return () => {
+      setDetail(item);
+      setShowDrawer(true)
+    }
+  }, [showDrawer])
   return (
     <section className="home-list" id='scroll'>
       {
         list.map((item, index) => {
           return (
             <div className='item' key={item.id || index}>
-              <ListItem item={{ ...item, index }} onSuccess={onSuccess} host={system?.host?.value}/>
+              <ListItem item={{ ...item, index }} onSuccess={onSuccess} host={system?.host?.value} onDrawerToggle={onDrawerShow} />
             </div>
           )
         })
       }
+
+
+      <Order visibility={showDrawer} detail={detail} onClose={onDrawerToggle}></Order>
     </section>
   )
 })

@@ -11,6 +11,8 @@ import { fetch } from '@utils/index';
 
 import { formatDetail, orderStatus, getLabel, formatStatus } from './utils';
 
+import Order from '../Order';
+
 import { api } from '@src/m-htrade/config';
 
 import classnames from 'classnames';
@@ -20,6 +22,7 @@ interface Props {
   item: any
   host?: string | number;
   onSuccess?: (item: any) => void;
+  onDrawerToggle: (item: any) => () => void;
 }
 
 const rowData = [
@@ -78,8 +81,7 @@ const renderTable = (data: any) => {
 
 
 export default memo((props: Props) => {
-  const { onSuccess, host } = props
-  const [showDrawer, setShowDrawer] = useState<boolean>(false)
+  const { onSuccess, host, onDrawerToggle } = props
   const item = formatDetail(props.item || {});
   const { leverage, created_at, updated_at, symbol, signal_type, p_type, loss, is_subscribe, entry, dist_profit_rate_arr, id, show_dist_profit_rate, show_dist_profit_rate_arr = [] } = item;
   const statusLabel = getLabel(orderStatus, p_type);
@@ -106,9 +108,7 @@ export default memo((props: Props) => {
     return `${host}/icon/${symbol.replace('USDT', '')}.png` || logo;
   }, [host])
 
-  const onDrawerToggle = useCallback(() => {
-    setShowDrawer(showDrawer ? false : true)
-  }, [showDrawer])
+
 
   return (
     <section className={`home-list-item ${statusClassName}`}>
@@ -137,7 +137,7 @@ export default memo((props: Props) => {
             </Toggle>
           </span>
           <Toggle isShow={p_type == 1 && leverage <= 1}>
-            <span className="flow-btn" onClick={onDrawerToggle}>跟单</span>
+            <span className="flow-btn" onClick={onDrawerToggle(item)}>跟单</span>
           </Toggle>
         </p>
         <p className="mul list-item-label"><span className="label">挂单区间：</span><span className='value'>{entry}</span></p>
