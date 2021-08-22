@@ -1,4 +1,4 @@
-import React, { useState,useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { copy } from "@utils/index";
 import IProps from "@typings/react.d";
 import "./index.less";
@@ -14,7 +14,7 @@ import { Toast } from "antd-mobile";
 
 export default (props: IProps) => {
   const [show, setShow] = useState<boolean>(false);
-  const [ system ] = useSystemInfo();
+  const [system] = useSystemInfo();
   const copyFn = useCallback(
     () => {
       copy(`${system?.customer_service_qrcode?.value}`, {

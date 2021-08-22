@@ -10,11 +10,12 @@ import { reducers, routes } from "./config";
 
 import { Provider } from "react-redux";
 
-import VConsole from 'vconsole';
-
-new VConsole()
-
 import rem from "@utils/lib/rem";
+
+// import VConsole from 'vconsole';
+
+// new VConsole()
+
 
 rem(375, 100);
 
