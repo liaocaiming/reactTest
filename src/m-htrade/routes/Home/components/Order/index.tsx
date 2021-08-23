@@ -79,13 +79,16 @@ export default memo((props: OrderProps) => {
 
       {
         name: `profit`,
-        type: 'radio',
+        type: 'checkbox',
         rules: [
           {
             required: true,
             message: '请输入选择止盈目标'
           },
         ],
+        eleAttr: {
+          mul: false
+        },
         data: profitData(dist_arr)
 
       },

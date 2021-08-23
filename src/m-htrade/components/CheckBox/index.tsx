@@ -19,21 +19,25 @@ interface IProps {
   containerClassName?: string;
   data?: IList[];
   value?: string[] | number[];
-  onChange?: (values: string[] | number[]) => void;
+  onChange?: (values: any) => void;
+  mul?: boolean; // 是否多选
 }
 
 export default (props: IProps) => {
-  const { label, containerClassName, data = [], onChange } = props;
-  const [values, setValues] = useState<any[]>([])
+  const { label, containerClassName, data = [], onChange, mul = true } = props;
+  const [values, setValues] = useState<any>('')
 
   const onCheckBoxChange = (item: any) => {
     return () => {
-      let arr = [...values];
-
-      if (arr.includes(item.value)) {
-        arr.splice(arr.indexOf(item.value), 1);
+      let arr = values && values.slice() || [];
+      if (mul) {
+        if (arr.includes(item.value)) {
+          arr.splice(arr.indexOf(item.value), 1);
+        } else {
+          arr.push(item.value);
+        }
       } else {
-        arr.push(item.value);
+        arr = String(item.value)
       }
       setValues(arr);
       onChange && onChange(arr);
@@ -48,8 +52,9 @@ export default (props: IProps) => {
       <div>
         {
           data.map((item) => {
+            item.value = String(item.value);
             return (
-              <CheckboxItem key={item.value} onChange={onCheckBoxChange(item)}>
+              <CheckboxItem checked={values.indexOf(item.value) >= 0} key={item.value} onChange={onCheckBoxChange(item)}>
                 {item.label}
               </CheckboxItem>
             )
