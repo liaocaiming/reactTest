@@ -102,27 +102,29 @@ export default (props: IProps) => {
       ],
     },
 
-    {
-      label: "移动止盈",
-      name: "move_take_profit",
-      type: "switch",
-    },
+    // {
+    //   label: "移动止盈",
+    //   name: "move_take_profit",
+    //   type: "switch",
+    // },
 
-    {
-      label: "跟随系统止损",
-      name: "stop_order",
-      type: "switch",
-    },
+    // {
+    //   label: "跟随系统止损",
+    //   name: "stop_order",
+    //   type: "switch",
+    // },
   ];
 
   return (
-    <AppForm
-      formItems={formData}
-      onFinish={onMulSelectFinish}
-      initialValues={{ ...detail }}
-      submitOptions={{
-        text: "完成",
-      }}
-    />
+    <div className="stopProfit">
+      <AppForm
+        formItems={formData}
+        onFinish={onMulSelectFinish}
+        initialValues={{ ...detail }}
+        submitOptions={{
+          text: "完成",
+        }}
+      />
+    </div>
   );
 };

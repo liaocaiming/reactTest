@@ -12,6 +12,8 @@ import Detail from './Detail';
 
 import EmailCode from './EmailCode';
 
+export { default as Checkbox } from './CheckBox';
+
 export {
   Switch
 }

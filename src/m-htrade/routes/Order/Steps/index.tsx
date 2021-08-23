@@ -13,10 +13,6 @@ interface IProps {
 
 const data = [
   {
-    key: "mul",
-    title: "杠杆倍数",
-  },
-  {
     key: "openSet",
     title: "开单设置",
   },

@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-
-import MulSet from "./MulSet";
+import React, { useState } from "react";
 
 import OpenSet from "./OpenSet";
 
@@ -12,7 +10,7 @@ import { validatorParams } from "./utils";
 
 import { api } from "@src/m-htrade/config/index";
 
-import { fetch, User } from "@utils/index";
+import { fetch } from "@utils/index";
 
 import "./index.less";
 
@@ -21,6 +19,7 @@ import IProps from "@typings/react.d";
 import { Toast } from "antd-mobile";
 
 import { pageUrlsMap } from "@src/m-htrade/config/routes";
+import { SessionStorage } from "@utils/lib/Storage";
 
 interface IComponent {
   detail: any;
@@ -30,16 +29,11 @@ interface IComponent {
 const components = [
   {
     step: 0,
-    title: "杠杆倍数",
-    component: (props: IComponent) => <MulSet {...props} />,
-  },
-  {
-    step: 1,
     title: "开单设置",
     component: (props: IComponent) => <OpenSet {...props} />,
   },
   {
-    step: 2,
+    step: 1,
     title: "止盈止损",
     component: (props: IComponent) => <StopProfitOrLoss {...props} />,
   },
@@ -47,9 +41,8 @@ const components = [
 
 export default (props: IProps) => {
   const [step, setStep] = useState(0);
-  const [detail, setDetail] = useState({});
-  const userInfo = User.getUserInfo();
-
+  const detail: any = SessionStorage.getItem('post-detail') || {};
+  const { symbol, entry, loss, dist_arr } = detail || {}
   const onTabsChange = (value) => {
     setStep(value);
   };
@@ -66,7 +59,6 @@ export default (props: IProps) => {
   };
 
   const onSave = (values) => {
-    setDetail({ ...detail, ...values });
     if (step >= components.length - 1) {
       const params: any = validatorParams({ ...detail, ...values });
       if (params.is_limit_num === false) {
@@ -78,17 +70,6 @@ export default (props: IProps) => {
     setStep(step + 1);
   };
 
-  const getData = () => {
-    fetch
-      .get(api.getOrderOpenSettingData, { user_id: userInfo.id, set_type: 3 })
-      .then((res) => {
-        if (res.data) {
-          const [item] = res.data || [{}];
-          setDetail(item);
-        }
-      });
-  };
-
   const renderSteps = () => {
     return (
       <div>
@@ -97,15 +78,34 @@ export default (props: IProps) => {
     );
   };
 
-  useEffect(() => {
-    getData();
-  }, [userInfo.id]);
+  const renderTotalContent = () => {
+    if (!symbol) {
+      return null
+    }
+    return (
+      <div className="total">
+        <p className='order__symbol'>{symbol}</p>
+        <p className="order__range"><span className="label">挂单区间：</span><span className='value'>{entry}</span></p>
+        <p className="order__range"><span className="label">止损价格：</span><span className='value'>{loss}</span></p>
+        <p className="order__range order_profit">
+          <span className='label'>止盈目标：</span>
+          {
+            dist_arr.map((item, index) => {
+              return <span className='value' key={String(index)}>{item}</span>
+            })
+          }
+        </p>
+      </div>
+    )
+  }
+
 
   const item = components[step];
 
   return (
     <div className="mb-order">
       {renderSteps()}
+      {renderTotalContent()}
       <div className="form-container">
         <div className="line" />
         {item.component({

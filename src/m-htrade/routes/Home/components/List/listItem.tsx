@@ -11,8 +11,6 @@ import { fetch } from '@utils/index';
 
 import { formatDetail, orderStatus, getLabel, formatStatus } from './utils';
 
-import Order from '../Order';
-
 import { api } from '@src/m-htrade/config';
 
 import classnames from 'classnames';
@@ -83,7 +81,7 @@ const renderTable = (data: any) => {
 export default memo((props: Props) => {
   const { onSuccess, host, onDrawerToggle } = props
   const item = formatDetail(props.item || {});
-  const { leverage, created_at, updated_at, symbol, signal_type, p_type, loss, is_subscribe, entry, dist_profit_rate_arr, id, show_dist_profit_rate, show_dist_profit_rate_arr = [] } = item;
+  const { leverage, created_at, updated_at, symbol, signal_type, p_type, loss, is_subscribe, entry, dist_profit_rate_arr, id, show_dist_profit_rate_arr = [] } = item;
   const statusLabel = getLabel(orderStatus, p_type);
   const statusClassName = formatStatus(p_type);
   const star = is_subscribe ? starYellow : starWhite;

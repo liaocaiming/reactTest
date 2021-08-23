@@ -5,7 +5,9 @@ type IDomFun = ((data: Store) => JSX.Element | string) | JSX.Element | string;
 export enum FormType {
   input = 'input',
   select = 'select',
-  switch = 'switch'
+  switch = 'switch',
+  checkbox = 'checkbox',
+  radio = 'radio'
 }
 
 
@@ -45,6 +47,7 @@ export interface FormOptions {
   onFinish?: (data: Store) => void;
   onError?: (rule: IRule) => void;
   onValuesChange?: (data: Store, formItem: FormItemOptions) => void;
+  afterDom?: IDomFun,
   initialValues?: Store;
   submitOptions?: {
     containerClassName?: string;

@@ -18,6 +18,10 @@ import Switch from "@src/m-htrade/components/Switch";
 
 import { Store } from './interface'
 
+import Checkbox from '../CheckBox';
+
+import Radio from '../Radio';
+
 import "./index.less";
 
 const obj = {
@@ -28,18 +32,22 @@ const ItemComponents = {
   [FormType.input]: Input,
   [FormType.select]: Select,
   [FormType.switch]: Switch,
+  [FormType.checkbox]: Checkbox,
+  [FormType.radio]: Radio,
+
 };
 
 const Form = (props: FormOptions) => {
   const [state, dispatch] = useReducer(reducer, initValue, init);
-  const {
+  let {
     formItems,
     initialValues,
     onError,
     onFinish,
     onValuesChange,
     submitOptions = { text: "确定" },
-    getRef
+    getRef,
+    afterDom: formAfterDOM
   } = props;
   const formRowData = useMemo(() => filterFormItems(formItems, state), [
     formItems,
@@ -52,7 +60,6 @@ const Form = (props: FormOptions) => {
   }, [state]);
 
   const setFieldsValue = useCallback((values: Store) => {
-    console.log(values, 'values');
     dispatch({
       type: "all",
       payload: values || {},
@@ -125,6 +132,9 @@ const Form = (props: FormOptions) => {
     });
   };
 
+  if (typeof formAfterDOM === 'function') {
+    formAfterDOM = formAfterDOM(state)
+  }
 
   return (
     <div className="mb-form">
@@ -173,6 +183,9 @@ const Form = (props: FormOptions) => {
             </div>
           );
         })}
+      </div>
+      <div>
+        {formAfterDOM}
       </div>
       <Toggle isShow={!!submitOptions}>
         <div
