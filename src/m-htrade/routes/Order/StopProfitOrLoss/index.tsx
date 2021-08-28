@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { AppForm } from "@src/m-htrade/components/index";
 
@@ -6,18 +6,27 @@ import { FormItemOptions } from "@src/m-htrade/components/Form/interface";
 
 import { validatorParams } from "../utils";
 
-import { calculate } from '@utils/index'
+import { calculate, constants } from '@utils/index'
 
-import { Toast } from 'antd-mobile'
+import { Button, Toast } from 'antd-mobile'
+
+import './index.less';
 
 interface IProps {
   detail?: any;
   onFinish?: (params: any) => void;
 }
 
+
+const target = [1];
+
 export default (props: IProps) => {
   const { detail = {}, onFinish } = props;
   const { take_profit_present = [] } = detail;
+
+  const [targets, setTargets] = useState(target)
+
+
   const onMulSelectFinish = (params) => {
     const values: any = validatorParams(params);
     const { take_profit_present = [] } = values
@@ -33,7 +42,7 @@ export default (props: IProps) => {
     onFinish && onFinish(params);
   };
 
-  const formData: FormItemOptions[] = [
+  let formData: FormItemOptions[] = [
     {
       label: "目标1",
       name: "take_profit_present@0",
@@ -115,12 +124,77 @@ export default (props: IProps) => {
     // },
   ];
 
+  if (!detail.symbol) {
+    formData = [];
+
+    targets.map((item, index) => {
+      const isFirst = index === 0;
+
+      formData.push(
+        {
+          name: `entry_${index}`,
+          label: isFirst ? '平仓价格' : '',
+          rules: [
+            {
+              required: true,
+              message: '请输入平仓价格'
+            },
+            {
+              pattern: constants.pattern.number,
+              message: '平仓价格必须是数字'
+            }
+          ],
+          eleAttr: {
+            placeholder: '平仓价格'
+          }
+        },
+        {
+          name: `take_profit_present@${index}`,
+          label: isFirst ? '平仓百分比(%)' : '',
+          rules: [
+            {
+              required: true,
+              message: '请输入平仓百分比'
+            },
+            {
+              pattern: constants.pattern.number,
+              message: '平仓百分比必须是数字'
+            }
+          ],
+          eleAttr: {
+            placeholder: '平仓百分比'
+          }
+        },
+      )
+    })
+
+  }
+
+  const onAddBtnClick = () => {
+    let arr = [...targets];
+    let last = arr[arr.length - 1] + 1;
+    arr.push(last);
+    setTargets(arr);
+  }
+
+
+  const renderAfterDOM = () => {
+    return (
+      <div className='add_btn'>
+        <Button size='small' inline type='ghost' onClick={onAddBtnClick}>添加+</Button>
+      </div>
+    )
+  }
+
+
+
   return (
     <div className="stopProfit">
       <AppForm
         formItems={formData}
         onFinish={onMulSelectFinish}
         initialValues={{ ...detail }}
+        afterDom={renderAfterDOM()}
         submitOptions={{
           text: "完成",
         }}

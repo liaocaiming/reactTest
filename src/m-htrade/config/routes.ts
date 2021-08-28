@@ -66,6 +66,17 @@ const router = [
 
 
   {
+    path: 'bindUser',
+    name: 'bindUser',
+    component: loadFile({
+      load: () => import('@src/m-htrade/routes/BindUser')
+    }),
+    title: '账户绑定',
+    exact: true
+  },
+
+
+  {
     path: 'm-htrade',
     component: Layout,
     routes: [
@@ -112,15 +123,7 @@ const router = [
 
 
 
-      {
-        path: 'bindUser',
-        name: 'bindUser',
-        component: loadFile({
-          load: () => import('@src/m-htrade/routes/BindUser')
-        }),
-        title: '账户绑定',
-        exact: true
-      },
+
 
 
       {
@@ -236,7 +239,7 @@ history.listen((location) => {
   setTititle(formatterRouter, pathname);
 })
 
-const path = window.location.hash.replace('#','');
+const path = window.location.hash.replace('#', '');
 setTititle(formatterRouter, path)
 
 

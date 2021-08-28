@@ -43,9 +43,9 @@ const APP = (props: IProps) => {
 
   return (
     <div className="bind-account">
-      <div className="skip-btn-container">
+      {/* <div className="skip-btn-container">
         <span className="skip-btn">跳过</span>
-      </div>
+      </div> */}
 
       <div className="form-container">
         <div className="tips-container">
@@ -66,7 +66,7 @@ const APP = (props: IProps) => {
           <Input label="密钥" value={secret} onChange={secretOnchange}></Input>
         </div>
         <div className="submit-btn" onClick={goNext}>
-          下一步
+          完成
         </div>
       </div>
     </div>

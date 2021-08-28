@@ -8,6 +8,8 @@ import { api } from '@src/m-htrade/config';
 import { PullToRefresh, Toast } from 'antd-mobile';
 import { Toggle } from '@components/index';
 import noData from './images/no-data.png';
+import notice from './components/Drawer/images/icon-notice.png';
+import history from '@utils/lib/history';
 
 
 type Tab = '1' | '2' | '3' | '4';
@@ -85,6 +87,11 @@ export default memo(() => {
     setShowDrawer(showDrawer ? false : true)
   }, [showDrawer])
 
+  const goTo = () => {
+    history.push({
+      pathname: '/m-htrade/notice'
+    })
+  }
 
   return (
     <section className='m-home'>
@@ -92,6 +99,7 @@ export default memo(() => {
 
         <section className='head'>
           <img src={header} className='icon' onClick={toggle} />
+          <img src={notice} className='icon' onClick={goTo} />
         </section>
 
         <section className='tabs'>

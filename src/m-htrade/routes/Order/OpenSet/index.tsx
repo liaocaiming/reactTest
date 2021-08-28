@@ -28,18 +28,20 @@ export default (props: IProps) => {
 
   const formData: FormItemOptions[] = useMemo(() => {
     const formItems: FormItemOptions[] = [
-      // {
-      //   label: "开单方式",
-      //   name: "entry_type",
-      //   type: "select",
-      //   data: openType,
-      //   rules: [
-      //     {
-      //       required: true,
-      //       message: "请选择开单方式",
-      //     },
-      //   ],
-      // },
+      {
+        label: "币",
+        name: "symbol",
+        isShow: !detail.symbol,
+        rules: [
+          {
+            required: true,
+            message: "请输入",
+          },
+        ],
+        eleAttr: {
+          placeholder: '请输入币名称（如 BTCUSDT）'
+        }
+      },
     ];
 
     opens.map((item, index) => {

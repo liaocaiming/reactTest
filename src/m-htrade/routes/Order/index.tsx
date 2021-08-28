@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import OpenSet from "./OpenSet";
 
@@ -78,6 +78,11 @@ export default (props: IProps) => {
     );
   };
 
+  useEffect(() => {
+    return () => {
+      SessionStorage.removeItem('post-detail');
+    }
+  }, [])
   const renderTotalContent = () => {
     if (!symbol) {
       return null
