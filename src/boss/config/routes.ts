@@ -96,6 +96,15 @@ const router = [
         title: '合约数据统计',
         exact: true
       },
+
+      {
+        path: 'test',
+        component: loadFile({
+          load: () => import('@src/boss/routes/Test')
+        }),
+        title: '测试',
+        exact: true
+      }
     ],
   },
 

@@ -180,7 +180,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     }
 
     const res = data
-      .filter((item: any) => Math.abs(item.lastFundingRate) > 0.0001)
+      // .filter((item: any) => Math.abs(item.lastFundingRate) > 0.0001)
       .map((item: any) => {
         return {
           ...item,
@@ -260,9 +260,9 @@ export default class App extends React.PureComponent<IProps, IState> {
     }
 
     const res = data
-      .filter((item: any) => {
-        return Math.abs(parseFloat(item.lastFundingRate)) >= 0.001
-      })
+      // .filter((item: any) => {
+      //   return Math.abs(parseFloat(item.lastFundingRate)) >= 0.001
+      // })
       .map((item: any) => {
         return {
           ...item,
@@ -296,7 +296,8 @@ export default class App extends React.PureComponent<IProps, IState> {
         limitInPlot: false,
         localRefresh: true,
         padding: [30, 20, 20, 10],
-      }).on("click", this.BarChartOnClick);
+      })
+      // }).on("click", this.BarChartOnClick);
     }
 
 

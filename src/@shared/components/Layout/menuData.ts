@@ -5,6 +5,12 @@ export default [
     "hasChild": 0,
     "menuType": 1,
   },
+  {
+    "key": "test",
+    "title": "测试",
+    "hasChild": 0,
+    "menuType": 1,
+  },
 
   // {
   //   "key": "BindUser",
