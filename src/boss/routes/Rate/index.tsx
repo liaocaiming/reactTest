@@ -260,9 +260,9 @@ export default class App extends React.PureComponent<IProps, IState> {
     }
 
     const res = data
-      // .filter((item: any) => {
-      //   return Math.abs(parseFloat(item.lastFundingRate)) >= 0.001
-      // })
+      .filter((item: any) => {
+        return Math.abs(parseFloat(item.lastFundingRate)) > 0.001
+      })
       .map((item: any) => {
         return {
           ...item,
@@ -271,17 +271,6 @@ export default class App extends React.PureComponent<IProps, IState> {
       })
       .sort((a, b) => a.lastFundingRate - b.lastFundingRate);
 
-    // if (!this.chart) {
-    //   this.chart = new Chart({
-    //     container: "container",
-    //     autoFit: true,
-    //     width: res.length * 30,
-    //     height: 300,
-    //     limitInPlot: false,
-    //     localRefresh: true,
-    //     padding: [30, 20, 20, 100],
-    //   }).on("click", this.BarChartOnClick);
-    // }
     if (this.chart) {
       this.chart.changeData(res);
       return;

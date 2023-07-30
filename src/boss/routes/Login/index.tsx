@@ -18,10 +18,10 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-const obj = {
-  username: "woshinidaye",
-  password: "woshidajiba",
-};
+// const obj = {
+//   username: "woshinidaye",
+//   password: "woshidajiba",
+// };
 
 @connect()
 export default class App extends React.PureComponent<IProps> {
@@ -31,10 +31,10 @@ export default class App extends React.PureComponent<IProps> {
     //   console.log(res);
     // })
 
-    if (values.username !== obj.username || values.password !== obj.password) {
-      message.error("请输入正确的密码或用户名");
-      return;
-    }
+    // if (values.username !== obj.username || values.password !== obj.password) {
+    //   message.error("请输入正确的密码或用户名");
+    //   return;
+    // }
     User.saveUserInfo(values);
     const { history } = this.props;
     history.push("/boss/rate");
@@ -49,9 +49,6 @@ export default class App extends React.PureComponent<IProps> {
 
     return (
       <div className="boss-form">
-        <div className="logo">
-          <img src="http://5b0988e595225.cdn.sohucs.com/images/20170922/ca5207e68211450e863d2d859e480e91.gif" />
-        </div>
         <Form
           {...layout}
           name="basic"
@@ -75,13 +72,9 @@ export default class App extends React.PureComponent<IProps> {
             <Input.Password style={{ width }} />
           </Form.Item>
 
-          <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
-
           <Form.Item {...tailLayout}>
             <Button type="primary" htmlType="submit">
-              Submit
+              登录
             </Button>
           </Form.Item>
         </Form>
