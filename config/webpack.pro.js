@@ -19,7 +19,7 @@ const proConfig = {
 };
 
 const plugin = [
-  new cleanWebpackPlugin(utils.resolve('dist'), {
+  new cleanWebpackPlugin(utils.resolve('docs'), {
     root: process.cwd(),
     verbose: true,
   }),
@@ -65,8 +65,8 @@ function build(options) {
 
     compressing.zip
       .compressDir(
-        utils.resolve(`dist/${name}`),
-        utils.resolve(`dist/${zipName}`),
+        utils.resolve(`docs/${name}`),
+        utils.resolve(`docs/${zipName}`),
       )
       .then(() => {
         console.log(chalk.yellow(`Tip: 文件压缩成功，已压缩至【${zipName}】`));

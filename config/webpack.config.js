@@ -73,7 +73,7 @@ module.exports = options => {
     },
     output: {
       filename: 'js/[name].[hash].js',
-      path: utils.resolve(`dist/${name}`),
+      path: utils.resolve(`docs/${name}`),
     },
 
     optimization: {
