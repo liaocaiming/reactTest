@@ -57,7 +57,7 @@ export default class App extends React.PureComponent<IProps> {
           onFinishFailed={this.onFinishFailed}
         >
           <Form.Item
-            label="Username"
+            label="Username11"
             name="username"
             rules={[{ required: true, message: "Please input your username!" }]}
           >
