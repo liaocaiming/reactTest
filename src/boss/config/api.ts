@@ -22,6 +22,8 @@ export const urls = {
 
 export const bianceUrls = {
   v1PremiumIndex: 'v1/premiumIndex', // 最新标记价格和资金费率
+  bookTicker: 'v1/ticker/bookTicker', // 返回当前最优的挂单(最高买单，最低卖单)
+  orderTest: 'v3/order/test', // 下单测试
 };
 
 config([

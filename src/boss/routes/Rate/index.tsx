@@ -1,35 +1,13 @@
 import * as React from "react";
-
 import dateFormat from "@utils/lib/dateFormat";
-
 import "./index.less";
-
 import { api } from "@src/boss/config";
-
 import { Chart } from "@antv/g2";
-
 import { searchRowData, coinType } from "./constants";
-
 import { connect } from "@src/boss/reducers/index";
-
 import formatNumber from "@utils/lib/formatNumber";
-
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  Label,
-  LabelList,
-  LineChart,
-  Line,
-} from "recharts";
-
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, LabelList, LineChart, Line, } from "recharts";
 import { GroupSearch, Toggle } from "@components/index";
-
 import { intervals } from "@utils/lib/constants";
 
 interface IPort {
@@ -79,7 +57,7 @@ export default class App extends React.PureComponent<IProps, IState> {
   private singleFirst: boolean = false;
 
   private chart: any = null;
-  private singleChart: Chart = {};
+  private singleChart: any = {};
 
   constructor(props: IProps) {
     super(props);
@@ -98,20 +76,12 @@ export default class App extends React.PureComponent<IProps, IState> {
     };
   }
 
-  public componentDidMount() {
+  componentDidMount() {
+    this.getBookTicker();
     this.getData(true);
     setInterval(() => {
       this.getData();
     }, 60 * 1000);
-
-    // this.chart = new Chart({
-    //   container: "container",
-    //   autoFit: true,
-    //   height: 300,
-    //   limitInPlot: false,
-    //   localRefresh: true,
-    //   padding: [30, 20, 20, 100],
-    // }).on("click", this.BarChartOnClick);
 
     this.singleChart = new Chart({
       container: "single-container",
@@ -123,7 +93,7 @@ export default class App extends React.PureComponent<IProps, IState> {
     });
   }
 
-  public getData = (isFirst?: boolean) => {
+  getData = (isFirst?: boolean) => {
     const { actions } = this.props;
     actions.get(api.v1PremiumIndex, {}, { showLoading: false, mode: 'cors', }).then((res: any) => {
       const data =
@@ -142,20 +112,21 @@ export default class App extends React.PureComponent<IProps, IState> {
           return it;
         });
 
-      // const { selectedUsdt } = this.state;
-
       this.renderAntLineChart(data || []);
-      // this.setState(
-      //   {
-      //     rateData: data || [],
-      //     selectedData: map[selectedUsdt] || [],
-      //   },
-      //   () => {
-      //     this.renderAntLineChart(isFirst);
-      //   }
-      // );
     });
   };
+
+  private testOrder = () => {
+    this.props.actions.post(api.orderTest, {
+      symbol: 'BTCUSDT',
+      side: 'SELL',
+      type: 'MARKET'
+
+    }).then(res => {
+      console.log(res);
+
+    })
+  }
 
   public BarChartOnClick = (e: any) => {
     const { selectedMap } = this.state;
@@ -180,7 +151,6 @@ export default class App extends React.PureComponent<IProps, IState> {
     }
 
     const res = data
-      // .filter((item: any) => Math.abs(item.lastFundingRate) > 0.0001)
       .map((item: any) => {
         return {
           ...item,
@@ -228,7 +198,7 @@ export default class App extends React.PureComponent<IProps, IState> {
 
     return (
       <LineChart width={500} height={200} data={res}>
-        <CartesianGrid strokeDasharray="3 3" />
+        <CartesianGrid strokeDasharray="5 5" />
         <XAxis dataKey="time" interval="preserveStart" />
         <YAxis yAxisId="left" dataKey="lastFundingRate" />
         <YAxis yAxisId="right" dataKey="markPrice" orientation="right" />
@@ -280,7 +250,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       this.chart = new Chart({
         container: "container",
         // autoFit: true,
-        width: res.length * 35,
+        width: res.length * 60,
         height: 300,
         limitInPlot: false,
         localRefresh: true,
@@ -325,6 +295,9 @@ export default class App extends React.PureComponent<IProps, IState> {
       }
       this.chart
         .annotation()
+        // .encode('x', 'lastFundingRate')
+        // .encode('y', 'symbol')
+        // .axis('y', { labelFormatter: '.0%' })
         .text({
           position: [item.symbol, item.lastFundingRate],
           content: item.symbol,
@@ -428,13 +401,6 @@ export default class App extends React.PureComponent<IProps, IState> {
         },
       },
     });
-    // view1.legend({
-    //   custom: true,
-    //   items: [
-    //     { name: '合约持仓量', value: 'sumOpenInterest', marker: { symbol: 'circle', style: { stroke: '#e7d505', lineWidth: 4 } } },
-    //     { name: '合约持仓总价值', value: 'sumOpenInterestValue', marker: { symbol: 'circle', style: { stroke: '#4FAAEB', lineWidth: 4 } } },
-    //   ],
-    // });
     view1.line().position("timestamp*sumOpenInterestValue").color("#4FAAEB");
     view1.interval().position("timestamp*sumOpenInterest").color("#e7d505");
 
@@ -534,7 +500,16 @@ export default class App extends React.PureComponent<IProps, IState> {
     );
   }
 
-  public render() {
+  // 获取最优价格
+  private getBookTicker = () => {
+    const { actions } = this.props;
+    actions.get(api.bookTicker, {}, { showLoading: false, mode: 'cors', }).then((data) => {
+      console.log(data);
+
+    })
+  }
+
+  render() {
     const { selectedData, selectedUsdt } = this.state;
 
     return (
